@@ -1,5 +1,13 @@
 import React from "react";
 
+/* =======================================================
+    VIEW About - "/about" - 
+
+    styles:
+    
+
+*/
+
 const About = () => {
     return (
         <div>

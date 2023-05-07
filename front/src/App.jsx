@@ -34,7 +34,10 @@ export const App = () => {
                 {/* App views */}
                 <Route exact path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/search/:searchTerm" element={<SearchResults />} />
+                <Route
+                    path="/search/:searchedName"
+                    element={<SearchResults />}
+                />
 
                 {/* Events views */}
                 <Route path="/event/:eventName" element={<EventDetail />} />
