@@ -5,11 +5,11 @@
 * {
     font-family: "Montserrat", sans-serif;
     font-size: 16px;
-    color: #e5e7eb;
+    color: #fff;
 }
 
 :root {
-    background-color: #020617;
+    background-color: black;
     margin: 0px;
     padding: 0px;
     -webkit-user-select: none;
