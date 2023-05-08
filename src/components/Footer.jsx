@@ -20,7 +20,7 @@ const Footer = () => {
                 {"  "} © {date.getFullYear()}
             </div>
 
-            <div className="flex justify-self-end items-center mr-4 gap-6 py-2 px-4 bg-black rounded-full shadow-sm">
+            <div className="flex justify-self-end items-center mr-4 gap-6">
                 <Link
                     to="/"
                     className="hover:text-fuchsia-600 hover:font-semibold focus:outline-none transition-colors duration-300"
