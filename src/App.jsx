@@ -1,7 +1,7 @@
 import React from "react";
 
 // React Router Dom
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 // Components
 import Header from "./components/Header";
@@ -27,10 +27,15 @@ import SignUp from "./views/users-views/SignUp";
 import UserTickets from "./views/users-views/UserTickets";
 
 export const App = () => {
+    // Locations
+    const location = useLocation().pathname;
+
+    const showHeader = location !== "/signin" && location !== "/signup";
+
     return (
         <>
-            <Header />
-            <div className="min-h-screen">
+            {showHeader && <Header />}
+            <div className="">
                 <Routes>
                     {/* App views */}
                     <Route exact path="/" element={<Home />} />
