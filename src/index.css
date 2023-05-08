@@ -5,10 +5,13 @@
 * {
     font-family: "Montserrat", sans-serif;
     font-size: 14px;
+
     box-sizing: border-box;
 }
 
 :root {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     margin: 0px;
     padding: 0px;
     color: #fff;
