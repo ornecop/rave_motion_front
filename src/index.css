@@ -10,9 +10,9 @@
 }
 
 :root {
-    background-color: black;
     margin: 0px;
     padding: 0px;
+    background-color: #09090b;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
