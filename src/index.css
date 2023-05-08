@@ -5,13 +5,13 @@
 * {
     font-family: "Montserrat", sans-serif;
     font-size: 14px;
-    color: #fff;
     box-sizing: border-box;
 }
 
 :root {
     margin: 0px;
     padding: 0px;
+    color: #fff;
     background-color: #09090b;
     -webkit-user-select: none;
     -moz-user-select: none;
