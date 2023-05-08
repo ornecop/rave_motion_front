@@ -6,6 +6,7 @@
     font-family: "Montserrat", sans-serif;
     font-size: 14px;
     color: #fff;
+    box-sizing: border-box;
 }
 
 :root {
