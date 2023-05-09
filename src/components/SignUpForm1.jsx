@@ -59,6 +59,8 @@ const SignUpForm1 = ({ callBack }) => {
         >
             {({ isSubmitting, touched, errors }) => (
                 <Form className="">
+                    <h2 className="text-xl text-center my-4">Crear cuenta</h2>
+
                     {/* Email */}
                     <div className="flex flex-col my-2">
                         <label
