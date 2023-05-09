@@ -16,24 +16,36 @@
 import { Link } from "react-router-dom";
 
 // Hooks
-import { useToggle } from "../../functions/customHooks";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 // React icons
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
+
+// Components
+import SignUpForm1 from "../../components/SignUpForm1";
+import SignUpForm2 from "../../components/SignUpForm2";
 
 const SignUp = () => {
     // Form step
     const [step, setStep] = useState(1);
 
-    // Show password
-    const [isPasswordShow, toggleShowPassword] = useToggle();
-    useEffect(() => {
-        isPasswordShow && toggleShowPassword();
-    }, [step]);
+    // User data
+    const [userData, setUserData] = useState({
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        docType: "",
+        doc: "",
+        birthDay: "",
+        adress: {},
+    });
 
     // Step 1 =====================================
+    const setFormData1 = ({ email, password }) => {
+        setUserData({ ...userData, email: email, password: password });
+        setStep((prev) => prev + 1);
+    };
 
     // Step 2 (fistName, lastName, docType and doc)
 
@@ -41,87 +53,23 @@ const SignUp = () => {
 
     return (
         <div className="w-full h-screen flex flex-col justify-center items-center">
-            <form className="flex flex-col w-96 py-8 px-4 bg-secondary rounded-xl border border-secondaryBorder">
+            <div className="flex flex-col w-96 py-8 px-4 bg-secondary rounded-xl border border-secondaryBorder">
                 {/* Cabezera */}
-                <h2 className="text-4xl text-center mb-8">Crear cuenta</h2>
 
                 {/* Indicador de paso */}
                 <div className="grid grid-cols-3 my-2 gap-2 h-3">
-                    <div className="step"></div>
-                    <div className="step opacity-50"></div>
-                    <div className="step opacity-40"></div>
+                    <div className={`step ${step !== 1 && `opacity-50`}`}></div>
+                    <div className={`step ${step !== 2 && `opacity-50`}`}></div>
+                    <div className={`step ${step !== 3 && `opacity-50`}`}></div>
                 </div>
 
                 {/* ============================= Step 1 */}
 
-                {/* Email input group */}
-                <div className="flex flex-col my-2">
-                    <label htmlFor="email" className="block my-1 font-semibold">
-                        Email:
-                    </label>
-                    <input
-                        className="input"
-                        type="text"
-                        placeholder="Tu email"
-                        autoFocus
-                        autoComplete="false"
-                    />
-                </div>
+                {step === 1 && <SignUpForm1 callBack={setFormData1} />}
 
-                {/* Password input group */}
-                <div className="flex flex-col my-2">
-                    <label
-                        htmlFor="password"
-                        className="block my-1 font-semibold"
-                    >
-                        Contraseña:
-                    </label>
-                    <div className="relative w-full">
-                        <input
-                            className="input"
-                            type={isPasswordShow ? `text` : `password`}
-                            placeholder="Tu contraseña"
-                            autoComplete="false"
-                        />
-                        <div className="absolute inset-y-0 right-0 flex items-center pr-2">
-                            <button onClick={toggleShowPassword} type="button">
-                                {isPasswordShow ? (
-                                    <AiFillEyeInvisible
-                                        size="1.5rem"
-                                        color="#18181b"
-                                    />
-                                ) : (
-                                    <AiFillEye size="1.5rem" color="#18181b" />
-                                )}
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                {step === 2 && <SignUpForm2 callBack={setFormData1} />}
 
-                {/* Password confirm */}
-                <div className="flex flex-col my-2">
-                    <label
-                        htmlFor="password"
-                        className="block my-1 font-semibold"
-                    >
-                        Confirmar contraseña:
-                    </label>
-                    <div className="relative w-full">
-                        <input
-                            className="input"
-                            type={isPasswordShow ? `text` : `password`}
-                            placeholder="Repetí tu contraseña"
-                            autoComplete="false"
-                        />
-                    </div>
-                </div>
-
-                {/* Submit input group */}
-                <div className="flex flex-col mt-4">
-                    <button type="submit" className="btnPrimary">
-                        Siguiente
-                    </button>
-                </div>
+                {step === 3 && <SignUpForm1 callBack={setFormData1} />}
 
                 {/* Divider */}
                 <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
@@ -152,7 +100,7 @@ const SignUp = () => {
                         </Link>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     );
 };
