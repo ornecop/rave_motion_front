@@ -27,11 +27,9 @@ const SignIn = () => {
 
     return (
         <div className="w-full h-screen flex flex-col justify-center items-center">
-            <form className="flex flex-col w-96 py-8 px-4 bg-zinc-900 rounded-xl">
+            <form className="flex flex-col w-96 py-8 px-4 bg-zinc-900 rounded-xl border border-zinc-800">
                 {/* Cabezera */}
-                <h2 className="text-4xl text-center mb-8">
-                    Bienvenido de nuevo
-                </h2>
+                <h2 className="text-4xl text-center mb-8">Bienvenido!</h2>
 
                 {/* Email input group */}
                 <div className="flex flex-col my-2">
@@ -53,7 +51,7 @@ const SignIn = () => {
                         htmlFor="password"
                         className="block my-1 font-semibold"
                     >
-                        Password:
+                        Contraseña:
                     </label>
                     <div className="relative w-full">
                         <input
@@ -126,7 +124,7 @@ const SignIn = () => {
                         Volver al{" "}
                         <Link
                             className="text-fuchsia-300 hover:text-fuchsia-600 focus:outline-none transition-colors duration-300"
-                            to="/home"
+                            to="/"
                         >
                             home.
                         </Link>
