@@ -13,7 +13,7 @@ const Footer = () => {
                     to="https://github.com"
                     target="_blank"
                     rel="noreferrer"
-                    className="hover:text-fuchsia-600 hover:font-semibold focus:outline-none transition-colors duration-300"
+                    className="link text-white"
                 >
                     RaveMotion
                 </Link>
@@ -23,16 +23,10 @@ const Footer = () => {
             <div className="flex justify-self-end items-center mr-4 gap-6">
                 <a
                     href="mailto:info@ravemotion.com?subject=Quiero%ser%promotor"
-                    className="hover:text-fuchsia-600 hover:font-semibold focus:outline-none transition-colors duration-300"
+                    className="link text-white"
                 >
                     Vende con nosotros
                 </a>
-                <Link
-                    to="/about"
-                    className="hover:text-fuchsia-600 hover:font-semibold focus:outline-none transition-colors duration-300"
-                >
-                    Nosotros
-                </Link>
             </div>
         </div>
     );
