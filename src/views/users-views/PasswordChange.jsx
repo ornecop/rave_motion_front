@@ -17,13 +17,13 @@ const changePasswordImage = "https://wallpapercave.com/wp/wp1889479.jpg";
 
 const PasswordChange = () => {
     return (
-        <div className="w-full">
-            <div
+        <div className="w-full h-screen">
+            {/* <div
                 className="h-2/6 w-full absolute top-0 left-0 bg-cover bg-bottom bg-no-repeat"
                 style={{
                     backgroundImage: `url(${changePasswordImage})`,
                 }}
-            ></div>
+            ></div> */}
         </div>
     );
 };

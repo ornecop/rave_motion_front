@@ -23,8 +23,6 @@ import { useState, useEffect } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 
-// Validation schemas
-
 const SignUp = () => {
     // Form step
     const [step, setStep] = useState(1);
