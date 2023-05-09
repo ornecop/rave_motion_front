@@ -27,7 +27,7 @@ const SignIn = () => {
 
     return (
         <div className="w-full h-screen flex flex-col justify-center items-center">
-            <form className="flex flex-col w-96 py-8 px-4 bg-zinc-900 rounded-xl border border-zinc-800">
+            <form className="flex flex-col w-96 py-8 px-4 bg-slate-900 rounded-xl border border-secondaryBorder">
                 {/* Cabezera */}
                 <h2 className="text-4xl text-center mb-8">Bienvenido!</h2>
 
@@ -37,7 +37,7 @@ const SignIn = () => {
                         Email:
                     </label>
                     <input
-                        className="h-8 px-4 py-4 w/full text-black border border-fuchsia-600 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent"
+                        className="input"
                         type="text"
                         placeholder="Tu email"
                         autoFocus
@@ -55,7 +55,7 @@ const SignIn = () => {
                     </label>
                     <div className="relative w-full">
                         <input
-                            className="h-8 px-4 py-4 w-full text-black border border-fuchsia-600 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent"
+                            className="input"
                             type={isPasswordShow ? `text` : `password`}
                             placeholder="Tu contraseña"
                         />
@@ -76,15 +76,12 @@ const SignIn = () => {
                 {/* Submit input group */}
                 <div className="flex flex-col mt-4">
                     <Link
-                        className="text-center text-fuchsia-300 text-sm mb-2 hover:text-fuchsia-600 focus:outline-none transition-colors duration-300"
+                        className="text-center text-sm mb-2 link"
                         to="/changepassword"
                     >
                         ¿Olvidaste tu contraseña?
                     </Link>
-                    <button
-                        type="submit"
-                        className="block w-full text-lg py-2 rounded-full bg-gradient-to-r from-fuchsia-800 to-pink-500 border border-fuchsia-600 hover:font-semibold focus:outline-none transition-colors duration-300"
-                    >
+                    <button type="submit" className="btnPrimary">
                         Iniciar sesión
                     </button>
                 </div>
@@ -98,10 +95,7 @@ const SignIn = () => {
 
                 {/* Google button */}
 
-                <button
-                    type="submit"
-                    className="grid w-full text-lg py-2 rounded-full bg-gradient-to-r from-fuchsia-800 to-pink-500 border border-fuchsia-600 text-xl hover:font-semibold focus:outline-none transition-colors duration-300"
-                >
+                <button type="submit" className="grid btnPrimary">
                     <div className="flex flex-row justify-self-center items-center gap-2">
                         <FcGoogle size="1.5rem" />
                         <span className="text-lg">
@@ -113,19 +107,13 @@ const SignIn = () => {
                 <div className="flex flex-col mt-8">
                     <div className="text-center flex-row my-1">
                         ¿No tenes cuenta?{" "}
-                        <Link
-                            className="text-fuchsia-300 hover:text-fuchsia-600 focus:outline-none transition-colors duration-300"
-                            to="/signup"
-                        >
-                            Registrate!
+                        <Link className="link" to="/signup">
+                            Registrate.
                         </Link>
                     </div>
                     <div className="text-center flex-row my-">
                         Volver al{" "}
-                        <Link
-                            className="text-fuchsia-300 hover:text-fuchsia-600 focus:outline-none transition-colors duration-300"
-                            to="/"
-                        >
+                        <Link className="link" to="/">
                             home.
                         </Link>
                     </div>

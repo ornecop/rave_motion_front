@@ -21,12 +21,12 @@ const Footer = () => {
             </div>
 
             <div className="flex justify-self-end items-center mr-4 gap-6">
-                <Link
-                    to="/"
+                <a
+                    href="mailto:info@ravemotion.com?subject=Quiero%ser%promotor"
                     className="hover:text-fuchsia-600 hover:font-semibold focus:outline-none transition-colors duration-300"
                 >
-                    Home
-                </Link>
+                    Vende con nosotros
+                </a>
                 <Link
                     to="/about"
                     className="hover:text-fuchsia-600 hover:font-semibold focus:outline-none transition-colors duration-300"

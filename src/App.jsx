@@ -33,43 +33,38 @@ export const App = () => {
     const showHeader = location !== "/signin" && location !== "/signup";
 
     return (
-        <>
+        <div className="bg-primary text-white antialiased">
             {showHeader && <Header />}
-            <div className="">
-                <Routes>
-                    {/* App views */}
-                    <Route exact path="/" element={<Home />} />
-                    <Route path="/about" element={<About />} />
-                    <Route
-                        path="/search/:searchedName"
-                        element={<SearchResults />}
-                    />
+            <Routes>
+                {/* App views */}
+                <Route exact path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route
+                    path="/search/:searchedName"
+                    element={<SearchResults />}
+                />
 
-                    {/* Events views */}
-                    <Route path="/event/:eventName" element={<EventDetail />} />
-                    <Route path="/create" element={<EventCreate />} />
-                    <Route path="/cart" element={<EventCart />} />
+                {/* Events views */}
+                <Route path="/event/:eventName" element={<EventDetail />} />
+                <Route path="/create" element={<EventCreate />} />
+                <Route path="/cart" element={<EventCart />} />
 
-                    {/* User views */}
+                {/* User views */}
 
-                    <Route
-                        path="/changepassword"
-                        element={<PasswordChange />}
-                    />
-                    <Route path="/dashboard" element={<ProducerDashboard />} />
-                    <Route
-                        path="/dashboard/:eventName"
-                        element={<ProducerEventDetail />}
-                    />
-                    <Route path="/signin" element={<SignIn />} />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/tickets" element={<UserTickets />} />
+                <Route path="/changepassword" element={<PasswordChange />} />
+                <Route path="/dashboard" element={<ProducerDashboard />} />
+                <Route
+                    path="/dashboard/:eventName"
+                    element={<ProducerEventDetail />}
+                />
+                <Route path="/signin" element={<SignIn />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/tickets" element={<UserTickets />} />
 
-                    {/* Not found Page */}
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
-            </div>
+                {/* Not found Page */}
+                <Route path="*" element={<NotFound />} />
+            </Routes>
             <Footer />
-        </>
+        </div>
     );
 };

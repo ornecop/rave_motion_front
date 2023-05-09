@@ -4,7 +4,8 @@
     styles:
     A un lado el form (form por pasos) y al otro una imagen o mockup del home
     1er form (email, password, passwordConfirm || registrarse con Google) 
-    2do form (firstName, lastName, docType, doc, birthDay, cellPhone, adress)
+    2do form (firstName, lastName, docType, doc)
+    3er form (birthDay, adress)
 
 
     * Redirecciona al Sign In
@@ -16,27 +17,44 @@ import { Link } from "react-router-dom";
 
 // Hooks
 import { useToggle } from "../../functions/customHooks";
+import { useState, useEffect } from "react";
 
 // React icons
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 
+// Validation schemas
+
 const SignUp = () => {
+    // Form step
+    const [step, setStep] = useState(1);
+
     // Show password
     const [isPasswordShow, toggleShowPassword] = useToggle();
+    useEffect(() => {
+        isPasswordShow && toggleShowPassword();
+    }, [step]);
+
+    // Step 1 =====================================
+
+    // Step 2 (fistName, lastName, docType and doc)
+
+    // Step 3 (birthDay, adress)
 
     return (
         <div className="w-full h-screen flex flex-col justify-center items-center">
-            <form className="flex flex-col w-96 py-8 px-4 bg-zinc-900 rounded-xl border border-zinc-800">
+            <form className="flex flex-col w-96 py-8 px-4 bg-secondary rounded-xl border border-secondaryBorder">
                 {/* Cabezera */}
                 <h2 className="text-4xl text-center mb-8">Crear cuenta</h2>
 
                 {/* Indicador de paso */}
                 <div className="grid grid-cols-3 my-2 gap-2 h-3">
-                    <div className="flex bg-gradient-to-r from-fuchsia-800 to-pink-500 border border-fuchsia-600 rounded-tl-full rounded-br-full"></div>
-                    <div className="opacity-60 flex bg-gradient-to-r from-fuchsia-800 to-pink-500 border border-fuchsia-600 rounded-tl-full rounded-br-full"></div>
-                    <div className="opacity-60 flex bg-gradient-to-r from-fuchsia-800 to-pink-500 border border-fuchsia-600 rounded-tl-full rounded-br-full"></div>
+                    <div className="step"></div>
+                    <div className="step opacity-50"></div>
+                    <div className="step opacity-40"></div>
                 </div>
+
+                {/* ============================= Step 1 */}
 
                 {/* Email input group */}
                 <div className="flex flex-col my-2">
@@ -44,7 +62,7 @@ const SignUp = () => {
                         Email:
                     </label>
                     <input
-                        className="h-8 px-4 py-4 w/full text-black border border-fuchsia-600 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent"
+                        className="input"
                         type="text"
                         placeholder="Tu email"
                         autoFocus
@@ -62,9 +80,10 @@ const SignUp = () => {
                     </label>
                     <div className="relative w-full">
                         <input
-                            className="h-8 px-4 py-4 w-full text-black border border-fuchsia-600 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent"
+                            className="input"
                             type={isPasswordShow ? `text` : `password`}
                             placeholder="Tu contraseña"
+                            autoComplete="false"
                         />
                         <div className="absolute inset-y-0 right-0 flex items-center pr-2">
                             <button onClick={toggleShowPassword} type="button">
@@ -91,19 +110,17 @@ const SignUp = () => {
                     </label>
                     <div className="relative w-full">
                         <input
-                            className="h-8 px-4 py-4 w-full text-black border border-fuchsia-600 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent"
+                            className="input"
                             type={isPasswordShow ? `text` : `password`}
                             placeholder="Repetí tu contraseña"
+                            autoComplete="false"
                         />
                     </div>
                 </div>
 
                 {/* Submit input group */}
                 <div className="flex flex-col mt-4">
-                    <button
-                        type="submit"
-                        className="block w-full text-lg py-2 rounded-full bg-gradient-to-r from-fuchsia-800 to-pink-500 border border-fuchsia-600 hover:font-semibold focus:outline-none transition-colors duration-300"
-                    >
+                    <button type="submit" className="btnPrimary">
                         Siguiente
                     </button>
                 </div>
@@ -115,36 +132,24 @@ const SignUp = () => {
                     </p>
                 </div>
 
-                {/* Google button */}
-
-                <button
-                    type="submit"
-                    className="grid w-full text-lg py-2 rounded-full bg-gradient-to-r from-fuchsia-800 to-pink-500 border border-fuchsia-600 text-xl hover:font-semibold focus:outline-none transition-colors duration-300"
-                >
+                {/* Google button (only on step 1) */}
+                <button type="submit" className="grid btnPrimary">
                     <div className="flex flex-row justify-self-center items-center gap-2">
                         <FcGoogle size="1.5rem" />
-                        <span className="text-lg">
-                            Iniciar sesión con Google
-                        </span>
+                        <span className="text-lg">Registrate con Google</span>
                     </div>
                 </button>
 
                 <div className="flex flex-col mt-8">
                     <div className="text-center flex-row my-1">
                         Ya tenes una cuenta?{" "}
-                        <Link
-                            className="text-fuchsia-300 hover:text-fuchsia-600 focus:outline-none transition-colors duration-300"
-                            to="/signin"
-                        >
-                            Inicia sesión!
+                        <Link className="link" to="/signin">
+                            Inicia sesión.
                         </Link>
                     </div>
                     <div className="text-center flex-row my-">
                         Volver al{" "}
-                        <Link
-                            className="text-fuchsia-300 hover:text-fuchsia-600 focus:outline-none transition-colors duration-300"
-                            to="/"
-                        >
+                        <Link className="link" to="/">
                             home.
                         </Link>
                     </div>
