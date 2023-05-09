@@ -11,34 +11,22 @@ const Header = () => {
             </div>
             <div className="flex justify-self-center items-center ">
                 <input
-                    className="h-8 w-96 px-4 py-4 border border-slate-500 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-96 input"
                     type="text"
                     placeholder="Buscar evento"
                 />
             </div>
-            <div className="flex justify-self-end items-center mr-4 gap-6 py-2 px-4 bg-black rounded-full shadow-sm ">
-                <Link
-                    to="/"
-                    className="text-lg hover:text-fuchsia-600 hover:font-semibold focus:outline-none transition-colors duration-300"
-                >
+            <div className="flex justify-self-end items-center mr-4 gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder">
+                <Link to="/" className="navLink">
                     Home
                 </Link>
-                <Link
-                    to="/about"
-                    className="text-lg hover:text-fuchsia-600 hover:font-semibold focus:outline-none transition-colors duration-300"
-                >
+                <Link to="/about" className="navLink">
                     Nosotros
                 </Link>
-                <Link
-                    to="signin"
-                    className="text-lg hover:text-fuchsia-600 hover:font-semibold focus:outline-none transition-colors duration-300"
-                >
+                <Link to="signin" className="navLink">
                     Iniciar Sesión
                 </Link>
-                <Link
-                    to="signup"
-                    className="text-lg hover:text-fuchsia-600 hover:font-semibold focus:outline-none transition-colors duration-300"
-                >
+                <Link to="signup" className="navLink">
                     Registrarse
                 </Link>
             </div>
