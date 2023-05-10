@@ -126,14 +126,17 @@ const SignIn = () => {
                                             {isPasswordShow ? (
                                                 <AiFillEyeInvisible
                                                     size="1.5rem"
-                                                    color="#18181b"
+                                                    color="#c026d3"
+                                                    // color="#18181b"
                                                 />
                                             ) : (
                                                 <AiFillEye
                                                     size="1.5rem"
-                                                    color="#18181b"
+                                                    color="#c026d3"
+                                                    // color="#18181b"
                                                 />
                                             )}
+                                            l
                                         </button>
                                     </div>
                                 </div>

@@ -79,7 +79,7 @@ const SignUp = () => {
                 </div>
 
                 {/* Google button (only on step 1) */}
-                <button type="submit" className="grid btnPrimary">
+                <button type="button" className="grid btnPrimary">
                     <div className="flex flex-row justify-self-center items-center gap-2">
                         <FcGoogle size="1.5rem" />
                         <span className="text-lg">Registrate con Google</span>
