@@ -76,7 +76,7 @@ const SignUp = () => {
                 {/* Forms */}
                 {step === 1 && <SignUpForm1 callBack={setFormData1} />}
 
-                {step === 2 && <SignUpForm2 callBack={setFormData1} />}
+                {step === 2 && <SignUpForm2 callBack={setFormData2} />}
 
                 {step === 3 && <SignUpForm1 callBack={setFormData1} />}
 

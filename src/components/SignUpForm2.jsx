@@ -20,7 +20,7 @@ const validationSchema = Yup.object().shape({
     documentType: Yup.string()
         .oneOf(["DNI", "Pasaporte", "Cedula"])
         .required("Por favor selecciona un tipo de documento."),
-    document: Yuo.string()
+    document: Yup.string()
         .max(10, "Debe ser hasta 10 caracteres.")
         .required("Este campo es requerido."),
 });
