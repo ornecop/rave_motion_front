@@ -24,6 +24,7 @@ import { FcGoogle } from "react-icons/fc";
 // Components
 import SignUpForm1 from "../../components/SignUpForm1";
 import SignUpForm2 from "../../components/SignUpForm2";
+import SignUpForm3 from "../../components/SignUpForm3";
 
 const SignUp = () => {
     // Form step
@@ -37,8 +38,6 @@ const SignUp = () => {
         lastName: "",
         documentType: "",
         document: "",
-        birthDay: "",
-        adress: {},
     });
 
     // Step 1 =====================================
@@ -59,8 +58,6 @@ const SignUp = () => {
         setStep((prev) => prev + 1);
     };
 
-    // Step 3 (birthDay, adress)
-
     return (
         <div className="w-full h-screen flex flex-col justify-center items-center">
             <div className="flex flex-col w-96 py-8 px-4 bg-secondary rounded-xl border border-secondaryBorder">
@@ -78,9 +75,10 @@ const SignUp = () => {
 
                 {step === 2 && <SignUpForm2 callBack={setFormData2} />}
 
-                {step === 3 && <SignUpForm1 callBack={setFormData1} />}
+                {step === 3 && <SignUpForm3 userData={userData} />}
 
                 {/* Google button */}
+
                 {step === 1 && (
                     <>
                         {/* Divider */}
