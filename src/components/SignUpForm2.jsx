@@ -12,10 +12,16 @@ import * as Yup from "yup";
 // Validation schemas
 const validationSchema = Yup.object().shape({
     firstName: Yup.string()
-        .max(50, "Debe ser hasta 50 caracteres.")
+        .max(25, "Debe ser hasta 25 caracteres.")
         .required("Este campo es requerido."),
     lastName: Yup.string()
-        .max(50, "Debe ser hasta 50 caracteres.")
+        .max(25, "Debe ser hasta 25 caracteres.")
+        .required("Este campo es requerido."),
+    documentType: Yup.string()
+        .oneOf(["DNI", "Pasaporte", "Cedula"])
+        .required("Por favor selecciona un tipo de documento."),
+    document: Yuo.string()
+        .max(10, "Debe ser hasta 10 caracteres.")
         .required("Este campo es requerido."),
 });
 
@@ -46,7 +52,7 @@ const SignUpForm2 = ({ callBack }) => {
             validationSchema={validationSchema}
         >
             {({ isSubmitting, touched, errors }) => (
-                <Form className="">
+                <Form>
                     <h2 className="text-xl text-center my-2">
                         Ya falta poco...
                     </h2>
@@ -70,7 +76,6 @@ const SignUpForm2 = ({ callBack }) => {
                             type="text"
                             placeholder="Tu nombre"
                             name="firstName"
-                            autoFocus
                             autoComplete="false"
                         />
                         <ErrorMessage
@@ -100,6 +105,7 @@ const SignUpForm2 = ({ callBack }) => {
                             type="text"
                             name="lastName"
                             placeholder="Tu apellido"
+                            autoComplete="false"
                         />
                         <ErrorMessage
                             name="lastName"
@@ -130,13 +136,41 @@ const SignUpForm2 = ({ callBack }) => {
                             <option value="" selected>
                                 Tipo de documento
                             </option>
-                            <option value="dni">DNI</option>
-                            <option value="cedulaA">Cedula Azul</option>
-                            <option value="pasaporte">Pasaporte</option>
+                            <option value="DNI">DNI</option>
+                            <option value="Pasaporte">Pasaporte</option>
+                            <option value="Cedula">Cedula de identidad</option>
                         </Field>
 
                         <ErrorMessage
                             name="documentType"
+                            component="span"
+                            className="errorMessage"
+                        />
+                    </div>
+
+                    {/* LastName */}
+                    <div className="flex flex-col my-2">
+                        <label
+                            htmlFor="document"
+                            className="block my-1 font-semibold"
+                        >
+                            Documento:
+                        </label>
+
+                        <Field
+                            className={
+                                touched.lastName && errors.lastName
+                                    ? "inputError"
+                                    : touched.lastName && !errors.lastName
+                                    ? "inputSuccess"
+                                    : "input"
+                            }
+                            type="text"
+                            name="document"
+                            placeholder="Tu documento"
+                        />
+                        <ErrorMessage
+                            name="document"
                             component="span"
                             className="errorMessage"
                         />

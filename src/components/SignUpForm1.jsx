@@ -17,16 +17,17 @@ import * as Yup from "yup";
 
 // Validation schemas
 const validationSchema = Yup.object().shape({
+    // Falta validación email ya existe
     email: Yup.string()
         .email("El email no es valido.")
         .required("Este campo es requerido."),
     password: Yup.string()
-        .min(8, "La contraseña debe tener al menos 8 caracteres")
+        .min(8, "Debe tener al menos 8 caracteres")
         .matches(
             /^(?=.*[0-9])[a-zA-Z0-9]{8,}$/,
             "Debe tener al menos un número y no debe contener caracteres especiales."
         )
-        .required("La contraseña es requerida"),
+        .required("Este campo es requerido."),
     passwordConfirm: Yup.string()
         .required("Este campo es requerido.")
         .test(
@@ -62,7 +63,7 @@ const SignUpForm1 = ({ callBack }) => {
             validationSchema={validationSchema}
         >
             {({ isSubmitting, touched, errors }) => (
-                <Form className="">
+                <Form>
                     <h2 className="text-xl text-center my-4">Crear cuenta</h2>
 
                     {/* Email */}
