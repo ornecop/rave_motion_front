@@ -1,7 +1,7 @@
 /* =======================================================
     Form 2 on SignUp view
 
-    Fields: firstName - lastName - docType - doc
+    Fields: firstName - lastName - documentType - document
     
 */
 
@@ -24,16 +24,16 @@ const SignUpForm2 = ({ callBack }) => {
     const initialValues = {
         firstName: "",
         lastName: "",
-        docType: "",
-        doc: "",
+        documentType: "",
+        document: "",
     };
 
     const handleNext = (values, { setSubmitting, resetForm }) => {
         callBack({
             firstName: values.firstName,
             lastName: values.lastName,
-            docType: values.docType,
-            doc: values.doc,
+            documentType: values.documentType,
+            document: values.document,
         });
         setSubmitting(false);
         resetForm();
@@ -108,17 +108,17 @@ const SignUpForm2 = ({ callBack }) => {
                         />
                     </div>
 
-                    {/* DocType */}
+                    {/* documentType */}
                     <div className="flex flex-col my-2">
                         <label
-                            htmlFor="docType"
+                            htmlFor="documentType"
                             className="block my-1 font-semibold"
                         >
                             Tipo de documento:
                         </label>
                         <Field
                             as="select"
-                            name="docType"
+                            name="documentType"
                             className={
                                 touched.lastName && errors.lastName
                                     ? "inputError"
@@ -136,7 +136,7 @@ const SignUpForm2 = ({ callBack }) => {
                         </Field>
 
                         <ErrorMessage
-                            name="docType"
+                            name="documentType"
                             component="span"
                             className="errorMessage"
                         />

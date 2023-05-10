@@ -4,7 +4,7 @@
     styles:
     A un lado el form (form por pasos) y al otro una imagen o mockup del home
     1er form (email, password, passwordConfirm || registrarse con Google) 
-    2do form (firstName, lastName, docType, doc)
+    2do form (firstName, lastName, documentType, document)
     3er form (birthDay, adress)
 
 
@@ -35,8 +35,8 @@ const SignUp = () => {
         password: "",
         firstName: "",
         lastName: "",
-        docType: "",
-        doc: "",
+        documentType: "",
+        document: "",
         birthDay: "",
         adress: {},
     });
@@ -47,7 +47,7 @@ const SignUp = () => {
         setStep((prev) => prev + 1);
     };
 
-    // Step 2 (fistName, lastName, docType and doc)
+    // Step 2 (fistName, lastName, documentType and document)
 
     // Step 3 (birthDay, adress)
 
