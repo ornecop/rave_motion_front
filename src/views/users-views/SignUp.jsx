@@ -48,6 +48,16 @@ const SignUp = () => {
     };
 
     // Step 2 (fistName, lastName, documentType and document)
+    const setFormData2 = ({ firstName, lastName, documentType, document }) => {
+        setUserData({
+            ...userData,
+            firstName: firstName,
+            lastName: lastName,
+            documentType: documentType,
+            document: document,
+        });
+        setStep((prev) => prev + 1);
+    };
 
     // Step 3 (birthDay, adress)
 
@@ -63,29 +73,35 @@ const SignUp = () => {
                     <div className={`step ${step !== 3 && `opacity-50`}`}></div>
                 </div>
 
-                {/* ============================= Step 1 */}
-
+                {/* Forms */}
                 {step === 1 && <SignUpForm1 callBack={setFormData1} />}
 
                 {step === 2 && <SignUpForm2 callBack={setFormData1} />}
 
                 {step === 3 && <SignUpForm1 callBack={setFormData1} />}
 
-                {/* Divider */}
-                <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
-                    <p className="mx-4 mb-0 text-center font-semibold dark:text-neutral-200">
-                        OR
-                    </p>
-                </div>
+                {/* Google button */}
+                {step === 1 && (
+                    <>
+                        {/* Divider */}
+                        <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+                            <p className="mx-4 mb-0 text-center font-semibold dark:text-neutral-200">
+                                OR
+                            </p>
+                        </div>
 
-                {/* Google button (only on step 1) */}
-                <button type="button" className="grid btnPrimary">
-                    <div className="flex flex-row justify-self-center items-center gap-2">
-                        <FcGoogle size="1.5rem" />
-                        <span className="text-lg">Registrate con Google</span>
-                    </div>
-                </button>
+                        <button type="button" className="grid btnPrimary">
+                            <div className="flex flex-row justify-self-center items-center gap-2">
+                                <FcGoogle size="1.5rem" />
+                                <span className="text-lg">
+                                    Registrate con Google
+                                </span>
+                            </div>
+                        </button>
+                    </>
+                )}
 
+                {/* Links */}
                 <div className="flex flex-col mt-8">
                     <div className="text-center flex-row my-1">
                         Ya tenes una cuenta?{" "}
