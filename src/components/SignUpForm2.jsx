@@ -121,10 +121,10 @@ const SignUpForm2 = ({ callBack }) => {
                             name="documentType"
                             className={
                                 touched.lastName && errors.lastName
-                                    ? "inputError"
+                                    ? "inputSelectError"
                                     : touched.lastName && !errors.lastName
-                                    ? "inputSuccess"
-                                    : "input"
+                                    ? "inputSelectSuccess"
+                                    : "inputSelect"
                             }
                         >
                             <option value="" selected>

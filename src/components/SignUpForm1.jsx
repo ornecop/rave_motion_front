@@ -21,8 +21,12 @@ const validationSchema = Yup.object().shape({
         .email("El email no es valido.")
         .required("Este campo es requerido."),
     password: Yup.string()
-        .min(8, "Debe ser de mínimo 8 caracteres")
-        .required("Este campo es requerido."),
+        .min(8, "La contraseña debe tener al menos 8 caracteres")
+        .matches(
+            /^(?=.*[0-9])[a-zA-Z0-9]{8,}$/,
+            "Debe tener al menos un número y no debe contener caracteres especiales."
+        )
+        .required("La contraseña es requerida"),
     passwordConfirm: Yup.string()
         .required("Este campo es requerido.")
         .test(
@@ -80,7 +84,6 @@ const SignUpForm1 = ({ callBack }) => {
                             type="text"
                             placeholder="Tu email"
                             name="email"
-                            autoFocus
                             autoComplete="false"
                         />
                         <ErrorMessage
@@ -119,12 +122,14 @@ const SignUpForm1 = ({ callBack }) => {
                                     {isPasswordShow ? (
                                         <AiFillEyeInvisible
                                             size="1.5rem"
-                                            color="#18181b"
+                                            color="#c026d3"
+                                            // color="#18181b"
                                         />
                                     ) : (
                                         <AiFillEye
                                             size="1.5rem"
-                                            color="#18181b"
+                                            color="#c026d3"
+                                            // color="#18181b"
                                         />
                                     )}
                                 </button>
