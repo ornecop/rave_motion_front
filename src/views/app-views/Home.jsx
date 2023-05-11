@@ -8,7 +8,6 @@ import React from "react";
     sección eventos destacados: filtros (por provincia, por productora) + orden (por fecha) + lista de eventos destacados 
     info de la pagina c link a about
     preguntas frecuentes
-
 */
 
 const Home = () => {
