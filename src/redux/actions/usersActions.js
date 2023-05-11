@@ -1,3 +1,5 @@
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 // ============= Users Actions Types
 
 export const USER_CREATE = "USER_CREATE";

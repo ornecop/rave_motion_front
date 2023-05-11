@@ -1,4 +1,6 @@
-export default initialState = {
+const initialState = {
     isLogin: false,
     userData: {},
 };
+
+export default initialState;
