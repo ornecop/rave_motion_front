@@ -118,6 +118,7 @@ const SignIn = () => {
                                         name="password"
                                         placeholder="Tu contraseña"
                                     />
+
                                     <div className="absolute inset-y-0 right-0 flex items-center pr-2">
                                         <button
                                             onClick={toggleShowPassword}
@@ -126,12 +127,14 @@ const SignIn = () => {
                                             {isPasswordShow ? (
                                                 <AiFillEyeInvisible
                                                     size="1.5rem"
-                                                    color="#18181b"
+                                                    color="#c026d3"
+                                                    // color="#18181b"
                                                 />
                                             ) : (
                                                 <AiFillEye
                                                     size="1.5rem"
-                                                    color="#18181b"
+                                                    color="#c026d3"
+                                                    // color="#18181b"
                                                 />
                                             )}
                                         </button>

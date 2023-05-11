@@ -8,7 +8,14 @@ import React from "react";
 */
 
 const NotFound = () => {
-    return <div>NotFound</div>;
+
+        return (
+            <div>
+              <h1>Página no encontrada</h1>
+              <p>Lo sentimos, la página que está buscando no se encuentra disponible.</p>
+            </div>
+          );
+   
 };
 
 export default NotFound;

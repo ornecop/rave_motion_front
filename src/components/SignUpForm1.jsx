@@ -17,11 +17,16 @@ import * as Yup from "yup";
 
 // Validation schemas
 const validationSchema = Yup.object().shape({
+    // Falta validación email ya existe
     email: Yup.string()
         .email("El email no es valido.")
         .required("Este campo es requerido."),
     password: Yup.string()
-        .min(8, "Debe ser de mínimo 8 caracteres")
+        .min(8, "Debe tener al menos 8 caracteres")
+        .matches(
+            /^(?=.*[0-9])[a-zA-Z0-9]{8,}$/,
+            "Debe tener al menos un número y no debe contener caracteres especiales."
+        )
         .required("Este campo es requerido."),
     passwordConfirm: Yup.string()
         .required("Este campo es requerido.")
@@ -58,7 +63,7 @@ const SignUpForm1 = ({ callBack }) => {
             validationSchema={validationSchema}
         >
             {({ isSubmitting, touched, errors }) => (
-                <Form className="">
+                <Form>
                     <h2 className="text-xl text-center my-4">Crear cuenta</h2>
 
                     {/* Email */}
@@ -80,7 +85,6 @@ const SignUpForm1 = ({ callBack }) => {
                             type="text"
                             placeholder="Tu email"
                             name="email"
-                            autoFocus
                             autoComplete="false"
                         />
                         <ErrorMessage
@@ -119,12 +123,14 @@ const SignUpForm1 = ({ callBack }) => {
                                     {isPasswordShow ? (
                                         <AiFillEyeInvisible
                                             size="1.5rem"
-                                            color="#18181b"
+                                            color="#c026d3"
+                                            // color="#18181b"
                                         />
                                     ) : (
                                         <AiFillEye
                                             size="1.5rem"
-                                            color="#18181b"
+                                            color="#c026d3"
+                                            // color="#18181b"
                                         />
                                     )}
                                 </button>

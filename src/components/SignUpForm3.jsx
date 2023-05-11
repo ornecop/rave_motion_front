@@ -1,7 +1,7 @@
 /* =======================================================
-    Form 2 on SignUp view
+    Form 3 on SignUp view
 
-    Fields: firstName - lastName - documentType - document
+    Fields: birthDay - adress
     
 */
 
@@ -11,36 +11,50 @@ import * as Yup from "yup";
 
 // Validation schemas
 const validationSchema = Yup.object().shape({
-    firstName: Yup.string()
-        .max(25, "Debe ser hasta 25 caracteres.")
+    birthDay: Yup.date()
+        .typeError("Debe ingresar una fecha válida.")
+        .min(
+            new Date(Date.now() - 100 * 365 * 24 * 60 * 60 * 1000),
+            "Debe ingresar una fecha válida."
+        )
+        .max(
+            new Date(Date.now() - 18 * 365 * 24 * 60 * 60 * 1000),
+            "Debes ser mayor de 18 años para comprar tickets."
+        )
         .required("Este campo es requerido."),
-    lastName: Yup.string()
-        .max(25, "Debe ser hasta 25 caracteres.")
+    street: Yup.string()
+        .max(20, "Debe ser hasta 20 caracteres.")
         .required("Este campo es requerido."),
-    documentType: Yup.string()
-        .oneOf(["DNI", "Pasaporte", "Cedula"])
-        .required("Por favor selecciona un tipo de documento."),
-    document: Yup.string()
-        .max(10, "Debe ser hasta 10 caracteres.")
+    number: Yup.string()
+        .max(20, "Debe ser hasta 20 caracteres.")
+        .required("Este campo es requerido."),
+    city: Yup.string()
+        .max(20, "Debe ser hasta 20 caracteres.")
         .required("Este campo es requerido."),
 });
 
-const SignUpForm2 = ({ callBack }) => {
+const SignUpForm3 = ({ userData }) => {
     // App login
     const initialValues = {
-        firstName: "",
-        lastName: "",
-        documentType: "",
-        document: "",
+        birthDay: "",
+        street: "",
+        number: "",
+        city: "",
     };
 
-    const handleNext = (values, { setSubmitting, resetForm }) => {
-        callBack({
-            firstName: values.firstName,
-            lastName: values.lastName,
-            documentType: values.documentType,
-            document: values.document,
-        });
+    const handleSubmit = (values, { setSubmitting, resetForm }) => {
+        const user = {
+            ...userData,
+            birthDay: values.birthDay,
+            adress: {
+                street: values.street,
+                number: values.number,
+                city: values.city,
+            },
+        };
+
+        console.log(user);
+
         setSubmitting(false);
         resetForm();
     };
@@ -48,22 +62,22 @@ const SignUpForm2 = ({ callBack }) => {
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={handleNext}
+            onSubmit={handleSubmit}
             validationSchema={validationSchema}
         >
             {({ isSubmitting, touched, errors }) => (
                 <Form>
                     <h2 className="text-xl text-center my-2">
-                        Ya falta poco...
+                        Últimos datos &#128513;
                     </h2>
 
-                    {/* FirstName */}
+                    {/* BirthDay */}
                     <div className="flex flex-col my-2">
                         <label
-                            htmlFor="firstname"
+                            htmlFor="birthDay"
                             className="block my-1 font-semibold"
                         >
-                            Nombre:
+                            Fecha de nacimiento:
                         </label>
                         <Field
                             className={
@@ -73,25 +87,31 @@ const SignUpForm2 = ({ callBack }) => {
                                     ? "inputSuccess"
                                     : "input"
                             }
-                            type="text"
-                            placeholder="Tu nombre"
-                            name="firstName"
+                            type="date"
+                            name="birthDay"
                             autoComplete="false"
                         />
                         <ErrorMessage
-                            name="firstName"
+                            name="birthDay"
                             component="span"
                             className="errorMessage"
                         />
                     </div>
 
-                    {/* LastName */}
-                    <div className="flex flex-col my-2">
+                    {/* Dirección */}
+                    <div className="mt-6 flex items-center before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+                        <p className="mx-4 mb-0 text-center font-semibold">
+                            Dirección
+                        </p>
+                    </div>
+
+                    {/* Street */}
+                    <div className="flex flex-col mb-2">
                         <label
-                            htmlFor="lastName"
+                            htmlFor="street"
                             className="block my-1 font-semibold"
                         >
-                            Apellido:
+                            Calle:
                         </label>
 
                         <Field
@@ -103,58 +123,24 @@ const SignUpForm2 = ({ callBack }) => {
                                     : "input"
                             }
                             type="text"
-                            name="lastName"
-                            placeholder="Tu apellido"
+                            name="street"
+                            placeholder="Calle de la dirección"
                             autoComplete="false"
                         />
                         <ErrorMessage
-                            name="lastName"
+                            name="street"
                             component="span"
                             className="errorMessage"
                         />
                     </div>
 
-                    {/* documentType */}
+                    {/* Number */}
                     <div className="flex flex-col my-2">
                         <label
-                            htmlFor="documentType"
+                            htmlFor="street"
                             className="block my-1 font-semibold"
                         >
-                            Tipo de documento:
-                        </label>
-                        <Field
-                            as="select"
-                            name="documentType"
-                            className={
-                                touched.lastName && errors.lastName
-                                    ? "inputSelectError"
-                                    : touched.lastName && !errors.lastName
-                                    ? "inputSelectSuccess"
-                                    : "inputSelect"
-                            }
-                        >
-                            <option value="" selected>
-                                Tipo de documento
-                            </option>
-                            <option value="DNI">DNI</option>
-                            <option value="Pasaporte">Pasaporte</option>
-                            <option value="Cedula">Cedula de identidad</option>
-                        </Field>
-
-                        <ErrorMessage
-                            name="documentType"
-                            component="span"
-                            className="errorMessage"
-                        />
-                    </div>
-
-                    {/* Document */}
-                    <div className="flex flex-col my-2">
-                        <label
-                            htmlFor="document"
-                            className="block my-1 font-semibold"
-                        >
-                            Documento:
+                            Número:
                         </label>
 
                         <Field
@@ -166,11 +152,41 @@ const SignUpForm2 = ({ callBack }) => {
                                     : "input"
                             }
                             type="text"
-                            name="document"
-                            placeholder="Tu documento"
+                            name="number"
+                            placeholder="Número de la dirección"
+                            autoComplete="false"
                         />
                         <ErrorMessage
-                            name="document"
+                            name="number"
+                            component="span"
+                            className="errorMessage"
+                        />
+                    </div>
+
+                    {/* City */}
+                    <div className="flex flex-col my-2">
+                        <label
+                            htmlFor="city"
+                            className="block my-1 font-semibold"
+                        >
+                            Ciudad:
+                        </label>
+
+                        <Field
+                            className={
+                                touched.lastName && errors.lastName
+                                    ? "inputError"
+                                    : touched.lastName && !errors.lastName
+                                    ? "inputSuccess"
+                                    : "input"
+                            }
+                            type="text"
+                            name="city"
+                            placeholder="Ciudad"
+                            autoComplete="false"
+                        />
+                        <ErrorMessage
+                            name="city"
                             component="span"
                             className="errorMessage"
                         />
@@ -183,7 +199,7 @@ const SignUpForm2 = ({ callBack }) => {
                             className="btnPrimary"
                             disabled={isSubmitting}
                         >
-                            Siguiente
+                            Registrate
                         </button>
                     </div>
                 </Form>
@@ -192,4 +208,4 @@ const SignUpForm2 = ({ callBack }) => {
     );
 };
 
-export default SignUpForm2;
+export default SignUpForm3;
