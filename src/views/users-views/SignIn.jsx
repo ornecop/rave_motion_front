@@ -136,7 +136,6 @@ const SignIn = () => {
                                                     // color="#18181b"
                                                 />
                                             )}
-                                            l
                                         </button>
                                     </div>
                                 </div>
