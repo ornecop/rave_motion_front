@@ -4,7 +4,7 @@
     styles:
     A un lado el form (form por pasos) y al otro una imagen o mockup del home
     1er form (email, password, passwordConfirm || registrarse con Google) 
-    2do form (firstName, lastName, docType, doc)
+    2do form (firstName, lastName, documentType, document)
     3er form (birthDay, adress)
 
 
@@ -24,6 +24,7 @@ import { FcGoogle } from "react-icons/fc";
 // Components
 import SignUpForm1 from "../../components/SignUpForm1";
 import SignUpForm2 from "../../components/SignUpForm2";
+import SignUpForm3 from "../../components/SignUpForm3";
 
 const SignUp = () => {
     // Form step
@@ -35,10 +36,8 @@ const SignUp = () => {
         password: "",
         firstName: "",
         lastName: "",
-        docType: "",
-        doc: "",
-        birthDay: "",
-        adress: {},
+        documentType: "",
+        document: "",
     });
 
     // Step 1 =====================================
@@ -47,9 +46,17 @@ const SignUp = () => {
         setStep((prev) => prev + 1);
     };
 
-    // Step 2 (fistName, lastName, docType and doc)
-
-    // Step 3 (birthDay, adress)
+    // Step 2 (fistName, lastName, documentType and document)
+    const setFormData2 = ({ firstName, lastName, documentType, document }) => {
+        setUserData({
+            ...userData,
+            firstName: firstName,
+            lastName: lastName,
+            documentType: documentType,
+            document: document,
+        });
+        setStep((prev) => prev + 1);
+    };
 
     return (
         <div className="w-full h-screen flex flex-col justify-center items-center">
@@ -63,29 +70,36 @@ const SignUp = () => {
                     <div className={`step ${step !== 3 && `opacity-50`}`}></div>
                 </div>
 
-                {/* ============================= Step 1 */}
-
+                {/* Forms */}
                 {step === 1 && <SignUpForm1 callBack={setFormData1} />}
 
-                {step === 2 && <SignUpForm2 callBack={setFormData1} />}
+                {step === 2 && <SignUpForm2 callBack={setFormData2} />}
 
-                {step === 3 && <SignUpForm1 callBack={setFormData1} />}
+                {step === 3 && <SignUpForm3 userData={userData} />}
 
-                {/* Divider */}
-                <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
-                    <p className="mx-4 mb-0 text-center font-semibold dark:text-neutral-200">
-                        OR
-                    </p>
-                </div>
+                {/* Google button */}
 
-                {/* Google button (only on step 1) */}
-                <button type="submit" className="grid btnPrimary">
-                    <div className="flex flex-row justify-self-center items-center gap-2">
-                        <FcGoogle size="1.5rem" />
-                        <span className="text-lg">Registrate con Google</span>
-                    </div>
-                </button>
+                {step === 1 && (
+                    <>
+                        {/* Divider */}
+                        <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+                            <p className="mx-4 mb-0 text-center font-semibold dark:text-neutral-200">
+                                OR
+                            </p>
+                        </div>
 
+                        <button type="button" className="grid btnPrimary">
+                            <div className="flex flex-row justify-self-center items-center gap-2">
+                                <FcGoogle size="1.5rem" />
+                                <span className="text-lg">
+                                    Registrate con Google
+                                </span>
+                            </div>
+                        </button>
+                    </>
+                )}
+
+                {/* Links */}
                 <div className="flex flex-col mt-8">
                     <div className="text-center flex-row my-1">
                         Ya tenes una cuenta?{" "}
