@@ -10,7 +10,7 @@ import "./index.css";
 // React router dom
 import { BrowserRouter } from "react-router-dom";
 
-// ======================== React Redux
+// React Redux
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
