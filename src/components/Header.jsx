@@ -4,17 +4,41 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // Hooks
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
+// React redux
 import { connect } from "react-redux";
 import { getEventsByName } from "../redux/actions/eventsActions";
+
+// Assets
 import rave from "../assets/logo3.png";
+
 const Header = (props) => {
     // States en props:
     const { isLogin } = props;
 
     // Dispatch en props:
     const { getEventsByName } = props;
+
+    // Style on scroll
+    const [opacity, setOpacity] = useState(0);
+
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    const handleScroll = () => {
+        if (window.pageYOffset > window.innerHeight * 0.4) {
+            setOpacity(0.7);
+        } else {
+            setOpacity(window.pageYOffset / (window.innerHeight * 0.4) / 1.42);
+        }
+    };
+
+    const headerStyle = {
+        backgroundColor: `rgba(2, 6, 23, ${opacity})`,
+    };
 
     // Search bar logic
     const [name, setName] = useState("");
@@ -37,7 +61,10 @@ const Header = (props) => {
     };
 
     return (
-        <div className="grid grid-cols-3 w-screen h-16 fixed top-0 z-10 font-medium">
+        <div
+            className="grid grid-cols-3 w-screen h-16 fixed top-0 z-10 font-medium"
+            style={headerStyle}
+        >
             <div className="flex justify-self-start items-center ml-4">
                 <Link to="/">
                     <img className="w-20" src={rave} alt="Rave Motion Logo" />
