@@ -1,5 +1,6 @@
 // Events Actions Types
-import { EVENTS_SEARCH } from "../actions/eventsActions";
+import { EVENTS_SEARCH,
+         GET_EVENT, } from "../actions/eventsActions";
 
 // Tickets Actions Types
 
@@ -19,6 +20,11 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 searchedEvents: action.payload,
             };
+        case GET_EVENT:
+            return {
+                ...state,
+                event: action.payload, 
+            }
         default:
             return { ...state };
     }
