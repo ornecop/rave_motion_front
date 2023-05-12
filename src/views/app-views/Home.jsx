@@ -1,5 +1,5 @@
 import React from "react";
-import Footer from '../../components/Footer'
+import Footer from "../../components/Footer";
 /* =======================================================
     VIEW Home - "/" - Vista principal de la página
 
@@ -10,10 +10,8 @@ import Footer from '../../components/Footer'
     preguntas frecuentes
 */
 
-
 const Home = () => {
-    return <div>Home</div>;
+    return <div className="h-min-screen">Home</div>;
 };
 
 export default Home;
-

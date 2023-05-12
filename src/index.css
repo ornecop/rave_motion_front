@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+}
+
 :root {
     font-size: 14px;
     -webkit-user-select: none;
@@ -62,5 +65,9 @@
     /* Varios */
     .step {
         @apply flex bg-gradient-to-r from-fuchsia-800 to-pink-500 border border-fuchsia-600 rounded-tl-full rounded-br-full;
+    }
+
+    .floatBox {
+        @apply flex flex-col py-8 px-4 bg-slate-900 rounded-xl border border-secondaryBorder;
     }
 }
