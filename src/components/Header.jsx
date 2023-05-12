@@ -10,7 +10,10 @@ import { connect } from "react-redux";
 import { getEventsByName } from "../redux/actions/eventsActions";
 import rave from "../assets/logo3.png";
 const Header = (props) => {
-    // Props
+    // States en props:
+    const { isLogin } = props;
+
+    // Dispatch en props:
     const { getEventsByName } = props;
 
     // Search bar logic
@@ -28,11 +31,13 @@ const Header = (props) => {
         getEventsByName(name.trim());
     };
 
+    // Sign Out
+    const handleSignOut = () => {
+        alert("Chau puto");
+    };
+
     return (
-
         <div className="grid grid-cols-3 w-screen h-16 fixed top-0 z-10 font-medium">
-
-
             <div className="flex justify-self-start items-center ml-4">
                 <Link to="/">
                     <img className="w-20" src={rave} alt="Rave Motion Logo" />
@@ -49,23 +54,39 @@ const Header = (props) => {
                     />
                 </form>
             </div>
-            <div className="flex justify-items-center justify-center my-2 items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder">
+            <div className="flex w-fit justify-self-end justify-center my-2 items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder">
                 <Link to="/" className="navLink">
                     Home
                 </Link>
                 <Link to="/about" className="navLink">
                     Nosotros
                 </Link>
-                <Link to="signin" className="navLink">
-                    Iniciar Sesión
-                </Link>
-                <Link to="signup" className="navLink">
-                    Registrarse
-                </Link>
+                {isLogin ? (
+                    <button
+                        onClick={handleSignOut}
+                        className="btnPrimary py-0 px-4 w-fit"
+                    >
+                        Cerrar Sesión
+                    </button>
+                ) : (
+                    <>
+                        <Link to="signin" className="navLink">
+                            Iniciar Sesión
+                        </Link>
+                        <Link to="signup" className="navLink">
+                            Registrarse
+                        </Link>
+                    </>
+                )}
             </div>
         </div>
-
     );
+};
+
+const mapStateToProps = (state) => {
+    return {
+        isLogin: state.isLogin,
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -74,4 +95,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
