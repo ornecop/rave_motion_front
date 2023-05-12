@@ -11,7 +11,7 @@ import Footer from "../../components/Footer";
 */
 
 const Home = () => {
-    return <div className="h-min-screen">Home</div>;
+    return <div>Home</div>;
 };
 
 export default Home;

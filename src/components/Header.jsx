@@ -8,7 +8,7 @@ import { useState } from "react";
 
 import { connect } from "react-redux";
 import { getEventsByName } from "../redux/actions/eventsActions";
-
+import rave from "../assets/logo3.png";
 const Header = (props) => {
     // Props
     const { getEventsByName } = props;
@@ -28,10 +28,12 @@ const Header = (props) => {
         getEventsByName(name.trim());
     };
 
-    return (
-        <div className="grid grid-cols-3 w-full h-16 fixed top-0 z-10 content-center">
+    return  (
+        <div className="bg-primary w-full fixed z-10 content-center top-0 shadow-[0_1px_20px_rgba(0,0,0,0.25)] shadow-slate-600">
+        <div className=" mt-6  mb-3 grid grid-cols-3">
             <div className="flex justify-self-start items-center ml-4">
-                <Link to="/">Logo Here</Link>
+                <img className="w-20" src={rave} alt="logo rave" />
+
             </div>
             <div className="flex justify-self-center items-center ">
                 <form onSubmit={handleSearchsubmit}>
@@ -44,7 +46,7 @@ const Header = (props) => {
                     />
                 </form>
             </div>
-            <div className="flex justify-self-end items-center mr-4 gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder">
+            <div className="flex  justify-items-center justify-center items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder">
                 <Link to="/" className="navLink">
                     Home
                 </Link>
@@ -58,6 +60,7 @@ const Header = (props) => {
                     Registrarse
                 </Link>
             </div>
+        </div>
         </div>
     );
 };
