@@ -9,6 +9,8 @@ import {
     EVENT_MODIFY,
 } from "../actions/eventsActions";
 
+import { DATE_FILTER, PRODUCER_FILTER } from "../actions/filtersActions";
+
 // Tickets Actions Types
 
 // User Actions Types
@@ -57,7 +59,12 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
             };
-
+        //* Filtros
+        case PRODUCER_FILTER:
+            return{...state, homeEvents:action.payload};
+        case DATE_FILTER:
+            return{...state, homeEvents:action.payload};
+        //* ----------
         default:
             return { ...state };
     }
