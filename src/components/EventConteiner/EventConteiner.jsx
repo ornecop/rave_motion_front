@@ -33,6 +33,7 @@ import EventCard from '../EventCard/EventCard';
         "producer":"The Ampa",
         "userId":"33bf56c3-55b7-413c-a5b3-a85b7452ccc4"
     },
+<<<<<<< HEAD
     {
         "name":"El Rumbon",
         "image":"https://www.serargentino.com/public/images/2020/12/16093491340-Joda-773x458.jpg",
@@ -48,6 +49,13 @@ import EventCard from '../EventCard/EventCard';
     return (
         <div className="">
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-20 mt-20'>
+=======
+]
+
+    return (
+        <div class="flex container">
+        <div className='mt-16 flex-none w-48 relative'>
+>>>>>>> ef567c758668443f2ba345ebc14660973950dd19
            
             {event.map((event) => (
                 <EventCard
