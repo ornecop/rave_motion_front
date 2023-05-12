@@ -14,14 +14,10 @@ const handleEndDateChange = (date) => {
 
   return (
     
-    <div className='text-primary flex flex-row bg-secondary'>
-      <h3 className='text-white'>Select Date:</h3>
-      <div>
-        <label className='text-white'>Desde:</label>
-    <div className='text-black'>
-      <h3>Seleccione un rango de fechas:</h3>
-      <div>
-        <label>Desde:</label>
+    <div className='text-primary flex flex-row bg-secondary h-16 '>
+    <h3 className='text-white mx-2'>Select Date: </h3>
+    <div>
+      <label className='text-white rounded-xl'>Desde</label>
         <DatePicker
           selected={startDate}
           onChange={handleStartDateChange}
@@ -32,7 +28,7 @@ const handleEndDateChange = (date) => {
         />
       </div>
       <div>
-        <label className='text-white'>Hasta:</label>
+        <label className='text-white'>Hasta</label>
         <DatePicker
           selected={endDate}
           onChange={handleEndDateChange}
@@ -43,8 +39,6 @@ const handleEndDateChange = (date) => {
           dateFormat="dd/MM/yyyy"
         />
       </div>
-    </div>
-    </div>
     </div>
   );
 }

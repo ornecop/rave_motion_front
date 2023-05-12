@@ -63,4 +63,5 @@
     .step {
         @apply flex bg-gradient-to-r from-fuchsia-800 to-pink-500 border border-fuchsia-600 rounded-tl-full rounded-br-full;
     }
+  
 }

@@ -27,7 +27,7 @@ const Home = () => {
     <div className="w-full flex flex-col " >
         <div className="mt-20 md:max-h-screen">
         </div>
-        <div className="bg-secondary">
+        <div className="bg-secondary flex justify-self-center items-center">
             <CalendarFilter  startDate={startDate} endDate={endDate} setStartDate={setStartDate} setEndDate={setEndDate}/>
             <button className=" " onClick={()=>{HandllerSend(startDate, endDate)}}>Send</button>
         </div>
