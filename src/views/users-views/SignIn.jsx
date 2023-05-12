@@ -84,7 +84,6 @@ const SignIn = () => {
                                     type="text"
                                     placeholder="Tu email"
                                     name="email"
-                                    autoFocus
                                     autoComplete="false"
                                 />
                                 <ErrorMessage

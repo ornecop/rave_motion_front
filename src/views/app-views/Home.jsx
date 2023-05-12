@@ -1,8 +1,10 @@
 import React from "react";
 import CalendarFilter from "../../components/CalendarFilter";
 import { useState } from "react";
+
 import { useSelector, useDispatch } from "react-redux";
 import EventConteiner from '../../components/EventConteiner/EventConteiner'
+
 /* =======================================================
     VIEW Home - "/" - Vista principal de la página
 
@@ -13,9 +15,9 @@ import EventConteiner from '../../components/EventConteiner/EventConteiner'
     preguntas frecuentes
 */
 const Home = () => {
-
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
+
     const filtros = useSelector(state => state.event )
     const dispatch = useDispatch();
 
@@ -33,6 +35,7 @@ const Home = () => {
         </div>
         <EventConteiner/>
     </div>);
+
 };
 
 export default Home;

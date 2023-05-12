@@ -29,13 +29,16 @@ const Header = (props) => {
     };
 
     return (
-        <div className="bg-primary w-full fixed z-10 content-center top-0 ">
-        <div className="mt-6  mb-3 grid grid-cols-3">
-            <div className="flex justify-self-start items-center ml-4">
-                <img className="w-20" src={rave} alt="logo rave" />
 
+        <div className="grid grid-cols-3 w-screen h-16 fixed top-0 z-10 font-medium">
+
+
+            <div className="flex justify-self-start items-center ml-4">
+                <Link to="/">
+                    <img className="w-20" src={rave} alt="Rave Motion Logo" />
+                </Link>
             </div>
-            <div className="flex justify-self-center items-center ">
+            <div className="flex justify-self-center items-center">
                 <form onSubmit={handleSearchsubmit}>
                     <input
                         className="w-96 input"
@@ -46,7 +49,7 @@ const Header = (props) => {
                     />
                 </form>
             </div>
-            <div className="flex  justify-items-center justify-center items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder">
+            <div className="flex justify-items-center justify-center my-2 items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder">
                 <Link to="/" className="navLink">
                     Home
                 </Link>
@@ -61,7 +64,7 @@ const Header = (props) => {
                 </Link>
             </div>
         </div>
-    </div>
+
     );
 };
 

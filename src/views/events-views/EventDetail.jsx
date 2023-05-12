@@ -5,6 +5,7 @@ import {Link} from "react-router-dom"
 /* =======================================================
     VIEW EventDetail - "/event/:eventName" - Vista a la que redirección al tocar un evento
 */
+
 const EventDetail = () => {
     const event = {
         id: "6d3da6bd-2790-43ac-ba64-d4789cd9e992",
@@ -59,9 +60,12 @@ const EventDetail = () => {
                     <p className="mt-2 text-white flex justify-center items-center"><MdWatch /> Hour: {event.hour}</p>
                     <div className="mt-4 p-2 rounded">
                         <p className="text-white text-lg leading-relaxed">{event.description}</p>
+
                     </div>
                 </div>
             </div>
+
+
 
             {/* Lista de tickets */}
             <div className="mt-4 bg-secondary">
@@ -84,6 +88,7 @@ const EventDetail = () => {
                         </div>
                     </div>
                 ))}
+
             </div>
         </div>
     );
