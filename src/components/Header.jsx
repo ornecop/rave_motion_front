@@ -29,7 +29,8 @@ const Header = (props) => {
     };
 
     return (
-        <div className="grid grid-cols-3 w-full h-16 fixed top-0 z-10 content-center">
+    <div className="bg-primary w-full fixed z-10 content-center top-0 ">
+        <div className="mt-6  mb-3 grid grid-cols-3">
             <div className="flex justify-self-start items-center ml-4">
                 <Link to="/">Logo Here</Link>
             </div>
@@ -59,6 +60,7 @@ const Header = (props) => {
                 </Link>
             </div>
         </div>
+    </div>
     );
 };
 
