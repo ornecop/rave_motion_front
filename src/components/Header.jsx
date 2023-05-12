@@ -28,9 +28,9 @@ const Header = (props) => {
         getEventsByName(name.trim());
     };
 
-    return  (
-        <div className="bg-primary w-full fixed z-10 content-center top-0 shadow-[0_1px_20px_rgba(0,0,0,0.25)] shadow-slate-600">
-        <div className=" mt-6  mb-3 grid grid-cols-3">
+    return (
+        <div className="bg-primary w-full fixed z-10 content-center top-0 ">
+        <div className="mt-6  mb-3 grid grid-cols-3">
             <div className="flex justify-self-start items-center ml-4">
                 <img className="w-20" src={rave} alt="logo rave" />
 
@@ -61,7 +61,7 @@ const Header = (props) => {
                 </Link>
             </div>
         </div>
-        </div>
+    </div>
     );
 };
 

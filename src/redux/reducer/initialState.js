@@ -1,4 +1,5 @@
 const initialState = {
+    event:[],
     isLogin: false,
     userData: {},
     searchedEvents: [],
