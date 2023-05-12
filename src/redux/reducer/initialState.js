@@ -1,5 +1,4 @@
 const initialState = {
-
     // All events
     allEvents: [],
 
