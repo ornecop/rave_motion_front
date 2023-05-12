@@ -1,4 +1,5 @@
 const initialState = {
+
     // All events
     allEvents: [],
 
@@ -22,6 +23,7 @@ const initialState = {
     // Tickets states
 
     // User states
+
     isLogin: false,
     userData: {},
 

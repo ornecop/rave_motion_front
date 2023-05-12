@@ -85,4 +85,5 @@
     .floatBox {
         @apply flex flex-col py-8 px-4 bg-slate-900 rounded-xl border border-secondaryBorder;
     }
+
 }

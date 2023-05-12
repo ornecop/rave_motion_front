@@ -29,7 +29,10 @@ const Header = (props) => {
     };
 
     return (
+
         <div className="grid grid-cols-3 w-screen h-16 fixed top-0 z-10 font-medium">
+
+
             <div className="flex justify-self-start items-center ml-4">
                 <Link to="/">
                     <img className="w-20" src={rave} alt="Rave Motion Logo" />
@@ -61,6 +64,7 @@ const Header = (props) => {
                 </Link>
             </div>
         </div>
+
     );
 };
 

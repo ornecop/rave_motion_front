@@ -1,4 +1,5 @@
 // Events Actions Types
+
 import {
     EVENTS_SEARCH,
     EVENTS_SEARCH_REMOVE,
@@ -10,6 +11,7 @@ import {
 } from "../actions/eventsActions";
 
 import { DATE_FILTER, PRODUCER_FILTER } from "../actions/filtersActions";
+
 
 // Tickets Actions Types
 
@@ -24,6 +26,7 @@ import initialState from "./initialState";
 const rootReducer = (state = initialState, action) => {
     console.log(state);
     switch (action.type) {
+
         case EVENTS_GET_ALL:
             return {
                 ...state,

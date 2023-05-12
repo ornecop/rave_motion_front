@@ -1,115 +1,94 @@
 import React from "react";
-
+import { useSelector } from "react-redux";
+import { MdLocationOn, MdDateRange, MdWatch } from "react-icons/md";
+import {Link} from "react-router-dom"
 /* =======================================================
     VIEW EventDetail - "/event/:eventName" - Vista a la que redirección al tocar un evento
-
-
-    styles:
-    nombre, desc, imagen, time, hour, venue, produccer
-    tickets types c opción de compra y cantidad
-    
 */
 
-// Hooks
-import { useParams } from "react-router-dom";
-
-// React Icons
-import { AiOutlineCalendar } from "react-icons/ai";
-
-// Event
-const event = {
-    id: "5f366c0a-36c0-4f3f-ae4a-c21e7114fd53",
-    userId: "48ee4976-c98e-4fca-b4d9-7431ee7c923e",
-    name: "Megajodita2",
-    image: "https://res.cloudinary.com/dv8oxhsmk/image/upload/v1683816264/vpokk5tyxuxt6osewvho.jpg",
-    description:
-        "en la pera Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit adipisci eaque voluptas mollitia laudantium laborum accusamus saepe maiores possimus blanditiis temporibus, amet perspiciatis quos, iure earum esse ullam tempora beatae?    ",
-    date: "2024-09-20",
-    hour: "02:00:00",
-    venue: "Calle Falsa 456",
-    producer: "The Bow",
-    status: true,
-    createdAt: "2023-05-11T14:44:21.171Z",
-    updatedAt: "2023-05-11T14:44:21.171Z",
-    UserId: null,
-};
-
-const eventTickets = [
-    {
-        id: "dfa7a221-ea0c-4fc0-902c-1215c49cc5cc",
-        eventId: "dfcbe5f0-1132-40d5-85ec-43e18441e69a",
-        name: "Tanda 1",
-        description: "aaaa",
-        accessType: "vip",
-        price: 5000,
-        maxQuantity: 100,
-        sells: 100,
+const EventDetail = () => {
+    const event = {
+        id: "6d3da6bd-2790-43ac-ba64-d4789cd9e992",
+        userId: "4612c406-466f-4d47-83ef-251509e42395",
+        name: "Megajodita2",
+        image: "https://res.cloudinary.com/dv8oxhsmk/image/upload/v1683899507/krugv05mtxkt0psktvqm.jpg",
+        description: "en la pera",
+        date: "15-05-2023",
+        hour: "02:00:00",
+        venue: "Calle Falsa 456",
+        producer: "The Bow",
         status: true,
-    },
-    {
-        id: "dfa7a221-ea0c-4fc0-902c-1215c49cc5cc",
-        eventId: "dfcbe5f0-1132-40d5-85ec-43e18441e69a",
-        name: "Tanda 2",
-        description: "aaaa",
-        accessType: "vip",
-        price: 12000,
-        maxQuantity: 500,
-        sells: 480,
-        status: true,
-    },
-    {
-        id: "dfa7a221-ea0c-4fc0-902c-1215c49cc5cc",
-        eventId: "dfcbe5f0-1132-40d5-85ec-43e18441e69a",
-        name: "Tanda 3",
-        description: "aaaa",
-        accessType: "vip",
-        price: 20000,
-        maxQuantity: 3000,
-        sells: 0,
-        status: true,
-    },
-];
+        createdAt: "2023-05-12T13:51:45.083Z",
+        updatedAt: "2023-05-12T13:51:45.083Z",
+        UserId: null,
+        Tickets: [
+         {
+          id: "bd5ca531-520d-49f4-bcfa-dcd19b0f49a8",
+          eventId: "6d3da6bd-2790-43ac-ba64-d4789cd9e992",
+          name: "Tanda 3",
+          description: "aaaa",
+          accessType: "vip",
+          price: 200,
+          maxQuantity: 2,
+          sells: 0,
+          status: true
+         },
+         {
+          id: "51348888-707b-404d-99b5-101a4f3e33f8",
+          eventId: "6d3da6bd-2790-43ac-ba64-d4789cd9e992",
+          name: "Tanda 4",
+          description: "aaaa",
+          accessType: "vip",
+          price: 200,
+          maxQuantity: 3,
+          sells: 0,
+          status: true
+         }
+        ]
+       } 
 
-const EventDetail = (props) => {
-    const { eventId } = useParams();
-    return (
-        <div className="w-screen h-min-[calc(100vh_-_3rem)] ">
-            {/* Margin top */}
-            <div className="w-screen h-16"></div>
+       return (
+        <div className="floatBox max-w-md mx-auto rounded-xl shadow-md overflow-hidden md:max-w-2xl m-4 font-sans bg-secondary">
+            {/* Detalles del evento */}
+            <div className="p-4 bg-secondary text-center">
+                {event.image && <img className="w-full rounded" src={event.image} alt={event.name} />}
+                <div className="p-4">
+                    <div className="uppercase tracking-wide text-3xl font-semibold text-white">{event.name}</div>
+                    <p className="mt-2 text-white flex justify-center items-center"><MdLocationOn /> Venue: {event.venue}</p>
+                    <p className="mt-2 text-white flex justify-center items-center"> Producer: {event.producer}</p>
+                    <p className="mt-2 text-white flex justify-center items-center"><MdDateRange /> Date: {event.date}</p>
+                    <p className="mt-2 text-white flex justify-center items-center"><MdWatch /> Hour: {event.hour}</p>
+                    <div className="mt-4 p-2 rounded">
+                        <p className="text-white text-lg leading-relaxed">{event.description}</p>
 
-            {/* Screen Event Data */}
-            <div className="h-[calc(100vh_-_7rem)] flex items-center justify-between px-16 pt-16">
-                {/* Event Detail */}
-                <div className="w-full h-full floatBox m-16 gap-4">
-                    {/* Name & date */}
-                    <div className="w-5/6">
-                        <h1 className="text-5xl  font-medium">{event.name}</h1>
-                        <div className="flex flex-row items-center gap-2 text-fuchsia-600">
-                            <AiOutlineCalendar size="1.3rem" />
-                            <span className="font-semibold">
-                                {event.date} - {event.hour}
-                            </span>
-                        </div>
-                    </div>
-                    <div className="w-1/6">
-                        <span className="font-semibold">{event.producer}</span>{" "}
-                        - {event.venue}
-                    </div>
-                    {/* Description */}
-                    <div>
-                        <p>{event.description}</p>
                     </div>
                 </div>
             </div>
 
-            {/* Screen tickets data */}
-            <div className=" flex items-center justify-between px-16 pt-16">
-                {/* Right Event Detail */}
-                <div className="w-3/6 h-full bg-fuchsia-500">
-                    <h1 className="text-6xl">{event.name}</h1>
-                </div>
-                {/* Left Event Detail */}
-                <div className="w-3/6 h-full bg-secondary"></div>
+
+
+            {/* Lista de tickets */}
+            <div className="mt-4 bg-secondary">
+                <div className="px-4 pt-3 pb-2 text-white">Tickets</div>
+                {event.Tickets.map((ticket, index) => (
+                    <div key={index} className="p-4 mt-4 bg-primary rounded-xl">
+                        <div className="px-4 py-3">
+                            <div className="text-sm font-semibold text-white">Name: {ticket.name}</div>
+                            <p className="mt-1 text-sm text-white">Description: {ticket.description}</p>
+                            <p className="mt-1 text-sm text-white">Access Type: {ticket.accessType}</p>
+                            <p className="mt-1 text-sm text-white">Price: {ticket.price}</p>
+                            <p className="mt-1 text-sm text-white">Max Quantity: {ticket.maxQuantity}</p>
+                            <p className="mt-1 text-sm text-white">Sells: {ticket.sells}</p>
+                            <p className="mt-1 text-sm text-white">Description: {ticket.description}</p>
+                            <Link to="/cart">
+                            <button className="mt-3 bg-white hover:bg-gray-200 text-primary font-bold py-2 px-4 rounded" >
+                                Comprar
+                            </button>
+                            </Link>
+                        </div>
+                    </div>
+                ))}
+
             </div>
         </div>
     );
