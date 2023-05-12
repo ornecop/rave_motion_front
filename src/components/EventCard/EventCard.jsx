@@ -6,7 +6,6 @@ export const EventCard =({name, image, description, date, venue, hour })=>{
         onAddToCart();
       };
 
-<<<<<<< HEAD
     return ( 
         <div className="flex font-sans mx-3 my-2 ">
 
@@ -45,37 +44,6 @@ export const EventCard =({name, image, description, date, venue, hour })=>{
           </div>
     </Link>
     
-=======
-    return (
-           
-        <div className="flex font-sans mx-3 my-2 ">
-  <div className="flex-none w-48 relative ">
-    <img src={image} alt={name} className="absolute inset-0 w-full h-full object-cover rounded-l-lg " loading="lazy" />
-  </div>
-  <form className="flex-auto p-6  bg-white rounded-r-lg">
-    <div className="flex flex-wrap" >
-      <h1 className="flex-auto text-lg font-semibold text-slate-900">
-        {name}
-      </h1>
-      <div className="text-lg font-semibold text-slate-500">
-        $110.00
-      </div>
-      <div className="w-full flex-none text-sm font-medium text-slate-700 mt-2">
-        {description}
-      </div>
-    </div>
-    <div className="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200">
-      <div className="space-x-2 flex text-sm">
-
-          <div className="mr-6 h-9 rounded-lg flex items-center justify-center text-slate-700 peer-checked:font-semibold peer-checked:bg-slate-900 peer-checked:text-white">
-            📆 {date}
-          </div>
-          <div className=" h-9 rounded-lg flex items-center justify-center text-slate-700 peer-checked:font-semibold peer-checked:bg-slate-900 peer-checked:text-white">
-          ⌚{hour}
-          </div>
-      </div>
-    </div>
->>>>>>> ef567c758668443f2ba345ebc14660973950dd19
     <div className="flex space-x-4 mb-6 text-sm font-medium">
       <div className="flex-auto flex space-x-4">
         <button className="h-10 px-6 font-semibold rounded-md bg-black text-white hover:shadow-lg shadow-black/40 " type="submit">
@@ -95,7 +63,6 @@ export const EventCard =({name, image, description, date, venue, hour })=>{
      {venue}
     </p>
   </form>
-<<<<<<< HEAD
   
 </div>
         
@@ -104,11 +71,3 @@ export const EventCard =({name, image, description, date, venue, hour })=>{
 export default EventCard;
 
 
-=======
-</div>
-
-        
-    )
-}
-export default EventCard;
->>>>>>> ef567c758668443f2ba345ebc14660973950dd19

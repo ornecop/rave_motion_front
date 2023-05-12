@@ -28,15 +28,9 @@ const Header = (props) => {
         getEventsByName(name.trim());
     };
 
-<<<<<<< HEAD
     return (
-    <div className="bg-primary w-full fixed z-10 content-center top-0 ">
+        <div className="bg-primary w-full fixed z-10 content-center top-0 ">
         <div className="mt-6  mb-3 grid grid-cols-3">
-=======
-    return  (
-        <div className="bg-primary w-full fixed z-10 content-center top-0 shadow-[0_1px_20px_rgba(0,0,0,0.25)] shadow-slate-600">
-        <div className=" mt-6  mb-3 grid grid-cols-3">
->>>>>>> ef567c758668443f2ba345ebc14660973950dd19
             <div className="flex justify-self-start items-center ml-4">
                 <img className="w-20" src={rave} alt="logo rave" />
 
@@ -67,11 +61,7 @@ const Header = (props) => {
                 </Link>
             </div>
         </div>
-<<<<<<< HEAD
     </div>
-=======
-        </div>
->>>>>>> ef567c758668443f2ba345ebc14660973950dd19
     );
 };
 
