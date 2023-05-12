@@ -74,7 +74,7 @@ const EventCreate = () => {
             >
                 {({ isSubmitting, touched, errors, values }) => (
                     <div className="grid grid-cols-2 h-fit">
-                        <div className="flex place-content-center h-full">
+                        <div className="flex flex-col place-content-center h-full">
                             <div className="floatBox w-11/12 my-6 flex flex-col h-full">
                                 <Form className="">
                                     {/* Name */}
@@ -297,7 +297,7 @@ const EventCreate = () => {
                                 </Form>
                             </div>
                         </div>
-                        <div className="flex flex-col justify-content-center place-content-center h-full">
+                        <div className="flex flex-col justify-content-center place-content-center">
                             <div className="floatBox w-11/12 my-6 flex flex-col">
                                 <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
                                     <p className="mx-4 mb-0 text-center font-semibold">
