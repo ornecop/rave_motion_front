@@ -20,7 +20,9 @@ import EventConteiner from "../../components/EventConteiner/EventConteiner";
 
 // Hooks
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+
+// React Redux
+import { connect } from "react-redux";
 
 const Home = () => {
     // Carousel
@@ -40,20 +42,18 @@ const Home = () => {
     }, []);
 
     // Filtro por fecha
-    const handleStartDateChange = (date) => {
-        setStartDate(date);
+    const [filterByDate, setFilterByDate] = useState({
+        startDate: null,
+        endDate: null,
+    });
+
+    const handleFilterByDateChange = (event) => {
+        console.log(event.target.value);
+        console.log(event.target.name);
     };
 
-    const handleEndDateChange = (date) => {
-        setEndDate(date);
-    };
-
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-
-    const dispatch = useDispatch();
-    const HandllerSend = (startDate, endDate) => {
-        dispatch(""); //! dispatch de la action
+    const submitFilterByDate = (filterByDate) => {
+        alert("filter by date");
     };
 
     return (
@@ -79,35 +79,37 @@ const Home = () => {
             </div>
 
             {/* NavBar (Filters - Orders - info resultados) */}
-            <div className="flex flex-row w-screen h-16 font-medium ">
-                <div className="flex flex-row justify-items-center self-start justify-center my-2 items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder">
-                    <label htmlFor="startDate">Desde:</label>
-                    <input
-                        type="date"
-                        className="input w-48"
-                        name="startDate"
-                        onChange={handleStartDateChange}
-                        value={startDate}
-                    />
-                    <label htmlFor="endDate">Hasta:</label>
-                    <input
-                        type="date"
-                        className="input w-48"
-                        name="endDate"
-                        onChange={handleEndDateChange}
-                        value={endDate}
-                    />
-                    <button
-                        className="btnPrimary h-8 p-0 w-24"
-                        onClick={() => {
-                            HandllerSend(startDate, endDate);
-                        }}
-                    >
-                        Filtrar
-                    </button>
+            <div className="grid grid-cols-2 w-screen h-16">
+                <div className="flex w-fit justify-self-start my-2 items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder ml-4">
+                    <div className="flex flex-row gap-2 items-center">
+                        <label htmlFor="startDate">Desde:</label>
+                        <input
+                            type="date"
+                            className="input"
+                            name="startDate"
+                            onChange={handleFilterByDateChange}
+                            value={filterByDate.startDate}
+                        />
+                        <label htmlFor="endDate">Hasta:</label>
+                        <input
+                            type="date"
+                            className="input"
+                            name="endDate"
+                            onChange={handleFilterByDateChange}
+                            value={filterByDate.endDate}
+                        />
+                        <button
+                            className="btnPrimary h-8 py-0 px-4 w-fit"
+                            onClick={submitFilterByDate}
+                        >
+                            Filtrar
+                        </button>
+                    </div>
                 </div>
-                <div className="flex flex-row justify-items-center self-end justify-center my-2 items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder">
-                    Pagina 1/X - 392 resultados
+
+                {/* Info paginado */}
+                <div className="flex w-fit justify-self-end my-2 items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder mr-4">
+                    200 resultados | Página 1/5
                 </div>
             </div>
 
@@ -116,4 +118,11 @@ const Home = () => {
     );
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+    return {};
+};
+const mapDispatchToProps = (dispatch) => {
+    return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
