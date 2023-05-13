@@ -6,9 +6,9 @@ export const GET_EVENT = "GET_EVENT"
 
 // ============= Events Actions Creators
 export const getEventsByName = (name) => {
-    return {
-        type: EVENTS_SEARCH,
-        payload: name,
+    return async function(dispatch){
+        const response = await axios.get(`http://localhost:3001/events/name?name=${name}`)
+        dispatch({type: EVENTS_SEARCH, payload: response.data})
     };
 };
 
