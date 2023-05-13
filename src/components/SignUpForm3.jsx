@@ -8,8 +8,22 @@
 // Formik, Yup
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import {useNavigate} from "react-router-dom"
-import axios from "axios"
+
+// Hooks
+import { useNavigate } from "react-router-dom";
+
+// React Redux
+import { connect } from "react-redux";
+
+// Actions
+import {
+    setSignUserError,
+    removeSignUserError,
+    setSignUpStep,
+} from "../redux/actions/usersActions";
+
+// Axios
+import axios from "axios";
 
 // Validation schemas
 const validationSchema = Yup.object().shape({
@@ -36,18 +50,20 @@ const validationSchema = Yup.object().shape({
 });
 
 const SignUpForm3 = ({ userData }) => {
-    // App login
     const initialValues = {
         birthDay: "",
         street: "",
         number: "",
         city: "",
     };
-const navigate= useNavigate()
-    const  handleSubmit  = async (values, { setSubmitting, resetForm }) => {
-        
+
+    // SignUp
+    const navigate = useNavigate();
+
+    const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         const user = {
             ...userData,
+            mail: userData.email,
             birthDay: values.birthDay,
             adress: {
                 street: values.street,
@@ -55,14 +71,22 @@ const navigate= useNavigate()
                 city: values.city,
             },
         };
-        try{
-       await  axios.post(`${import.meta.env.VITE_BACKEND_URL}/users/signup`,user)
-       navigate("/login")
+        try {
+            await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/users/signup`,
+                user
+            );
+            removeSignUserError();
+            setSignUpStep(1);
+            navigate("/signin");
+        } catch (error) {
+            setSignUserError(error.response.data.error);
+            setSignUpStep(1);
+            navigate("/signup");
         }
-        catch (error) { console.log(error.message)}
+
         setSubmitting(false);
         resetForm();
-
     };
 
     return (
@@ -214,4 +238,12 @@ const navigate= useNavigate()
     );
 };
 
-export default SignUpForm3;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setSignUserError: (error) => dispatch(setSignUserError(error)),
+        removeSignUserError: () => dispatch(removeSignUserError()),
+        setSignUpStep: (step) => dispatch(setSignUpStep(step)),
+    };
+};
+
+export default connect(null, mapDispatchToProps)(SignUpForm3);

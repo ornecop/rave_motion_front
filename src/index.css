@@ -30,7 +30,7 @@
     }
 
     .inputError {
-        @apply h-8 px-4 py-4 w-full text-black border border-red-500 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-red-700 focus:border-transparent;
+        @apply h-8 px-4 py-4 w-full text-black  border border-red-500 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-red-700 focus:border-transparent;
     }
 
     .inputSuccess {
@@ -85,5 +85,4 @@
     .floatBox {
         @apply flex flex-col py-8 px-4 bg-slate-900 rounded-xl border border-secondaryBorder;
     }
-
 }
