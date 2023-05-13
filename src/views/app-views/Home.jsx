@@ -38,9 +38,11 @@ const Home = () => {
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
 
+
     useEffect(() => {
         !Events.length && dispatch(getAllEvents());
     }, []);
+
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -70,8 +72,8 @@ const Home = () => {
         }
     };
 
-    const submitFilterByDate = (filterByDate) => {
-        //dispatch(dateFilter(filterByDate))
+    const submitFilterByDate = () => {
+        dispatch(dateFilter(filterByDate))
     };
 
     // I M P O R T A N T E !!
@@ -145,18 +147,15 @@ const Home = () => {
                     <select
                         className="inputSelect w-fit"
                         onChange={handleFilterByProducer}
-                        value={filterByProducer}
-                    >
-                        <option value="Todas las productoras">
-                            Todas las productoras
-                        </option>
-                        {setProducer(Events).map((c) => {
-                            return (
-                                <option id={c} value={c}>
-                                    {c}
-                                </option>
-                            );
-                        })}
+
+                        value={filterByProducer}>
+                        <option value=""disabled selected hidden>Busqueda por productora</option>
+                        <option value="All">Todas las productoras</option>
+                        {setProducer(Events).map(c => {
+                    return(
+                        <option id={c} value={c}>{c}</option>
+                    )})}
+
                     </select>
                 </div>
 
