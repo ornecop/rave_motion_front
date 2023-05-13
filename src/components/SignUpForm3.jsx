@@ -1,7 +1,7 @@
 /* =======================================================
     Form 3 on SignUp view
 
-    Fields: birthDay - adress
+    Fields: birthDay - address
     
 */
 
@@ -49,7 +49,12 @@ const validationSchema = Yup.object().shape({
         .required("Este campo es requerido."),
 });
 
-const SignUpForm3 = ({ userData }) => {
+const SignUpForm3 = ({
+    userData,
+    setSignUpStep,
+    setSignUserError,
+    removeSignUserError,
+}) => {
     const initialValues = {
         birthDay: "",
         street: "",
@@ -63,9 +68,9 @@ const SignUpForm3 = ({ userData }) => {
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         const user = {
             ...userData,
-            mail: userData.email,
+            mail: userData.mail,
             birthDay: values.birthDay,
-            adress: {
+            address: {
                 street: values.street,
                 number: values.number,
                 city: values.city,
@@ -77,14 +82,13 @@ const SignUpForm3 = ({ userData }) => {
                 user
             );
             removeSignUserError();
-            setSignUpStep(1);
             navigate("/signin");
         } catch (error) {
             setSignUserError(error.response.data.error);
-            setSignUpStep(1);
-            navigate("/signup");
+            console.log(error);
         }
 
+        setSignUpStep(1);
         setSubmitting(false);
         resetForm();
     };
