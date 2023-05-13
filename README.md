@@ -3,7 +3,8 @@
 ## Rutas del modelo Event
 
 ### Create Event
-````
+
+```
 POST
 http://localhost:3001/events/eventcreate
 
@@ -34,14 +35,15 @@ recived:
 	"createdAt": "2023-05-11T14:44:21.171Z",
 	"UserId": null
 }
-````
+```
 
 ### Get Event By Id
-````
+
+```
 GET
 http://localhost:3001/events/:id
 
-expected: 
+expected:
 id del evento por params
 
 recived:
@@ -60,10 +62,11 @@ recived:
 	"updatedAt": "2023-05-11T14:44:21.171Z",
 	"UserId": null
 }
-````
+```
 
 ### Get Event By Name
-````
+
+```
 GET
 http://localhost:3001/events/name?name=...
 
@@ -90,10 +93,11 @@ recived:
 ]
 puede ser mas de un objeto adentro del array
 
-````
+```
 
 ### Get All Events
-````
+
+```
 GET
 http://localhost:3001/events
 
@@ -118,10 +122,11 @@ recived:
 	}
 ]
 
-````
+```
 
 ### Put Event
-````
+
+```
 PUT
 http://localhost:3001/events/:id
 
@@ -142,12 +147,13 @@ recived:
 {
 	"message": "Evento actualizado correctamente."
 }
-````
+```
 
 ## Rutas del modelo Ticket
 
 ### Create Tickets
-````
+
+```
 POST
 http://localhost:3001/tickets/createtickets
 
@@ -202,10 +208,11 @@ recived:
 ]
 
 
-````
+```
 
 ### Get Tickets
-````
+
+```
 GET
 http://localhost:3001/tickets/
 
@@ -226,10 +233,11 @@ recived:
 	}
 ]
 puede ser mas de un objeto adentro del array
-````
+```
 
 ### Get Tickets By Id del Event
-````
+
+```
 GET
 http://localhost:3001/tickets/ticketsByEvent/:eventId
 
@@ -251,12 +259,13 @@ recived:
 	}
 ]
 array con todas las tandas de tickets del evento
-````
+```
 
 ## Rutas del modelo User
 
 ### Create User
-````
+
+```
 POST
 http://localhost:3001/users/singUp
 
@@ -270,7 +279,7 @@ JSON con la info por body
 	"documentType":"DNI",
 	"document":"12548548",
   "birthDay":"2000-04-03",
-	"adress":{
+	"address":{
 		"street":"Calle Falsa",
 		"number":123,
 		"city":"Springfield"
@@ -289,7 +298,7 @@ recived:
 	"documentType": "DNI",
 	"document": "12548548",
 	"birthDay": "2000-04-03T00:00:00.000Z",
-	"adress": {
+	"address": {
 		"street": "Calle Falsa",
 		"number": 123,
 		"city": "Springfield"
@@ -298,10 +307,11 @@ recived:
 	"createdAt": "2023-05-11T15:15:21.628Z"
 }
 
-````
+```
 
 ### Get user
-````
+
+```
 GET
 http://localhost:3001/users/Loging
 
@@ -317,10 +327,11 @@ recived:{
 	"message": "Bienvenido Denis"
     }
 }
-````
+```
 
 ### Put User
-````
+
+```
 PUT
 http://localhost:3001/users/edit
 
@@ -334,7 +345,7 @@ JSON por body
 	"documentType":"DNI",
 	"document":"12548548",
   "birthDay":"2000-04-03",
-	"adress":{
+	"address":{
 		"street":"Calle Falsaaaaaaa",
 		"number":123,
 		"city":"Springfield"
@@ -352,7 +363,7 @@ recived:
 	"documentType": "DNI",
 	"document": "12548548",
 	"birthDay": "2000-04-03T00:00:00.000Z",
-	"adress": {
+	"address": {
 		"street": "Calle Falsaaaaaaa",
 		"number": 123,
 		"city": "Springfield"
@@ -362,12 +373,13 @@ recived:
 	"createdAt": "2023-05-11T15:15:21.628Z",
 	"updatedAt": "2023-05-11T15:23:29.777Z"
 }
-````
+```
 
 ## Rutas del modelo TicketSold
 
 ### Crear Tickets vendidos para usuario
-````
+
+```
 POST
 http://localhost:3001/userTickets/newUserTickets
 
@@ -402,10 +414,11 @@ recived:
 	}
 ]
 
-````
+```
 
 ### Get TicketInfo by Id
-````
+
+```
 GET
 http://localhost:3001/userTickets/ticketsInfo/:id
 
@@ -434,10 +447,11 @@ recived:
 		"name": "MegaJoda"
 	}
 }
-````
+```
 
 ### Get ticketsSold By User
-````
+
+```
 GET
 http://localhost:3001/userTickets/ticketsByUser/:userId
 
@@ -470,10 +484,11 @@ recived:
 ]
 array con todos los tickets comprados(un objeto por cada uno) por usuario
 
-````
+```
 
 ### Get tickets sold By tanda
-````
+
+```
 GET
 http://localhost:3001/userTickets/ticketsTanda/:ticketId
 
@@ -502,10 +517,11 @@ recived:
 	}
 ]
 cada objeto adentro del array es un ticket vendido de la tanda
-````
+```
 
 ### Get tickets sold By Event
-````
+
+```
 GET
 http://localhost:3001/userTickets/eventUserTickets/:eventId
 
@@ -532,4 +548,4 @@ recived:
 		}
 	}
 ]
-````
+```

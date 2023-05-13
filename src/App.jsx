@@ -16,6 +16,7 @@ import NotFound from "./views/app-views/NotFound";
 // Events views
 import EventCart from "./views/events-views/EventCart";
 import EventCreate from "./views/events-views/EventCreate";
+import EventTicketsCreate from "./views/events-views/EventTicketsCreate";
 import EventDetail from "./views/events-views/EventDetail";
 
 // User views
@@ -42,8 +43,14 @@ export const App = () => {
                 <Route path="/search" element={<SearchResults />} />
 
                 {/* Events views */}
-                <Route path="/event/:id" element={<EventDetail />} />
-                <Route path="/create" element={<EventCreate />} />
+
+                <Route path="/event/:eventId" element={<EventDetail />} />
+                <Route exact path="/create" element={<EventCreate />} />
+                <Route
+                    path="/create/tickets/:eventId/:eventName"
+                    element={<EventTicketsCreate />}
+                />
+
                 <Route path="/cart" element={<EventCart />} />
 
                 {/* User views */}

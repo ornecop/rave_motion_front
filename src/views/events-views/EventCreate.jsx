@@ -7,11 +7,10 @@ import React from "react";
     * Si es evento para modificar carga los values del form desde props
 
     styles:
-    form con preview (arriba datos del event abajo datos de los tickets) 
+    form con preview  
 */
 
 // Assets
-import createImage from "../../assets/1.webp";
 import defaultImage from "../../assets/picture.png";
 
 // React icons
@@ -21,6 +20,9 @@ import { ImLocation2 } from "react-icons/im";
 // Formik, Yup
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+
+// React router dom
+import { useNavigate } from "react-router-dom";
 
 // Validation schemas
 const validationSchema = Yup.object().shape({
@@ -46,7 +48,10 @@ const validationSchema = Yup.object().shape({
     description: Yup.string().required("Este campo es requerido."),
 });
 
+const createImage = "https://wallpapercave.com/wp/wp12143405.jpg";
+
 const EventCreate = () => {
+    // Initial values
     const initialValues = {
         name: "",
         image: "",
@@ -57,9 +62,23 @@ const EventCreate = () => {
         description: "",
     };
 
+    // Handle Submit
+    const navigate = useNavigate();
+    const handleSubmitEventCreate = async (
+        values,
+        { setSubmitting, resetForm }
+    ) => {
+        console.log(values);
+
+        const eventId = "dfdjhjkfsd";
+        navigate(`/create/tickets/${eventId}/${values.name}`);
+        setSubmitting(false);
+        resetForm();
+    };
+
     return (
         <div className="w-screen">
-            <div className="h-2/5 relative overflow-hidden">
+            <div className="h-96 relative overflow-hidden">
                 <div
                     className="h-full w-full absolute top-0 left-0 bg-cover bg-bottom bg-no-repeat "
                     style={{
@@ -69,14 +88,17 @@ const EventCreate = () => {
             </div>
             <Formik
                 initialValues={initialValues}
-                onSubmit={() => {}}
+                onSubmit={handleSubmitEventCreate}
                 validationSchema={validationSchema}
             >
                 {({ isSubmitting, touched, errors, values }) => (
                     <div className="grid grid-cols-2 h-fit">
                         <div className="flex flex-col place-content-center h-full">
-                            <div className="floatBox w-11/12 my-6 flex flex-col h-full">
+                            <div className="floatBox my-6 mx-6 flex flex-col h-full justify-center">
                                 <Form className="">
+                                    <h2 className="text-4xl text-center mb-8">
+                                        Datos del evento:
+                                    </h2>
                                     {/* Name */}
                                     <div className="flex flex-col my-2">
                                         <label
@@ -285,27 +307,27 @@ const EventCreate = () => {
                                     </div>
 
                                     {/* Submit */}
-                                    <div className="flex flex-col mt-4">
+                                    <div className="flex flex-col mt-6">
                                         <button
                                             type="submit"
                                             className="btnPrimary"
                                             disabled={isSubmitting}
                                         >
-                                            Crear evento
+                                            Ir a crear tickets para el evento
                                         </button>
                                     </div>
                                 </Form>
                             </div>
                         </div>
                         <div className="flex flex-col justify-content-center place-content-center">
-                            <div className="floatBox w-11/12 my-6 flex flex-col">
+                            <div className="floatBox my-6 mx-6 flex flex-col justify-center">
                                 <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
                                     <p className="mx-4 mb-0 text-center font-semibold">
                                         (Preview)
                                     </p>
                                 </div>
-                                <div className="h-32">
-                                    <h2 className="text-4xl text-center font-semibold">
+                                <div className="h-32 flex items-center justify-center ">
+                                    <h2 className="text-4xl text-center align-center font-semibold">
                                         {values.name
                                             ? values.name
                                             : "Nombre de tu evento"}
@@ -347,12 +369,10 @@ const EventCreate = () => {
                                         - {values.hour ? values.hour : "23:00"}
                                     </span>
                                 </div>
-                                <div className="flex flex-row justify-center items-center gap-2 mt-4">
-                                    <span>
-                                        {values.description
-                                            ? values.description
-                                            : "Descripción de tu evento."}
-                                    </span>
+                                <div className="flex flex-row justify-center items-center gap-2 mt-4 w-full min-h-fit overflow-y-scroll">
+                                    {values.description
+                                        ? values.description
+                                        : "Descripción de tu evento."}
                                 </div>
                             </div>
                         </div>
