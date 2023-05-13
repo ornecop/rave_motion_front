@@ -24,7 +24,7 @@ export const getAllEvents = () => {
 export const getEventsByName = (name) => {
     return async function (dispatch) {
         const response = await axios.get(
-            `${BACKEND_URL}/events/name?name=${name}`
+            `http://localhost:3001/events/name?name=${name}`
         );
         const eventsByName = response.data;
         dispatch({ type: EVENTS_SEARCH, payload: eventsByName });
