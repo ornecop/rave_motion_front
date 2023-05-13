@@ -8,6 +8,8 @@
 // Formik, Yup
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import {useNavigate} from "react-router-dom"
+import axios from "axios"
 
 // Validation schemas
 const validationSchema = Yup.object().shape({
@@ -41,8 +43,9 @@ const SignUpForm3 = ({ userData }) => {
         number: "",
         city: "",
     };
-
-    const handleSubmit = (values, { setSubmitting, resetForm }) => {
+const navigate= useNavigate()
+    const  handleSubmit  = async (values, { setSubmitting, resetForm }) => {
+        
         const user = {
             ...userData,
             birthDay: values.birthDay,
@@ -52,11 +55,14 @@ const SignUpForm3 = ({ userData }) => {
                 city: values.city,
             },
         };
-
-        console.log(user);
-
+        try{
+       await  axios.post(`${import.meta.env.VITE_BACKEND_URL}/users/signup`,user)
+       navigate("/login")
+        }
+        catch (error) { console.log(error.message)}
         setSubmitting(false);
         resetForm();
+
     };
 
     return (
