@@ -39,7 +39,6 @@ const Home = () => {
 
     useEffect(()=>{
         dispatch(getAllEvents())
-        console.log(allEvents);
     },[])
 
     useEffect(() => {
@@ -70,8 +69,8 @@ const Home = () => {
         }
     };
 
-    const submitFilterByDate = (filterByDate) => {
-        //dispatch(dateFilter(filterByDate))
+    const submitFilterByDate = () => {
+        dispatch(dateFilter(filterByDate))
     };
 
     // I M P O R T A N T E !!
@@ -146,7 +145,8 @@ const Home = () => {
                         className="inputSelect w-fit"
                         onChange={handleFilterByProducer}
                         value={filterByProducer}>
-                        <option value="Todas las productoras">Todas las productoras</option>
+                        <option value=""disabled selected hidden>Busqueda por productora</option>
+                        <option value="All">Todas las productoras</option>
                         {setProducer(Events).map(c => {
                     return(
                         <option id={c} value={c}>{c}</option>

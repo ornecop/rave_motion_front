@@ -17,9 +17,9 @@ export const producerFilter=(producer)=>{
     }
 };
 
-export const dateFilter=(dates)=>{
+export const dateFilter=({startDate,endDate})=>{
     return async(dispatch)=>{
-        const response=await axios.get(`http://localhost:3001/events/date`,dates);
+        const response=await axios.get(`http://localhost:3001/events/date?startDate=${startDate}&endDate=${endDate}`);
         const filteredEvents=response.data;
         dispatch({
             type:DATE_FILTER,
