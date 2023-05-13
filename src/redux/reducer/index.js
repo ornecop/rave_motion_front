@@ -13,7 +13,10 @@ import {
 import { DATE_FILTER, PRODUCER_FILTER } from "../actions/filtersActions";
 
 // Tickets Actions Types
-
+import {TICKETS_GET_ALL,
+ TICKETS_MODIFY,
+TICKET_EVENT_GET,
+TICKETS_CREATE} from"../actions/ticketsActions";
 // User Actions Types
 import {
     USERS_SET_SIGN_ERROR,
@@ -79,6 +82,27 @@ const rootReducer = (state = initialState, action) => {
 
         case USERS_SIGN_UP_STEP_SET:
             return { ...state, signUpStep: action.payload };
+      
+        //Tickets
+        case TICKETS_GET_ALL:
+            return {
+                ...state,
+                allTickets: action.payload
+            };
+        case TICKET_EVENT_GET:
+                return {
+                ...state,
+                allTicketsByEvents:action.payload    
+            };
+        case TICKETS_CREATE:
+                return {
+                    ...state,
+                };
+        case TICKETS_MODIFY:
+                return {
+                    ...state,
+                };
+
         //* ----------
         default:
             return { ...state };
