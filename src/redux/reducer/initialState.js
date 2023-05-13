@@ -25,6 +25,8 @@ const initialState = {
 
     isLogin: false,
     userData: {},
+    userSignError: "",
+    signUpStep: 1,
 
     // User tickets states
 
