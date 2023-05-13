@@ -20,7 +20,8 @@ const initialState = {
     eventDetail: {},
 
     // Tickets states
-
+    allTickets:[],
+    allTicketsByEvents:[],
     // User states
 
     isLogin: false,
