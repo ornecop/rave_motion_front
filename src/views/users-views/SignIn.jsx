@@ -45,7 +45,6 @@ const SignIn = () => {
     };
 
     const handleSubmit = (values, { setSubmitting }) => {
-        console.log(values);
         setSubmitting(false);
     };
 

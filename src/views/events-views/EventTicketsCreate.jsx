@@ -10,17 +10,16 @@ import React, { useState } from "react";
     form 
 */
 
-// Assets
-import defaultImage from "../../assets/picture.png";
-
-// React icons
+// Hooks
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 // Formik, Yup
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-// Hooks
-import { useParams } from "react-router-dom";
+// Axios
+import axios from "axios";
 
 // Validation schemas
 const validationSchema = Yup.object().shape({
@@ -49,23 +48,7 @@ const EventCreate = () => {
     const { eventId, eventName } = useParams();
 
     // Tandas
-    const [ticketsArray, setTicketsArray] = useState([
-        {
-            name: "Early Birds",
-            description: "Acceso general - tanda early - Mandarine Park",
-            accessType: "General",
-            price: "11000",
-            maxQuantity: "500",
-        },
-        {
-            name: "Tanda 1",
-            description: "Tanda 1 - Mandarine Park",
-            accessType: "General",
-            price: "12500",
-            maxQuantity: "1000",
-        },
-    ]);
-    const [tandas, setTandas] = useState(3);
+    const [ticketsArray, setTicketsArray] = useState([]);
 
     const initialValues = {
         name: "",
@@ -79,10 +62,28 @@ const EventCreate = () => {
         values,
         { setSubmitting, resetForm }
     ) => {
-        setTicketsArray([...ticketsArray, values]);
-        setTandas((prev) => prev + 1);
+        setTicketsArray([...ticketsArray, { ...values, eventId: eventId }]);
         setSubmitting(false);
         resetForm();
+    };
+
+    const navigate = useNavigate();
+    const handleCreateTickets = async () => {
+        if (!ticketsArray.length) {
+            return;
+        }
+
+        const eventTickets = { tickets: [...ticketsArray] };
+        console.log(eventTickets);
+        try {
+            const response = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/tickets/createtickets`,
+                eventTickets
+            );
+            navigate(`/event/${eventId}`);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -109,7 +110,7 @@ const EventCreate = () => {
                                         Tickets para {eventName}
                                     </h2>
                                     <h5 className="text-xl text-center mb-8">
-                                        Tandas creadas: {tandas}
+                                        Tandas creadas: {ticketsArray.length}
                                     </h5>
                                     <h6 className="text-center mb-8">
                                         event Id: {eventId}
@@ -334,7 +335,7 @@ const EventCreate = () => {
                                                             scope="row"
                                                             className="px-6 py-4 font-medium whitespace-nowrap"
                                                         >
-                                                            {index}
+                                                            {index + 1}
                                                         </td>
                                                         <td className="px-6 py-4">
                                                             {tanda.name}
@@ -359,7 +360,8 @@ const EventCreate = () => {
                                 <button
                                     type="submit"
                                     className="btnPrimary"
-                                    disabled={ticketsArray.length}
+                                    disabled={!ticketsArray.length}
+                                    onClick={handleCreateTickets}
                                 >
                                     Agregar tandas al evento
                                 </button>

@@ -44,7 +44,7 @@ export const App = () => {
 
                 {/* Events views */}
 
-                <Route path="/event/:eventId" element={<EventDetail />} />
+                <Route path="/event/:id" element={<EventDetail />} />
                 <Route exact path="/create" element={<EventCreate />} />
                 <Route
                     path="/create/tickets/:eventId/:eventName"
