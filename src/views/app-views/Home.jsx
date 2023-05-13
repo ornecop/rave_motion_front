@@ -69,8 +69,10 @@ const Home = () => {
     const submitFilterByDate = (filterByDate) => {
         //dispatch(dateFilter(filterByDate))
     };
-    // ORDENAMIENTOS 
-    //dispatch(alphabeticOrder("Asc"))  --> despachar el string "Asc" y el string "Desc"
+    // I M P O R T A N T E !!
+    // ORDENAMIENTOS :)
+
+    //dispatch(alphabeticOrder("Asc"))  --> despachar el string "Asc" O el string "Desc" PARA EL ORDENAMIENTO ENSU RESPECTIVO HANDLER
     //dispatch(alphabeticOrder("Desc"))
 
     // Filtro por productora
