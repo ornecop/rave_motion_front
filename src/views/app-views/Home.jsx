@@ -15,129 +15,6 @@ const images = [
     "https://wallpapercave.com/wp/wp1889488.jpg",
 ];
 
-const events = [
-    {
-        name: "Megajodita2",
-        image: "https://www.serargentino.com/public/images/2020/12/16093491340-Joda-773x458.jpg",
-        description: "en la pera",
-        date: "2024-09-20",
-        hour: "02:00:00",
-        venue: "Calle Falsa 456",
-        producer: "The Bow",
-        userId: "33bf78c3-51b7-41fc-a5b3-a85b7161ccc4",
-    },
-    {
-        name: "juelodita2",
-        image: "https://www.serargentino.com/public/images/2020/12/16093491340-Joda-773x458.jpg",
-        description: "en Venecolandia",
-        date: "2024-04-10",
-        hour: "03:00:00",
-        venue: "Calle Falsa 556",
-        producer: "The killers",
-        userId: "33bf56c3-55b7-413c-a5b3-a85b7161ccc4",
-    },
-    {
-        name: "La Muñeca",
-        image: "https://www.serargentino.com/public/images/2020/12/16093491340-Joda-773x458.jpg",
-        description: "en Colombiche",
-        date: "2025-04-10",
-        hour: "05:00:00",
-        venue: "Calle Falsa 556",
-        producer: "The Ampa",
-        userId: "33bf56c3-55b7-413c-a5b3-a85b7452ccc4",
-    },
-    {
-        name: "El Rumbon",
-        image: "https://www.serargentino.com/public/images/2020/12/16093491340-Joda-773x458.jpg",
-        description: "el desmadre",
-        date: "2025-04-16",
-        hour: "15:00:00",
-        venue: "Calle tu mama 556",
-        producer: "The Ampa",
-        userId: "42jf56c3-35b7-413c-a5b3-a85b7452ccc4",
-    },
-    {
-        name: "Megajodita2",
-        image: "https://www.serargentino.com/public/images/2020/12/16093491340-Joda-773x458.jpg",
-        description: "en la pera",
-        date: "2024-09-20",
-        hour: "02:00:00",
-        venue: "Calle Falsa 456",
-        producer: "The Bow",
-        userId: "33bf78c3-51b7-41fc-a5b3-a85b7161ccc4",
-    },
-    {
-        name: "juelodita2",
-        image: "https://www.serargentino.com/public/images/2020/12/16093491340-Joda-773x458.jpg",
-        description: "en Venecolandia",
-        date: "2024-04-10",
-        hour: "03:00:00",
-        venue: "Calle Falsa 556",
-        producer: "The killers",
-        userId: "33bf56c3-55b7-413c-a5b3-a85b7161ccc4",
-    },
-    {
-        name: "La Muñeca",
-        image: "https://www.serargentino.com/public/images/2020/12/16093491340-Joda-773x458.jpg",
-        description: "en Colombiche",
-        date: "2025-04-10",
-        hour: "05:00:00",
-        venue: "Calle Falsa 556",
-        producer: "The Ampa",
-        userId: "33bf56c3-55b7-413c-a5b3-a85b7452ccc4",
-    },
-    {
-        name: "El Rumbon",
-        image: "https://www.serargentino.com/public/images/2020/12/16093491340-Joda-773x458.jpg",
-        description: "el desmadre",
-        date: "2025-04-16",
-        hour: "15:00:00",
-        venue: "Calle tu mama 556",
-        producer: "The Ampa",
-        userId: "42jf56c3-35b7-413c-a5b3-a85b7452ccc4",
-    },
-    {
-        name: "Megajodita2",
-        image: "https://www.serargentino.com/public/images/2020/12/16093491340-Joda-773x458.jpg",
-        description: "en la pera",
-        date: "2024-09-20",
-        hour: "02:00:00",
-        venue: "Calle Falsa 456",
-        producer: "The Bow",
-        userId: "33bf78c3-51b7-41fc-a5b3-a85b7161ccc4",
-    },
-    {
-        name: "juelodita2",
-        image: "https://www.serargentino.com/public/images/2020/12/16093491340-Joda-773x458.jpg",
-        description: "en Venecolandia",
-        date: "2024-04-10",
-        hour: "03:00:00",
-        venue: "Calle Falsa 556",
-        producer: "The killers",
-        userId: "33bf56c3-55b7-413c-a5b3-a85b7161ccc4",
-    },
-    {
-        name: "La Muñeca",
-        image: "https://www.serargentino.com/public/images/2020/12/16093491340-Joda-773x458.jpg",
-        description: "en Colombiche",
-        date: "2025-04-10",
-        hour: "05:00:00",
-        venue: "Calle Falsa 556",
-        producer: "The Ampa",
-        userId: "33bf56c3-55b7-413c-a5b3-a85b7452ccc4",
-    },
-    {
-        name: "El Rumbon",
-        image: "https://www.serargentino.com/public/images/2020/12/16093491340-Joda-773x458.jpg",
-        description: "el desmadre",
-        date: "2025-04-16",
-        hour: "15:00:00",
-        venue: "Calle tu mama 556",
-        producer: "The Ampa",
-        userId: "42jf56c3-35b7-413c-a5b3-a85b7452ccc4",
-    },
-];
-
 // Components
 import EventContainer from "../../components/EventContainer";
 
@@ -145,11 +22,20 @@ import EventContainer from "../../components/EventContainer";
 import { useState, useEffect } from "react";
 
 // React Redux
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { dateFilter } from "../../redux/actions/filtersActions";
+import { getAllEvents } from "../../redux/actions/eventsActions";
 
 const Home = () => {
+    const dispatch=useDispatch();
+    const allEvents=useSelector(state=>state.allEvents)
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
+
+    useEffect(()=>{
+        dispatch(getAllEvents())
+        console.log(allEvents);
+    },[])
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -171,12 +57,16 @@ const Home = () => {
     });
 
     const handleFilterByDateChange = (event) => {
-        console.log(event.target.value);
-        console.log(event.target.name);
+        if(event.target.name==='startDate'){
+            setFilterByDate({...filterByDate, startDate:event.target.value})
+        }
+        if(event.target.name==='endDate'){
+            setFilterByDate({...filterByDate, endDate:event.target.value})
+        }
     };
 
     const submitFilterByDate = (filterByDate) => {
-        alert("filter by date");
+        //dispatch(dateFilter(filterByDate))
     };
 
     // Filtro por productora
@@ -253,11 +143,11 @@ const Home = () => {
 
                 {/* Info paginado */}
                 <div className="flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 bg-secondary rounded-full border border-secondaryBorder mr-4">
-                    200 resultados | Página 1/5
+                    <>{allEvents.length} Resultados</> | Página 1/5
                 </div>
             </div>
 
-            <EventContainer events={events} />
+            <EventContainer events={allEvents} />
         </div>
     );
 };
