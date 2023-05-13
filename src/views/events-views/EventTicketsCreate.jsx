@@ -291,7 +291,7 @@ const EventCreate = () => {
                                             (Preview tanda)
                                         </p>
                                     </div>
-                                    <table className="w-full text-sm text-left text-center">
+                                    <table className="w-full text-sm text-center">
                                         <thead className="text-xs">
                                             <tr>
                                                 <th
