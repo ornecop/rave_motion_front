@@ -25,10 +25,11 @@ import { useState, useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { dateFilter } from "../../redux/actions/filtersActions";
 import { getAllEvents } from "../../redux/actions/eventsActions";
+import {alphabeticOrder, dateOrder} from"../../redux/actions/orderActions"
 
 const Home = () => {
     const dispatch=useDispatch();
-    const allEvents=useSelector(state=>state.allEvents)
+    const allEvents=useSelector(state=>state.homeEvents)
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
 
@@ -69,13 +70,24 @@ const Home = () => {
         //dispatch(dateFilter(filterByDate))
     };
 
+    // I M P O R T A N T E !!
+    // ORDENAMIENTOS En espera de botones selects! :)
+
+    //dispatch(alphabeticOrder("Asc"))  --> despachar el string "Asc" O el string "Desc" PARA EL ORDENAMIENTO ENSU RESPECTIVO HANDLER
+    //dispatch(alphabeticOrder("Desc"))
+
+    //dispatch(dateOrder("First")); --> proximas fechas
+    //dispatch(dateOrder("Last")); --> ultimas fechas
+
     // Filtro por productora
     const [filterByProducer, setFilterByProducer] = useState("Todas");
 
     const handleFilterByProducer = (event) => {
         setFilterByProducer(event.target.value);
     };
-
+    const alphabeticOrderEvents = (event)=>{
+        
+    }
     return (
         <div className="w-full min-h-screen">
             {/* Carrousel */}
