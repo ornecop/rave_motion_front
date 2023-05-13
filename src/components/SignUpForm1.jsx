@@ -15,6 +15,9 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
+// React Redux
+import { connect } from "react-redux";
+
 // Validation schemas
 const validationSchema = Yup.object().shape({
     // Falta validación email ya existe
@@ -39,7 +42,7 @@ const validationSchema = Yup.object().shape({
         ),
 });
 
-const SignUpForm1 = ({ callBack }) => {
+const SignUpForm1 = ({ callBack, userSignError, removeSignUserError }) => {
     // Show password
     const [isPasswordShow, toggleShowPassword] = useToggle();
 
@@ -62,10 +65,17 @@ const SignUpForm1 = ({ callBack }) => {
             onSubmit={handleNext}
             validationSchema={validationSchema}
         >
-            {({ isSubmitting, touched, errors }) => (
+            {({ isSubmitting, touched, errors, values }) => (
                 <Form>
                     <h2 className="text-xl text-center my-4">Crear cuenta</h2>
 
+                    {userSignError && (!touched.email || !values.email) && (
+                        <div className="flex text-center flex-row my-1">
+                            <span className="errorMessage">
+                                {userSignError}
+                            </span>
+                        </div>
+                    )}
                     {/* Email */}
                     <div className="flex flex-col my-2">
                         <label
@@ -83,6 +93,7 @@ const SignUpForm1 = ({ callBack }) => {
                                     : "input"
                             }
                             type="text"
+                            on
                             placeholder="Tu email"
                             name="email"
                             autoComplete="false"
@@ -187,4 +198,10 @@ const SignUpForm1 = ({ callBack }) => {
     );
 };
 
-export default SignUpForm1;
+const mapStateToProps = (state) => {
+    return {
+        userSignError: state.userSignError,
+    };
+};
+
+export default connect(mapStateToProps, null)(SignUpForm1);
