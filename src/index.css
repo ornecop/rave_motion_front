@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+}
+
 :root {
     font-size: 14px;
     -webkit-user-select: none;
@@ -21,18 +24,33 @@
     }
 
     /* Inputs */
+    /* inputs */
     .input {
         @apply h-8 px-4 py-4 w-full text-black border border-fuchsia-600 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent;
     }
 
     .inputError {
-        @apply h-8 px-4 py-4 w-full text-black border border-red-500 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-red-700 focus:border-transparent;
+        @apply h-8 px-4 py-4 w-full text-black  border border-red-500 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-red-700 focus:border-transparent;
     }
 
     .inputSuccess {
         @apply h-8 px-4 py-4 w-full text-black border border-green-500 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent;
     }
 
+    /* inputs textarea */
+    .inputTextArea {
+        @apply block h-fit px-4 py-4 w-full text-black border border-fuchsia-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent;
+    }
+
+    .inputTextAreaError {
+        @apply block h-fit px-4 py-4 w-full text-black border border-red-500 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-700 focus:border-transparent;
+    }
+
+    .inputTextAreaSuccess {
+        @apply block h-fit px-4 py-4 w-full text-black border border-green-500 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent;
+    }
+
+    /* inputs select */
     .inputSelect {
         @apply h-8 px-4 w-full text-black border border-fuchsia-600 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent;
     }
@@ -62,5 +80,9 @@
     /* Varios */
     .step {
         @apply flex bg-gradient-to-r from-fuchsia-800 to-pink-500 border border-fuchsia-600 rounded-tl-full rounded-br-full;
+    }
+
+    .floatBox {
+        @apply flex flex-col py-8 px-4 bg-slate-900 rounded-xl border border-secondaryBorder;
     }
 }

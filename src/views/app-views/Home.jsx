@@ -1,56 +1,162 @@
 import React from "react";
-import CalendarFilter from "../../components/CalendarFilter";
-import { useState } from "react";
-import EventConteiner from '../../components/EventConteiner/EventConteiner'
 /* =======================================================
-    VIEW Home - "/" - Vista principal de la página
+VIEW Home - "/" - Vista principal de la página
 
-    styles:
-    carrousel con imagenes de fiestas
-    sección eventos destacados: filtros (por provincia, por productora) + orden (por fecha) + lista de eventos destacados 
-    info de la pagina con link a about
-    preguntas frecuentes
+styles:
+carrousel con imagenes de fiestas
+sección eventos destacados: filtros (por provincia, por productora) + orden (por fecha) + lista de eventos destacados 
+info de la pagina con link a about
+preguntas frecuentes
 */
-const Home = () => {
 
-    const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-    // const handleDateChange = (date) => {
-    //   setSelectedDate(date);
-    // };
-  
-    // // Función para filtrar los eventos por fecha
-    // const filteredEvents = events.filter((event) => {
-    //   // Comparar solo la fecha sin tener en cuenta la hora
-    //   const eventDate = new Date(event.date);
-    //   return (
-    //     selectedDate &&
-    //     eventDate.setHours(0, 0, 0, 0) === selectedDate.setHours(0, 0, 0, 0)
-    //   );
-    // });
+// Assets
+const images = [
+    "https://wallpapercave.com/wp/wp1889483.jpg",
+    "https://wallpapercave.com/wp/wp1889488.jpg",
+];
+
+// Components
+import EventContainer from "../../components/EventContainer";
+
+// Hooks
+import { useState, useEffect } from "react";
+
+// React Redux
+import { connect, useDispatch, useSelector } from "react-redux";
+import { dateFilter } from "../../redux/actions/filtersActions";
+import { getAllEvents } from "../../redux/actions/eventsActions";
+
+const Home = () => {
+    const dispatch=useDispatch();
+    const allEvents=useSelector(state=>state.allEvents)
+    // Carousel
+    const [currentImage, setCurrentImage] = useState(images[0]);
+
+    useEffect(()=>{
+        dispatch(getAllEvents())
+        console.log(allEvents);
+    },[])
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentImage((prevImage) => {
+                if (prevImage === images[0]) {
+                    return images[1];
+                } else {
+                    return images[0];
+                }
+            });
+        }, 5000);
+        return () => clearInterval(interval);
+    }, []);
+
+    // Filtro por fecha
+    const [filterByDate, setFilterByDate] = useState({
+        startDate: null,
+        endDate: null,
+    });
+
+    const handleFilterByDateChange = (event) => {
+        if(event.target.name==='startDate'){
+            setFilterByDate({...filterByDate, startDate:event.target.value})
+        }
+        if(event.target.name==='endDate'){
+            setFilterByDate({...filterByDate, endDate:event.target.value})
+        }
+    };
+
+    const submitFilterByDate = (filterByDate) => {
+        //dispatch(dateFilter(filterByDate))
+    };
+
+    // Filtro por productora
+    const [filterByProducer, setFilterByProducer] = useState("Todas");
+
+    const handleFilterByProducer = (event) => {
+        setFilterByProducer(event.target.value);
+    };
 
     return (
-    <div className="w-full flex flex-col">
-        <div className="mt-32 md:max-h-screen">
-            <select className="text-black" name="" id="">
-                <option  disabled value="0">meses</option>
-                <option value={1}>Enero</option>
-                <option value={2}>Febrero</option>
-                <option value={3}>Marzo</option>
-                <option value={4}>Abril</option>
-                <option value={5}>Mayo</option>
-                <option value={6}>Junio</option>
-                <option value={7}>Julio</option>
-                <option value={8}>Agosto</option>
-                <option value={9}>Septiembre</option>
-                <option value={10}>Octubre</option>
-                <option value={11}>Noviembre</option>
-                <option value={12}>Diciembre</option>
-            </select>
+        <div className="w-full min-h-screen">
+            {/* Carrousel */}
+            <div className="h-96 overflow-hidden relative">
+                <div
+                    className="h-full w-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 transform"
+                    style={{
+                        backgroundImage: `url(${currentImage})`,
+                        transform: "translateX(0%)",
+                    }}
+                ></div>
+                <div
+                    className="h-full w-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 transform"
+                    style={{
+                        backgroundImage: `url(${
+                            currentImage === images[0] ? images[1] : images[0]
+                        })`,
+                        transform: "translateX(100%)",
+                    }}
+                ></div>
+            </div>
+
+            {/* NavBar (Filters - Orders - info resultados) */}
+            <div className="grid grid-cols-2 w-screen h-16 mt-4">
+                <div className="flex w-fit justify-self-start my-2 items-center gap-6 py-1 px-4 bg-secondary rounded-full border border-secondaryBorder ml-4">
+                    <div className="flex flex-row gap-2 items-center">
+                        <label htmlFor="startDate">Desde:</label>
+                        <input
+                            type="date"
+                            className="input"
+                            name="startDate"
+                            onChange={handleFilterByDateChange}
+                            value={filterByDate.startDate}
+                        />
+                        <label htmlFor="endDate">Hasta:</label>
+                        <input
+                            type="date"
+                            className="input"
+                            name="endDate"
+                            onChange={handleFilterByDateChange}
+                            value={filterByDate.endDate}
+                        />
+                        <button
+                            className="btnPrimary h-8 py-0 px-4 w-fit"
+                            onClick={submitFilterByDate}
+                        >
+                            Filtrar
+                        </button>
+                    </div>
+                    <label htmlFor="startDate">Filtrar:</label>
+                    <select
+                        className="inputSelect w-fit"
+                        onChange={handleFilterByProducer}
+                        value={filterByProducer}
+                    >
+                        <option value="Todas las productoras">
+                            Todas las productoras
+                        </option>
+                        <option value="theBow">The Bow</option>
+                        <option value="theBow">The Bow</option>
+                        <option value="theBow">The Bow</option>
+                        <option value="theBow">The Bow</option>
+                    </select>
+                </div>
+
+                {/* Info paginado */}
+                <div className="flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 bg-secondary rounded-full border border-secondaryBorder mr-4">
+                    <>{allEvents.length} Resultados</> | Página 1/5
+                </div>
+            </div>
+
+            <EventContainer events={allEvents} />
         </div>
-        <CalendarFilter  startDate={startDate} endDate={endDate} setStartDate={setStartDate} setEndDate={setEndDate}/>
-<EventConteiner/>
-    </div>);
+    );
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+    return {};
+};
+const mapDispatchToProps = (dispatch) => {
+    return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -42,7 +42,7 @@ export const App = () => {
                 <Route path="/search" element={<SearchResults />} />
 
                 {/* Events views */}
-                <Route path="/event/:eventName" element={<EventDetail />} />
+                <Route path="/event/:id" element={<EventDetail />} />
                 <Route path="/create" element={<EventCreate />} />
                 <Route path="/cart" element={<EventCart />} />
 
@@ -51,7 +51,7 @@ export const App = () => {
                 <Route path="/changepassword" element={<PasswordChange />} />
                 <Route path="/dashboard" element={<ProducerDashboard />} />
                 <Route
-                    path="/dashboard/:eventName"
+                    path="/dashboard/:eventId"
                     element={<ProducerEventDetail />}
                 />
                 <Route path="/signin" element={<SignIn />} />
