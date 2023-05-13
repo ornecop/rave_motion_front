@@ -11,6 +11,7 @@ import {
 
 // Filters
 import { DATE_FILTER, PRODUCER_FILTER } from "../actions/filtersActions";
+import{ ALPHABETIC_ORDER } from"../actions/orderActions";
 
 // Tickets Actions Types
 import {TICKETS_GET_ALL,
@@ -73,6 +74,26 @@ const rootReducer = (state = initialState, action) => {
             return { ...state, homeEvents: action.payload };
         case DATE_FILTER:
             return { ...state, homeEvents: action.payload };
+        
+            // * Order
+        case ALPHABETIC_ORDER:
+            
+        const alphabetic = [...state.homeEvents];
+        let order = alphabetic;
+
+        if (action.payload === "Asc") {
+        order.sort((a, b) => a.name.localeCompare(b.name));
+        }
+          if (action.payload === "Desc") {
+        order.sort((a, b) => b.name.localeCompare(a.name));
+         }
+      return {
+        ...state,
+        homeEvents: order,
+      };
+
+
+
 
         // Users
         case USERS_SET_SIGN_ERROR:
