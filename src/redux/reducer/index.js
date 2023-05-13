@@ -15,7 +15,7 @@ import{ ALPHABETIC_ORDER, DATE_ORDER } from"../actions/orderActions";
 
 // Tickets Actions Types
 import {TICKETS_GET_ALL,
- TICKETS_MODIFY,
+TICKETS_MODIFY,
 TICKET_EVENT_GET,
 TICKETS_CREATE} from"../actions/ticketsActions";
 // User Actions Types
@@ -72,6 +72,7 @@ const rootReducer = (state = initialState, action) => {
         //* Filtros
         case PRODUCER_FILTER:
             return { ...state, homeEvents: action.payload };
+
         case DATE_FILTER:
             return { ...state, homeEvents: action.payload };
         

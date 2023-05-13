@@ -10,8 +10,6 @@ export const USERS_SIGN_UP_STEP_SET = "USERS_SIGN_UP_STEP_SET";
 
 // ============= Actions Creators
 
-export const getUserByCredentials = (credentials) => {};
-
 export const setSignUserError = (error) => {
     return {
         type: USERS_SET_SIGN_ERROR,
@@ -26,6 +24,7 @@ export const removeSignUserError = () => {
 };
 
 export const setSignUpStep = (step) => {
+    console.log("action: ", step);
     return {
         type: USERS_SIGN_UP_STEP_SET,
         payload: step,

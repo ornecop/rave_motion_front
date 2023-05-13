@@ -3,7 +3,7 @@
 
     styles:
     A un lado el form y al otro una imagen o mockup del home
-    email, password || ingresar con Google) 
+    mail, password || ingresar con Google) 
 
     * Redirecciona al UserTickets
     
@@ -28,8 +28,8 @@ import { useGoogleLogin } from "@react-oauth/google";
 
 // Validation schemas
 const validationSchema = Yup.object().shape({
-    email: Yup.string()
-        .email("El email no es valido.")
+    mail: Yup.string()
+        .email("El mail no es valido.")
         .required("Este campo es requerido."),
     password: Yup.string().required("Este campo es requerido."),
 });
@@ -40,12 +40,11 @@ const SignIn = () => {
 
     // App login
     const initialValues = {
-        email: "",
+        mail: "",
         password: "",
     };
 
     const handleSubmit = (values, { setSubmitting }) => {
-        console.log(values);
         setSubmitting(false);
     };
 
@@ -65,29 +64,29 @@ const SignIn = () => {
                 >
                     {({ isSubmitting, touched, errors }) => (
                         <Form className="">
-                            {/* Email */}
+                            {/* mail */}
                             <div className="flex flex-col my-2">
                                 <label
-                                    htmlFor="email"
+                                    htmlFor="mail"
                                     className="block my-1 font-semibold"
                                 >
-                                    Email:
+                                    mail:
                                 </label>
                                 <Field
                                     className={
-                                        touched.email && errors.email
+                                        touched.mail && errors.mail
                                             ? "inputError"
-                                            : touched.email && !errors.email
+                                            : touched.mail && !errors.mail
                                             ? "inputSuccess"
                                             : "input"
                                     }
                                     type="text"
-                                    placeholder="Tu email"
-                                    name="email"
+                                    placeholder="Tu mail"
+                                    name="mail"
                                     autoComplete="false"
                                 />
                                 <ErrorMessage
-                                    name="email"
+                                    name="mail"
                                     component="span"
                                     className="errorMessage"
                                 />

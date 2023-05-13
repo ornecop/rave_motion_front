@@ -23,20 +23,26 @@ import { useState, useEffect } from "react";
 
 // React Redux
 import { connect, useDispatch, useSelector } from "react-redux";
-import { dateFilter } from "../../redux/actions/filtersActions";
+import { dateFilter, producerFilter } from "../../redux/actions/filtersActions";
 import { getAllEvents } from "../../redux/actions/eventsActions";
-import {alphabeticOrder, dateOrder} from"../../redux/actions/orderActions"
+import { alphabeticOrder, dateOrder } from "../../redux/actions/orderActions";
+
+// Functions
+import setProducer from "../../functions/setProducer";
 
 const Home = () => {
-    const dispatch=useDispatch();
-    const allEvents=useSelector(state=>state.homeEvents)
+    const dispatch = useDispatch();
+    const Events = useSelector((state) => state.allEvents);
+    const allEvents = useSelector((state) => state.homeEvents);
+
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
 
-    useEffect(()=>{
-        dispatch(getAllEvents())
-        console.log(allEvents);
-    },[])
+
+    useEffect(() => {
+        !Events.length && dispatch(getAllEvents());
+    }, []);
+
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -58,16 +64,16 @@ const Home = () => {
     });
 
     const handleFilterByDateChange = (event) => {
-        if(event.target.name==='startDate'){
-            setFilterByDate({...filterByDate, startDate:event.target.value})
+        if (event.target.name === "startDate") {
+            setFilterByDate({ ...filterByDate, startDate: event.target.value });
         }
-        if(event.target.name==='endDate'){
-            setFilterByDate({...filterByDate, endDate:event.target.value})
+        if (event.target.name === "endDate") {
+            setFilterByDate({ ...filterByDate, endDate: event.target.value });
         }
     };
 
-    const submitFilterByDate = (filterByDate) => {
-        //dispatch(dateFilter(filterByDate))
+    const submitFilterByDate = () => {
+        dispatch(dateFilter(filterByDate))
     };
 
     // I M P O R T A N T E !!
@@ -84,10 +90,9 @@ const Home = () => {
 
     const handleFilterByProducer = (event) => {
         setFilterByProducer(event.target.value);
+        dispatch(producerFilter(event.target.value));
     };
-    const alphabeticOrderEvents = (event)=>{
-        
-    }
+
     return (
         <div className="w-full min-h-screen">
             {/* Carrousel */}
@@ -138,18 +143,19 @@ const Home = () => {
                         </button>
                     </div>
                     <label htmlFor="startDate">Filtrar:</label>
+                    {/*SELECT PRODUCTORAS*/}
                     <select
                         className="inputSelect w-fit"
                         onChange={handleFilterByProducer}
-                        value={filterByProducer}
-                    >
-                        <option value="Todas las productoras">
-                            Todas las productoras
-                        </option>
-                        <option value="theBow">The Bow</option>
-                        <option value="theBow">The Bow</option>
-                        <option value="theBow">The Bow</option>
-                        <option value="theBow">The Bow</option>
+
+                        value={filterByProducer}>
+                        <option value=""disabled selected hidden>Busqueda por productora</option>
+                        <option value="All">Todas las productoras</option>
+                        {setProducer(Events).map(c => {
+                    return(
+                        <option id={c} value={c}>{c}</option>
+                    )})}
+
                     </select>
                 </div>
 
