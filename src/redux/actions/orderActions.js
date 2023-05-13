@@ -1,5 +1,6 @@
 
 export const ALPHABETIC_ORDER = "ALPHABETIC_ORDER";
+export const DATE_ORDER = "DATE_ORDER";
 
 export const alphabeticOrder = (payload) => {
     return {
@@ -7,3 +8,8 @@ export const alphabeticOrder = (payload) => {
       payload,
     };
   };
+
+export const dateOrder = (payload)=>{
+   return{ type: DATE_ORDER,
+    payload};
+}  
