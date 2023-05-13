@@ -5,9 +5,10 @@ export const DATE_FILTER="DATE_FILTER";
 
 
 
+
 export const producerFilter=(producer)=>{
     return async(dispatch)=>{
-        const response=await axios.get(`${BACKEND_URL}/events/producer?producer=${producer}`);
+        const response=await axios.get(`http://localhost:3001/events/producer?producer=${producer}`);
         const filteredEvents=response.data;
         dispatch({
             type:PRODUCER_FILTER,

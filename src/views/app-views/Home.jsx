@@ -24,12 +24,16 @@ import { useState, useEffect } from "react";
 // React Redux
 import { connect, useDispatch, useSelector } from "react-redux";
 import { dateFilter } from "../../redux/actions/filtersActions";
+import{producerFilter} from"../../redux/actions/filtersActions"
 import { getAllEvents } from "../../redux/actions/eventsActions";
 import {alphabeticOrder, dateOrder} from"../../redux/actions/orderActions"
+import setProducer from"../../functions/setProducer"
 
 const Home = () => {
     const dispatch=useDispatch();
+    const Events=useSelector(state=>state.allEvents)
     const allEvents=useSelector(state=>state.homeEvents)
+    
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
 
@@ -84,10 +88,9 @@ const Home = () => {
 
     const handleFilterByProducer = (event) => {
         setFilterByProducer(event.target.value);
+        dispatch(producerFilter(event.target.value));
     };
-    const alphabeticOrderEvents = (event)=>{
-        
-    }
+
     return (
         <div className="w-full min-h-screen">
             {/* Carrousel */}
@@ -138,18 +141,16 @@ const Home = () => {
                         </button>
                     </div>
                     <label htmlFor="startDate">Filtrar:</label>
+                    {/*SELECT PRODUCTORAS*/}
                     <select
                         className="inputSelect w-fit"
                         onChange={handleFilterByProducer}
-                        value={filterByProducer}
-                    >
-                        <option value="Todas las productoras">
-                            Todas las productoras
-                        </option>
-                        <option value="theBow">The Bow</option>
-                        <option value="theBow">The Bow</option>
-                        <option value="theBow">The Bow</option>
-                        <option value="theBow">The Bow</option>
+                        value={filterByProducer}>
+                        <option value="Todas las productoras">Todas las productoras</option>
+                        {setProducer(Events).map(c => {
+                    return(
+                        <option id={c} value={c}>{c}</option>
+                    )})}
                     </select>
                 </div>
 
