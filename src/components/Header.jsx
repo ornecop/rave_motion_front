@@ -67,7 +67,7 @@ const Header = (props) => {
         >
             <div className="flex justify-self-start items-center ml-4">
                 <Link to="/">
-                    <img className="w-20" src={rave} alt="Rave Motion Logo" />
+                    <img className="w-48" src={rave} alt="Rave Motion Logo" />
                 </Link>
             </div>
             <div className="flex justify-self-center items-center">
