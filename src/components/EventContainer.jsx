@@ -8,6 +8,7 @@ const EventContainer = ({ events }) => {
                 {events.map((event) => (
                     <EventCard
                         key={event.userId}
+                        id={event.id}
                         name={event.name}
                         description={event.description}
                         image={event.image}
