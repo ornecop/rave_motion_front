@@ -23,24 +23,24 @@ import { useState, useEffect } from "react";
 
 // React Redux
 import { connect, useDispatch, useSelector } from "react-redux";
-import { dateFilter } from "../../redux/actions/filtersActions";
-import{producerFilter} from"../../redux/actions/filtersActions"
+import { dateFilter, producerFilter } from "../../redux/actions/filtersActions";
 import { getAllEvents } from "../../redux/actions/eventsActions";
-import {alphabeticOrder, dateOrder} from"../../redux/actions/orderActions"
-import setProducer from"../../functions/setProducer"
+import { alphabeticOrder, dateOrder } from "../../redux/actions/orderActions";
+
+// Functions
+import setProducer from "../../functions/setProducer";
 
 const Home = () => {
-    const dispatch=useDispatch();
-    const Events=useSelector(state=>state.allEvents)
-    const allEvents=useSelector(state=>state.homeEvents)
-    
+    const dispatch = useDispatch();
+    const Events = useSelector((state) => state.allEvents);
+    const allEvents = useSelector((state) => state.homeEvents);
+
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
 
-    useEffect(()=>{
-        dispatch(getAllEvents())
-        console.log(allEvents);
-    },[])
+    useEffect(() => {
+        !Events.length && dispatch(getAllEvents());
+    }, []);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -62,11 +62,11 @@ const Home = () => {
     });
 
     const handleFilterByDateChange = (event) => {
-        if(event.target.name==='startDate'){
-            setFilterByDate({...filterByDate, startDate:event.target.value})
+        if (event.target.name === "startDate") {
+            setFilterByDate({ ...filterByDate, startDate: event.target.value });
         }
-        if(event.target.name==='endDate'){
-            setFilterByDate({...filterByDate, endDate:event.target.value})
+        if (event.target.name === "endDate") {
+            setFilterByDate({ ...filterByDate, endDate: event.target.value });
         }
     };
 
@@ -145,12 +145,18 @@ const Home = () => {
                     <select
                         className="inputSelect w-fit"
                         onChange={handleFilterByProducer}
-                        value={filterByProducer}>
-                        <option value="Todas las productoras">Todas las productoras</option>
-                        {setProducer(Events).map(c => {
-                    return(
-                        <option id={c} value={c}>{c}</option>
-                    )})}
+                        value={filterByProducer}
+                    >
+                        <option value="Todas las productoras">
+                            Todas las productoras
+                        </option>
+                        {setProducer(Events).map((c) => {
+                            return (
+                                <option id={c} value={c}>
+                                    {c}
+                                </option>
+                            );
+                        })}
                     </select>
                 </div>
 

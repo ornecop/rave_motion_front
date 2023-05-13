@@ -24,6 +24,12 @@ import * as Yup from "yup";
 // React router dom
 import { useNavigate } from "react-router-dom";
 
+// Redux
+import { connect } from "react-redux";
+
+// axios
+import axios from "axios";
+
 // Validation schemas
 const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -50,7 +56,7 @@ const validationSchema = Yup.object().shape({
 
 const createImage = "https://wallpapercave.com/wp/wp12143405.jpg";
 
-const EventCreate = () => {
+const EventCreate = ({ userData }) => {
     // Initial values
     const initialValues = {
         name: "",
@@ -68,10 +74,18 @@ const EventCreate = () => {
         values,
         { setSubmitting, resetForm }
     ) => {
-        console.log(values);
-
-        const eventId = "dfdjhjkfsd";
-        navigate(`/create/tickets/${eventId}/${values.name}`);
+        const event = { ...values, userId: userData.id };
+        console.log(event);
+        try {
+            const response = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/events/eventcreate`,
+                event
+            );
+            const newEvent = response.data;
+            navigate(`/create/tickets/${newEvent.id}/${newEvent.name}`);
+        } catch (error) {
+            console.log(error);
+        }
         setSubmitting(false);
         resetForm();
     };
@@ -383,4 +397,10 @@ const EventCreate = () => {
     );
 };
 
-export default EventCreate;
+const mapStateToProps = (state) => {
+    return {
+        userData: state.userData,
+    };
+};
+
+export default connect(mapStateToProps, null)(EventCreate);
