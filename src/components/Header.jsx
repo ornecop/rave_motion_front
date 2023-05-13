@@ -15,7 +15,7 @@ import rave from "../assets/logo3.png";
 
 const Header = (props) => {
     // States en props:
-    const { isLogin } = props;
+    const { isLogin, userData } = props;
 
     // Dispatch en props:
     const { getEventsByName } = props;
@@ -89,18 +89,25 @@ const Header = (props) => {
                     Nosotros
                 </Link>
                 {isLogin ? (
-                    <button
-                        onClick={handleSignOut}
-                        className="btnPrimary py-0 px-4 w-fit"
-                    >
-                        Cerrar Sesión
-                    </button>
+                    <>
+                        {userData.accessType === "producer" && (
+                            <Link to="/create" className="navLink">
+                                Crear evento
+                            </Link>
+                        )}
+                        <button
+                            onClick={handleSignOut}
+                            className="btnPrimary py-0 px-4 w-fit"
+                        >
+                            Cerrar Sesión
+                        </button>
+                    </>
                 ) : (
                     <>
-                        <Link to="signin" className="navLink">
+                        <Link to="/signin" className="navLink">
                             Iniciar Sesión
                         </Link>
-                        <Link to="signup" className="navLink">
+                        <Link to="/signup" className="navLink">
                             Registrarse
                         </Link>
                     </>
@@ -113,6 +120,7 @@ const Header = (props) => {
 const mapStateToProps = (state) => {
     return {
         isLogin: state.isLogin,
+        userData: state.userData,
     };
 };
 
