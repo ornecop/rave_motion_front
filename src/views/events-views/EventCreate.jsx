@@ -21,6 +21,9 @@ import { ImLocation2 } from "react-icons/im";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
+// React router dom
+import { useNavigate } from "react-router-dom";
+
 // Validation schemas
 const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -48,6 +51,7 @@ const validationSchema = Yup.object().shape({
 const createImage = "https://wallpapercave.com/wp/wp12143405.jpg";
 
 const EventCreate = () => {
+    // Initial values
     const initialValues = {
         name: "",
         image: "",
@@ -58,11 +62,16 @@ const EventCreate = () => {
         description: "",
     };
 
+    // Handle Submit
+    const navigate = useNavigate();
     const handleSubmitEventCreate = async (
         values,
         { setSubmitting, resetForm }
     ) => {
         console.log(values);
+
+        const eventId = "dfdjhjkfsd";
+        navigate(`/create/tickets/${eventId}/${values.name}`);
         setSubmitting(false);
         resetForm();
     };
