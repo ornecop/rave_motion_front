@@ -13,14 +13,13 @@ import EventContainer from "../../components/EventContainer";
 
 */
 const SearchResults = () => {
-    
-const events = useSelector(state => state.searchResult);
+    const events = useSelector((state) => state.searchResult);
 
-console.log(events)
-    return( 
-    <div>
-        <EventContainer events={events}/>
-    </div>);
+    return (
+        <div>
+            <EventContainer events={events} />
+        </div>
+    );
 };
 
 export default SearchResults;

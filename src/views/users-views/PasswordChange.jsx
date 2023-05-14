@@ -28,7 +28,6 @@ const changePasswordImage = "https://wallpapercave.com/wp/wp1889479.jpg";
 
 const PasswordChange = () => {
     const handleSubmit = (values, { setSubmitting }) => {
-        console.log(values);
         setSubmitting(false);
     };
     return (

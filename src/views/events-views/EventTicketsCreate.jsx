@@ -74,7 +74,6 @@ const EventCreate = () => {
         }
 
         const eventTickets = { tickets: [...ticketsArray] };
-        console.log(eventTickets);
         try {
             const response = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/tickets/createtickets`,
