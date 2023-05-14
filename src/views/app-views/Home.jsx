@@ -78,12 +78,19 @@ const Home = () => {
 
     // I M P O R T A N T E !!
     // ORDENAMIENTOS En espera de botones selects! :)
+    const handleSortAbc=(event)=>{
+        dispatch(alphabeticOrder(event.target.value)) 
+    }
 
-    //dispatch(alphabeticOrder("Asc"))  --> despachar el string "Asc" O el string "Desc" PARA EL ORDENAMIENTO ENSU RESPECTIVO HANDLER
-    //dispatch(alphabeticOrder("Desc"))
+    const handleSortDate=(event)=>{
+        dispatch(dateOrder(event.target.value))
+    }
+    
 
-    //dispatch(dateOrder("First")); --> proximas fechas
-    //dispatch(dateOrder("Last")); --> ultimas fechas
+    //dispatch(dateOrder("First"));
+    // --> proximas fechas
+    //dispatch(dateOrder("Last"));
+    // --> ultimas fechas
 
     // Filtro por productora
     const [filterByProducer, setFilterByProducer] = useState("Todas");
@@ -156,6 +163,17 @@ const Home = () => {
                         <option id={c} value={c}>{c}</option>
                     )})}
 
+                    </select>
+                    {/*odenamientos*/}
+                    <select onChange={(event)=>{handleSortAbc(event)}}className="inputSelect w-fit">
+                        <option value=""disabled selected hidden>ABC</option>
+                        <option value='Asc'>A-Z</option>
+                        <option value='Desc'>Z-A</option>
+                    </select>
+                    <select onChange={(event)=>{handleSortDate(event)}}className="inputSelect w-fit">
+                        <option value=""disabled selected hidden>Fechas</option>
+                        <option value='First'>Próximos</option>
+                        <option value='Last'>Ultimos</option>
                     </select>
                 </div>
 

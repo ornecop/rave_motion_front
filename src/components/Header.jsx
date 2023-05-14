@@ -53,6 +53,7 @@ const Header = (props) => {
         event.preventDefault();
         navigate("/search");
         getEventsByName(name.trim());
+        setName('')
     };
 
     // Sign Out
@@ -78,6 +79,7 @@ const Header = (props) => {
                         placeholder="Buscar evento"
                         onChange={handleInputChange}
                         onSubmit={handleSearchsubmit}
+                        value={name}
                     />
                 </form>
             </div>
