@@ -97,25 +97,12 @@ const rootReducer = (state = initialState, action) => {
       case DATE_ORDER:
         const dateOrder = [...state.homeEvents];
       //inversion de fechas para poder ordenar
-        function convertDateFormat(dateString) {
-            const [dd, mm, yyyy] = dateString.split('-');
-            return `${yyyy}-${mm}-${dd}`;
-          }
+      if (action.payload === "Last"){dateOrder.sort((a, b) => new Date(b.date) - new Date(a.date))};
+      if (action.payload === "First"){dateOrder.sort((a, b) => new Date(a.date) - new Date(b.date))};
 
-        let lastDateOrder;
-
-        if (action.payload === "Last"){lastDateOrder = dateOrder.sort((a, b) => {
-            const dateA = Date.parse(convertDateFormat(a.date));
-            const dateB = Date.parse(convertDateFormat(b.date));
-            return dateB - dateA;}); }
-
-        if (action.payload === "First"){lastDateOrder = dateOrder.sort((a, b) => {
-            const dateA = Date.parse(convertDateFormat(a.date));
-            const dateB = Date.parse(convertDateFormat(b.date));
-            return dateA - dateB;});}
         return {
             ...state,
-            homeEvents: lastDateOrder,
+            homeEvents: dateOrder,
         };
 
         // Users
