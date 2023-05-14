@@ -11,15 +11,18 @@ import {
 
 // Filters
 import { DATE_FILTER, PRODUCER_FILTER } from "../actions/filtersActions";
-import{ ALPHABETIC_ORDER, DATE_ORDER } from"../actions/orderActions";
+import { ALPHABETIC_ORDER, DATE_ORDER } from "../actions/orderActions";
 
 // Tickets Actions Types
-import {TICKETS_GET_ALL,
-TICKETS_MODIFY,
-TICKET_EVENT_GET,
-TICKETS_CREATE} from"../actions/ticketsActions";
+import {
+    TICKETS_GET_ALL,
+    TICKETS_MODIFY,
+    TICKET_EVENT_GET,
+    TICKETS_CREATE,
+} from "../actions/ticketsActions";
 // User Actions Types
 import {
+    USER_SIGN_IN,
     USERS_SET_SIGN_ERROR,
     USERS_REMOVE_SIGN_ERROR,
     USERS_SIGN_UP_STEP_SET,
@@ -32,7 +35,6 @@ import initialState from "./initialState";
 
 // Root reducer
 const rootReducer = (state = initialState, action) => {
-    console.log(state);
     switch (action.type) {
         case EVENTS_GET_ALL:
             return {
@@ -75,50 +77,61 @@ const rootReducer = (state = initialState, action) => {
 
         case DATE_FILTER:
             return { ...state, homeEvents: action.payload };
-        
+
         // * Order
-        
+
         case ALPHABETIC_ORDER:
-            
-        const alphabetic = [...state.homeEvents];
-        let order = alphabetic;
+            const alphabetic = [...state.homeEvents];
+            let order = alphabetic;
 
-        if (action.payload === "Asc") {
-        order.sort((a, b) => a.name.localeCompare(b.name));
-        }
-          if (action.payload === "Desc") {
-        order.sort((a, b) => b.name.localeCompare(a.name));
-         }
-      return {
-        ...state,
-        homeEvents: order,
-      };
+            if (action.payload === "Asc") {
+                order.sort((a, b) => a.name.localeCompare(b.name));
+            }
+            if (action.payload === "Desc") {
+                order.sort((a, b) => b.name.localeCompare(a.name));
+            }
+            return {
+                ...state,
+                homeEvents: order,
+            };
 
-      case DATE_ORDER:
-        const dateOrder = [...state.homeEvents];
-      //inversion de fechas para poder ordenar
-        function convertDateFormat(dateString) {
-            const [dd, mm, yyyy] = dateString.split('-');
-            return `${yyyy}-${mm}-${dd}`;
-          }
+        case DATE_ORDER:
+            const dateOrder = [...state.homeEvents];
+            //inversion de fechas para poder ordenar
+            function convertDateFormat(dateString) {
+                const [dd, mm, yyyy] = dateString.split("-");
+                return `${yyyy}-${mm}-${dd}`;
+            }
 
-        let lastDateOrder;
+            let lastDateOrder;
 
-        if (action.payload === "Last"){lastDateOrder = dateOrder.sort((a, b) => {
-            const dateA = Date.parse(convertDateFormat(a.date));
-            const dateB = Date.parse(convertDateFormat(b.date));
-            return dateB - dateA;}); }
+            if (action.payload === "Last") {
+                lastDateOrder = dateOrder.sort((a, b) => {
+                    const dateA = Date.parse(convertDateFormat(a.date));
+                    const dateB = Date.parse(convertDateFormat(b.date));
+                    return dateB - dateA;
+                });
+            }
 
-        if (action.payload === "First"){lastDateOrder = dateOrder.sort((a, b) => {
-            const dateA = Date.parse(convertDateFormat(a.date));
-            const dateB = Date.parse(convertDateFormat(b.date));
-            return dateA - dateB;});}
-        return {
-            ...state,
-            homeEvents: lastDateOrder,
-        };
+            if (action.payload === "First") {
+                lastDateOrder = dateOrder.sort((a, b) => {
+                    const dateA = Date.parse(convertDateFormat(a.date));
+                    const dateB = Date.parse(convertDateFormat(b.date));
+                    return dateA - dateB;
+                });
+            }
+            return {
+                ...state,
+                homeEvents: lastDateOrder,
+            };
 
         // Users
+        case USER_SIGN_IN:
+            return {
+                ...state,
+                userData: action.payload,
+                isLogin: true,
+            };
         case USERS_SET_SIGN_ERROR:
             return { ...state, userSignError: action.payload };
         case USERS_REMOVE_SIGN_ERROR:
@@ -126,26 +139,26 @@ const rootReducer = (state = initialState, action) => {
 
         case USERS_SIGN_UP_STEP_SET:
             return { ...state, signUpStep: action.payload };
-      
+
         //Tickets
         case TICKETS_GET_ALL:
             return {
                 ...state,
-                allTickets: action.payload
+                allTickets: action.payload,
             };
         case TICKET_EVENT_GET:
-                return {
+            return {
                 ...state,
-                allTicketsByEvents:action.payload    
+                allTicketsByEvents: action.payload,
             };
         case TICKETS_CREATE:
-                return {
-                    ...state,
-                };
+            return {
+                ...state,
+            };
         case TICKETS_MODIFY:
-                return {
-                    ...state,
-                };
+            return {
+                ...state,
+            };
 
         //* ----------
         default:
