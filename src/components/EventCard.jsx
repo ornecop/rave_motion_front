@@ -36,9 +36,6 @@ export const EventCard = ({
                         <h1 className="flex-auto text-lg font-semibold text-slate-900">
                             {name}
                         </h1>
-                        <div className="text-lg font-semibold text-slate-500">
-                            $110.00
-                        </div>
                         <div className="w-full flex-none text-sm font-medium text-slate-700 mt-2">
                             {description}
                         </div>
@@ -62,7 +59,7 @@ export const EventCard = ({
                                 className="h-10 px-6 font-semibold rounded-md bg-black text-white hover:shadow-lg shadow-black/40 "
                                 type="submit"
                             >
-                                Buy now
+                                Comprar
                             </button>
                         </Link>
                     </div>
