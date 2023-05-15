@@ -204,7 +204,7 @@ const Home = () => {
             </div>
 
             <Paginado eventsPerPage={eventsPerPage} allEventos={allEventos.length} paginado={paginado} currentPage={currentPage}/>            <EventContainer events={allEvents} />
- 09c2cd4fbddc7c38fee331669bcd9a1ee8450350
+
 
         </div>
         
