@@ -96,7 +96,7 @@ const Home = () => {
     const handleSortDate=(event)=>{
         dispatch(dateOrder(event.target.value))
     }
-    
+
     // Filtro por productora
     const [filterByProducer, setFilterByProducer] = useState("Todas");
 
