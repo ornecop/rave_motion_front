@@ -34,12 +34,23 @@ import setProducer from "../../functions/setProducer";
 import Paginado from "../../components/Paginado";
 const Home = () => {
     const dispatch = useDispatch();
-    const Events = useSelector((state) => state.allEvents);
     const allEvents = useSelector((state) => state.homeEvents);
-    const allEventos = useSelector((state) => state.homeEvents);
 
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
+    //PAGINADO
+    const [currentPage, setCurrentPage] = useState(1)
+    const [eventsPerPage, setEventsPerPage] = useState(3)
+    const indexOfLastEvent = currentPage * eventsPerPage
+    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage
+    const currentEvents = allEvents.slice(indexOfFirstEvent, indexOfLastEvent)
+    const totalEvents = allEvents.length;
+    const totalPages = Math.ceil(totalEvents / eventsPerPage);
+
+
+    const paginado = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     useEffect(() => {
         dispatch(getAllEvents());
@@ -85,17 +96,7 @@ const Home = () => {
     const handleSortDate=(event)=>{
         dispatch(dateOrder(event.target.value))
     }
-    
-    //PAGINADO
-    const [currentPage, setCurrentPage] = useState(1);
-    const [eventsPerPage] = useState(3);
-    const indexOfLastEvent = currentPage * eventsPerPage;
-    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
-    const currentEvents = allEventos.slice(indexOfFirstEvent, indexOfLastEvent);
 
-    const paginado = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
     // Filtro por productora
     const [filterByProducer, setFilterByProducer] = useState("Todas");
 
@@ -163,7 +164,7 @@ const Home = () => {
                             Busqueda por productora
                         </option>
                         <option value="All">Todas las productoras</option>
-                        {setProducer(Events).map((c) => {
+                        {setProducer(allEvents).map((c) => {
                             return (
                                 <option id={c} value={c}>
                                     {c}
@@ -204,7 +205,8 @@ const Home = () => {
                 </div>
             </div>
 
-            <Paginado eventsPerPage={eventsPerPage} allEventos={allEventos.length} paginado={paginado} currentPage={currentPage}/>            <EventContainer events={allEvents} />
+            <Paginado eventsPerPage={eventsPerPage} allEvents={allEvents.length} paginado={paginado} currentPage={currentPage}/>          
+            <EventContainer events={currentEvents} />
 
 
         </div>
