@@ -80,3 +80,9 @@ export const setSignUpStep = (step) => {
         payload: step,
     };
 };
+
+export const signout = () => {
+    return {
+        type: USER_SIGN_OUT,
+    };
+};
