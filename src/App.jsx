@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 // React Router Dom
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, redirect } from "react-router-dom";
 
 // Redux
 import { connect } from "react-redux";
@@ -39,14 +39,6 @@ const App = ({ verifyToken, isLogin, userData }) => {
     const location = useLocation().pathname;
 
     const showHeader = location !== "/signin" && location !== "/signup";
-
-    // Protección de rutas
-    function authRequired() {
-        return isLogin;
-    }
-    function accessRequired() {
-        return userData.accessType !== "producer";
-    }
 
     // Sign In by JSW
     useEffect(() => {
