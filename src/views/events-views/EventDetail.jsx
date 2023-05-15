@@ -38,8 +38,7 @@ const EventDetail = () => {
 
     const formatDate = `${day}-${month}-${year}`;
 
-    console.log(event.hour);
-    const formatHour = "dsds!";
+    const formatHour = event.hour ? event.hour.slice(0, 5) : "-";
 
     return (
         <div className="w-screen">
