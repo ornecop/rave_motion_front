@@ -81,7 +81,7 @@ const EventCreate = ({ userData }) => {
                 event
             );
             const newEvent = response.data;
-            navigate(`/create/tickets/${newEvent.id}/${newEvent.name}`);
+            navigate(`/create/tickets/${newEvent.id}`);
         } catch (error) {
             console.log(error);
         }
