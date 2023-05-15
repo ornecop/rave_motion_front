@@ -87,16 +87,6 @@ const Home = () => {
     }
     
     //PAGINADO
-    const [currentPage, setCurrentPage] = useState(1)
-    const [eventsPerPage] = useState(3)
-    const indexOfLastEvent = currentPage * eventsPerPage
-    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage
-    const currentEvents = allEventos.slice(indexOfFirstEvent, indexOfLastEvent)
-    const totalEvents = allEventos.length;
-    const totalPages = Math.ceil(totalEvents / eventsPerPage);
-
-
-    //PAGINADO
     const [currentPage, setCurrentPage] = useState(1);
     const [eventsPerPage] = useState(3);
     const indexOfLastEvent = currentPage * eventsPerPage;
