@@ -23,7 +23,7 @@ import { useState, useEffect } from "react";
 
 // React Redux
 import { connect, useDispatch, useSelector } from "react-redux";
-import { dateFilter, producerFilter } from "../../redux/actions/filtersActions";
+import { filteredEvents } from "../../redux/actions/filtersActions";
 import { getAllEvents } from "../../redux/actions/eventsActions";
 import { alphabeticOrder, dateOrder } from "../../redux/actions/orderActions";
 
@@ -57,23 +57,40 @@ const Home = () => {
         return () => clearInterval(interval);
     }, []);
 
-    // Filtro por fecha
-    const [filterByDate, setFilterByDate] = useState({
+    // Filtros
+    const [filterEvents, setFilterEvents] = useState({
         startDate: null,
         endDate: null,
+        producer:null
     });
 
-    const handleFilterByDateChange = (event) => {
+    const handleFilterEventsChange = (event) => {
         if (event.target.name === "startDate") {
-            setFilterByDate({ ...filterByDate, startDate: event.target.value });
+            setFilterEvents({ ...filterEvents, startDate: event.target.value });
         }
         if (event.target.name === "endDate") {
-            setFilterByDate({ ...filterByDate, endDate: event.target.value });
+            setFilterEvents({ ...filterEvents, endDate: event.target.value });
         }
     };
 
-    const submitFilterByDate = () => {
-        dispatch(dateFilter(filterByDate))
+    // Filtro por productora
+    const [filterByProducer, setFilterByProducer] = useState("Todas");
+
+    const handleFilterByProducer = (event) => {
+        setFilterByProducer(event.target.value);
+        
+        if(event.target.value === "All"){
+        setFilterEvents({ ...filterEvents, producer: null});
+        dispatch(filteredEvents({...filterEvents, producer: null}))
+        return}
+
+        setFilterEvents({ ...filterEvents, producer: event.target.value});
+        dispatch(filteredEvents({...filterEvents, producer: event.target.value}));
+    };
+
+
+    const submitFilterEvents = () => {
+        dispatch(filteredEvents(filterEvents))
     };
 
     //ORDENAMIENTOS
@@ -85,16 +102,6 @@ const Home = () => {
         dispatch(dateOrder(event.target.value))
     }
     
-
-  
-    // Filtro por productora
-    const [filterByProducer, setFilterByProducer] = useState("Todas");
-
-    const handleFilterByProducer = (event) => {
-        setFilterByProducer(event.target.value);
-        dispatch(producerFilter(event.target.value));
-    };
-
     return (
         <div className="w-full min-h-screen">
             {/* Carrousel */}
@@ -126,20 +133,20 @@ const Home = () => {
                             type="date"
                             className="input"
                             name="startDate"
-                            onChange={handleFilterByDateChange}
-                            value={filterByDate.startDate}
+                            onChange={handleFilterEventsChange}
+                            value={filterEvents.startDate}
                         />
                         <label htmlFor="endDate">Hasta:</label>
                         <input
                             type="date"
                             className="input"
                             name="endDate"
-                            onChange={handleFilterByDateChange}
-                            value={filterByDate.endDate}
+                            onChange={handleFilterEventsChange}
+                            value={filterEvents.endDate}
                         />
                         <button
                             className="btnPrimary h-8 py-0 px-4 w-fit"
-                            onClick={submitFilterByDate}
+                            onClick={submitFilterEvents}
                         >
                             Filtrar
                         </button>

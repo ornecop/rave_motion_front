@@ -7,10 +7,11 @@ import {
     EVENT_DETAIL_REMOVE,
     EVENT_CREATE,
     EVENT_MODIFY,
+    
 } from "../actions/eventsActions";
 
 // Filters
-import { DATE_FILTER, PRODUCER_FILTER } from "../actions/filtersActions";
+import { EVENTS_FILTER } from "../actions/filtersActions";
 import{ ALPHABETIC_ORDER, DATE_ORDER } from"../actions/orderActions";
 
 // Tickets Actions Types
@@ -70,12 +71,10 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
             };
         //* Filtros
-        case PRODUCER_FILTER:
-            return { ...state, homeEvents: action.payload };
-
-        case DATE_FILTER:
-            return { ...state, homeEvents: action.payload };
         
+        case EVENTS_FILTER:
+            return { ...state, homeEvents: action.payload };
+    
         // * Order
         
         case ALPHABETIC_ORDER:
@@ -96,7 +95,6 @@ const rootReducer = (state = initialState, action) => {
 
       case DATE_ORDER:
         const dateOrder = [...state.homeEvents];
-      //inversion de fechas para poder ordenar
       if (action.payload === "Last"){dateOrder.sort((a, b) => new Date(b.date) - new Date(a.date))};
       if (action.payload === "First"){dateOrder.sort((a, b) => new Date(a.date) - new Date(b.date))};
 
