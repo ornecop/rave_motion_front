@@ -36,6 +36,7 @@ const Home = () => {
     const dispatch = useDispatch();
     const Events = useSelector((state) => state.allEvents);
     const allEvents = useSelector((state) => state.homeEvents);
+    const allEventos = useSelector((state) => state.homeEvents);
 
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
@@ -220,7 +221,7 @@ const Home = () => {
 
             <Paginado
                 eventsPerPage={eventsPerPage}
-                allEvents={allEvents.length}
+                allEventos={allEventos.length}
                 paginado={paginado}
                 currentPage={currentPage}
             />
