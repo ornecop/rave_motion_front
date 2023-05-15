@@ -200,7 +200,7 @@ const Home = () => {
 
                 {/* Info paginado */}
                 <div className="flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 bg-secondary rounded-full border border-secondaryBorder mr-4">
-                    <>{allEvents.length} Resultados</> | Página {currentPage} / {totalPages}
+                    <>{allEvents.length} Resultados</> | Página {currentPage} / {5}
                 </div>
             </div>
 
