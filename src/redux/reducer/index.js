@@ -81,50 +81,32 @@ const rootReducer = (state = initialState, action) => {
 
         // * Order
 
-        case ALPHABETIC_ORDER:
-            const alphabetic = [...state.homeEvents];
-            let order = alphabetic;
+        case ALPHABETIC_ORDER:            
+        const alphabetic = [...state.homeEvents];
+        let order = alphabetic;
 
-            if (action.payload === "Asc") {
-                order.sort((a, b) => a.name.localeCompare(b.name));
-            }
-            if (action.payload === "Desc") {
-                order.sort((a, b) => b.name.localeCompare(a.name));
-            }
-            return {
-                ...state,
-                homeEvents: order,
-            };
+        if (action.payload === "Asc") {
+        order.sort((a, b) => a.name.localeCompare(b.name));
+        }
+          if (action.payload === "Desc") {
+        order.sort((a, b) => b.name.localeCompare(a.name));
+         }
+      return {
+        ...state,
+        homeEvents: order,
+      };
 
-        case DATE_ORDER:
-            const dateOrder = [...state.homeEvents];
-            //inversion de fechas para poder ordenar
-            function convertDateFormat(dateString) {
-                const [dd, mm, yyyy] = dateString.split("-");
-                return `${yyyy}-${mm}-${dd}`;
-            }
+      case DATE_ORDER:
+        const dateOrder = [...state.homeEvents];
+      //inversion de fechas para poder ordenar
+      if (action.payload === "Last"){dateOrder.sort((a, b) => new Date(b.date) - new Date(a.date))};
+      if (action.payload === "First"){dateOrder.sort((a, b) => new Date(a.date) - new Date(b.date))};
 
-            let lastDateOrder;
+        return {
+            ...state,
+            homeEvents: dateOrder,
+        };
 
-            if (action.payload === "Last") {
-                lastDateOrder = dateOrder.sort((a, b) => {
-                    const dateA = Date.parse(convertDateFormat(a.date));
-                    const dateB = Date.parse(convertDateFormat(b.date));
-                    return dateB - dateA;
-                });
-            }
-
-            if (action.payload === "First") {
-                lastDateOrder = dateOrder.sort((a, b) => {
-                    const dateA = Date.parse(convertDateFormat(a.date));
-                    const dateB = Date.parse(convertDateFormat(b.date));
-                    return dateA - dateB;
-                });
-            }
-            return {
-                ...state,
-                homeEvents: lastDateOrder,
-            };
 
         // Users
         case USER_SIGN_IN:

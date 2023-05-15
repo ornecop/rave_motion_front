@@ -30,10 +30,14 @@ import { alphabeticOrder, dateOrder } from "../../redux/actions/orderActions";
 // Functions
 import setProducer from "../../functions/setProducer";
 
+// Paginado
+import Paginado from '../../components/Paginado'
 const Home = () => {
     const dispatch = useDispatch();
     const Events = useSelector((state) => state.allEvents);
     const allEvents = useSelector((state) => state.homeEvents);
+    const allEventos = useSelector((state) => state.homeEvents);
+
 
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
@@ -76,8 +80,7 @@ const Home = () => {
         dispatch(dateFilter(filterByDate))
     };
 
-    // I M P O R T A N T E !!
-    // ORDENAMIENTOS En espera de botones selects! :)
+    //ORDENAMIENTOS
     const handleSortAbc=(event)=>{
         dispatch(alphabeticOrder(event.target.value)) 
     }
@@ -86,12 +89,17 @@ const Home = () => {
         dispatch(dateOrder(event.target.value))
     }
     
+    //PAGINADO
+    const [currentPage, setCurrentPage] = useState(1)
+    const [eventsPerPage] = useState(3)
+    const indexOfLastEvent = currentPage * eventsPerPage
+    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage
+    const currentEvents = allEventos.slice(indexOfFirstEvent, indexOfLastEvent)
 
-    //dispatch(dateOrder("First"));
-    // --> proximas fechas
-    //dispatch(dateOrder("Last"));
-    // --> ultimas fechas
 
+    const paginado = (pageNumber) => {
+        setCurrentPage(pageNumber)
+    };
     // Filtro por productora
     const [filterByProducer, setFilterByProducer] = useState("Todas");
 
@@ -182,9 +190,10 @@ const Home = () => {
                     <>{allEvents.length} Resultados</> | Página 1/5
                 </div>
             </div>
+            <Paginado eventsPerPage={eventsPerPage} allEventos={allEventos.length} paginado={paginado}/>            <EventContainer events={allEvents} />
 
-            <EventContainer events={allEvents} />
         </div>
+        
     );
 };
 

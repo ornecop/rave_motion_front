@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 
 /* =======================================================
     VIEW About - "/about" - 
@@ -7,9 +8,10 @@ import React from "react";
     
 
 */
-
+import Paginado from '../../components/Paginado'
 const About = () => {
-    const compañeros = [
+    
+    const allEventos = [
         {
             id: 1,
             nombre: "Denis Roldan",
@@ -82,12 +84,24 @@ const About = () => {
             github: "https://github.com/juanperez",
             linkedin: "https://www.linkedin.com/in/juanperez/",
         },
+        
     ];
+    // const [order, setOrder] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1)
+    const [eventsPerPage] = useState(3)
+    const indexOfLastEvent = currentPage * eventsPerPage
+    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage
+    const currentEvents = allEventos.slice(indexOfFirstEvent, indexOfLastEvent)
+
+
+    const paginado = (pageNumber) => {
+        setCurrentPage(pageNumber)
+    };
 
     return (
         <div className="w-full h-screen">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-16">
-                {compañeros.map((compañero) => (
+                {currentEvents.map((compañero) => (
                     <div
                         className="m-8 w-4/5 bg-secondary border border-secondaryBorder shadow-md rounded-2xl "
                         key={compañero.id}
@@ -122,8 +136,12 @@ const About = () => {
                         </p>
                     </div>
                 ))}
+                   
+
             </div>
+            <Paginado eventsPerPage={eventsPerPage} allEventos={allEventos.length} paginado={paginado}/>
         </div>
+        
     );
 };
 
