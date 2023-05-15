@@ -14,7 +14,7 @@ const handleEndDateChange = (date) => {
 
   return (
     
-    <div className='text-primary flex flex-row bg-secondary h-16 '>
+    <div className='text-primary flex flex-row bg-secondary '>
     <h3 className='text-white mx-2'>Select Date: </h3>
     <div>
       <label className='text-white rounded-xl'>Desde</label>
