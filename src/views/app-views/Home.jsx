@@ -41,11 +41,13 @@ const Home = () => {
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
     //PAGINADO
+
     const [currentPage, setCurrentPage] = useState(1);
     const [eventsPerPage, setEventsPerPage] = useState(3);
     const indexOfLastEvent = currentPage * eventsPerPage;
     const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
     const currentEvents = allEvents.slice(indexOfFirstEvent, indexOfLastEvent);
+
     const totalEvents = allEvents.length;
     const totalPages = Math.ceil(totalEvents / eventsPerPage);
 
@@ -225,6 +227,7 @@ const Home = () => {
                 paginado={paginado}
                 currentPage={currentPage}
             />
+
             <EventContainer events={currentEvents} />
         </div>
     );
