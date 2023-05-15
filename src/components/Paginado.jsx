@@ -17,7 +17,7 @@ export default function Paginado({ eventsPerPage, allEventos, paginado, currentP
                 <button
                   className=""
                   onClick={()=>{paginado(currentPage-1)}}
-                  disabled={pageNumber[0] === 1}
+                  disabled={currentPage===1}
                 >
                   &#60;&#60;
                 </button>
@@ -38,7 +38,7 @@ export default function Paginado({ eventsPerPage, allEventos, paginado, currentP
                 <button
                   className="hover:font-semibold focus:outline-none transition-colors duration-300 disabled:opacity-50 hover:text-fuchsia-600"
                   onClick={()=>{paginado(currentPage+1)}}
-                  disabled={pageNumber[totalPages - 1] === totalPages}
+                  disabled={currentPage===pageNumber.length}
                 >
                   &#62;&#62;
                 </button>

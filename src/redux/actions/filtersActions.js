@@ -1,30 +1,31 @@
 import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-export const PRODUCER_FILTER = "PRODUCER_FILTER";
-export const DATE_FILTER = "DATE_FILTER";
 
-export const producerFilter = (producer) => {
-    return async (dispatch) => {
-        const response = await axios.get(
-            `http://localhost:3001/events/producer?producer=${producer}`
-        );
-        const filteredEvents = response.data;
-        dispatch({
-            type: PRODUCER_FILTER,
-            payload: filteredEvents,
-        });
-    };
-};
+export const EVENTS_FILTER = "EVENTS_FILTER";
 
-export const dateFilter = ({ startDate, endDate }) => {
-    return async (dispatch) => {
-        const response = await axios.get(
-            `http://localhost:3001/events/date?startDate=${startDate}&endDate=${endDate}`
-        );
-        const filteredEvents = response.data;
-        dispatch({
-            type: DATE_FILTER,
-            payload: filteredEvents,
-        });
-    };
-};
+
+export const filteredEvents = ({startDate,endDate,producer}) =>{
+    console.log(startDate,endDate,producer)
+    return async(dispatch)=>{
+        let filteredEvents;
+
+        if(producer ===null && startDate===null && endDate===null) { const response = await axios.get(`http://localhost:3001/events/filter`);
+            filteredEvents = response.data;}    
+        
+            else if(startDate && endDate && producer){
+            const response = await axios.get(`http://localhost:3001/events/filter?producer=${producer}&startDate=${startDate}&endDate=${endDate}`);
+            filteredEvents=response.data;}
+        
+            else if(producer === null){
+            const response = await axios.get(`http://localhost:3001/events/filter?startDate=${startDate}&endDate=${endDate}`);
+            filteredEvents =response.data;}
+        
+            else if(producer !== null){const response = await axios.get(`http://localhost:3001/events/filter?producer=${producer}`);
+            filteredEvents =response.data;}
+       
+            dispatch({
+            type:EVENTS_FILTER,
+            payload:filteredEvents,
+        })
+    }
+}
