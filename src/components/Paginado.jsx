@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function Paginado({ eventsPerPage, allEventos, paginado, currentPage }) {
+export default function Paginado({ eventsPerPage, allEvents, paginado, currentPage }) {
     const pageNumber = [];
-    const totalPages = Math.ceil(allEventos / eventsPerPage);
+    const totalPages = Math.ceil(allEvents / eventsPerPage);
   
     for (let i = 1; i <= totalPages; i++) {
       pageNumber.push(i);
@@ -17,7 +17,7 @@ export default function Paginado({ eventsPerPage, allEventos, paginado, currentP
                 <button
                   className=""
                   onClick={()=>{paginado(currentPage-1)}}
-                  disabled={pageNumber[0] === 1}
+                  disabled={currentPage===1}
                 >
                   &#60;&#60;
                 </button>
@@ -38,7 +38,7 @@ export default function Paginado({ eventsPerPage, allEventos, paginado, currentP
                 <button
                   className="hover:font-semibold focus:outline-none transition-colors duration-300 disabled:opacity-50 hover:text-fuchsia-600"
                   onClick={()=>{paginado(currentPage+1)}}
-                  disabled={pageNumber[totalPages - 1] === totalPages}
+                  disabled={currentPage===pageNumber.length}
                 >
                   &#62;&#62;
                 </button>

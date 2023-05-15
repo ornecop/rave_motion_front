@@ -23,7 +23,7 @@ import { useState, useEffect } from "react";
 
 // React Redux
 import { connect, useDispatch, useSelector } from "react-redux";
-import { dateFilter, producerFilter } from "../../redux/actions/filtersActions";
+import { filteredEvents } from "../../redux/actions/filtersActions";
 import { getAllEvents } from "../../redux/actions/eventsActions";
 import { alphabeticOrder, dateOrder } from "../../redux/actions/orderActions";
 
@@ -31,19 +31,34 @@ import { alphabeticOrder, dateOrder } from "../../redux/actions/orderActions";
 import setProducer from "../../functions/setProducer";
 
 // Paginado
-import Paginado from "../../components/Paginado";
+import Paginado from '../../components/Paginado'
 const Home = () => {
     const dispatch = useDispatch();
     const Events = useSelector((state) => state.allEvents);
     const allEvents = useSelector((state) => state.homeEvents);
-    const allEventos = useSelector((state) => state.homeEvents);
+
 
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
+    //PAGINADO
+    const [currentPage, setCurrentPage] = useState(1)
+    const [eventsPerPage, setEventsPerPage] = useState(3)
+    const indexOfLastEvent = currentPage * eventsPerPage
+    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage
+    const currentEvents = allEvents.slice(indexOfFirstEvent, indexOfLastEvent)
+    const totalEvents = allEvents.length;
+    const totalPages = Math.ceil(totalEvents / eventsPerPage);
+
+
+    const paginado = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
 
     useEffect(() => {
-        dispatch(getAllEvents());
+        !Events.length && dispatch(getAllEvents());
     }, []);
+
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -58,23 +73,40 @@ const Home = () => {
         return () => clearInterval(interval);
     }, []);
 
-    // Filtro por fecha
-    const [filterByDate, setFilterByDate] = useState({
+    // Filtros
+    const [filterEvents, setFilterEvents] = useState({
         startDate: null,
         endDate: null,
+        producer:null
     });
 
-    const handleFilterByDateChange = (event) => {
+    const handleFilterEventsChange = (event) => {
         if (event.target.name === "startDate") {
-            setFilterByDate({ ...filterByDate, startDate: event.target.value });
+            setFilterEvents({ ...filterEvents, startDate: event.target.value });
         }
         if (event.target.name === "endDate") {
-            setFilterByDate({ ...filterByDate, endDate: event.target.value });
+            setFilterEvents({ ...filterEvents, endDate: event.target.value });
         }
     };
 
-    const submitFilterByDate = () => {
-        dispatch(dateFilter(filterByDate));
+    // Filtro por productora
+    const [filterByProducer, setFilterByProducer] = useState("Todas");
+
+    const handleFilterByProducer = (event) => {
+        setFilterByProducer(event.target.value);
+        
+        if(event.target.value === "All"){
+        setFilterEvents({ ...filterEvents, producer: null});
+        dispatch(filteredEvents({...filterEvents, producer: null}))
+        return}
+
+        setFilterEvents({ ...filterEvents, producer: event.target.value});
+        dispatch(filteredEvents({...filterEvents, producer: event.target.value}));
+    };
+
+
+    const submitFilterEvents = () => {
+        dispatch(filteredEvents(filterEvents))
     };
 
     //ORDENAMIENTOS
@@ -85,24 +117,7 @@ const Home = () => {
     const handleSortDate=(event)=>{
         dispatch(dateOrder(event.target.value))
     }
-    
-    //PAGINADO
-    const [currentPage, setCurrentPage] = useState(1);
-    const [eventsPerPage] = useState(3);
-    const indexOfLastEvent = currentPage * eventsPerPage;
-    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
-    const currentEvents = allEventos.slice(indexOfFirstEvent, indexOfLastEvent);
 
-    const paginado = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-    // Filtro por productora
-    const [filterByProducer, setFilterByProducer] = useState("Todas");
-
-    const handleFilterByProducer = (event) => {
-        setFilterByProducer(event.target.value);
-        dispatch(producerFilter(event.target.value));
-    };
 
     return (
         <div className="w-full min-h-screen">
@@ -125,6 +140,7 @@ const Home = () => {
                     }}
                 ></div>
             </div>
+
             {/* NavBar (Filters - Orders - info resultados) */}
             <div className="grid grid-cols-2 w-screen h-16 mt-4">
                 <div className="flex w-fit justify-self-start my-2 items-center gap-6 py-1 px-4 bg-secondary rounded-full border border-secondaryBorder ml-4">
@@ -134,20 +150,20 @@ const Home = () => {
                             type="date"
                             className="input"
                             name="startDate"
-                            onChange={handleFilterByDateChange}
-                            value={filterByDate.startDate}
+                            onChange={handleFilterEventsChange}
+                            value={filterEvents.startDate}
                         />
                         <label htmlFor="endDate">Hasta:</label>
                         <input
                             type="date"
                             className="input"
                             name="endDate"
-                            onChange={handleFilterByDateChange}
-                            value={filterByDate.endDate}
+                            onChange={handleFilterEventsChange}
+                            value={filterEvents.endDate}
                         />
                         <button
                             className="btnPrimary h-8 py-0 px-4 w-fit"
-                            onClick={submitFilterByDate}
+                            onClick={submitFilterEvents}
                         >
                             Filtrar
                         </button>
@@ -157,44 +173,26 @@ const Home = () => {
                     <select
                         className="inputSelect w-fit"
                         onChange={handleFilterByProducer}
-                        value={filterByProducer}
-                    >
-                        <option value="" disabled selected hidden>
-                            Busqueda por productora
-                        </option>
+
+                        value={filterByProducer}>
+                        <option value=""disabled selected hidden>Busqueda por productora</option>
                         <option value="All">Todas las productoras</option>
-                        {setProducer(Events).map((c) => {
-                            return (
-                                <option id={c} value={c}>
-                                    {c}
-                                </option>
-                            );
-                        })}
+                        {setProducer(Events).map(c => {
+                    return(
+                        <option id={c} value={c}>{c}</option>
+                    )})}
+
                     </select>
                     {/*odenamientos*/}
-                    <select
-                        onChange={(event) => {
-                            handleSortAbc(event);
-                        }}
-                        className="inputSelect w-fit"
-                    >
-                        <option value="" disabled selected hidden>
-                            ABC
-                        </option>
-                        <option value="Asc">A-Z</option>
-                        <option value="Desc">Z-A</option>
+                    <select onChange={(event)=>{handleSortAbc(event)}}className="inputSelect w-fit">
+                        <option value=""disabled selected hidden>ABC</option>
+                        <option value='Asc'>A-Z</option>
+                        <option value='Desc'>Z-A</option>
                     </select>
-                    <select
-                        onChange={(event) => {
-                            handleSortDate(event);
-                        }}
-                        className="inputSelect w-fit"
-                    >
-                        <option value="" disabled selected hidden>
-                            Fechas
-                        </option>
-                        <option value="First">Próximos</option>
-                        <option value="Last">Ultimos</option>
+                    <select onChange={(event)=>{handleSortDate(event)}}className="inputSelect w-fit">
+                        <option value=""disabled selected hidden>Fechas</option>
+                        <option value='First'>Próximos</option>
+                        <option value='Last'>Ultimos</option>
                     </select>
                 </div>
 
@@ -204,10 +202,12 @@ const Home = () => {
                 </div>
             </div>
 
-            <Paginado eventsPerPage={eventsPerPage} allEventos={allEventos.length} paginado={paginado} currentPage={currentPage}/>            <EventContainer events={allEvents} />
+            <Paginado eventsPerPage={eventsPerPage} allEvents={allEvents.length} paginado={paginado} currentPage={currentPage}/>          
+            <EventContainer events={currentEvents} />
 
 
         </div>
+        
     );
 };
 
