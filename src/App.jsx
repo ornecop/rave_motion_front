@@ -34,6 +34,9 @@ import SignIn from "./views/users-views/SignIn";
 import SignUp from "./views/users-views/SignUp";
 import UserTickets from "./views/users-views/UserTickets";
 
+// Secure Routes
+import RequireAuth from "./auth/RequireAuth";
+
 const App = ({ verifyToken, isLogin, userData }) => {
     // Locations
     const location = useLocation().pathname;
@@ -71,12 +74,10 @@ const App = ({ verifyToken, isLogin, userData }) => {
                 {/* Events views */}
 
                 <Route path="/event/:id" element={<EventDetail />} />
-                <Route path="/create" element={<EventCreate />} />
-                <Route
-                    path="/create/tickets/:eventId/"
-                    element={<EventTicketsCreate />}
-                />
-
+                    {/* Secure Routes */}
+                <Route path="/create" element={<RequireAuth><EventCreate /></RequireAuth>}/>
+                <Route path="/create/tickets/:eventId/"element={<RequireAuth><EventTicketsCreate/></RequireAuth>}/>
+               
                 <Route path="/cart" element={<EventCart />} />
 
                 {/* User views */}
