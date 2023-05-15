@@ -16,7 +16,7 @@ export const EVENT_MODIFY = "EVENT_MODIFY";
 // ============= Events Actions Creators
 export const getAllEvents = () => {
     return async function (dispatch) {
-        const events = (await axios.get(`http://localhost:3001/events`)).data;
+        const events = (await axios.get(`${BACKEND_URL}/events`)).data;
         dispatch({ type: EVENTS_GET_ALL, payload: events });
     };
 };
@@ -24,7 +24,7 @@ export const getAllEvents = () => {
 export const getEventsByName = (name) => {
     return async function (dispatch) {
         const response = await axios.get(
-            `http://localhost:3001/events/name?name=${name}`
+            `${BACKEND_URL}/events/name?name=${name}`
         );
         const eventsByName = response.data;
         dispatch({ type: EVENTS_SEARCH, payload: eventsByName });
@@ -39,7 +39,7 @@ export const removeEventByName = () => {
 
 export const getEventById = (id) => {
     return async function (dispatch) {
-        const response = await axios.get(`http://localhost:3001/events/${id}`);
+        const response = await axios.get(`${BACKEND_URL}/events/${id}`);
         const eventDetail = response.data;
         dispatch({
             type: EVENT_DETAIL_GET,
