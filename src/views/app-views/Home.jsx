@@ -192,7 +192,7 @@ const Home = () => {
                     <>{allEvents.length} Resultados</> | Página {currentPage} / {totalPages}
                 </div>
             </div>
-            <Paginado eventsPerPage={eventsPerPage} allEventos={allEventos.length} paginado={paginado}/>            <EventContainer events={allEvents} />
+            <Paginado eventsPerPage={eventsPerPage} allEventos={allEventos.length} paginado={paginado} currentPage={currentPage}/>            <EventContainer events={allEvents} />
 
         </div>
         
