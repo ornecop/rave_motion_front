@@ -11,8 +11,15 @@ import React, { useState } from "react";
 */
 
 // Hooks
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+
+// Actions
+import {
+    getEventById,
+    removeEventDetail,
+} from "../../redux/actions/eventsActions";
 
 // Formik, Yup
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -43,9 +50,20 @@ const validationSchema = Yup.object().shape({
 
 const createImage = "https://wallpapercave.com/wp/wp12143405.jpg";
 
-const EventCreate = () => {
+const EventTicketsCreate = () => {
     // Event Id
-    const { eventId, eventName } = useParams();
+    const { eventId } = useParams();
+
+    const dispatch = useDispatch();
+    const event = useSelector((state) => state.eventDetail);
+
+    useEffect(() => {
+        dispatch(getEventById(eventId));
+
+        return () => {
+            dispatch(removeEventDetail());
+        };
+    }, []);
 
     // Tandas
     const [ticketsArray, setTicketsArray] = useState([]);
@@ -58,13 +76,9 @@ const EventCreate = () => {
         maxQuantity: "",
     };
 
-    const handleSubmitEventCreate = async (
-        values,
-        { setSubmitting, resetForm }
-    ) => {
+    const handleSubmitEventCreate = async (values, { setSubmitting }) => {
         setTicketsArray([...ticketsArray, { ...values, eventId: eventId }]);
         setSubmitting(false);
-        resetForm();
     };
 
     const navigate = useNavigate();
@@ -74,7 +88,6 @@ const EventCreate = () => {
         }
 
         const eventTickets = { tickets: [...ticketsArray] };
-        console.log(eventTickets);
         try {
             const response = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/tickets/createtickets`,
@@ -107,7 +120,7 @@ const EventCreate = () => {
                             <div className="floatBox my-6 mx-6 flex flex-col h-full justify-end">
                                 <Form className="">
                                     <h2 className="text-4xl text-center mb-8">
-                                        Tickets para {eventName}
+                                        Tickets para {event.name}
                                     </h2>
                                     <h5 className="text-xl text-center mb-8">
                                         Tandas creadas: {ticketsArray.length}
@@ -374,4 +387,4 @@ const EventCreate = () => {
     );
 };
 
-export default EventCreate;
+export default EventTicketsCreate;

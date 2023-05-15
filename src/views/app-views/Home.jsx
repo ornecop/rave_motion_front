@@ -30,6 +30,8 @@ import { alphabeticOrder, dateOrder } from "../../redux/actions/orderActions";
 // Functions
 import setProducer from "../../functions/setProducer";
 
+// Paginado
+import Paginado from '../../components/Paginado'
 const Home = () => {
     const dispatch = useDispatch();
     const Events = useSelector((state) => state.allEvents);
@@ -102,6 +104,18 @@ const Home = () => {
         dispatch(dateOrder(event.target.value))
     }
     
+    //PAGINADO
+    const [currentPage, setCurrentPage] = useState(1)
+    const [eventsPerPage] = useState(3)
+    const indexOfLastDog = currentPage * eventsPerPage
+    const indexOfFirstDog = indexOfLastDog - eventsPerPage
+    const currentEvents = allEvents.slice(indexOfFirstDog, indexOfLastDog)
+
+
+    const paginado = (pageNumber) => {
+        setCurrentPage(pageNumber)
+    };
+
     return (
         <div className="w-full min-h-screen">
             {/* Carrousel */}
@@ -184,9 +198,11 @@ const Home = () => {
                     <>{allEvents.length} Resultados</> | Página 1/5
                 </div>
             </div>
-
+            <Paginado eventsPerPage={eventsPerPage} allEvents={allEvents.length} paginado={paginado}/>         
             <EventContainer events={allEvents} />
+
         </div>
+        
     );
 };
 

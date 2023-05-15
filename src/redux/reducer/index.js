@@ -11,16 +11,21 @@ import {
 } from "../actions/eventsActions";
 
 // Filters
+
 import { EVENTS_FILTER } from "../actions/filtersActions";
 import{ ALPHABETIC_ORDER, DATE_ORDER } from"../actions/orderActions";
 
+
 // Tickets Actions Types
-import {TICKETS_GET_ALL,
-TICKETS_MODIFY,
-TICKET_EVENT_GET,
-TICKETS_CREATE} from"../actions/ticketsActions";
+import {
+    TICKETS_GET_ALL,
+    TICKETS_MODIFY,
+    TICKET_EVENT_GET,
+    TICKETS_CREATE,
+} from "../actions/ticketsActions";
 // User Actions Types
 import {
+    USER_SIGN_IN,
     USERS_SET_SIGN_ERROR,
     USERS_REMOVE_SIGN_ERROR,
     USERS_SIGN_UP_STEP_SET,
@@ -76,9 +81,8 @@ const rootReducer = (state = initialState, action) => {
             return { ...state, homeEvents: action.payload };
     
         // * Order
-        
-        case ALPHABETIC_ORDER:
-            
+
+        case ALPHABETIC_ORDER:            
         const alphabetic = [...state.homeEvents];
         let order = alphabetic;
 
@@ -103,7 +107,15 @@ const rootReducer = (state = initialState, action) => {
             homeEvents: dateOrder,
         };
 
+
         // Users
+        case USER_SIGN_IN:
+            return {
+                ...state,
+                userData: action.payload,
+                isLogin: true,
+                userSignError: "",
+            };
         case USERS_SET_SIGN_ERROR:
             return { ...state, userSignError: action.payload };
         case USERS_REMOVE_SIGN_ERROR:
@@ -111,26 +123,26 @@ const rootReducer = (state = initialState, action) => {
 
         case USERS_SIGN_UP_STEP_SET:
             return { ...state, signUpStep: action.payload };
-      
+
         //Tickets
         case TICKETS_GET_ALL:
             return {
                 ...state,
-                allTickets: action.payload
+                allTickets: action.payload,
             };
         case TICKET_EVENT_GET:
-                return {
+            return {
                 ...state,
-                allTicketsByEvents:action.payload    
+                allTicketsByEvents: action.payload,
             };
         case TICKETS_CREATE:
-                return {
-                    ...state,
-                };
+            return {
+                ...state,
+            };
         case TICKETS_MODIFY:
-                return {
-                    ...state,
-                };
+            return {
+                ...state,
+            };
 
         //* ----------
         default:

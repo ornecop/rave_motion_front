@@ -29,4 +29,3 @@ export const filteredEvents = ({startDate,endDate,producer}) =>{
         })
     }
 }
-
