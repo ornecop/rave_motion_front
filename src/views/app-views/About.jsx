@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { FaLinkedin, FaGithub } from 'react-icons/fa';
 
 /* =======================================================
     VIEW About - "/about" - 
@@ -68,15 +69,6 @@ const About = () => {
         },
         {
             id: 7,
-            nombre: "Yonatan Llanto",
-            foto: "https://tienda.fotografiamardelplata.com.ar/wp-content/webpc-passthru.php?src=https://tienda.fotografiamardelplata.com.ar/wp-content/uploads/2022/03/Gimena-3-2048.jpg&nocache=1",
-            correo: "mail@gmail.com",
-            telefono: "+51 918 199 369",
-            github: "https://github.com/juanperez",
-            linkedin: "https://www.linkedin.com/in/juanperez/",
-        },
-        {
-            id: 8,
             nombre: "Ornella Copula",
             foto: "https://tienda.fotografiamardelplata.com.ar/wp-content/webpc-passthru.php?src=https://tienda.fotografiamardelplata.com.ar/wp-content/uploads/2022/03/Gimena-3-2048.jpg&nocache=1",
             correo: "mail@gmail.com",
@@ -99,46 +91,48 @@ const About = () => {
     };
 
     return (
-        <div className="w-full h-screen">
+        <div className="w-full min-h-screen">
+            <div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-16">
                 {currentEvents.map((compañero) => (
                     <div
                         className="m-8 w-4/5 bg-secondary border border-secondaryBorder shadow-md rounded-2xl "
-                        key={compañero.id}
-                    >
+                        key={compañero.id}>
                         <img
-                            className="w-5/6 m-8 rounded-full  mx-auto"
+                            className="w-5/6 m-8 rounded-full mx-auto transition-all duration-300 hover:rounded-lg"
                             src={compañero.foto}
-                            alt={compañero.nombre}
-                        />
-                        <h3 className="text-lg text-blue-500 font-semibold">
+                            alt={compañero.nombre}/>
+                        <h3 className="text-2xl uppercase text-white font-semibold text-center mb-4">
                             {compañero.nombre}
                         </h3>
-                        <p className="text-gray-600 mb-2">{compañero.correo}</p>
-                        <p className="text-gray-600 mb-4">
+                        <p className="text-gray-200 text-center ">
+                            {compañero.correo}</p>
+                        <p className="text-gray-200 text-center mb-6 ">
                             {compañero.telefono}
                         </p>
-                        <p>
-                            <a
-                                className="text-blue-500 hover:text-blue-600"
-                                href={compañero.github}
-                            >
-                                Github
-                            </a>
+                        
+                    <div className="flex justify-center mb-8">
+                        <p className="flex items-center mx-6">
+                        <a className="inline-flex items-center text-white hover:text-blue-600"
+                        href={compañero.github}>
+                        <FaGithub className="mr-2 text-3xl" /> 
+                        </a>
                         </p>
-                        <p>
-                            <a
-                                className="text-blue-500 hover:text-blue-600"
-                                href={compañero.linkedin}
-                            >
-                                LinkedIn
-                            </a>
+                        <p className="flex items-center mx-6">
+                        <a className="inline-flex items-center text-white hover:text-blue-600"
+                        href={compañero.linkedin}>
+                        <FaLinkedin className="mr-2 text-3xl" /> 
+                        </a>
                         </p>
                     </div>
-                ))}
+
+                </div>
+            ))}
                    
 
+            </div> 
             </div>
+       
             <Paginado eventsPerPage={eventsPerPage} allEventos={allEventos.length} paginado={paginado}/>
         </div>
         
