@@ -10,7 +10,7 @@
 */
 
 // React router dom
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Hooks
 import { useToggle } from "../../functions/customHooks";
@@ -23,8 +23,13 @@ import { FcGoogle } from "react-icons/fc";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
+// React redux
+import { connect } from "react-redux";
+import { signIn } from "../../redux/actions/usersActions";
+
 // Google button
 import { useGoogleLogin } from "@react-oauth/google";
+import { useEffect } from "react";
 
 // Validation schemas
 const validationSchema = Yup.object().shape({
@@ -34,7 +39,7 @@ const validationSchema = Yup.object().shape({
     password: Yup.string().required("Este campo es requerido."),
 });
 
-const SignIn = () => {
+const SignIn = ({ signIn, userSignError, isLogin }) => {
     // Show password
     const [isPasswordShow, toggleShowPassword] = useToggle();
 
@@ -44,8 +49,16 @@ const SignIn = () => {
         password: "",
     };
 
-    const handleSubmit = (values, { setSubmitting }) => {
+    const navigate = useNavigate();
+    useEffect(() => {
+        isLogin && navigate("/");
+    }, [isLogin]);
+
+    const handleSubmit = (values, { setSubmitting, resetForm }) => {
+        signIn({ mail: values.mail, password: values.password });
+
         setSubmitting(false);
+        resetForm();
     };
 
     // Google login
@@ -62,8 +75,16 @@ const SignIn = () => {
                     onSubmit={handleSubmit}
                     validationSchema={validationSchema}
                 >
-                    {({ isSubmitting, touched, errors }) => (
+                    {({ isSubmitting, touched, errors, values }) => (
                         <Form className="">
+                            {userSignError &&
+                                (!touched.mail || !values.mail) && (
+                                    <div className="flex justify-center flex-row my-1">
+                                        <span className="errorMessage">
+                                            {userSignError}
+                                        </span>
+                                    </div>
+                                )}
                             {/* mail */}
                             <div className="flex flex-col my-2">
                                 <label
@@ -206,4 +227,17 @@ const SignIn = () => {
     );
 };
 
-export default SignIn;
+const mapStateToProps = (state) => {
+    return {
+        userSignError: state.userSignError,
+        isLogin: state.isLogin,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signIn: (userData) => dispatch(signIn(userData)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

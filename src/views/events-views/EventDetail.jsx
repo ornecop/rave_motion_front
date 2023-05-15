@@ -16,7 +16,6 @@ const EventDetail = () => {
     const event = useSelector((state) => state.eventDetail);
 
     useEffect(() => {
-        console.log(id);
         dispatch(getEventById(id));
 
         return () => {

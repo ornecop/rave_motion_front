@@ -70,7 +70,7 @@ const SignUpForm1 = ({ callBack, userSignError, removeSignUserError }) => {
                     <h2 className="text-xl text-center my-4">Crear cuenta</h2>
 
                     {userSignError && (!touched.mail || !values.mail) && (
-                        <div className="flex text-center flex-row my-1">
+                        <div className="flex justify-center flex-row my-1">
                             <span className="errorMessage">
                                 {userSignError}
                             </span>

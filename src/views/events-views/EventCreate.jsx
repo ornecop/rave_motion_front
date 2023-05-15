@@ -75,7 +75,6 @@ const EventCreate = ({ userData }) => {
         { setSubmitting, resetForm }
     ) => {
         const event = { ...values, userId: userData.id };
-        console.log(event);
         try {
             const response = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/events/eventcreate`,
