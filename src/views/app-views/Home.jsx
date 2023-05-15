@@ -36,6 +36,8 @@ const Home = () => {
     const dispatch = useDispatch();
     const Events = useSelector((state) => state.allEvents);
     const allEvents = useSelector((state) => state.homeEvents);
+    const allEventos = useSelector((state) => state.homeEvents);
+
 
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
@@ -90,9 +92,9 @@ const Home = () => {
     //PAGINADO
     const [currentPage, setCurrentPage] = useState(1)
     const [eventsPerPage] = useState(3)
-    const indexOfLastDog = currentPage * eventsPerPage
-    const indexOfFirstDog = indexOfLastDog - eventsPerPage
-    const currentEvents = allEvents.slice(indexOfFirstDog, indexOfLastDog)
+    const indexOfLastEvent = currentPage * eventsPerPage
+    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage
+    const currentEvents = allEventos.slice(indexOfFirstEvent, indexOfLastEvent)
 
 
     const paginado = (pageNumber) => {
@@ -188,7 +190,7 @@ const Home = () => {
                     <>{allEvents.length} Resultados</> | Página 1/5
                 </div>
             </div>
-            <Paginado eventsPerPage={eventsPerPage} allEvents={allEvents.length} paginado={paginado}/>            <EventContainer events={allEvents} />
+            <Paginado eventsPerPage={eventsPerPage} allEventos={allEventos.length} paginado={paginado}/>            <EventContainer events={allEvents} />
 
         </div>
         

@@ -11,7 +11,7 @@ import { useState } from "react";
 import Paginado from '../../components/Paginado'
 const About = () => {
     
-    const allEvents = [
+    const allEventos = [
         {
             id: 1,
             nombre: "Denis Roldan",
@@ -89,9 +89,9 @@ const About = () => {
     // const [order, setOrder] = useState(1);
     const [currentPage, setCurrentPage] = useState(1)
     const [eventsPerPage] = useState(3)
-    const indexOfLastDog = currentPage * eventsPerPage
-    const indexOfFirstDog = indexOfLastDog - eventsPerPage
-    const currentEvents = allEvents.slice(indexOfFirstDog, indexOfLastDog)
+    const indexOfLastEvent = currentPage * eventsPerPage
+    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage
+    const currentEvents = allEventos.slice(indexOfFirstEvent, indexOfLastEvent)
 
 
     const paginado = (pageNumber) => {
@@ -139,7 +139,7 @@ const About = () => {
                    
 
             </div>
-            <Paginado eventsPerPage={eventsPerPage} allEvents={allEvents.length} paginado={paginado}/>
+            <Paginado eventsPerPage={eventsPerPage} allEventos={allEventos.length} paginado={paginado}/>
         </div>
         
     );
