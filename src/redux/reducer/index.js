@@ -35,6 +35,7 @@ import initialState from "./initialState";
 
 // Root reducer
 const rootReducer = (state = initialState, action) => {
+    console.log(state);
     switch (action.type) {
         case EVENTS_GET_ALL:
             return {
@@ -131,6 +132,7 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 userData: action.payload,
                 isLogin: true,
+                userSignError: "",
             };
         case USERS_SET_SIGN_ERROR:
             return { ...state, userSignError: action.payload };

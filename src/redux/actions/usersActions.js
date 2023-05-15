@@ -1,4 +1,5 @@
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+import axios from "axios";
 
 // ============= Users Actions Types
 
@@ -13,21 +14,20 @@ export const USERS_SIGN_UP_STEP_SET = "USERS_SIGN_UP_STEP_SET";
 export const signIn = ({ mail, password }) => {
     return async (dispatch) => {
         try {
-            const response = await axios.post("/users/signin", {
-                mail,
-                password,
+            const response = await axios.post(`${BACKEND_URL}/users/signin`, {
+                mail: mail,
+                password: password,
             });
             const user = response.data;
-            console.log(user);
-            return {
+            dispatch({
                 type: USER_SIGN_IN,
                 payload: user,
-            };
+            });
         } catch (error) {
-            return {
+            dispatch({
                 type: USERS_SET_SIGN_ERROR,
                 payload: error.response.data.error,
-            };
+            });
         }
     };
 };
