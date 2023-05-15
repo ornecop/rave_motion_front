@@ -16,7 +16,7 @@ export const EVENT_MODIFY = "EVENT_MODIFY";
 // ============= Events Actions Creators
 export const getAllEvents = () => {
     return async function (dispatch) {
-        const events = (await axios.get(`BACKEND_URL`)).data;
+        const events = (await axios.get(`${BACKEND_URL}/events`)).data;
         dispatch({ type: EVENTS_GET_ALL, payload: events });
     };
 };

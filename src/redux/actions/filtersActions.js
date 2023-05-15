@@ -9,18 +9,18 @@ export const filteredEvents = ({startDate,endDate,producer}) =>{
     return async(dispatch)=>{
         let filteredEvents;
 
-        if(producer ===null && startDate===null && endDate===null) { const response = await axios.get(`${BACKEND_URL}/events/filter`);
+        if(producer ===null && startDate===null && endDate===null) { const response = await axios.get(`http://localhost:3001/events/filter`);
             filteredEvents = response.data;}    
         
             else if(startDate && endDate && producer){
-            const response = await axios.get(`${BACKEND_URL}/events/filter?producer=${producer}&startDate=${startDate}&endDate=${endDate}`);
+            const response = await axios.get(`http://localhost:3001/events/filter?producer=${producer}&startDate=${startDate}&endDate=${endDate}`);
             filteredEvents=response.data;}
         
             else if(producer === null){
-            const response = await axios.get(`${BACKEND_URL}/events/filter?startDate=${startDate}&endDate=${endDate}`);
+            const response = await axios.get(`http://localhost:3001/events/filter?startDate=${startDate}&endDate=${endDate}`);
             filteredEvents =response.data;}
         
-            else if(producer !== null){const response = await axios.get(`${BACKEND_URL}/events/filter?producer=${producer}`);
+            else if(producer !== null){const response = await axios.get(`http://localhost:3001/events/filter?producer=${producer}`);
             filteredEvents =response.data;}
        
             dispatch({
