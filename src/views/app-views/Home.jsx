@@ -31,22 +31,19 @@ import { alphabeticOrder, dateOrder } from "../../redux/actions/orderActions";
 import setProducer from "../../functions/setProducer";
 
 // Paginado
-import Paginado from '../../components/Paginado'
+import Paginado from "../../components/Paginado";
 const Home = () => {
     const dispatch = useDispatch();
     const Events = useSelector((state) => state.allEvents);
     const allEvents = useSelector((state) => state.homeEvents);
     const allEventos = useSelector((state) => state.homeEvents);
 
-
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
 
-
     useEffect(() => {
-        !Events.length && dispatch(getAllEvents());
+        dispatch(getAllEvents());
     }, []);
-
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -77,7 +74,7 @@ const Home = () => {
     };
 
     const submitFilterByDate = () => {
-        dispatch(dateFilter(filterByDate))
+        dispatch(dateFilter(filterByDate));
     };
 
     //ORDENAMIENTOS
@@ -99,8 +96,15 @@ const Home = () => {
     const totalPages = Math.ceil(totalEvents / eventsPerPage);
 
 
+    //PAGINADO
+    const [currentPage, setCurrentPage] = useState(1);
+    const [eventsPerPage] = useState(3);
+    const indexOfLastEvent = currentPage * eventsPerPage;
+    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
+    const currentEvents = allEventos.slice(indexOfFirstEvent, indexOfLastEvent);
+
     const paginado = (pageNumber) => {
-        setCurrentPage(pageNumber)
+        setCurrentPage(pageNumber);
     };
     // Filtro por productora
     const [filterByProducer, setFilterByProducer] = useState("Todas");
@@ -131,7 +135,6 @@ const Home = () => {
                     }}
                 ></div>
             </div>
-
             {/* NavBar (Filters - Orders - info resultados) */}
             <div className="grid grid-cols-2 w-screen h-16 mt-4">
                 <div className="flex w-fit justify-self-start my-2 items-center gap-6 py-1 px-4 bg-secondary rounded-full border border-secondaryBorder ml-4">
@@ -164,26 +167,44 @@ const Home = () => {
                     <select
                         className="inputSelect w-fit"
                         onChange={handleFilterByProducer}
-
-                        value={filterByProducer}>
-                        <option value=""disabled selected hidden>Busqueda por productora</option>
+                        value={filterByProducer}
+                    >
+                        <option value="" disabled selected hidden>
+                            Busqueda por productora
+                        </option>
                         <option value="All">Todas las productoras</option>
-                        {setProducer(Events).map(c => {
-                    return(
-                        <option id={c} value={c}>{c}</option>
-                    )})}
-
+                        {setProducer(Events).map((c) => {
+                            return (
+                                <option id={c} value={c}>
+                                    {c}
+                                </option>
+                            );
+                        })}
                     </select>
                     {/*odenamientos*/}
-                    <select onChange={(event)=>{handleSortAbc(event)}}className="inputSelect w-fit">
-                        <option value=""disabled selected hidden>ABC</option>
-                        <option value='Asc'>A-Z</option>
-                        <option value='Desc'>Z-A</option>
+                    <select
+                        onChange={(event) => {
+                            handleSortAbc(event);
+                        }}
+                        className="inputSelect w-fit"
+                    >
+                        <option value="" disabled selected hidden>
+                            ABC
+                        </option>
+                        <option value="Asc">A-Z</option>
+                        <option value="Desc">Z-A</option>
                     </select>
-                    <select onChange={(event)=>{handleSortDate(event)}}className="inputSelect w-fit">
-                        <option value=""disabled selected hidden>Fechas</option>
-                        <option value='First'>Próximos</option>
-                        <option value='Last'>Ultimos</option>
+                    <select
+                        onChange={(event) => {
+                            handleSortDate(event);
+                        }}
+                        className="inputSelect w-fit"
+                    >
+                        <option value="" disabled selected hidden>
+                            Fechas
+                        </option>
+                        <option value="First">Próximos</option>
+                        <option value="Last">Ultimos</option>
                     </select>
                 </div>
 
@@ -192,10 +213,11 @@ const Home = () => {
                     <>{allEvents.length} Resultados</> | Página {currentPage} / {totalPages}
                 </div>
             </div>
+
             <Paginado eventsPerPage={eventsPerPage} allEventos={allEventos.length} paginado={paginado} currentPage={currentPage}/>            <EventContainer events={allEvents} />
 
+
         </div>
-        
     );
 };
 
