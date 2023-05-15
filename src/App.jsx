@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 // React Router Dom
 import { Routes, Route, useLocation } from "react-router-dom";
+
+// Redux
+import { connect } from "react-redux";
+import { verifyToken } from "./redux/actions/usersActions";
+
+// Universal Cookies
+import Cookies from "universal-cookie";
 
 // Components
 import Header from "./components/Header";
@@ -27,11 +34,30 @@ import SignIn from "./views/users-views/SignIn";
 import SignUp from "./views/users-views/SignUp";
 import UserTickets from "./views/users-views/UserTickets";
 
-export const App = () => {
+const App = ({ verifyToken, isLogin, userData }) => {
     // Locations
     const location = useLocation().pathname;
 
     const showHeader = location !== "/signin" && location !== "/signup";
+
+    // Protección de rutas
+    function authRequired() {
+        return isLogin;
+    }
+    function accessRequired() {
+        return userData.accessType !== "producer";
+    }
+
+    // Sign In by JSW
+    useEffect(() => {
+        if (!isLogin) {
+            const cookies = new Cookies();
+            const token = cookies.get("jwt");
+            console.log("app");
+            console.log(token);
+            verifyToken(token);
+        }
+    }, []);
 
     return (
         <div className="bg-primary text-white antialiased">
@@ -72,3 +98,18 @@ export const App = () => {
         </div>
     );
 };
+
+const mapStateToProps = (state) => {
+    return {
+        isLogin: state.isLogin,
+        userData: state.userData,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        verifyToken: () => dispatch(verifyToken()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

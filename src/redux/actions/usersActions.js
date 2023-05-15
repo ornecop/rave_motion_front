@@ -14,10 +14,16 @@ export const USERS_SIGN_UP_STEP_SET = "USERS_SIGN_UP_STEP_SET";
 export const signIn = ({ mail, password }) => {
     return async (dispatch) => {
         try {
-            const response = await axios.post(`${BACKEND_URL}/users/signin`, {
-                mail: mail,
-                password: password,
-            });
+            const response = await axios.post(
+                `${BACKEND_URL}/users/signin`,
+                {
+                    mail: mail,
+                    password: password,
+                },
+                {
+                    withCredentials: true,
+                }
+            );
             const user = response.data;
             dispatch({
                 type: USER_SIGN_IN,
@@ -28,6 +34,29 @@ export const signIn = ({ mail, password }) => {
                 type: USERS_SET_SIGN_ERROR,
                 payload: error.response.data.error,
             });
+        }
+    };
+};
+
+export const verifyToken = (token) => {
+    console.log(token);
+    return async (dispatch) => {
+        try {
+            const response = await axios.post(
+                `${BACKEND_URL}/users/signinsession`,
+                {
+                    token: token,
+                }
+            );
+
+            console.log(response);
+            const user = response.data;
+            dispatch({
+                type: USER_SIGN_IN,
+                payload: user,
+            });
+        } catch (error) {
+            console.error(error);
         }
     };
 };
