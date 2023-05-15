@@ -76,8 +76,7 @@ const Home = () => {
         dispatch(dateFilter(filterByDate))
     };
 
-    // I M P O R T A N T E !!
-    // ORDENAMIENTOS En espera de botones selects! :)
+    //ORDENAMIENTOS
     const handleSortAbc=(event)=>{
         dispatch(alphabeticOrder(event.target.value)) 
     }
@@ -87,11 +86,7 @@ const Home = () => {
     }
     
 
-    //dispatch(dateOrder("First"));
-    // --> proximas fechas
-    //dispatch(dateOrder("Last"));
-    // --> ultimas fechas
-
+  
     // Filtro por productora
     const [filterByProducer, setFilterByProducer] = useState("Todas");
 
