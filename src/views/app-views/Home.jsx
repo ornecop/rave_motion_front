@@ -36,6 +36,8 @@ const Home = () => {
     const dispatch = useDispatch();
     const Events = useSelector((state) => state.allEvents);
     const allEvents = useSelector((state) => state.homeEvents);
+    const allEventos = useSelector((state) => state.homeEvents);
+
 
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
@@ -107,9 +109,11 @@ const Home = () => {
     //PAGINADO
     const [currentPage, setCurrentPage] = useState(1)
     const [eventsPerPage] = useState(3)
-    const indexOfLastDog = currentPage * eventsPerPage
-    const indexOfFirstDog = indexOfLastDog - eventsPerPage
-    const currentEvents = allEvents.slice(indexOfFirstDog, indexOfLastDog)
+    const indexOfLastEvent = currentPage * eventsPerPage
+    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage
+    const currentEvents = allEventos.slice(indexOfFirstEvent, indexOfLastEvent)
+    const totalEvents = allEventos.length;
+    const totalPages = Math.ceil(totalEvents / eventsPerPage);
 
 
     const paginado = (pageNumber) => {
@@ -195,9 +199,10 @@ const Home = () => {
 
                 {/* Info paginado */}
                 <div className="flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 bg-secondary rounded-full border border-secondaryBorder mr-4">
-                    <>{allEvents.length} Resultados</> | Página 1/5
+                    <>{allEvents.length} Resultados</> | Página {currentPage} / {totalPages}
                 </div>
             </div>
+
             <Paginado eventsPerPage={eventsPerPage} allEvents={allEvents.length} paginado={paginado}/>         
             <EventContainer events={allEvents} />
 

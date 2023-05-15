@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function Paginado({ eventsPerPage, allEvents, paginado }) {
+export default function Paginado({ eventsPerPage, allEventos, paginado }) {
     const pageNumber = [];
-    const totalPages = Math.ceil(allEvents / eventsPerPage);
+    const totalPages = Math.ceil(allEventos / eventsPerPage);
   
     for (let i = 1; i <= totalPages; i++) {
       pageNumber.push(i);
