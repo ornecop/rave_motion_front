@@ -16,6 +16,7 @@ import NotFound from "./views/app-views/NotFound";
 // Events views
 import EventCart from "./views/events-views/EventCart";
 import EventCreate from "./views/events-views/EventCreate";
+import EventTicketsCreate from "./views/events-views/EventTicketsCreate";
 import EventDetail from "./views/events-views/EventDetail";
 
 // User views
@@ -42,8 +43,14 @@ export const App = () => {
                 <Route path="/search" element={<SearchResults />} />
 
                 {/* Events views */}
-                <Route path="/event/:eventName" element={<EventDetail />} />
+
+                <Route path="/event/:id" element={<EventDetail />} />
                 <Route path="/create" element={<EventCreate />} />
+                <Route
+                    path="/create/tickets/:eventId/"
+                    element={<EventTicketsCreate />}
+                />
+
                 <Route path="/cart" element={<EventCart />} />
 
                 {/* User views */}
@@ -51,7 +58,7 @@ export const App = () => {
                 <Route path="/changepassword" element={<PasswordChange />} />
                 <Route path="/dashboard" element={<ProducerDashboard />} />
                 <Route
-                    path="/dashboard/:eventName"
+                    path="/dashboard/:eventId"
                     element={<ProducerEventDetail />}
                 />
                 <Route path="/signin" element={<SignIn />} />

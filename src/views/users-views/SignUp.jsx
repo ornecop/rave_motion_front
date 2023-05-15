@@ -3,9 +3,9 @@
 
     styles:
     A un lado el form (form por pasos) y al otro una imagen o mockup del home
-    1er form (email, password, passwordConfirm || registrarse con Google) 
+    1er form (mail, password, passwordConfirm || registrarse con Google) 
     2do form (firstName, lastName, documentType, document)
-    3er form (birthDay, adress)
+    3er form (birthDay, address)
 
 
     * Redirecciona al Sign In
@@ -18,6 +18,15 @@ import { Link } from "react-router-dom";
 // Hooks
 import { useState } from "react";
 
+// React Redux
+import { connect } from "react-redux";
+
+// Actions
+import {
+    removeSignUserError,
+    setSignUpStep,
+} from "../../redux/actions/usersActions";
+
 // React icons
 import { FcGoogle } from "react-icons/fc";
 
@@ -26,13 +35,10 @@ import SignUpForm1 from "../../components/SignUpForm1";
 import SignUpForm2 from "../../components/SignUpForm2";
 import SignUpForm3 from "../../components/SignUpForm3";
 
-const SignUp = () => {
-    // Form step
-    const [step, setStep] = useState(1);
-
+const SignUp = ({ signUpStep, setSignUpStep }) => {
     // User data
     const [userData, setUserData] = useState({
-        email: "",
+        mail: "",
         password: "",
         firstName: "",
         lastName: "",
@@ -41,9 +47,9 @@ const SignUp = () => {
     });
 
     // Step 1 =====================================
-    const setFormData1 = ({ email, password }) => {
-        setUserData({ ...userData, email: email, password: password });
-        setStep((prev) => prev + 1);
+    const setFormData1 = ({ mail, password }) => {
+        setUserData({ ...userData, mail: mail, password: password });
+        setSignUpStep(2);
     };
 
     // Step 2 (fistName, lastName, documentType and document)
@@ -55,7 +61,7 @@ const SignUp = () => {
             documentType: documentType,
             document: document,
         });
-        setStep((prev) => prev + 1);
+        setSignUpStep(3);
     };
 
     return (
@@ -65,21 +71,27 @@ const SignUp = () => {
 
                 {/* Indicador de paso */}
                 <div className="grid grid-cols-3 my-2 gap-2 h-3">
-                    <div className={`step ${step !== 1 && `opacity-50`}`}></div>
-                    <div className={`step ${step !== 2 && `opacity-50`}`}></div>
-                    <div className={`step ${step !== 3 && `opacity-50`}`}></div>
+                    <div
+                        className={`step ${signUpStep !== 1 && `opacity-50`}`}
+                    ></div>
+                    <div
+                        className={`step ${signUpStep !== 2 && `opacity-50`}`}
+                    ></div>
+                    <div
+                        className={`step ${signUpStep !== 3 && `opacity-50`}`}
+                    ></div>
                 </div>
 
                 {/* Forms */}
-                {step === 1 && <SignUpForm1 callBack={setFormData1} />}
+                {signUpStep === 1 && <SignUpForm1 callBack={setFormData1} />}
 
-                {step === 2 && <SignUpForm2 callBack={setFormData2} />}
+                {signUpStep === 2 && <SignUpForm2 callBack={setFormData2} />}
 
-                {step === 3 && <SignUpForm3 userData={userData} />}
+                {signUpStep === 3 && <SignUpForm3 userData={userData} />}
 
                 {/* Google button */}
 
-                {step === 1 && (
+                {signUpStep === 1 && (
                     <>
                         {/* Divider */}
                         <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
@@ -119,4 +131,18 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+const mapStateToProps = (state) => {
+    return {
+        signUpStep: state.signUpStep,
+        userSignError: state.userSignError,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        removeSignUserError: () => dispatch(removeSignUserError()),
+        setSignUpStep: (step) => dispatch(setSignUpStep(step)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

@@ -3,14 +3,14 @@
 
     styles:
     A un lado el form y al otro una imagen o mockup del home
-    email, password || ingresar con Google) 
+    mail, password || ingresar con Google) 
 
     * Redirecciona al UserTickets
     
 */
 
 // React router dom
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Hooks
 import { useToggle } from "../../functions/customHooks";
@@ -23,30 +23,42 @@ import { FcGoogle } from "react-icons/fc";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
+// React redux
+import { connect } from "react-redux";
+import { signIn } from "../../redux/actions/usersActions";
+
 // Google button
 import { useGoogleLogin } from "@react-oauth/google";
+import { useEffect } from "react";
 
 // Validation schemas
 const validationSchema = Yup.object().shape({
-    email: Yup.string()
-        .email("El email no es valido.")
+    mail: Yup.string()
+        .email("El mail no es valido.")
         .required("Este campo es requerido."),
     password: Yup.string().required("Este campo es requerido."),
 });
 
-const SignIn = () => {
+const SignIn = ({ signIn, userSignError, isLogin }) => {
     // Show password
     const [isPasswordShow, toggleShowPassword] = useToggle();
 
     // App login
     const initialValues = {
-        email: "",
+        mail: "",
         password: "",
     };
 
-    const handleSubmit = (values, { setSubmitting }) => {
-        console.log(values);
+    const navigate = useNavigate();
+    useEffect(() => {
+        isLogin && navigate("/");
+    }, [isLogin]);
+
+    const handleSubmit = (values, { setSubmitting, resetForm }) => {
+        signIn({ mail: values.mail, password: values.password });
+
         setSubmitting(false);
+        resetForm();
     };
 
     // Google login
@@ -63,32 +75,39 @@ const SignIn = () => {
                     onSubmit={handleSubmit}
                     validationSchema={validationSchema}
                 >
-                    {({ isSubmitting, touched, errors }) => (
+                    {({ isSubmitting, touched, errors, values }) => (
                         <Form className="">
-                            {/* Email */}
+                            {userSignError &&
+                                (!touched.mail || !values.mail) && (
+                                    <div className="flex justify-center flex-row my-1">
+                                        <span className="errorMessage">
+                                            {userSignError}
+                                        </span>
+                                    </div>
+                                )}
+                            {/* mail */}
                             <div className="flex flex-col my-2">
                                 <label
-                                    htmlFor="email"
+                                    htmlFor="mail"
                                     className="block my-1 font-semibold"
                                 >
-                                    Email:
+                                    mail:
                                 </label>
                                 <Field
                                     className={
-                                        touched.email && errors.email
+                                        touched.mail && errors.mail
                                             ? "inputError"
-                                            : touched.email && !errors.email
+                                            : touched.mail && !errors.mail
                                             ? "inputSuccess"
                                             : "input"
                                     }
                                     type="text"
-                                    placeholder="Tu email"
-                                    name="email"
-                                    autoFocus
+                                    placeholder="Tu mail"
+                                    name="mail"
                                     autoComplete="false"
                                 />
                                 <ErrorMessage
-                                    name="email"
+                                    name="mail"
                                     component="span"
                                     className="errorMessage"
                                 />
@@ -208,4 +227,17 @@ const SignIn = () => {
     );
 };
 
-export default SignIn;
+const mapStateToProps = (state) => {
+    return {
+        userSignError: state.userSignError,
+        isLogin: state.isLogin,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signIn: (userData) => dispatch(signIn(userData)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

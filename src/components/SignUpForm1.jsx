@@ -1,7 +1,7 @@
 /* =======================================================
     Form 1 on SignUp view
 
-    Fields: email - password - passwordConfirm
+    Fields: mail - password - passwordConfirm
     
 */
 
@@ -15,11 +15,14 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
+// React Redux
+import { connect } from "react-redux";
+
 // Validation schemas
 const validationSchema = Yup.object().shape({
-    // Falta validación email ya existe
-    email: Yup.string()
-        .email("El email no es valido.")
+    // Falta validación mail ya existe
+    mail: Yup.string()
+        .email("El mail no es valido.")
         .required("Este campo es requerido."),
     password: Yup.string()
         .min(8, "Debe tener al menos 8 caracteres")
@@ -39,19 +42,19 @@ const validationSchema = Yup.object().shape({
         ),
 });
 
-const SignUpForm1 = ({ callBack }) => {
+const SignUpForm1 = ({ callBack, userSignError, removeSignUserError }) => {
     // Show password
     const [isPasswordShow, toggleShowPassword] = useToggle();
 
     // App login
     const initialValues = {
-        email: "",
+        mail: "",
         password: "",
         passwordConfirm: "",
     };
 
     const handleNext = (values, { setSubmitting, resetForm }) => {
-        callBack({ email: values.email, password: values.password });
+        callBack({ mail: values.mail, password: values.password });
         setSubmitting(false);
         resetForm();
     };
@@ -62,33 +65,41 @@ const SignUpForm1 = ({ callBack }) => {
             onSubmit={handleNext}
             validationSchema={validationSchema}
         >
-            {({ isSubmitting, touched, errors }) => (
+            {({ isSubmitting, touched, errors, values }) => (
                 <Form>
                     <h2 className="text-xl text-center my-4">Crear cuenta</h2>
 
-                    {/* Email */}
+                    {userSignError && (!touched.mail || !values.mail) && (
+                        <div className="flex justify-center flex-row my-1">
+                            <span className="errorMessage">
+                                {userSignError}
+                            </span>
+                        </div>
+                    )}
+                    {/* mail */}
                     <div className="flex flex-col my-2">
                         <label
-                            htmlFor="email"
+                            htmlFor="mail"
                             className="block my-1 font-semibold"
                         >
-                            Email:
+                            mail:
                         </label>
                         <Field
                             className={
-                                touched.email && errors.email
+                                touched.mail && errors.mail
                                     ? "inputError"
-                                    : touched.email && !errors.email
+                                    : touched.mail && !errors.mail
                                     ? "inputSuccess"
                                     : "input"
                             }
                             type="text"
-                            placeholder="Tu email"
-                            name="email"
+                            on
+                            placeholder="Tu mail"
+                            name="mail"
                             autoComplete="false"
                         />
                         <ErrorMessage
-                            name="email"
+                            name="mail"
                             component="span"
                             className="errorMessage"
                         />
@@ -187,4 +198,10 @@ const SignUpForm1 = ({ callBack }) => {
     );
 };
 
-export default SignUpForm1;
+const mapStateToProps = (state) => {
+    return {
+        userSignError: state.userSignError,
+    };
+};
+
+export default connect(mapStateToProps, null)(SignUpForm1);

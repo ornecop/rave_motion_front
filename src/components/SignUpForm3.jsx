@@ -1,13 +1,29 @@
 /* =======================================================
     Form 3 on SignUp view
 
-    Fields: birthDay - adress
+    Fields: birthDay - address
     
 */
 
 // Formik, Yup
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+
+// Hooks
+import { useNavigate } from "react-router-dom";
+
+// React Redux
+import { connect } from "react-redux";
+
+// Actions
+import {
+    setSignUserError,
+    removeSignUserError,
+    setSignUpStep,
+} from "../redux/actions/usersActions";
+
+// Axios
+import axios from "axios";
 
 // Validation schemas
 const validationSchema = Yup.object().shape({
@@ -33,8 +49,12 @@ const validationSchema = Yup.object().shape({
         .required("Este campo es requerido."),
 });
 
-const SignUpForm3 = ({ userData }) => {
-    // App login
+const SignUpForm3 = ({
+    userData,
+    setSignUpStep,
+    setSignUserError,
+    removeSignUserError,
+}) => {
     const initialValues = {
         birthDay: "",
         street: "",
@@ -42,19 +62,33 @@ const SignUpForm3 = ({ userData }) => {
         city: "",
     };
 
-    const handleSubmit = (values, { setSubmitting, resetForm }) => {
+    // SignUp
+    const navigate = useNavigate();
+
+    const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         const user = {
             ...userData,
+            mail: userData.mail,
             birthDay: values.birthDay,
-            adress: {
+            address: {
                 street: values.street,
                 number: values.number,
                 city: values.city,
             },
         };
+        try {
+            await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/users/signup`,
+                user
+            );
+            removeSignUserError();
+            navigate("/signin");
+        } catch (error) {
+            setSignUserError(error.response.data.error);
+            console.log(error);
+        }
 
-        console.log(user);
-
+        setSignUpStep(1);
         setSubmitting(false);
         resetForm();
     };
@@ -208,4 +242,12 @@ const SignUpForm3 = ({ userData }) => {
     );
 };
 
-export default SignUpForm3;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setSignUserError: (error) => dispatch(setSignUserError(error)),
+        removeSignUserError: () => dispatch(removeSignUserError()),
+        setSignUpStep: (step) => dispatch(setSignUpStep(step)),
+    };
+};
+
+export default connect(null, mapDispatchToProps)(SignUpForm3);
