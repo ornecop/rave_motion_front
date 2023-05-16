@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-
+import axios from "axios";
 // React Router Dom
 import { Routes, Route, useLocation } from "react-router-dom";
 
@@ -40,11 +40,15 @@ import RequireAuth from "./auth/RequireAuth";
 const App = ({ verifyToken, isLogin, userData }) => {
     // Locations
     const location = useLocation().pathname;
-
     const showHeader = location !== "/signin" && location !== "/signup";
 
     // Sign In by JSW
-    useEffect(() => {}, []);
+    useEffect(() => {
+        const token=localStorage.getItem('token');
+        if(token&&!isLogin){
+            verifyToken(token);
+        }
+    }, []);
 
     return (
         <div className="bg-primary text-white antialiased">
@@ -103,7 +107,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        verifyToken: () => dispatch(verifyToken()),
+        verifyToken: (token) => dispatch(verifyToken(token)),
     };
 };
 
