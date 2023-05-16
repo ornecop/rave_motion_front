@@ -42,7 +42,7 @@ const EventDetail = () => {
 
     return (
         <div className="w-screen">
-            <div className="h-96 relative overflow-hidden">
+            <div className="h-52 relative overflow-hidden">
                 <div
                     className="h-full w-full absolute top-0 left-0 bg-center bg-repeat-x "
                     style={{

@@ -1,5 +1,10 @@
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+// Axios
 import axios from "axios";
+
+// Cookies
+import Cookies from "universal-cookie";
 
 // ============= Users Actions Types
 
@@ -32,6 +37,29 @@ export const signIn = ({ mail, password }) => {
     };
 };
 
+export const verifyToken = (token) => {
+    console.log(token);
+    return async (dispatch) => {
+        try {
+            const response = await axios.post(
+                `${BACKEND_URL}/users/signinsession`,
+                {
+                    token: token,
+                }
+            );
+
+            console.log(response);
+            const user = response.data;
+            dispatch({
+                type: USER_SIGN_IN,
+                payload: user,
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+};
+
 export const setSignUserError = (error) => {
     return {
         type: USERS_SET_SIGN_ERROR,
@@ -49,5 +77,13 @@ export const setSignUpStep = (step) => {
     return {
         type: USERS_SIGN_UP_STEP_SET,
         payload: step,
+    };
+};
+
+export const signout = () => {
+    const cookies = new Cookies();
+    cookies.remove("jwt");
+    return {
+        type: USER_SIGN_OUT,
     };
 };
