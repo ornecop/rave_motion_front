@@ -1,7 +1,14 @@
-import React from "react";
-
+import React, { useEffect } from "react";
+import axios from "axios";
 // React Router Dom
 import { Routes, Route, useLocation } from "react-router-dom";
+
+// Redux
+import { connect } from "react-redux";
+import { verifyToken } from "./redux/actions/usersActions";
+
+// Universal Cookies
+import Cookies from "universal-cookie";
 
 // Components
 import Header from "./components/Header";
@@ -16,6 +23,7 @@ import NotFound from "./views/app-views/NotFound";
 // Events views
 import EventCart from "./views/events-views/EventCart";
 import EventCreate from "./views/events-views/EventCreate";
+import EventTicketsCreate from "./views/events-views/EventTicketsCreate";
 import EventDetail from "./views/events-views/EventDetail";
 
 // User views
@@ -26,11 +34,21 @@ import SignIn from "./views/users-views/SignIn";
 import SignUp from "./views/users-views/SignUp";
 import UserTickets from "./views/users-views/UserTickets";
 
-export const App = () => {
+// Secure Routes
+import RequireAuth from "./auth/RequireAuth";
+
+const App = ({ verifyToken, isLogin, userData }) => {
     // Locations
     const location = useLocation().pathname;
-
     const showHeader = location !== "/signin" && location !== "/signup";
+
+    // Sign In by JSW
+    useEffect(() => {
+        const token=localStorage.getItem('token');
+        if(token&&!isLogin){
+            verifyToken(token);
+        }
+    }, []);
 
     return (
         <div className="bg-primary text-white antialiased">
@@ -42,8 +60,22 @@ export const App = () => {
                 <Route path="/search" element={<SearchResults />} />
 
                 {/* Events views */}
-                <Route path="/event/:eventName" element={<EventDetail />} />
-                <Route path="/create" element={<EventCreate />} />
+
+                <Route path="/event/:id" element={<EventDetail />} />
+                {/* Secure Routes */}
+                <Route
+                    path="/create"
+                    element={
+                        <RequireAuth>
+                            <EventCreate />
+                        </RequireAuth>
+                    }
+                />
+                <Route
+                    path="/create/tickets/:eventId/"
+                    element={<EventTicketsCreate />}
+                />
+
                 <Route path="/cart" element={<EventCart />} />
 
                 {/* User views */}
@@ -51,7 +83,7 @@ export const App = () => {
                 <Route path="/changepassword" element={<PasswordChange />} />
                 <Route path="/dashboard" element={<ProducerDashboard />} />
                 <Route
-                    path="/dashboard/:eventName"
+                    path="/dashboard/:eventId"
                     element={<ProducerEventDetail />}
                 />
                 <Route path="/signin" element={<SignIn />} />
@@ -65,3 +97,18 @@ export const App = () => {
         </div>
     );
 };
+
+const mapStateToProps = (state) => {
+    return {
+        isLogin: state.isLogin,
+        userData: state.userData,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        verifyToken: (token) => dispatch(verifyToken(token)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

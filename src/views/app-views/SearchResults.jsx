@@ -1,4 +1,6 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import EventContainer from "../../components/EventContainer";
 
 /* =======================================================
     VIEW SearchResults - "/search/:searchedName" - Vista a la que redirección al buscar algo en el searchbar
@@ -11,7 +13,13 @@ import React from "react";
 
 */
 const SearchResults = () => {
-    return <div>SearchResults</div>;
+    const events = useSelector((state) => state.searchResult);
+
+    return (
+        <div>
+            <EventContainer events={events} />
+        </div>
+    );
 };
 
 export default SearchResults;
