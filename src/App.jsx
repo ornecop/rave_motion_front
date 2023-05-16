@@ -1,7 +1,14 @@
-import React from "react";
-
+import React, { useEffect } from "react";
+import axios from "axios";
 // React Router Dom
 import { Routes, Route, useLocation } from "react-router-dom";
+
+// Redux
+import { connect } from "react-redux";
+import { verifyToken } from "./redux/actions/usersActions";
+
+// Universal Cookies
+import Cookies from "universal-cookie";
 
 // Components
 import Header from "./components/Header";
@@ -27,11 +34,21 @@ import SignIn from "./views/users-views/SignIn";
 import SignUp from "./views/users-views/SignUp";
 import UserTickets from "./views/users-views/UserTickets";
 
-export const App = () => {
+// Secure Routes
+import RequireAuth from "./auth/RequireAuth";
+
+const App = ({ verifyToken, isLogin, userData }) => {
     // Locations
     const location = useLocation().pathname;
-
     const showHeader = location !== "/signin" && location !== "/signup";
+
+    // Sign In by JSW
+    useEffect(() => {
+        const token=localStorage.getItem('token');
+        if(token&&!isLogin){
+            verifyToken(token);
+        }
+    }, []);
 
     return (
         <div className="bg-primary text-white antialiased">
@@ -45,7 +62,15 @@ export const App = () => {
                 {/* Events views */}
 
                 <Route path="/event/:id" element={<EventDetail />} />
-                <Route path="/create" element={<EventCreate />} />
+                {/* Secure Routes */}
+                <Route
+                    path="/create"
+                    element={
+                        <RequireAuth>
+                            <EventCreate />
+                        </RequireAuth>
+                    }
+                />
                 <Route
                     path="/create/tickets/:eventId/"
                     element={<EventTicketsCreate />}
@@ -72,3 +97,18 @@ export const App = () => {
         </div>
     );
 };
+
+const mapStateToProps = (state) => {
+    return {
+        isLogin: state.isLogin,
+        userData: state.userData,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        verifyToken: (token) => dispatch(verifyToken(token)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

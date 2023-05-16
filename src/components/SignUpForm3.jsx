@@ -78,14 +78,13 @@ const SignUpForm3 = ({
         };
         try {
             await axios.post(
-                `${import.meta.env.VITE_BACKEND_URL}/users/signup`,
+                `${import.meta.env.VITE_BACKEND_URL}/users/signup3`,
                 user
             );
             removeSignUserError();
             navigate("/signin");
         } catch (error) {
             setSignUserError(error.response.data.error);
-            console.log(error);
         }
 
         setSignUpStep(1);
