@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 // Hooks
 import { useState, useEffect } from "react";
+import { useToggle } from "../functions/customHooks";
+import { useLocation } from "react-router-dom";
 
 // React redux
 import { connect } from "react-redux";
@@ -40,6 +42,15 @@ const Header = (props) => {
     const headerStyle = {
         backgroundColor: `rgba(2, 6, 23, ${opacity})`,
     };
+
+    // Dropdown
+    const [showDropdown, toggleShowDropdown] = useToggle();
+
+    const location = useLocation().pathname;
+
+    useEffect(() => {
+        showDropdown && toggleShowDropdown();
+    }, [location]);
 
     // Search bar logic
     const [name, setName] = useState("");
@@ -94,21 +105,68 @@ const Header = (props) => {
                 </Link>
                 {isLogin ? (
                     <>
-                        {userData.accessType === "producer" && (
-                            <Link to="/create" className="navLink">
-                                Crear evento
-                            </Link>
-                        )}
-                        <button
-                            onClick={handleSignOut}
-                            className="btnPrimary py-0 px-4 w-fit"
-                        >
-                            Cerrar Sesión
-                        </button>
+                        <div className="inline-block relative">
+                            <button
+                                onClick={toggleShowDropdown}
+                                className="btnPrimary py-0 px-4 w-fit border-none"
+                            >
+                                Tu cuenta
+                            </button>
+                            <div
+                                className={`"z-20 bg-secondary rounded-md w-40 left-[-2rem] top-[2rem] text-center" ${
+                                    showDropdown ? "block" : "hidden"
+                                }`}
+                                style={{ position: "absolute" }}
+                            >
+                                <div className="dropDownItem">
+                                    <Link className="navLinkDropdown">
+                                        {userData.firstName}
+                                    </Link>
+                                </div>
+
+                                <div className="dropDownItem border-b-2 border-secondaryBorder">
+                                    <Link
+                                        className="navLinkDropdown"
+                                        to="/tickets"
+                                    >
+                                        Mis tickets
+                                    </Link>
+                                </div>
+                                {userData.accessType === "producer" && (
+                                    <>
+                                        <div className="dropDownItem">
+                                            <Link
+                                                className="navLinkDropdown"
+                                                to="/create"
+                                            >
+                                                Crear evento
+                                            </Link>
+                                        </div>
+                                        <div className="dropDownItem border-b-2 border-secondaryBorder">
+                                            <Link
+                                                className="navLinkDropdown"
+                                                to="/dashboard"
+                                            >
+                                                Dashboard
+                                            </Link>
+                                        </div>
+                                    </>
+                                )}
+
+                                <div className="dropDownItem">
+                                    <div
+                                        onClick={handleSignOut}
+                                        className="navLinkDropdown"
+                                    >
+                                        Cerrar Sesión
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </>
                 ) : (
                     <>
-                        <Link to="/signin" className="navLink">
+                        <Link to="/signin" className="navLink ">
                             Iniciar Sesión
                         </Link>
                         <Link to="/signup" className="navLink">

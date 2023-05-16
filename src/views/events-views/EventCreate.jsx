@@ -35,8 +35,14 @@ const validationSchema = Yup.object().shape({
     name: Yup.string()
         .max(50, "Debe ser hasta 50 caracteres.")
         .required("Este campo es requerido."),
-    image: Yup.string()
-        .url("El link de la imagen no es válido.")
+    image: Yup.mixed()
+        .test("tipoArchivo", "Debe ser una imagen válida", (value) => {
+            if (value && value.file) {
+                const fileType = value.file.type;
+                return fileType.startsWith("image/");
+            }
+            return false;
+        })
         .required("Este campo es requerido."),
     date: Yup.date()
         .typeError("Debe ingresar una fecha válida.")
@@ -150,18 +156,12 @@ const EventCreate = ({ userData }) => {
                                             Imagen:
                                         </label>
                                         <Field
-                                            className={
-                                                touched.image && errors.image
-                                                    ? "inputError"
-                                                    : touched.image &&
-                                                      !errors.image
-                                                    ? "inputSuccess"
-                                                    : "input"
-                                            }
-                                            type="text"
+                                            className="file: "
+                                            type="file"
                                             placeholder="Url de la imagen"
                                             name="image"
                                             autoComplete="false"
+                                            accept=".jpg, .jpeg, .png"
                                         />
                                         <ErrorMessage
                                             name="image"

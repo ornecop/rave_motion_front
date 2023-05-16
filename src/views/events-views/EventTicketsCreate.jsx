@@ -70,7 +70,7 @@ const EventTicketsCreate = () => {
     }, []);
 
     // Tandas
-    const [ticketsArray, setTicketsArray] = useState(event.Tickets);
+    const [ticketsArray, setTicketsArray] = useState([]);
 
     const initialValues = {
         name: "",

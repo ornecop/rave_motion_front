@@ -44,8 +44,8 @@ const App = ({ verifyToken, isLogin, userData }) => {
 
     // Sign In by JSW
     useEffect(() => {
-        const token=localStorage.getItem('token');
-        if(token&&!isLogin){
+        const token = localStorage.getItem("token");
+        if (token && !isLogin) {
             verifyToken(token);
         }
     }, []);
@@ -73,7 +73,11 @@ const App = ({ verifyToken, isLogin, userData }) => {
                 />
                 <Route
                     path="/create/tickets/:eventId/"
-                    element={<EventTicketsCreate />}
+                    element={
+                        <RequireAuth>
+                            <EventTicketsCreate />
+                        </RequireAuth>
+                    }
                 />
 
                 <Route path="/cart" element={<EventCart />} />
