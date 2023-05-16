@@ -163,7 +163,7 @@ const Home = () => {
                             name="endDate"
                             onChange={handleFilterEventsChange}
                             value={filterEvents.endDate}
-                            min={getCurrentDate()}
+                            min={filterEvents.startDate}
                         />
                         <button
                             className="btnPrimary h-8 py-0 px-4 w-fit"
