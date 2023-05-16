@@ -27,6 +27,7 @@ import {
     USERS_SET_SIGN_ERROR,
     USERS_REMOVE_SIGN_ERROR,
     USERS_SIGN_UP_STEP_SET,
+    USER_SIGN_OUT,
 } from "../actions/usersActions";
 
 // User Tickets Actions Types
@@ -123,6 +124,8 @@ const rootReducer = (state = initialState, action) => {
 
         case USERS_SIGN_UP_STEP_SET:
             return { ...state, signUpStep: action.payload };
+        case USER_SIGN_OUT:
+            return { ...state, isLogin: false, userData: {} };
 
         //Tickets
         case TICKETS_GET_ALL:

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 // React Router Dom
-import { Routes, Route, useLocation, redirect } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 // Redux
 import { connect } from "react-redux";
