@@ -9,13 +9,14 @@ import { useState, useEffect } from "react";
 // React redux
 import { connect } from "react-redux";
 import { getEventsByName } from "../redux/actions/eventsActions";
+import { signout } from "../redux/actions/usersActions";
 
 // Assets
 import rave from "../assets/logo3.png";
 
 const Header = (props) => {
     // States en props:
-    const { isLogin, userData } = props;
+    const { isLogin, userData, signout } = props;
 
     // Dispatch en props:
     const { getEventsByName } = props;
@@ -53,12 +54,13 @@ const Header = (props) => {
         event.preventDefault();
         navigate("/search");
         getEventsByName(name.trim());
-        setName('')
+        setName("");
     };
 
     // Sign Out
     const handleSignOut = () => {
-        alert("Chau puto");
+        isLogin && signout();
+        navigate("/");
     };
 
     return (
@@ -128,6 +130,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        signout: () => dispatch(signout()),
         getEventsByName: (name) => dispatch(getEventsByName(name)),
     };
 };
