@@ -3,7 +3,6 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const EVENTS_FILTER = "EVENTS_FILTER";
 
-
 export const filteredEvents = ({startDate,endDate,producer}) =>{
 
     return async(dispatch)=>{

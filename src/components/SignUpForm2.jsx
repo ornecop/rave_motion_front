@@ -9,6 +9,17 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+import {
+    setSignUserError,
+    removeSignUserError,
+} from "../redux/actions/usersActions";
+
+// Axios
+import axios from "axios";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 // Validation schemas
 const validationSchema = Yup.object().shape({
     firstName: Yup.string()
@@ -34,13 +45,24 @@ const SignUpForm2 = ({ callBack }) => {
         document: "",
     };
 
-    const handleNext = (values, { setSubmitting, resetForm }) => {
-        callBack({
-            firstName: values.firstName,
-            lastName: values.lastName,
-            documentType: values.documentType,
-            document: values.document,
-        });
+    const dispatch = useDispatch();
+    const userSignError = useSelector((state) => state.userSignError);
+    const handleNext = async (values, { setSubmitting, resetForm }) => {
+        try {
+            const response = await axios.post(`${BACKEND_URL}/users/signup2`, {
+                documentType: values.documentType,
+                document: values.document,
+            });
+            callBack({
+                firstName: values.firstName.trim(),
+                lastName: values.lastName.trim(),
+                documentType: values.documentType,
+                document: values.document,
+            });
+            dispatch(removeSignUserError());
+        } catch (error) {
+            dispatch(setSignUserError(error.response.data.error));
+        }
         setSubmitting(false);
         resetForm();
     };
@@ -51,11 +73,20 @@ const SignUpForm2 = ({ callBack }) => {
             onSubmit={handleNext}
             validationSchema={validationSchema}
         >
-            {({ isSubmitting, touched, errors }) => (
+            {({ isSubmitting, touched, errors, values }) => (
                 <Form>
                     <h2 className="text-xl text-center my-2">
                         Ya falta poco...
                     </h2>
+
+                    {userSignError &&
+                        (!touched.firstName || !values.firstName) && (
+                            <div className="flex justify-center flex-row my-1">
+                                <span className="errorMessage">
+                                    {userSignError}
+                                </span>
+                            </div>
+                        )}
 
                     {/* FirstName */}
                     <div className="flex flex-col my-2">
