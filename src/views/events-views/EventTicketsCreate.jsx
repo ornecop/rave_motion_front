@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 /* =======================================================
     VIEW EventTicketsCreate - "/create/tickets" - Vista para crear y modificar tickets de un evento
@@ -12,10 +12,10 @@ import React, { useState } from "react";
 
 // Hooks
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-// Actions
+// Redux
+import { connect } from "react-redux";
 import {
     getEventById,
     removeEventDetail,
@@ -31,6 +31,9 @@ import axios from "axios";
 // Assets
 import { FaExchangeAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+
+// Components
+import NotFound from "../app-views/NotFound";
 
 // Validation schemas
 const validationSchema = Yup.object().shape({
@@ -54,24 +57,42 @@ const validationSchema = Yup.object().shape({
 
 const createImage = "https://wallpapercave.com/wp/wp12143405.jpg";
 
-const EventTicketsCreate = () => {
+const EventTicketsCreate = (props) => {
+    // Actions
+    const { getEventById, removeEventDetail } = props;
+
+    // Global State
+    const { eventDetail, userData } = props;
+
+    const navigate = useNavigate();
+
     // Event Id
     const { eventId } = useParams();
-
-    const dispatch = useDispatch();
-    const event = useSelector((state) => state.eventDetail);
-
-    useEffect(() => {
-        dispatch(getEventById(eventId));
-
-        return () => {
-            dispatch(removeEventDetail());
-        };
-    }, []);
 
     // Tandas
     const [ticketsArray, setTicketsArray] = useState([]);
 
+    // Get Event
+    useEffect(() => {
+        getEventById(eventId);
+
+        return () => {
+            removeEventDetail();
+        };
+    }, []);
+
+    // Verificar si el user tiene acceso PENDIENTE
+    useEffect(() => {
+        // if (eventDetail.id && eventDetail.UserId !== userData.id)
+        //    navigate("/notfound");
+    }, [eventDetail]);
+
+    // Set Event Tickets
+    useEffect(() => {
+        setTicketsArray(eventDetail.Tickets);
+    }, [eventDetail]);
+
+    // Create or modify tickets on preview
     const initialValues = {
         name: "",
         description: "",
@@ -89,9 +110,9 @@ const EventTicketsCreate = () => {
         resetForm();
     };
 
-    const navigate = useNavigate();
+    // Create or modify tickets on Event
     const handleCreateTickets = async () => {
-        if (!ticketsArray.length) {
+        if (!ticketsArray?.length) {
             return;
         }
 
@@ -106,6 +127,9 @@ const EventTicketsCreate = () => {
             console.log(error);
         }
     };
+
+    // Set tanda to modify on form
+    const setTicketToModify = (ticketId) => {};
 
     return (
         <div className="w-screen">
@@ -128,13 +152,13 @@ const EventTicketsCreate = () => {
                             <div className="floatBox my-6 mx-6 flex flex-col h-full justify-end">
                                 <Form className="">
                                     <h2 className="text-4xl text-center mb-8">
-                                        Tickets para {event.name}
+                                        Tickets para {eventDetail.name}
                                     </h2>
                                     <h5 className="text-xl text-center mb-8">
-                                        Tandas creadas: {ticketsArray.length}
+                                        Tandas creadas: {ticketsArray?.length}
                                     </h5>
                                     <h6 className="text-center mb-8">
-                                        event Id: {eventId}
+                                        event Id: {eventDetail.id}
                                     </h6>
                                     {/* name */}
                                     <div className="flex flex-col my-2">
@@ -298,102 +322,101 @@ const EventTicketsCreate = () => {
                             </div>
                         </div>
                         <div className="flex flex-col justify-content-center place-content-center ">
-                            {!ticketsArray.length ? (
-                                <div className="floatBox my-6 mx-6 justify-center">
-                                    <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
-                                        <p className="mx-4 mb-0 text-center font-semibold">
-                                            (Preview)
-                                        </p>
-                                    </div>
+                            <div className="floatBox my-6 mx-6 justify-center">
+                                <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+                                    <p className="mx-4 mb-0 text-center font-semibold">
+                                        Tandas de tickets del evento: (
+                                        {ticketsArray?.length})
+                                    </p>
                                 </div>
-                            ) : (
-                                <div className="floatBox my-6 mx-6 justify-center">
-                                    <div className="mb-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
-                                        <p className="mx-4 mb-0 text-center font-semibold">
-                                            (Preview tanda)
-                                        </p>
-                                    </div>
-                                    <table className="w-full text-sm text-center">
-                                        <thead className="text-xs">
-                                            <tr>
-                                                <th
-                                                    scope="col"
-                                                    className="px-2 py-3"
-                                                >
-                                                    Nro
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="px-2 py-3"
-                                                >
-                                                    Nombre
-                                                </th>
+                                {ticketsArray?.length && (
+                                    <>
+                                        <table className="w-full text-sm text-center">
+                                            <thead className="text-xs">
+                                                <tr>
+                                                    <th
+                                                        scope="col"
+                                                        className="px-2 py-3"
+                                                    >
+                                                        Nro
+                                                    </th>
+                                                    <th
+                                                        scope="col"
+                                                        className="px-2 py-3"
+                                                    >
+                                                        Nombre
+                                                    </th>
 
-                                                <th
-                                                    scope="col"
-                                                    className="px-2 py-3"
-                                                >
-                                                    Precio
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="px-2 py-3"
-                                                >
-                                                    Cantidad
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="px-2 py-3"
-                                                >
-                                                    Acciones
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {ticketsArray.map(
-                                                (tanda, index) => (
-                                                    <tr className="border-b">
-                                                        <td
-                                                            scope="row"
-                                                            className="px-2 py-4 font-medium whitespace-nowrap"
+                                                    <th
+                                                        scope="col"
+                                                        className="px-2 py-3"
+                                                    >
+                                                        Precio
+                                                    </th>
+                                                    <th
+                                                        scope="col"
+                                                        className="px-2 py-3"
+                                                    >
+                                                        Cantidad
+                                                    </th>
+                                                    <th
+                                                        scope="col"
+                                                        className="px-2 py-3"
+                                                    >
+                                                        Acciones
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {ticketsArray.map(
+                                                    (tanda, index) => (
+                                                        <tr
+                                                            className="border-b"
+                                                            key={tanda?.id}
                                                         >
-                                                            {index + 1}
-                                                        </td>
-                                                        <td className="px-2 py-4">
-                                                            {tanda.name}
-                                                        </td>
+                                                            <td
+                                                                scope="row"
+                                                                className="px-2 py-4 font-medium whitespace-nowrap"
+                                                            >
+                                                                {index + 1}
+                                                            </td>
+                                                            <td className="px-2 py-4">
+                                                                {tanda.name}
+                                                            </td>
 
-                                                        <td className="px-2 py-4">
-                                                            ${" "}
-                                                            {tanda.price.toLocaleString(
-                                                                "es"
-                                                            )}
-                                                        </td>
-                                                        <td className="px-2 py-4">
-                                                            {tanda.maxQuantity}
-                                                        </td>
-                                                        <td className="px-2 py-4">
-                                                            <div className="flex flex-row justify-center gap-6">
-                                                                <button>
-                                                                    <FaExchangeAlt />
-                                                                </button>
-                                                                <button>
-                                                                    <MdDelete />
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                )
-                                            )}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            )}
+                                                            <td className="px-2 py-4">
+                                                                ${" "}
+                                                                {tanda.price.toLocaleString(
+                                                                    "es"
+                                                                )}
+                                                            </td>
+                                                            <td className="px-2 py-4">
+                                                                {
+                                                                    tanda.maxQuantity
+                                                                }
+                                                            </td>
+                                                            <td className="px-2 py-4">
+                                                                <div className="flex flex-row justify-center gap-6">
+                                                                    <button>
+                                                                        <FaExchangeAlt />
+                                                                    </button>
+                                                                    <button>
+                                                                        <MdDelete />
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </>
+                                )}
+                            </div>
                             <div className="floatBox py-2 mb-6 mx-6 justify-center">
                                 <button
                                     type="submit"
                                     className="btnPrimary"
-                                    disabled={!ticketsArray.length}
                                     onClick={handleCreateTickets}
                                 >
                                     Agregar tandas al evento
@@ -407,4 +430,18 @@ const EventTicketsCreate = () => {
     );
 };
 
-export default EventTicketsCreate;
+const mapStateToProps = (state) => {
+    return {
+        userData: state.userData,
+        eventDetail: state.eventDetail,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getEventById: (eventId) => dispatch(getEventById(eventId)),
+        removeEventDetail: () => dispatch(removeEventDetail()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventTicketsCreate);
