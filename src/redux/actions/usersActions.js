@@ -24,7 +24,7 @@ export const signIn = ({ mail, password }) => {
                 password: password,
             });
             const { user, jwt } = response.data;
-            localStorage.setItem('token',jwt)
+            localStorage.setItem("token", jwt);
 
             dispatch({
                 type: USER_SIGN_IN,
@@ -40,7 +40,6 @@ export const signIn = ({ mail, password }) => {
 };
 
 export const verifyToken = (token) => {
-
     return async (dispatch) => {
         try {
             const response = await axios.post(
@@ -82,8 +81,9 @@ export const setSignUpStep = (step) => {
 };
 
 export const signout = () => {
-    const cookies = new Cookies();
-    cookies.remove("jwt");
+    console.log("signout");
+    localStorage.removeItem("token");
+    console.log(localStorage);
     return {
         type: USER_SIGN_OUT,
     };
