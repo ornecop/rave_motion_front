@@ -28,6 +28,10 @@ import * as Yup from "yup";
 // Axios
 import axios from "axios";
 
+// Assets
+import { FaExchangeAlt } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+
 // Validation schemas
 const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -66,7 +70,7 @@ const EventTicketsCreate = () => {
     }, []);
 
     // Tandas
-    const [ticketsArray, setTicketsArray] = useState([]);
+    const [ticketsArray, setTicketsArray] = useState(event.Tickets);
 
     const initialValues = {
         name: "",
@@ -76,9 +80,13 @@ const EventTicketsCreate = () => {
         maxQuantity: "",
     };
 
-    const handleSubmitEventCreate = async (values, { setSubmitting }) => {
+    const handleSubmitEventCreate = async (
+        values,
+        { setSubmitting, resetForm }
+    ) => {
         setTicketsArray([...ticketsArray, { ...values, eventId: eventId }]);
         setSubmitting(false);
+        resetForm();
     };
 
     const navigate = useNavigate();
@@ -310,33 +318,34 @@ const EventTicketsCreate = () => {
                                             <tr>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3"
+                                                    className="px-2 py-3"
                                                 >
-                                                    Nro de tanda
+                                                    Nro
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3"
+                                                    className="px-2 py-3"
                                                 >
                                                     Nombre
                                                 </th>
+
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3"
-                                                >
-                                                    Descripción
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="px-6 py-3"
+                                                    className="px-2 py-3"
                                                 >
                                                     Precio
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="px-6 py-3"
+                                                    className="px-2 py-3"
                                                 >
-                                                    Cantidad de tickets
+                                                    Cantidad
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    className="px-2 py-3"
+                                                >
+                                                    Acciones
                                                 </th>
                                             </tr>
                                         </thead>
@@ -346,21 +355,32 @@ const EventTicketsCreate = () => {
                                                     <tr className="border-b">
                                                         <td
                                                             scope="row"
-                                                            className="px-6 py-4 font-medium whitespace-nowrap"
+                                                            className="px-2 py-4 font-medium whitespace-nowrap"
                                                         >
                                                             {index + 1}
                                                         </td>
-                                                        <td className="px-6 py-4">
+                                                        <td className="px-2 py-4">
                                                             {tanda.name}
                                                         </td>
-                                                        <td className="px-6 py-4">
-                                                            {tanda.description}
+
+                                                        <td className="px-2 py-4">
+                                                            ${" "}
+                                                            {tanda.price.toLocaleString(
+                                                                "es"
+                                                            )}
                                                         </td>
-                                                        <td className="px-6 py-4">
-                                                            $ {tanda.price}
-                                                        </td>
-                                                        <td className="px-6 py-4">
+                                                        <td className="px-2 py-4">
                                                             {tanda.maxQuantity}
+                                                        </td>
+                                                        <td className="px-2 py-4">
+                                                            <div className="flex flex-row justify-center gap-6">
+                                                                <button>
+                                                                    <FaExchangeAlt />
+                                                                </button>
+                                                                <button>
+                                                                    <MdDelete />
+                                                                </button>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 )

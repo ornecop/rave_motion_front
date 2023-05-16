@@ -44,15 +44,7 @@ const App = ({ verifyToken, isLogin, userData }) => {
     const showHeader = location !== "/signin" && location !== "/signup";
 
     // Sign In by JSW
-    useEffect(() => {
-        if (!isLogin) {
-            const cookies = new Cookies();
-            const token = cookies.get("jwt");
-            console.log("app");
-            console.log(token);
-            verifyToken(token);
-        }
-    }, []);
+    useEffect(() => {}, []);
 
     return (
         <div className="bg-primary text-white antialiased">
@@ -66,10 +58,20 @@ const App = ({ verifyToken, isLogin, userData }) => {
                 {/* Events views */}
 
                 <Route path="/event/:id" element={<EventDetail />} />
-                    {/* Secure Routes */}
-                <Route path="/create" element={<RequireAuth><EventCreate /></RequireAuth>}/>
-                <Route path="/create/tickets/:eventId/"element={<RequireAuth><EventTicketsCreate/></RequireAuth>}/>
-               
+                {/* Secure Routes */}
+                <Route
+                    path="/create"
+                    element={
+                        <RequireAuth>
+                            <EventCreate />
+                        </RequireAuth>
+                    }
+                />
+                <Route
+                    path="/create/tickets/:eventId/"
+                    element={<EventTicketsCreate />}
+                />
+
                 <Route path="/cart" element={<EventCart />} />
 
                 {/* User views */}

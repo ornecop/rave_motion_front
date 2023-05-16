@@ -23,7 +23,9 @@ export const signIn = ({ mail, password }) => {
                 mail: mail,
                 password: password,
             });
-            const user = response.data;
+            const { user } = response.data;
+            console.log(response.headers.get("jwt"));
+            console.log(response);
             dispatch({
                 type: USER_SIGN_IN,
                 payload: user,
@@ -48,7 +50,6 @@ export const verifyToken = (token) => {
                 }
             );
 
-            console.log(response);
             const user = response.data;
             dispatch({
                 type: USER_SIGN_IN,
