@@ -26,6 +26,7 @@ import { connect, useDispatch, useSelector } from "react-redux";
 import { filteredEvents } from "../../redux/actions/filtersActions";
 import { getAllEvents } from "../../redux/actions/eventsActions";
 import { alphabeticOrder, dateOrder } from "../../redux/actions/orderActions";
+import getCurrentDate from"../../functions/getCurrentDate()";
 
 // Functions
 import setProducer from "../../functions/setProducer";
@@ -74,7 +75,7 @@ const Home = () => {
 
     // Filtros
     const [filterEvents, setFilterEvents] = useState({
-        startDate: null,
+        startDate: getCurrentDate(),
         endDate: null,
         producer: null,
     });
@@ -152,6 +153,7 @@ const Home = () => {
                             name="startDate"
                             onChange={handleFilterEventsChange}
                             value={filterEvents.startDate}
+                            min={getCurrentDate()}
                         />
                         <label htmlFor="endDate">Hasta:</label>
                         <input
@@ -160,6 +162,7 @@ const Home = () => {
                             name="endDate"
                             onChange={handleFilterEventsChange}
                             value={filterEvents.endDate}
+                            min={getCurrentDate()}
                         />
                         <button
                             className="btnPrimary h-8 py-0 px-4 w-fit"
