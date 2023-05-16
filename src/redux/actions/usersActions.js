@@ -39,7 +39,6 @@ export const signIn = ({ mail, password }) => {
 };
 
 export const verifyToken = (token) => {
-    console.log({'verifi':token});
     return async (dispatch) => {
         try {
             const response = await axios.post(
