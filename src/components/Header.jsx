@@ -45,27 +45,28 @@ const Header = (props) => {
 
     // Dropdown ================
     const dropdownRef = useRef(null);
-    const [showDropdown, toggleShowDropdown] = useToggle();
+    const [showDropdown, setShowDropdown] = useState(false);
+
+    const handlDropdownClick = () => {
+        setShowDropdown((prev) => !prev);
+    };
 
     const location = useLocation().pathname;
-
     useEffect(() => {
-        showDropdown && toggleShowDropdown();
+        showDropdown && setShowDropdown(false);
     }, [location]);
 
+    const handleOutsideClick = (event) => {
+        if (
+            dropdownRef.current &&
+            !dropdownRef.current.contains(event.target)
+        ) {
+            setShowDropdown(false);
+        }
+    };
+
     useEffect(() => {
-        const handleOutsideClick = (event) => {
-            if (
-                dropdownRef.current &&
-                !dropdownRef.current.contains(event.target)
-            ) {
-                // El usuario ha hecho clic fuera del dropdown, cerrarlo aquí
-                toggleShowDropdown();
-            }
-        };
-
         document.addEventListener("mousedown", handleOutsideClick);
-
         return () => {
             document.removeEventListener("mousedown", handleOutsideClick);
         };
@@ -94,9 +95,9 @@ const Header = (props) => {
     };
     const handleHomeClick = () => {
         if (currentPage > 1) {
-          setCurrentPage(1);
+            setCurrentPage(1);
         }
-      };
+    };
 
     return (
         <div
@@ -138,7 +139,7 @@ const Header = (props) => {
                             ref={dropdownRef}
                         >
                             <button
-                                onClick={toggleShowDropdown}
+                                onClick={handlDropdownClick}
                                 className="btnPrimary py-0 px-4 w-fit border-none"
                             >
                                 Tu cuenta
@@ -173,14 +174,6 @@ const Header = (props) => {
                                                 Crear evento
                                             </Link>
                                         </div>
-                                        {/* <div className="dropDownItem border-b-2 border-secondaryBorder">
-                                            <Link
-                                                className="navLinkDropdown"
-                                                to="/dashboard"
-                                            >
-                                                Dashboard
-                                            </Link>
-                                        </div> */}
                                         <div className="dropDownItem border-b-2 border-secondaryBorder">
                                             <Link
                                                 className="navLinkDropdown"
