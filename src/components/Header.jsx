@@ -44,32 +44,30 @@ const Header = (props) => {
     };
 
     // Dropdown ================
-    const dropdownRef = useRef(null);
-    const [showDropdown, toggleShowDropdown] = useToggle();
+    const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
 
-    const location = useLocation().pathname;
+  const toggleShowDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
 
-    useEffect(() => {
-        showDropdown && toggleShowDropdown();
-    }, [location]);
+  const handleOutsideClick = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target) && showDropdown) {
+      // El usuario ha hecho clic fuera del dropdown y está abierto, cerrarlo aquí
+      toggleShowDropdown();
+    }
+  };
 
-    useEffect(() => {
-        const handleOutsideClick = (event) => {
-            if (
-                dropdownRef.current &&
-                !dropdownRef.current.contains(event.target)
-            ) {
-                // El usuario ha hecho clic fuera del dropdown, cerrarlo aquí
-                toggleShowDropdown();
-            }
-        };
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick);
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
 
-        document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("mousedown", handleOutsideClick);
 
-        return () => {
-            document.removeEventListener("mousedown", handleOutsideClick);
-        };
-    }, []);
+    
 
     // Search bar logic ================
     const [name, setName] = useState("");
@@ -92,11 +90,13 @@ const Header = (props) => {
         isLogin && signout();
         navigate("/");
     };
+
+    //Volver a pagina 1
     const handleHomeClick = () => {
         if (currentPage > 1) {
           setCurrentPage(1);
         }
-      };
+      };      
 
     return (
         <div
@@ -127,6 +127,7 @@ const Header = (props) => {
                 <Link to="/" className="navLink" onClick={handleHomeClick}>
                     Home
                 </Link>
+
                 <Link to="/about" className="navLink">
                     Nosotros
                 </Link>
