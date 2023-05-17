@@ -116,7 +116,7 @@ const EventDetail = () => {
                                     <p className="mt-1 text-sm text-white">
                                         Description: {ticket.description}
                                     </p>
-                                    <Link to="/cart">
+                                    <Link to={`/cart/${ticket.id}`}>
                                         <button className="mt-3 bg-white hover:bg-gray-200 text-primary font-bold py-2 px-4 rounded">
                                             Comprar
                                         </button>
