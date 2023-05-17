@@ -1,8 +1,4 @@
-// React Router Dom
 import { Link } from "react-router-dom";
-
-// Assets
-import { AiOutlineHeart } from "react-icons/ai";
 
 export const EventCard = ({
     id,
@@ -22,13 +18,13 @@ export const EventCard = ({
 
     const formatHour = hour ? hour.slice(0, 5) : "-";
     return (
-        <div className="flex font-sans mx-3 my-2 ">
+        <div className="flex font-sans mx-5 my-7 h-96">
             <div className="flex-none w-48 relative ">
                 <Link to={`/event/${id}`}>
                     <img
                         src={image}
                         alt={name}
-                        className="absolute inset-0 w-full h-full object-cover rounded-l-lg "
+                        className="absolute inset-0 w-full h-full object-cover rounded-l-lg  "
                         loading="lazy"
                     />
                 </Link>
@@ -73,7 +69,18 @@ export const EventCard = ({
                         type="button"
                         aria-label="Like"
                     >
-                        <AiOutlineHeart />
+                        <svg
+                            width="20"
+                            height="20"
+                            fill="currentColor"
+                            aria-hidden="true"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                            />
+                        </svg>
                     </button>
                 </div>
                 <p className="text-sm text-slate-700">{venue}</p>

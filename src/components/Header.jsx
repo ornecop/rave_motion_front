@@ -165,12 +165,20 @@ const Header = (props) => {
                                                 Crear evento
                                             </Link>
                                         </div>
-                                        <div className="dropDownItem border-b-2 border-secondaryBorder">
+                                        {/* <div className="dropDownItem border-b-2 border-secondaryBorder">
                                             <Link
                                                 className="navLinkDropdown"
                                                 to="/dashboard"
                                             >
                                                 Dashboard
+                                            </Link>
+                                        </div> */}
+                                        <div className="dropDownItem border-b-2 border-secondaryBorder">
+                                            <Link
+                                                className="navLinkDropdown"
+                                                to="/dashboard"
+                                            >
+                                                Mis Eventos
                                             </Link>
                                         </div>
                                     </>
