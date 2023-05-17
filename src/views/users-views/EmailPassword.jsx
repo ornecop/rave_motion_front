@@ -1,4 +1,6 @@
 import React from "react";
+import { useDispatch } from 'react-redux';
+import { passToken } from "../../redux/actions/usersActions";
 /* =======================================================
     VIEW PasswordChange - "/changepassword" - Vista para cambiar password
 
@@ -28,11 +30,19 @@ const validationSchema = Yup.object().shape({
 // Assets
 const changePasswordImage = "https://wallpapercave.com/wp/wp1889479.jpg";
 
-const PasswordChange = () => {
-    const handleSubmit = (values, { setSubmitting }) => {
+const EmailPassword = () => {
+    const dispatch = useDispatch();
+    const handleSubmit = async (values, { setSubmitting }) => {
         setSubmitting(false);
-        axios.post(`http://localhost:3001/users/resetpassword`,{ mail: values.mail })
+       await axios.post(`http://localhost:3001/users/resetpassword`,{ mail: values.mail })
+            .then(response => {
+                dispatch(passToken(response.data.resetPasswordToken));
+            })
+            .catch(error => {
+                console.error("Error: ", error);
+            });
     };
+    
     return (
         <div className="w-full h-screen flex flex-col justify-center items-center bg-gradient-to-r from-fuchsia-800 to-pink-500">
             <div className="flex flex-col w-96 py-8 px-4 bg-slate-900 rounded-xl border border-secondaryBorder">
@@ -92,4 +102,4 @@ const PasswordChange = () => {
     );
 };
 
-export default PasswordChange;
+export default EmailPassword;

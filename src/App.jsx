@@ -27,7 +27,8 @@ import EventTicketsCreate from "./views/events-views/EventTicketsCreate";
 import EventDetail from "./views/events-views/EventDetail";
 
 // User views
-import PasswordChange from "./views/users-views/PasswordChange";
+import ChangePassword from "./views/users-views/ChangePassword";
+import EmailPassword from "./views/users-views/EmailPassword";
 import ProducerDashboard from "./views/users-views/ProducerDashboard";
 import ProducerEventDetail from "./views/users-views/ProducerEventDetail";
 import SignIn from "./views/users-views/SignIn";
@@ -84,7 +85,8 @@ const App = ({ verifyToken, isLogin, userData }) => {
 
                 {/* User views */}
 
-                <Route path="/changepassword" element={<PasswordChange />} />
+                <Route path="/changepassword" element={<EmailPassword />} />
+                <Route path="/changepassword/2" element={<ChangePassword />} />
                 <Route path="/dashboard" element={<ProducerDashboard />} />
                 <Route
                     path="/dashboard/:eventId"

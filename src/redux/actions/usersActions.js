@@ -13,6 +13,7 @@ export const USER_SIGN_OUT = "USER_SIGN_OUT";
 export const USERS_SET_SIGN_ERROR = "USERS_SET_SIGN_ERROR";
 export const USERS_REMOVE_SIGN_ERROR = "USERS_REMOVE_SIGN_ERROR";
 export const USERS_SIGN_UP_STEP_SET = "USERS_SIGN_UP_STEP_SET";
+export const USER_CHANGE_PASSWORD = "USER_CHANGE_PASSWORD";
 
 // ============= Actions Creators
 
@@ -88,3 +89,10 @@ export const signout = () => {
         type: USER_SIGN_OUT,
     };
 };
+ 
+export const passToken = (resetPasswordToken)=>{
+    return {
+        type: USER_CHANGE_PASSWORD,
+        payload: resetPasswordToken
+    };
+}

@@ -1,4 +1,6 @@
 import React from "react";
+import { useEffect } from "react";
+import { useSelector } from 'react-redux';
 /* =======================================================
     VIEW PasswordChange - "/changepassword" - Vista para cambiar password
 
@@ -20,77 +22,76 @@ import * as Yup from "yup";
 
 // Validation schemas
 const validationSchema = Yup.object().shape({
-    mail: Yup.string()
-        .email("El mail no es valido.")
+    newPassword: Yup.string()
+        .min(8, "La contraseña debe tener al menos 8 caracteres.")
         .required("Este campo es requerido."),
 });
-newPassword
 // Assets
 const changePasswordImage = "https://wallpapercave.com/wp/wp1889479.jpg";
 
-const PasswordChange = () => {
-  const params = req.params
-    const handleSubmit = (values, { setSubmitting }) => {
-        setSubmitting(false);
-        axios.post(`http://localhost:3001/users/resetpassword/${params}`,{ newPassword: values.newPassword })
-    };
-    return (
-        <div className="w-full h-screen flex flex-col justify-center items-center bg-gradient-to-r from-fuchsia-800 to-pink-500">
-            <div className="flex flex-col w-96 py-8 px-4 bg-slate-900 rounded-xl border border-secondaryBorder">
-                <h2 className="text-2xl text-center mb-8">
-                    Cambiar contraseña
-                </h2>
-                <Formik
-                    initialValues={{ newPassword: "" }}
-                    onSubmit={handleSubmit}
-                    validationSchema={validationSchema}
-                >
-                    {({ isSubmitting, touched, errors }) => (
-                        <Form className="">
-                            {/* newPassword */}
-                            <div className="flex flex-col my-2">
-                                <label
-                                    htmlFor="newPassword"
-                                    className="block my-1 font-semibold"
-                                >
-                                    mail:
-                                </label>
-                                <Field
-                                    className={
-                                        touched.newPassword && errors.newPassword
-                                            ? "inputError"
-                                            : touched.newPassword && !errors.newPassword
-                                            ? "inputSuccess"
-                                            : "input"
-                                    }
-                                    type="text"
-                                    placeholder="Tu mail"
-                                    name="mail"
-                                    autoComplete="false"
-                                />
-                                <ErrorMessage
-                                    name="mail"
-                                    component="span"
-                                    className="errorMessage"
-                                />
-                            </div>
+const ChangePassword = () => {
+    const resetPasswordToken = useSelector(state => state.resetPasswordToken);
+    console.log(resetPasswordToken)
+      const handleSubmit = (values, { setSubmitting }) => {
+          setSubmitting(false);
+          axios.post(`http://localhost:3001/users/resetpassword/2`,{ newPassword: values.newPassword, resetPasswordToken })
+      };
+      useEffect(() => {
+        // Aquí puedes manejar los cambios en resetPasswordToken
+        console.log(resetPasswordToken);
+      }, [resetPasswordToken]);
+      return (
+          <div className="w-full h-screen flex flex-col justify-center items-center bg-gradient-to-r from-fuchsia-800 to-pink-500">
+              <div className="flex flex-col w-96 py-8 px-4 bg-slate-900 rounded-xl border border-secondaryBorder">
+                  <h2 className="text-2xl text-center mb-8">
+                      Cambiar contraseña
+                  </h2>
+                  <Formik
+                      initialValues={{ newPassword: "" }}
+                      onSubmit={handleSubmit}
+                      validationSchema={validationSchema}
+                  >
+                      {({ isSubmitting, touched, errors }) => (
+                          <Form className="">
+                              <div className="flex flex-col my-2">
+                                  <label htmlFor="newPassword" className="block my-1 font-semibold">
+                                      Nueva Contraseña:
+                                  </label>
+                                  <Field
+                                      className={
+                                          touched.newPassword && errors.newPassword
+                                              ? "inputError"
+                                              : touched.newPassword && !errors.newPassword
+                                              ? "inputSuccess"
+                                              : "input"
+                                      }
+                                      type="text"
+                                      placeholder="Tu nueva contraseña"
+                                      name="newPassword"
+                                      autoComplete="false"
+                                  />
+                                  <ErrorMessage
+                                      name="newPassword"
+                                      component="span"
+                                      className="errorMessage"
+                                  />
+                              </div>
+                              <div className="flex flex-col mt-4">
+                                  <button
+                                      type="submit"
+                                      className="btnPrimary"
+                                      disabled={isSubmitting}
+                                  >
+                                      Solicitar cambio de contraseña
+                                  </button>
+                              </div>
+                          </Form>
+                      )}
+                  </Formik>
+              </div>
+          </div>
+      );
+  };
+  
 
-                            {/* Submit */}
-                            <div className="flex flex-col mt-4">
-                                <button
-                                    type="submit"
-                                    className="btnPrimary"
-                                    disabled={isSubmitting}
-                                >
-                                    Solicitar cambio de contraseña
-                                </button>
-                            </div>
-                        </Form>
-                    )}
-                </Formik>
-            </div>
-        </div>
-    );
-};
-
-export default PasswordChange;
+  export default ChangePassword; 
