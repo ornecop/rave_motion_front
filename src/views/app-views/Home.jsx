@@ -109,15 +109,18 @@ const Home = () => {
 
     const submitFilterEvents = () => {
         dispatch(filteredEvents(filterEvents));
+        setCurrentPage(1);
     };
 
     //ORDENAMIENTOS
     const handleSortAbc = (event) => {
         dispatch(alphabeticOrder(event.target.value));
+        setCurrentPage(1);
     };
 
     const handleSortDate = (event) => {
         dispatch(dateOrder(event.target.value));
+        setCurrentPage(1);
     };
 
     return (
