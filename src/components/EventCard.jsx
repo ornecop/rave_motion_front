@@ -30,7 +30,7 @@ export const EventCard = ({
                 </Link>
             </div>
 
-            <form className="flex-auto p-6  bg-white rounded-r-lg">
+            <form className="flex-auto p-6 bg-white rounded-r-lg">
                 <Link to={`/event/${id}`}>
                     <div className="flex flex-wrap">
                         <h1 className="flex-auto text-lg font-semibold text-slate-900">

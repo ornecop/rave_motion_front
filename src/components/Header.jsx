@@ -92,6 +92,11 @@ const Header = (props) => {
         isLogin && signout();
         navigate("/");
     };
+    const handleHomeClick = () => {
+        if (currentPage > 1) {
+          setCurrentPage(1);
+        }
+      };
 
     return (
         <div
@@ -116,7 +121,10 @@ const Header = (props) => {
                 </form>
             </div>
             <div className="flex w-fit justify-self-end justify-center my-2 items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder">
-                <Link to="/" className="navLink">
+                {/* <Link to="/" className="navLink">
+                    Home
+                </Link> */}
+                <Link to="/" className="navLink" onClick={handleHomeClick}>
                     Home
                 </Link>
                 <Link to="/about" className="navLink">
