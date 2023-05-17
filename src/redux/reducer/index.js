@@ -76,7 +76,7 @@ const rootReducer = (state = initialState, action) => {
         //* Filtros
 
         case EVENTS_FILTER:
-            return { ...state, homeEvents: action.payload };
+            return { ...state, homeEvents: action.payload, currentPage: 1 };
 
         // * Order
 
@@ -93,6 +93,7 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 homeEvents: order,
+                currentPage: 1,
             };
 
         case DATE_ORDER:
@@ -107,6 +108,7 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 homeEvents: dateOrder,
+                currentPage: 1,
             };
 
         // Users
