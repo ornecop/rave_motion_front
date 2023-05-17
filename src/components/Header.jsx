@@ -4,7 +4,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // Hooks
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useToggle } from "../functions/customHooks";
 import { useLocation } from "react-router-dom";
 
@@ -17,13 +17,13 @@ import { signout } from "../redux/actions/usersActions";
 import rave from "../assets/logo3.png";
 
 const Header = (props) => {
-    // States en props:
+    // States en props ================
     const { isLogin, userData, signout } = props;
 
-    // Dispatch en props:
+    // Dispatch en props ================
     const { getEventsByName } = props;
 
-    // Style on scroll
+    // Style on scroll ================
     const [opacity, setOpacity] = useState(0);
 
     useEffect(() => {
@@ -43,7 +43,8 @@ const Header = (props) => {
         backgroundColor: `rgba(2, 6, 23, ${opacity})`,
     };
 
-    // Dropdown
+    // Dropdown ================
+    const dropdownRef = useRef(null);
     const [showDropdown, toggleShowDropdown] = useToggle();
 
     const location = useLocation().pathname;
@@ -52,7 +53,25 @@ const Header = (props) => {
         showDropdown && toggleShowDropdown();
     }, [location]);
 
-    // Search bar logic
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target)
+            ) {
+                // El usuario ha hecho clic fuera del dropdown, cerrarlo aquí
+                toggleShowDropdown();
+            }
+        };
+
+        document.addEventListener("mousedown", handleOutsideClick);
+
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick);
+        };
+    }, []);
+
+    // Search bar logic ================
     const [name, setName] = useState("");
 
     const handleInputChange = (event) => {
@@ -68,7 +87,7 @@ const Header = (props) => {
         setName("");
     };
 
-    // Sign Out
+    // Sign Out ================
     const handleSignOut = () => {
         isLogin && signout();
         navigate("/");
@@ -105,7 +124,11 @@ const Header = (props) => {
                 </Link>
                 {isLogin ? (
                     <>
-                        <div className="inline-block relative">
+                        {/* Dropdown user  */}
+                        <div
+                            className="inline-block relative"
+                            ref={dropdownRef}
+                        >
                             <button
                                 onClick={toggleShowDropdown}
                                 className="btnPrimary py-0 px-4 w-fit border-none"
