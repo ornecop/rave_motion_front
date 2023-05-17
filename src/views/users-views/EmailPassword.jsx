@@ -11,6 +11,8 @@ import React from "react";
 
     
 */
+// axios
+import axios from 'axios';
 
 // Formik, Yup
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -29,6 +31,7 @@ const changePasswordImage = "https://wallpapercave.com/wp/wp1889479.jpg";
 const PasswordChange = () => {
     const handleSubmit = (values, { setSubmitting }) => {
         setSubmitting(false);
+        axios.post(`http://localhost:3001/users/resetpassword`,{ mail: values.mail })
     };
     return (
         <div className="w-full h-screen flex flex-col justify-center items-center bg-gradient-to-r from-fuchsia-800 to-pink-500">
