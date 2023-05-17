@@ -44,7 +44,7 @@ const Home = () => {
     //PAGINADO
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [eventsPerPage, setEventsPerPage] = useState(3);
+    const [eventsPerPage, setEventsPerPage] = useState(9);
     const indexOfLastEvent = currentPage * eventsPerPage;
     const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
     const currentEvents = allEvents.slice(indexOfFirstEvent, indexOfLastEvent);
@@ -98,6 +98,7 @@ const Home = () => {
         if (event.target.value === "All") {
             setFilterEvents({ ...filterEvents, producer: null });
             dispatch(filteredEvents({ ...filterEvents, producer: null }));
+            setCurrentPage(1);
             return;
         }
 
@@ -105,6 +106,7 @@ const Home = () => {
         dispatch(
             filteredEvents({ ...filterEvents, producer: event.target.value })
         );
+        setCurrentPage(1);
     };
 
     const submitFilterEvents = () => {
@@ -227,6 +229,7 @@ const Home = () => {
                 </div>
             </div>
 
+            <EventContainer events={currentEvents} />
             <Paginado
                 eventsPerPage={eventsPerPage}
                 allEventos={allEventos.length}
@@ -234,7 +237,6 @@ const Home = () => {
                 currentPage={currentPage}
             />
 
-            <EventContainer events={currentEvents} />
         </div>
     );
 };
