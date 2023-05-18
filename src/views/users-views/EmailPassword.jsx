@@ -1,6 +1,5 @@
 import React from "react";
-import { useDispatch } from 'react-redux';
-import { passToken } from "../../redux/actions/usersActions";
+
 /* =======================================================
     VIEW PasswordChange - "/changepassword" - Vista para cambiar password
 
@@ -31,16 +30,11 @@ const validationSchema = Yup.object().shape({
 const changePasswordImage = "https://wallpapercave.com/wp/wp1889479.jpg";
 
 const EmailPassword = () => {
-    const dispatch = useDispatch();
     const handleSubmit = async (values, { setSubmitting }) => {
         setSubmitting(false);
-       await axios.post(`http://localhost:3001/users/resetpassword`,{ mail: values.mail })
-            .then(response => {
-                dispatch(passToken(response.data.resetPasswordToken));
-            })
-            .catch(error => {
-                console.error("Error: ", error);
-            });
+      const response= await axios.post(`http://localhost:3001/users/resetpassword`,{ mail: values.mail })  
+      const passwordToken= response.data.resetPasswordToken 
+      localStorage.setItem("passwordtoken",passwordToken);
     };
     
     return (

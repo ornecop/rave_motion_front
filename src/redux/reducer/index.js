@@ -130,9 +130,7 @@ const rootReducer = (state = initialState, action) => {
             return { ...state, signUpStep: action.payload };
         case USER_SIGN_OUT:
             return { ...state, isLogin: false, userData: {} };
-        case USER_CHANGE_PASSWORD:
-            console.log(action.payload);
-            return{...state,resetPasswordToken:action.payload}
+ 
         //Tickets
         case TICKETS_GET_ALL:
             return {

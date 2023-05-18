@@ -1,6 +1,4 @@
 import React from "react";
-import { useEffect } from "react";
-import { useSelector } from 'react-redux';
 /* =======================================================
     VIEW PasswordChange - "/changepassword" - Vista para cambiar password
 
@@ -30,16 +28,12 @@ const validationSchema = Yup.object().shape({
 const changePasswordImage = "https://wallpapercave.com/wp/wp1889479.jpg";
 
 const ChangePassword = () => {
-    const resetPasswordToken = useSelector(state => state.resetPasswordToken);
-    console.log(resetPasswordToken)
       const handleSubmit = (values, { setSubmitting }) => {
+        const resetPasswordToken1= localStorage.getItem("passwordtoken")
           setSubmitting(false);
-          axios.post(`http://localhost:3001/users/resetpassword/2`,{ newPassword: values.newPassword, resetPasswordToken })
+          axios.post(`http://localhost:3001/users/resetpassword/2`,{ newPassword: values.newPassword, resetPasswordToken1 })
       };
-      useEffect(() => {
-        // Aquí puedes manejar los cambios en resetPasswordToken
-        console.log(resetPasswordToken);
-      }, [resetPasswordToken]);
+      
       return (
           <div className="w-full h-screen flex flex-col justify-center items-center bg-gradient-to-r from-fuchsia-800 to-pink-500">
               <div className="flex flex-col w-96 py-8 px-4 bg-slate-900 rounded-xl border border-secondaryBorder">

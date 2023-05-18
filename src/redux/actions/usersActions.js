@@ -90,9 +90,3 @@ export const signout = () => {
     };
 };
  
-export const passToken = (resetPasswordToken)=>{
-    return {
-        type: USER_CHANGE_PASSWORD,
-        payload: resetPasswordToken
-    };
-}
