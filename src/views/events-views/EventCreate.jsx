@@ -79,36 +79,30 @@ const EventCreate = ({ userData }) => {
     const navigate = useNavigate();
 
     const [imageDataUrl, setImageDataUrl] = useState("");
-
+    const [imageError, setImageError] = useState({status:""});
+    const [imageName, setImageName] = useState({name:""});
+    
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            const reader = new FileReader(); //se utiliza FileReader para leer el contenido de un archivo
+        const fileName = file.name;
+        const fileExtension = fileName.split(".").pop().toLowerCase();
+      if (fileExtension === "jpg" || fileExtension === "jpeg" || fileExtension === "png") {
+        setImageError({status:""});
+        setImageName({name:fileName})
+            const reader = new FileReader();
             reader.onload = (e) => {
-                //Un evento onload es un tipo de evento en JavaScript
-                // que se dispara cuando se completa una operación de carga,
-                //como la carga de un archivo, una imagen o un recurso externo.
-                const dataURL = e.target.result;
-                setImageDataUrl(dataURL);
+            const dataURL = e.target.result;
+            setImageDataUrl(dataURL);
             };
             reader.readAsDataURL(file);
+        } else {
+            setImageName({name:""})
+            setImageError({status:"Debe seleccionar una imagen valida. (.jpg .png .jpeg)"});
+          }  
         }
-    };
-
-    ////**
-    // FileReader es una interfaz proporcionada por el estándar de JavaScript File API.
-    //Permite leer los contenidos de archivos de forma asíncrona en el navegador.
-
-    // La interfaz FileReader proporciona varios métodos para leer archivos,
-    // como readAsText(), readAsDataURL(), readAsArrayBuffer(), etc.
-    //Cada método permite leer los contenidos de un archivo de diferentes maneras.
-
-    // En el código que proporcionaste, se utiliza FileReader para leer el contenido de un archivo
-    // utilizando el método readAsDataURL().
-    //Este método lee el archivo y devuelve los datos en forma de URL de datos (data URL),
-    // que es una representación en formato base64 del contenido del archivo. */
-    // */
-
+     
+    }
     const handleSubmitEventCreate = async (
         values,
         { setSubmitting, resetForm }
@@ -200,6 +194,8 @@ const EventCreate = ({ userData }) => {
                                         type="file"
                                         accept=".jpg, .jpeg, .png"
                                     />
+                                     <span className="errorMessage">{imageError&&imageError.status}</span>
+                                     <span className="errorMessage" style={{"color":"white"}}>{imageName&&imageName.name}</span>
                                     {!imageDataUrl && (
                                         <ErrorMessage
                                             name="image"
