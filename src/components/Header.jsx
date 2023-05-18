@@ -46,27 +46,25 @@ const Header = (props) => {
     // Dropdown ================
 
     const [showDropdown, setShowDropdown] = useState(false);
-  const dropdownRef = useRef(null);
-
-  const toggleShowDropdown = () => {
-    setShowDropdown(!showDropdown);
-  };
-
-  const handleOutsideClick = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target) && showDropdown) {
-      // El usuario ha hecho clic fuera del dropdown y está abierto, cerrarlo aquí
-      toggleShowDropdown();
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("click", handleOutsideClick);
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
+    const dropdownRef = useRef(null);
+  
+    const handleDropdownClick = () => {
+      setShowDropdown(!showDropdown);
     };
-  }, []);
+  
+    const handleOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+  
+    useEffect(() => {
+      document.addEventListener('mousedown', handleOutsideClick);
+      return () => {
+        document.removeEventListener('mousedown', handleOutsideClick);
+      };
+    }, []);
 
-    document.addEventListener("mousedown", handleOutsideClick);
 
     
     // Search bar logic ================
@@ -134,27 +132,20 @@ const Header = (props) => {
                 {isLogin ? (
                     <>
                         {/* Dropdown user  */}
-                        <div
-                            className="inline-block relative"
-                            ref={dropdownRef}
-                        >
-                            <button
-                                onClick={handlDropdownClick}
-                                className="btnPrimary py-0 px-4 w-fit border-none"
+                        <div className="inline-block relative" ref={dropdownRef}>
+
+                        <button onClick={handleDropdownClick} className="btnPrimary py-0 px-4 w-fit border-none">
+                             Tu cuenta
+                        </button>
+                        <div  
+                              className={`"z-20 bg-secondary rounded-md w-40 left-[-2rem] top-[2rem] text-center" ${
+                                showDropdown ? "block" : "hidden"
+                              }`}
+                              style={{ position: "absolute" }}
                             >
-                                Tu cuenta
-                            </button>
-                            <div
-                                className={`"z-20 bg-secondary rounded-md w-40 left-[-2rem] top-[2rem] text-center" ${
-                                    showDropdown ? "block" : "hidden"
-                                }`}
-                                style={{ position: "absolute" }}
-                            >
-                                <div className="dropDownItem">
-                                    <Link className="navLinkDropdown">
-                                        {userData.firstName}
-                                    </Link>
-                                </div>
+                              <div className="dropDownItem">
+                                <Link className="navLinkDropdown">{userData.firstName}</Link>
+                              </div>
 
                                 <div className="dropDownItem border-b-2 border-secondaryBorder">
                                     <Link
