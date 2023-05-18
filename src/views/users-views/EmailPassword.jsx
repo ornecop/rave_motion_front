@@ -30,12 +30,19 @@ const validationSchema = Yup.object().shape({
 const changePasswordImage = "https://wallpapercave.com/wp/wp1889479.jpg";
 
 const EmailPassword = () => {
-    const handleSubmit = async (values, { setSubmitting }) => {
+    const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         setSubmitting(false);
-      const response= await axios.post(`http://localhost:3001/users/resetpassword`,{ mail: values.mail })  
-      const passwordToken= response.data.resetPasswordToken 
-      localStorage.setItem("passwordtoken",passwordToken);
+        try {
+            const response = await axios.post(`http://localhost:3001/users/resetpassword`,{ mail: values.mail })  
+            const passwordToken = response.data.resetPasswordToken 
+            localStorage.setItem("passwordtoken", passwordToken);
+            resetForm(); // Resetea el formulario después de la solicitud exitosa
+        } catch (error) {
+            console.error("Error resetting password", error);
+            // No se reseteará el formulario en caso de error.
+        }
     };
+    
     
     return (
         <div className="w-full h-screen flex flex-col justify-center items-center bg-gradient-to-r from-fuchsia-800 to-pink-500">
