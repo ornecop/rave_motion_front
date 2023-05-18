@@ -65,7 +65,7 @@ const App = ({ verifyToken, isLogin, userData }) => {
                 <Route path="/event/:id" element={<EventDetail />} />
                 {/* Secure Routes */}
                 <Route
-                    path="/create/:eventId"
+                    path="/create/:eventId?"
                     element={
                         <RequireAuth>
                             <EventCreate />
