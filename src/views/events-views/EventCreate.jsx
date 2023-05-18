@@ -39,8 +39,8 @@ const validationSchema = Yup.object().shape({
     // image: Yup.mixed()
     //     .test("tipoArchivo", "Debe ser una imagen válida", (value) => {
     //         if (value && value.file) {
-    // //             const fileType = value.type;
-    // //             return fileType.startsWith("image/");
+    //             const fileType = value.type;
+    //             return fileType.startsWith("image/");
     // //         }
     // //         return false;
     // //     })
@@ -193,6 +193,7 @@ const EventCreate = ({ userData }) => {
                                             style={{"color": "rgba(37, 40, 80, 0)"}}
                                             onChange={handleImageChange}
                                             name="image"
+                                            title=''
                                             autoComplete="true"
                                             type="file"
                                             accept=".jpg, .jpeg, .png"
