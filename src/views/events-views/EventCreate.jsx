@@ -24,6 +24,7 @@ import * as Yup from "yup";
 // React router dom
 import { useNavigate } from "react-router-dom";
 import{ useState } from "react";
+import getCurrentDate from"../../functions/getCurrentDate";
 // Redux
 import { connect } from "react-redux";
 
@@ -35,9 +36,9 @@ const validationSchema = Yup.object().shape({
     name: Yup.string()
         .max(50, "Debe ser hasta 50 caracteres.")
         .required("Este campo es requerido."),
-    // // image: Yup.mixed()
-    // //     .test("tipoArchivo", "Debe ser una imagen válida", (value) => {
-    // //         if (value && value.file) {
+    // image: Yup.mixed()
+    //     .test("tipoArchivo", "Debe ser una imagen válida", (value) => {
+    //         if (value && value.file) {
     // //             const fileType = value.type;
     // //             return fileType.startsWith("image/");
     // //         }
@@ -83,8 +84,10 @@ const EventCreate = ({ userData }) => {
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-          const reader = new FileReader();
-          reader.onload = (e) => {
+          const reader = new FileReader();//se utiliza FileReader para leer el contenido de un archivo
+          reader.onload = (e) => {//Un evento onload es un tipo de evento en JavaScript
+            // que se dispara cuando se completa una operación de carga,
+            //como la carga de un archivo, una imagen o un recurso externo.
             const dataURL = e.target.result;
             setImageDataUrl(dataURL);
           };
@@ -92,6 +95,19 @@ const EventCreate = ({ userData }) => {
         }
       };
 
+////**
+// FileReader es una interfaz proporcionada por el estándar de JavaScript File API. 
+//Permite leer los contenidos de archivos de forma asíncrona en el navegador.
+
+// La interfaz FileReader proporciona varios métodos para leer archivos,
+// como readAsText(), readAsDataURL(), readAsArrayBuffer(), etc. 
+//Cada método permite leer los contenidos de un archivo de diferentes maneras.
+
+// En el código que proporcionaste, se utiliza FileReader para leer el contenido de un archivo
+// utilizando el método readAsDataURL(). 
+//Este método lee el archivo y devuelve los datos en forma de URL de datos (data URL),
+// que es una representación en formato base64 del contenido del archivo. */
+// */
 
     const handleSubmitEventCreate = async (
         values,
@@ -174,18 +190,19 @@ const EventCreate = ({ userData }) => {
                                         </label>
                                         <Field
                                             className="file: "
-                                            type="file"
-                                            placeholder="Url de la imagen"
-                                            name="image"
-                                            autoComplete="false"
-                                            accept=".jpg, .jpeg, .png"
+                                            style={{"color": "rgba(37, 40, 80, 0)"}}
                                             onChange={handleImageChange}
+                                            name="image"
+                                            autoComplete="true"
+                                            type="file"
+                                            accept=".jpg, .jpeg, .png"
                                         />
+                                         {!imageDataUrl && (
                                         <ErrorMessage
                                             name="image"
                                             component="span"
                                             className="errorMessage"
-                                        />
+                                        />)}
                                     </div>
 
                                     {/* Row date y hour */}
@@ -210,6 +227,7 @@ const EventCreate = ({ userData }) => {
                                                 type="date"
                                                 name="date"
                                                 autoComplete="false"
+                                                min={getCurrentDate()}
                                             />
                                             <ErrorMessage
                                                 name="date"
