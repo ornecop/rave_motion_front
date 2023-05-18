@@ -1,7 +1,7 @@
 import axios from "axios";
-import React from "react";
 import { useParams } from "react-router-dom";
 import Temporizador from "../../components/Temporizador"
+import { useEffect } from "react";
 
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -18,15 +18,14 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 */
 const EventCart = () => {
     const {cartId} = useParams();
-    const duracion = 10 * 60;
-
-    function alFinalizar(){
-      throw alert('el tiempo estimado para la compra se acabo')
+    const duracion = 10;
+  
+    async function alFinalizar(){
+      const response = await axios.get(`${BACKEND_URL}/events`)
+      console.log(response)
     }
 
-
-
-
+    console.log(duracion)
 
   return (
     <div className="w-full min-h-screen flex justify-center items-center">
