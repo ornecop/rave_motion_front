@@ -71,7 +71,7 @@ const EventCreate = ({ userData }) => {
     const navigate = useNavigate();
 
     const [imageDataUrl, setImageDataUrl] = useState("");
-    const [imageError, setImageError] = useState({status:""});
+    const [imageError, setImageError] = useState({status:"", disabled:"y"});
     const [imageName, setImageName] = useState({name:""});
     
     const handleImageChange = (event) => {
@@ -80,7 +80,7 @@ const EventCreate = ({ userData }) => {
         const fileName = file.name;
         const fileExtension = fileName.split(".").pop().toLowerCase();
       if (fileExtension === "jpg" || fileExtension === "jpeg" || fileExtension === "png") {
-        setImageError({status:""});
+        setImageError({status:"", disabled:""});
         setImageName({name:fileName})
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -91,7 +91,7 @@ const EventCreate = ({ userData }) => {
         } else {
             setImageName({name:""})
             setImageDataUrl("")
-            setImageError({status:"Debe seleccionar una imagen valida. (.jpg .png .jpeg)"});
+            setImageError({disabled:"y" , status:"Debe seleccionar una imagen valida. (.jpg .png .jpeg)"});
           }  
         }
      
@@ -352,7 +352,7 @@ const EventCreate = ({ userData }) => {
                                         type="submit"
                                         className="btnPrimary"
                                         onClick={errorImageHandler}
-                                        disabled={imageDataUrl && isSubmitting}
+                                        disabled={isSubmitting && imageError.disabled}
                                     >
                                         Crear o modificar evento
                                     </button>
