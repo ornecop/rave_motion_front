@@ -26,7 +26,7 @@ import { connect, useDispatch, useSelector } from "react-redux";
 import { filteredEvents } from "../../redux/actions/filtersActions";
 import { getAllEvents } from "../../redux/actions/eventsActions";
 import { alphabeticOrder, dateOrder } from "../../redux/actions/orderActions";
-import getCurrentDate from"../../functions/getCurrentDate()";
+import getCurrentDate from"../../functions/getCurrentDate";
 
 // Functions
 import setProducer from "../../functions/setProducer";
