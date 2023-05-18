@@ -51,6 +51,9 @@ const Header = (props) => {
     const handleDropdownClick = () => {
       setShowDropdown(!showDropdown);
     };
+    const handleOptionClick = () => {
+        setShowDropdown(false);
+      };
   
     const handleOutsideClick = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -65,7 +68,9 @@ const Header = (props) => {
       };
     }, []);
 
-
+   
+      
+   
     
     // Search bar logic ================
     const [name, setName] = useState("");
@@ -98,7 +103,7 @@ const Header = (props) => {
 
     return (
         <div
-            className="grid grid-cols-3 w-screen h-16 fixed top-0 z-10 font-medium"
+            className="grid grid-cols-3 w-screen h-16 fixed top-0 z-10 font-medium px-2"
             style={headerStyle}
         >
             <div className="flex justify-self-start items-center ml-4">
@@ -144,13 +149,14 @@ const Header = (props) => {
                               style={{ position: "absolute" }}
                             >
                               <div className="dropDownItem">
-                                <Link className="navLinkDropdown">{userData.firstName}</Link>
+                                <Link className="navLinkDropdown" onClick={handleOptionClick}>{userData.firstName}</Link>
                               </div>
 
                                 <div className="dropDownItem border-b-2 border-secondaryBorder">
                                     <Link
                                         className="navLinkDropdown"
                                         to="/tickets"
+                                        onClick={handleOptionClick}
                                     >
                                         Mis tickets
                                     </Link>
@@ -158,9 +164,10 @@ const Header = (props) => {
                                 {userData.accessType === "producer" && (
                                     <>
                                         <div className="dropDownItem">
-                                            <Link
+                                            <Link 
                                                 className="navLinkDropdown"
                                                 to="/create"
+                                                onClick={handleOptionClick}
                                             >
                                                 Crear evento
                                             </Link>
@@ -169,6 +176,7 @@ const Header = (props) => {
                                             <Link
                                                 className="navLinkDropdown"
                                                 to="/dashboard"
+                                                onClick={handleOptionClick}
                                             >
                                                 Mis Eventos
                                             </Link>
