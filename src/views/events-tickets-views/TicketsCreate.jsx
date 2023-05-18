@@ -38,10 +38,10 @@ import NotFound from "../app-views/NotFound";
 const createImage = "https://wallpapercave.com/wp/wp12143405.jpg";
 
 // *********************** Componente ***********************
-const EventTicketsCreate = (props) => {
+const TicketsCreate = (props) => {
     // Props y Params =================
     const { getEventById, removeEventDetail } = props; // Actions
-    const { eventDetail, userData } = props; // Global state
+    const { eventDetail } = props; // Global state
     const { eventId } = useParams();
 
     // Event ==========================
@@ -492,7 +492,7 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventTicketsCreate);
+export default connect(mapStateToProps, mapDispatchToProps)(TicketsCreate);
 
 // Verificar si el user tiene acceso PENDIENTE
 /*
