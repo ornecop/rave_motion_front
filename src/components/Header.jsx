@@ -48,9 +48,7 @@ const Header = (props) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
   
-    const handleDropdownClick = () => {
-      setShowDropdown(!showDropdown);
-    };
+  
     const handleOptionClick = () => {
         setShowDropdown(false);
       };
@@ -68,7 +66,19 @@ const Header = (props) => {
       };
     }, []);
 
-   
+    const handleMouseEnter = () => {
+        setShowDropdown(true);
+      };
+      
+      const handleMouseLeave = () => {
+        setShowDropdown(false);
+      };
+      
+      const handleDropdownClick = () => {
+        setShowDropdown(!showDropdown);
+      };
+      
+ 
       
    
     
@@ -139,10 +149,17 @@ const Header = (props) => {
                         {/* Dropdown user  */}
                         <div className="inline-block relative" ref={dropdownRef}>
 
-                        <button onClick={handleDropdownClick} className="btnPrimary py-0 px-4 w-fit border-none">
+                        <button onClick={handleDropdownClick}
+                        
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                        className="btnPrimary py-0 px-4 w-fit border-none">
                              Tu cuenta
                         </button>
                         <div  
+                            onClick={handleDropdownClick}
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
                               className={`"z-20 bg-secondary rounded-md w-40 left-[-2rem] top-[2rem] text-center" ${
                                 showDropdown ? "block" : "hidden"
                               }`}
