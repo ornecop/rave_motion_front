@@ -22,6 +22,7 @@
         "react-icons": "^4.8.0",
         "react-redux": "^8.0.5",
         "react-router-dom": "^6.11.1",
+        "react-timer-hook": "^3.0.6",
         "redux": "^4.2.1",
         "redux-thunk": "^2.4.2",
         "universal-cookie": "^4.0.4",
