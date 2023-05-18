@@ -44,33 +44,44 @@ const Header = (props) => {
     };
 
     // Dropdown ================
+
+    const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
-    const [showDropdown, toggleShowDropdown] = useToggle();
-
-    const location = useLocation().pathname;
-
+  
+  
+    const handleOptionClick = () => {
+        setShowDropdown(false);
+      };
+  
+    const handleOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+  
     useEffect(() => {
-        showDropdown && toggleShowDropdown();
-    }, [location]);
-
-    useEffect(() => {
-        const handleOutsideClick = (event) => {
-            if (
-                dropdownRef.current &&
-                !dropdownRef.current.contains(event.target)
-            ) {
-                // El usuario ha hecho clic fuera del dropdown, cerrarlo aquí
-                toggleShowDropdown();
-            }
-        };
-
-        document.addEventListener("mousedown", handleOutsideClick);
-
-        return () => {
-            document.removeEventListener("mousedown", handleOutsideClick);
-        };
+      document.addEventListener('mousedown', handleOutsideClick);
+      return () => {
+        document.removeEventListener('mousedown', handleOutsideClick);
+      };
     }, []);
 
+    const handleMouseEnter = () => {
+        setShowDropdown(true);
+      };
+      
+      const handleMouseLeave = () => {
+        setShowDropdown(false);
+      };
+      
+      const handleDropdownClick = () => {
+        setShowDropdown(!showDropdown);
+      };
+      
+ 
+      
+   
+    
     // Search bar logic ================
     const [name, setName] = useState("");
 
@@ -93,9 +104,16 @@ const Header = (props) => {
         navigate("/");
     };
 
+    //Volver a pagina 1
+    const handleHomeClick = () => {
+        if (currentPage > 1) {
+            setCurrentPage(1);
+        }
+    };    
+
     return (
         <div
-            className="grid grid-cols-3 w-screen h-16 fixed top-0 z-10 font-medium"
+            className="grid grid-cols-3 w-screen h-16 fixed top-0 z-10 font-medium px-2"
             style={headerStyle}
         >
             <div className="flex justify-self-start items-center ml-4">
@@ -116,41 +134,46 @@ const Header = (props) => {
                 </form>
             </div>
             <div className="flex w-fit justify-self-end justify-center my-2 items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder">
-                <Link to="/" className="navLink">
+                {/* <Link to="/" className="navLink">
+                    Home
+                </Link> */}
+                <Link to="/" className="navLink" onClick={handleHomeClick}>
                     Home
                 </Link>
+
                 <Link to="/about" className="navLink">
                     Nosotros
                 </Link>
                 {isLogin ? (
                     <>
                         {/* Dropdown user  */}
-                        <div
-                            className="inline-block relative"
-                            ref={dropdownRef}
-                        >
-                            <button
-                                onClick={toggleShowDropdown}
-                                className="btnPrimary py-0 px-4 w-fit border-none"
+                        <div className="inline-block relative" ref={dropdownRef}>
+
+                        <button onClick={handleDropdownClick}
+                        
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                        className="btnPrimary py-0 px-4 w-fit border-none">
+                             Tu cuenta
+                        </button>
+                        <div  
+                            onClick={handleDropdownClick}
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
+                              className={`"z-20 bg-secondary rounded-md w-40 left-[-2rem] top-[2rem] text-center" ${
+                                showDropdown ? "block" : "hidden"
+                              }`}
+                              style={{ position: "absolute" }}
                             >
-                                Tu cuenta
-                            </button>
-                            <div
-                                className={`"z-20 bg-secondary rounded-md w-40 left-[-2rem] top-[2rem] text-center" ${
-                                    showDropdown ? "block" : "hidden"
-                                }`}
-                                style={{ position: "absolute" }}
-                            >
-                                <div className="dropDownItem">
-                                    <Link className="navLinkDropdown">
-                                        {userData.firstName}
-                                    </Link>
-                                </div>
+                              <div className="dropDownItem">
+                                <Link className="navLinkDropdown" onClick={handleOptionClick}>{userData.firstName}</Link>
+                              </div>
 
                                 <div className="dropDownItem border-b-2 border-secondaryBorder">
                                     <Link
                                         className="navLinkDropdown"
                                         to="/tickets"
+                                        onClick={handleOptionClick}
                                     >
                                         Mis tickets
                                     </Link>
@@ -158,25 +181,19 @@ const Header = (props) => {
                                 {userData.accessType === "producer" && (
                                     <>
                                         <div className="dropDownItem">
-                                            <Link
+                                            <Link 
                                                 className="navLinkDropdown"
                                                 to="/create"
+                                                onClick={handleOptionClick}
                                             >
                                                 Crear evento
                                             </Link>
                                         </div>
-                                        {/* <div className="dropDownItem border-b-2 border-secondaryBorder">
-                                            <Link
-                                                className="navLinkDropdown"
-                                                to="/dashboard"
-                                            >
-                                                Dashboard
-                                            </Link>
-                                        </div> */}
                                         <div className="dropDownItem border-b-2 border-secondaryBorder">
                                             <Link
                                                 className="navLinkDropdown"
                                                 to="/dashboard"
+                                                onClick={handleOptionClick}
                                             >
                                                 Mis Eventos
                                             </Link>

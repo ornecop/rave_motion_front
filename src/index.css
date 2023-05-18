@@ -65,20 +65,12 @@
 
     /* Input file  PENDIENTE*/
     .inputFile {
-        @apply w-full border-fuchsia-600 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent;
-    }
-
-    .inputFileError {
-        @apply w-full border-fuchsia-600 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent;
-    }
-
-    .inputFileSuccess {
-        @apply w-full border-fuchsia-600 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent;
+        @apply file:w-full file:h-8 file:px-4 block w-full text-sm file:text-sm file:text-white file:rounded-full file:bg-gradient-to-r from-fuchsia-800 to-pink-500 file:border file:border-fuchsia-600 file:hover:font-semibold file:focus:outline-none file:transition-colors file:duration-300;
     }
 
     /* Form errors */
     .errorMessage {
-        @apply text-red-600 block text-center mt-1 font-medium text-sm;
+        @apply text-red-600 block text-center mt-1 font-medium;
     }
 
     /* Links */

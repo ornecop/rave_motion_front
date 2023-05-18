@@ -23,7 +23,8 @@ import * as Yup from "yup";
 
 // React router dom
 import { useNavigate } from "react-router-dom";
-
+import { useState } from "react";
+import getCurrentDate from "../../functions/getCurrentDate";
 // Redux
 import { connect } from "react-redux";
 
@@ -38,7 +39,7 @@ const validationSchema = Yup.object().shape({
     image: Yup.mixed()
         .test("tipoArchivo", "Debe ser una imagen válida", (value) => {
             if (value && value.file) {
-                const fileType = value.file.type;
+                const fileType = value.type;
                 return fileType.startsWith("image/");
             }
             return false;
@@ -76,11 +77,43 @@ const EventCreate = ({ userData }) => {
 
     // Handle Submit
     const navigate = useNavigate();
+
+    const [imageDataUrl, setImageDataUrl] = useState("");
+
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader(); //se utiliza FileReader para leer el contenido de un archivo
+            reader.onload = (e) => {
+                //Un evento onload es un tipo de evento en JavaScript
+                // que se dispara cuando se completa una operación de carga,
+                //como la carga de un archivo, una imagen o un recurso externo.
+                const dataURL = e.target.result;
+                setImageDataUrl(dataURL);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    ////**
+    // FileReader es una interfaz proporcionada por el estándar de JavaScript File API.
+    //Permite leer los contenidos de archivos de forma asíncrona en el navegador.
+
+    // La interfaz FileReader proporciona varios métodos para leer archivos,
+    // como readAsText(), readAsDataURL(), readAsArrayBuffer(), etc.
+    //Cada método permite leer los contenidos de un archivo de diferentes maneras.
+
+    // En el código que proporcionaste, se utiliza FileReader para leer el contenido de un archivo
+    // utilizando el método readAsDataURL().
+    //Este método lee el archivo y devuelve los datos en forma de URL de datos (data URL),
+    // que es una representación en formato base64 del contenido del archivo. */
+    // */
+
     const handleSubmitEventCreate = async (
         values,
         { setSubmitting, resetForm }
     ) => {
-        const event = { ...values, userId: userData.id };
+        const event = { ...values, userId: userData.id, image: imageDataUrl };
         try {
             const response = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/events/eventcreate`,
@@ -97,7 +130,7 @@ const EventCreate = ({ userData }) => {
 
     return (
         <div className="w-screen">
-            <div className="h-96 relative overflow-hidden">
+            <div className="h-60 relative overflow-hidden">
                 <div
                     className="h-full w-full absolute top-0 left-0 bg-cover bg-bottom bg-no-repeat "
                     style={{
@@ -113,224 +146,230 @@ const EventCreate = ({ userData }) => {
                 {({ isSubmitting, touched, errors, values }) => (
                     <div className="grid grid-cols-2 h-fit">
                         <div className="flex flex-col place-content-center h-full">
-                            <div className="floatBox my-6 mx-6 flex flex-col h-full justify-center">
-                                <Form className="">
-                                    <h2 className="text-4xl text-center mb-8">
-                                        Datos del evento:
-                                    </h2>
-                                    {/* Name */}
-                                    <div className="flex flex-col my-2">
+                            <Form className="floatBox my-6 mx-6 flex flex-col h-full justify-center">
+                                <div>
+                                    <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+                                        <p className="mx-4 mb-0 text-center font-semibold">
+                                            Crear o modificar evento:
+                                        </p>
+                                    </div>
+                                </div>
+                                {/* Name */}
+                                <div className="flex flex-col my-2">
+                                    <label
+                                        htmlFor="name"
+                                        className="block my-1 font-semibold"
+                                    >
+                                        Nombre del evento:
+                                    </label>
+                                    <Field
+                                        className={
+                                            touched.name && errors.name
+                                                ? "inputError"
+                                                : touched.name && !errors.name
+                                                ? "inputSuccess"
+                                                : "input"
+                                        }
+                                        type="text"
+                                        placeholder="Nombre"
+                                        name="name"
+                                        autoComplete="false"
+                                    />
+                                    <ErrorMessage
+                                        name="name"
+                                        component="span"
+                                        className="errorMessage"
+                                    />
+                                </div>
+
+                                {/* Image */}
+                                <div className="flex flex-col my-2">
+                                    <label
+                                        htmlFor="image"
+                                        className="block my-1 font-semibold"
+                                    >
+                                        Imagen:
+                                    </label>
+                                    <Field
+                                        className="inputFile"
+                                        onChange={handleImageChange}
+                                        name="image"
+                                        autoComplete="true"
+                                        title=""
+                                        style={{ color: "rgba(37, 40, 80, 0)" }}
+                                        type="file"
+                                        accept=".jpg, .jpeg, .png"
+                                    />
+                                    {!imageDataUrl && (
+                                        <ErrorMessage
+                                            name="image"
+                                            component="span"
+                                            className="errorMessage"
+                                        />
+                                    )}
+                                </div>
+
+                                {/* Row date y hour */}
+                                <div className="grid grid-cols-2">
+                                    {/* Date */}
+                                    <div className="flex flex-col my-2 mr-2">
                                         <label
-                                            htmlFor="name"
+                                            htmlFor="date"
                                             className="block my-1 font-semibold"
                                         >
-                                            Nombre del evento:
+                                            Fecha del evento:
                                         </label>
                                         <Field
                                             className={
-                                                touched.name && errors.name
+                                                touched.date && errors.date
                                                     ? "inputError"
-                                                    : touched.name &&
-                                                      !errors.name
+                                                    : touched.date &&
+                                                      !errors.date
+                                                    ? "inputSuccess"
+                                                    : "input"
+                                            }
+                                            type="date"
+                                            name="date"
+                                            autoComplete="false"
+                                            min={getCurrentDate()}
+                                        />
+                                        <ErrorMessage
+                                            name="date"
+                                            component="span"
+                                            className="errorMessage"
+                                        />
+                                    </div>
+                                    {/* Hour */}
+                                    <div className="flex flex-col my-2 ml-2">
+                                        <label
+                                            htmlFor="hour"
+                                            className="block my-1 font-semibold"
+                                        >
+                                            Hora de inicio:
+                                        </label>
+                                        <Field
+                                            className={
+                                                touched.hour && errors.hour
+                                                    ? "inputError"
+                                                    : touched.hour &&
+                                                      !errors.hour
+                                                    ? "inputSuccess"
+                                                    : "input"
+                                            }
+                                            type="time"
+                                            name="hour"
+                                            autoComplete="false"
+                                        />
+                                        <ErrorMessage
+                                            name="hour"
+                                            component="span"
+                                            className="errorMessage"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Row venue y producer */}
+                                <div className="grid grid-cols-2">
+                                    {/* Date */}
+                                    <div className="flex flex-col my-2 mr-2">
+                                        <label
+                                            htmlFor="venue"
+                                            className="block my-1 font-semibold"
+                                        >
+                                            Lugar del evento:
+                                        </label>
+                                        <Field
+                                            className={
+                                                touched.date && errors.date
+                                                    ? "inputError"
+                                                    : touched.date &&
+                                                      !errors.date
                                                     ? "inputSuccess"
                                                     : "input"
                                             }
                                             type="text"
-                                            placeholder="Nombre"
-                                            name="name"
+                                            name="venue"
+                                            placeholder="Nombre del lugar"
                                             autoComplete="false"
                                         />
                                         <ErrorMessage
-                                            name="name"
+                                            name="venue"
                                             component="span"
                                             className="errorMessage"
                                         />
                                     </div>
-
-                                    {/* Image */}
-                                    <div className="flex flex-col my-2">
+                                    {/* Producer */}
+                                    <div className="flex flex-col my-2 ml-2">
                                         <label
-                                            htmlFor="image"
+                                            htmlFor="producer"
                                             className="block my-1 font-semibold"
                                         >
-                                            Imagen:
-                                        </label>
-                                        <Field
-                                            className="file: "
-                                            type="file"
-                                            placeholder="Url de la imagen"
-                                            name="image"
-                                            autoComplete="false"
-                                            accept=".jpg, .jpeg, .png"
-                                        />
-                                        <ErrorMessage
-                                            name="image"
-                                            component="span"
-                                            className="errorMessage"
-                                        />
-                                    </div>
-
-                                    {/* Row date y hour */}
-                                    <div className="grid grid-cols-2">
-                                        {/* Date */}
-                                        <div className="flex flex-col my-2 mr-2">
-                                            <label
-                                                htmlFor="date"
-                                                className="block my-1 font-semibold"
-                                            >
-                                                Fecha del evento:
-                                            </label>
-                                            <Field
-                                                className={
-                                                    touched.date && errors.date
-                                                        ? "inputError"
-                                                        : touched.date &&
-                                                          !errors.date
-                                                        ? "inputSuccess"
-                                                        : "input"
-                                                }
-                                                type="date"
-                                                name="date"
-                                                autoComplete="false"
-                                            />
-                                            <ErrorMessage
-                                                name="date"
-                                                component="span"
-                                                className="errorMessage"
-                                            />
-                                        </div>
-                                        {/* Hour */}
-                                        <div className="flex flex-col my-2 ml-2">
-                                            <label
-                                                htmlFor="hour"
-                                                className="block my-1 font-semibold"
-                                            >
-                                                Hora de inicio:
-                                            </label>
-                                            <Field
-                                                className={
-                                                    touched.hour && errors.hour
-                                                        ? "inputError"
-                                                        : touched.hour &&
-                                                          !errors.hour
-                                                        ? "inputSuccess"
-                                                        : "input"
-                                                }
-                                                type="time"
-                                                name="hour"
-                                                autoComplete="false"
-                                            />
-                                            <ErrorMessage
-                                                name="hour"
-                                                component="span"
-                                                className="errorMessage"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    {/* Row venue y producer */}
-                                    <div className="grid grid-cols-2">
-                                        {/* Date */}
-                                        <div className="flex flex-col my-2 mr-2">
-                                            <label
-                                                htmlFor="venue"
-                                                className="block my-1 font-semibold"
-                                            >
-                                                Lugar del evento:
-                                            </label>
-                                            <Field
-                                                className={
-                                                    touched.date && errors.date
-                                                        ? "inputError"
-                                                        : touched.date &&
-                                                          !errors.date
-                                                        ? "inputSuccess"
-                                                        : "input"
-                                                }
-                                                type="text"
-                                                name="venue"
-                                                placeholder="Nombre del lugar"
-                                                autoComplete="false"
-                                            />
-                                            <ErrorMessage
-                                                name="venue"
-                                                component="span"
-                                                className="errorMessage"
-                                            />
-                                        </div>
-                                        {/* Producer */}
-                                        <div className="flex flex-col my-2 ml-2">
-                                            <label
-                                                htmlFor="producer"
-                                                className="block my-1 font-semibold"
-                                            >
-                                                Productora:
-                                            </label>
-                                            <Field
-                                                className={
-                                                    touched.producer &&
-                                                    errors.producer
-                                                        ? "inputError"
-                                                        : touched.producer &&
-                                                          !errors.producer
-                                                        ? "inputSuccess"
-                                                        : "input"
-                                                }
-                                                type="text"
-                                                name="producer"
-                                                placeholder="Nombre de la productora"
-                                                autoComplete="false"
-                                            />
-                                            <ErrorMessage
-                                                name="producer"
-                                                component="span"
-                                                className="errorMessage"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    {/* Description */}
-                                    <div className="flex flex-col my-2">
-                                        <label
-                                            htmlFor="description"
-                                            className="block my-1 font-semibold"
-                                        >
-                                            Description:
+                                            Productora:
                                         </label>
                                         <Field
                                             className={
-                                                touched.description &&
-                                                errors.description
-                                                    ? "inputTextAreaError"
-                                                    : touched.description &&
-                                                      !errors.description
-                                                    ? "inputTextAreaSuccess"
-                                                    : "inputTextArea"
+                                                touched.producer &&
+                                                errors.producer
+                                                    ? "inputError"
+                                                    : touched.producer &&
+                                                      !errors.producer
+                                                    ? "inputSuccess"
+                                                    : "input"
                                             }
-                                            component="textarea"
-                                            placeholder="Descripción de tu evento"
-                                            name="description"
+                                            type="text"
+                                            name="producer"
+                                            placeholder="Nombre de la productora"
                                             autoComplete="false"
                                         />
                                         <ErrorMessage
-                                            name="description"
+                                            name="producer"
                                             component="span"
                                             className="errorMessage"
                                         />
                                     </div>
+                                </div>
 
-                                    {/* Submit */}
-                                    <div className="flex flex-col mt-6">
-                                        <button
-                                            type="submit"
-                                            className="btnPrimary"
-                                            disabled={isSubmitting}
-                                        >
-                                            Ir a crear tickets para el evento
-                                        </button>
-                                    </div>
-                                </Form>
-                            </div>
+                                {/* Description */}
+                                <div className="flex flex-col my-2">
+                                    <label
+                                        htmlFor="description"
+                                        className="block my-1 font-semibold"
+                                    >
+                                        Description:
+                                    </label>
+                                    <Field
+                                        className={
+                                            touched.description &&
+                                            errors.description
+                                                ? "inputTextAreaError"
+                                                : touched.description &&
+                                                  !errors.description
+                                                ? "inputTextAreaSuccess"
+                                                : "inputTextArea"
+                                        }
+                                        component="textarea"
+                                        placeholder="Descripción de tu evento"
+                                        name="description"
+                                        autoComplete="false"
+                                    />
+                                    <ErrorMessage
+                                        name="description"
+                                        component="span"
+                                        className="errorMessage"
+                                    />
+                                </div>
+
+                                {/* Submit */}
+                                <div className="flex flex-col mt-6">
+                                    <button
+                                        type="submit"
+                                        className="btnPrimary"
+                                        disabled={isSubmitting}
+                                    >
+                                        Crear o modificar evento
+                                    </button>
+                                </div>
+                            </Form>
                         </div>
                         <div className="flex flex-col justify-content-center place-content-center">
                             <div className="floatBox my-6 mx-6 flex flex-col justify-center">
@@ -352,8 +391,8 @@ const EventCreate = ({ userData }) => {
                                             className="h-full w-full bg-cover bg-bottom bg-no-repeat place-content-center rounded-xl "
                                             style={{
                                                 backgroundImage: `url(${
-                                                    values.image
-                                                        ? values.image
+                                                    imageDataUrl
+                                                        ? imageDataUrl
                                                         : defaultImage
                                                 })`,
                                             }}

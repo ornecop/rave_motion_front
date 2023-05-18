@@ -28,7 +28,7 @@ const initialState = {
     userData: {},
     userSignError: "",
     signUpStep: 1,
-
+    
     // User tickets states
 
     // Global states

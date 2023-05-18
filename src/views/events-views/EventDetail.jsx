@@ -102,9 +102,6 @@ const EventDetail = () => {
                                         Name: {ticket.name}
                                     </div>
                                     <p className="mt-1 text-sm text-white">
-                                        Description: {ticket.description}
-                                    </p>
-                                    <p className="mt-1 text-sm text-white">
                                         Access Type: {ticket.accessType}
                                     </p>
                                     <p className="mt-1 text-sm text-white">

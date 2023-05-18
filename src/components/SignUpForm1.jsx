@@ -47,7 +47,7 @@ const validationSchema = Yup.object().shape({
             function (value) {
                 return this.parent.password === value;
             }
-        ),
+        ), 
 });
 
 const SignUpForm1 = ({
