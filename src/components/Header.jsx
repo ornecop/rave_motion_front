@@ -44,6 +44,7 @@ const Header = (props) => {
     };
 
     // Dropdown ================
+
     const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -68,7 +69,6 @@ const Header = (props) => {
     document.addEventListener("mousedown", handleOutsideClick);
 
     
-
     // Search bar logic ================
     const [name, setName] = useState("");
 
@@ -94,9 +94,9 @@ const Header = (props) => {
     //Volver a pagina 1
     const handleHomeClick = () => {
         if (currentPage > 1) {
-          setCurrentPage(1);
+            setCurrentPage(1);
         }
-      };      
+    };    
 
     return (
         <div
@@ -139,7 +139,7 @@ const Header = (props) => {
                             ref={dropdownRef}
                         >
                             <button
-                                onClick={toggleShowDropdown}
+                                onClick={handlDropdownClick}
                                 className="btnPrimary py-0 px-4 w-fit border-none"
                             >
                                 Tu cuenta
@@ -174,14 +174,6 @@ const Header = (props) => {
                                                 Crear evento
                                             </Link>
                                         </div>
-                                        {/* <div className="dropDownItem border-b-2 border-secondaryBorder">
-                                            <Link
-                                                className="navLinkDropdown"
-                                                to="/dashboard"
-                                            >
-                                                Dashboard
-                                            </Link>
-                                        </div> */}
                                         <div className="dropDownItem border-b-2 border-secondaryBorder">
                                             <Link
                                                 className="navLinkDropdown"
