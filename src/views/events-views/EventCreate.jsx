@@ -36,15 +36,7 @@ const validationSchema = Yup.object().shape({
     name: Yup.string()
         .max(50, "Debe ser hasta 50 caracteres.")
         .required("Este campo es requerido."),
-    image: Yup.mixed()
-        .test("tipoArchivo", "Debe ser una imagen válida", (value) => {
-            if (value && value.file) {
-                const fileType = value.type;
-                return fileType.startsWith("image/");
-            }
-            return false;
-        })
-        .required("Este campo es requerido."),
+    //image:
     date: Yup.date()
         .typeError("Debe ingresar una fecha válida.")
         .min(new Date(Date.now()), "Debe ingresar una fecha válida.")
@@ -98,6 +90,7 @@ const EventCreate = ({ userData }) => {
             reader.readAsDataURL(file);
         } else {
             setImageName({name:""})
+            setImageDataUrl("")
             setImageError({status:"Debe seleccionar una imagen valida. (.jpg .png .jpeg)"});
           }  
         }
@@ -121,7 +114,10 @@ const EventCreate = ({ userData }) => {
         setSubmitting(false);
         resetForm();
     };
-
+    const errorImageHandler= () => {
+        if(!imageDataUrl){setImageDataUrl("error")}
+        else{return}
+    }
     return (
         <div className="w-screen">
             <div className="h-60 relative overflow-hidden">
@@ -196,13 +192,8 @@ const EventCreate = ({ userData }) => {
                                     />
                                      <span className="errorMessage">{imageError&&imageError.status}</span>
                                      <span className="errorMessage" style={{"color":"white"}}>{imageName&&imageName.name}</span>
-                                    {!imageDataUrl && (
-                                        <ErrorMessage
-                                            name="image"
-                                            component="span"
-                                            className="errorMessage"
-                                        />
-                                    )}
+                                     <span className="errorMessage">{imageDataUrl==="error" && "Este campo es requerido."}</span>
+
                                 </div>
 
                                 {/* Row date y hour */}
@@ -360,7 +351,8 @@ const EventCreate = ({ userData }) => {
                                     <button
                                         type="submit"
                                         className="btnPrimary"
-                                        disabled={isSubmitting}
+                                        onClick={errorImageHandler}
+                                        disabled={imageDataUrl && isSubmitting}
                                     >
                                         Crear o modificar evento
                                     </button>
