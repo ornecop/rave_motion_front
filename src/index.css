@@ -78,7 +78,7 @@
 
     /* Form errors */
     .errorMessage {
-        @apply text-red-600 block text-center mt-1 font-medium text-sm;
+        @apply text-red-600 block text-center mt-1 font-medium;
     }
 
     /* Links */
