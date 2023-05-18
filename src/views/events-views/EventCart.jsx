@@ -1,7 +1,10 @@
-import React from "react";
-import { useEffect, useState} from "react";
-// import { useTimer } from "react-timer-hook";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import Temporizador from "../../components/Temporizador"
+import { useEffect } from "react";
 
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 /* =======================================================
     VIEW EventCart - "/cart" - Vista a la que redirección al comprar un evento
 
@@ -14,46 +17,30 @@ import { useEffect, useState} from "react";
     
 */
 const EventCart = () => {
-    const [seconds, setSeconds] = useState(10 * 60);
-
-  useEffect(() => {
-    let interval = null;
-
-    if (seconds > 0) {
-      interval = setInterval(() => {
-        setSeconds((prevSeconds) => prevSeconds - 1);
-      }, 1000);
-    } else {
-      clearInterval(interval);
-      myFunction();
+    const {cartId} = useParams();
+    const duracion = 10;
+  
+    async function alFinalizar(){
+      const response = await axios.get(`${BACKEND_URL}/events`)
+      console.log(response)
     }
 
-    return () => clearInterval(interval);
-  }, [seconds]);
-
-  const myFunction = () => {
-    console.log('El temporizador ha llegado a cero. Ejecutando mi función.');
-  };
-
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  };
+    console.log(duracion)
 
   return (
     <div className="w-full min-h-screen flex justify-center items-center">
-        <div className=" flex flex-col w-4/6 justify-center items-center bg-secondary">
-            <div className="text-center">Time: {formatTime(seconds)}</div>
-            <div className="text-black">
-            <form action="">
-                <label htmlFor="" className="text-white">cantidad de tickets: </label>
-                <select name="" id="">
+        <div className=" flex flex-col w-4/6 justify-center items-center bg-secondary rounded-xl border border-secondaryBorder">
+            <div className="text-center mt-9 text-xl"><Temporizador duracion={duracion} onFinalizar={alFinalizar}/></div>
+            <div className="text-center">tiempo restante para realizar tu compra</div>
+            <div className="text-black min-w-full">
+            <form action="" className="min-w-full flex flex-row justify-center">
+                <label htmlFor="" className="text-white m-9 mr-3">cantidad de tickets: </label>
+                <select name="" id="" className="w-44 m-9 mr-3">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
-                <option value="5">5</option></select>
+                <option value="5">5</option></select>  
             </form>
             </div>
         </div>
