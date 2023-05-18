@@ -1,4 +1,5 @@
 import React from "react";
+
 /* =======================================================
     VIEW PasswordChange - "/changepassword" - Vista para cambiar password
 
@@ -11,6 +12,8 @@ import React from "react";
 
     
 */
+// axios
+import axios from 'axios';
 
 // Formik, Yup
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -26,10 +29,21 @@ const validationSchema = Yup.object().shape({
 // Assets
 const changePasswordImage = "https://wallpapercave.com/wp/wp1889479.jpg";
 
-const PasswordChange = () => {
-    const handleSubmit = (values, { setSubmitting }) => {
+const EmailPassword = () => {
+    const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         setSubmitting(false);
+        try {
+            const response = await axios.post(`http://localhost:3001/users/resetpassword`,{ mail: values.mail })  
+            const passwordToken = response.data.resetPasswordToken 
+            localStorage.setItem("passwordtoken", passwordToken);
+            resetForm(); // Resetea el formulario después de la solicitud exitosa
+        } catch (error) {
+            console.error("Error resetting password", error);
+            // No se reseteará el formulario en caso de error.
+        }
     };
+    
+    
     return (
         <div className="w-full h-screen flex flex-col justify-center items-center bg-gradient-to-r from-fuchsia-800 to-pink-500">
             <div className="flex flex-col w-96 py-8 px-4 bg-slate-900 rounded-xl border border-secondaryBorder">
@@ -89,4 +103,4 @@ const PasswordChange = () => {
     );
 };
 
-export default PasswordChange;
+export default EmailPassword;

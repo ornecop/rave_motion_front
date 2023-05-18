@@ -17,6 +17,14 @@ import * as Yup from "yup";
 
 // React Redux
 import { connect } from "react-redux";
+import {
+    setSignUserError,
+    removeSignUserError,
+} from "../redux/actions/usersActions";
+
+// Axios
+import axios from "axios";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // Validation schemas
 const validationSchema = Yup.object().shape({
@@ -39,10 +47,15 @@ const validationSchema = Yup.object().shape({
             function (value) {
                 return this.parent.password === value;
             }
-        ),
+        ), 
 });
 
-const SignUpForm1 = ({ callBack, userSignError, removeSignUserError }) => {
+const SignUpForm1 = ({
+    callBack,
+    userSignError,
+    setSignUserError,
+    removeSignUserError,
+}) => {
     // Show password
     const [isPasswordShow, toggleShowPassword] = useToggle();
 
@@ -53,8 +66,16 @@ const SignUpForm1 = ({ callBack, userSignError, removeSignUserError }) => {
         passwordConfirm: "",
     };
 
-    const handleNext = (values, { setSubmitting, resetForm }) => {
-        callBack({ mail: values.mail, password: values.password });
+    const handleNext = async (values, { setSubmitting, resetForm }) => {
+        try {
+            const response = await axios.post(`${BACKEND_URL}/users/signup1`, {
+                mail: values.mail,
+            });
+            callBack({ mail: values.mail.trim(), password: values.password });
+            removeSignUserError();
+        } catch (error) {
+            setSignUserError(error.response.data.error);
+        }
         setSubmitting(false);
         resetForm();
     };
@@ -82,7 +103,7 @@ const SignUpForm1 = ({ callBack, userSignError, removeSignUserError }) => {
                             htmlFor="mail"
                             className="block my-1 font-semibold"
                         >
-                            mail:
+                            Mail:
                         </label>
                         <Field
                             className={
@@ -204,4 +225,11 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, null)(SignUpForm1);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setSignUserError: (error) => dispatch(setSignUserError(error)),
+        removeSignUserError: () => dispatch(removeSignUserError()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm1);

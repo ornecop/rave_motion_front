@@ -63,9 +63,22 @@
         @apply h-8 px-4 w-full text-black border border-green-500 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent;
     }
 
+    /* Input file  PENDIENTE*/
+    .inputFile {
+        @apply w-full border-fuchsia-600 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent;
+    }
+
+    .inputFileError {
+        @apply w-full border-fuchsia-600 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent;
+    }
+
+    .inputFileSuccess {
+        @apply w-full border-fuchsia-600 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent;
+    }
+
     /* Form errors */
     .errorMessage {
-        @apply text-red-600 block text-center mt-1 font-medium text-sm;
+        @apply text-red-600 block text-center mt-1 font-medium;
     }
 
     /* Links */
@@ -75,6 +88,14 @@
 
     .navLink {
         @apply text-lg hover:text-fuchsia-600 hover:font-semibold focus:outline-none transition-colors duration-300;
+    }
+
+    .dropDownItem {
+        @apply block px-4 py-2 hover:bg-gradient-to-r from-fuchsia-800 to-pink-500 transition-colors duration-300;
+    }
+
+    .navLinkDropdown {
+        @apply text-lg hover:font-semibold focus:outline-none transition-colors duration-300;
     }
 
     /* Varios */

@@ -18,19 +18,19 @@ export const EventCard = ({
 
     const formatHour = hour ? hour.slice(0, 5) : "-";
     return (
-        <div className="flex font-sans mx-3 my-2 ">
+        <div className="flex font-sans mx-5 my-7 h-96">
             <div className="flex-none w-48 relative ">
                 <Link to={`/event/${id}`}>
                     <img
                         src={image}
                         alt={name}
-                        className="absolute inset-0 w-full h-full object-cover rounded-l-lg "
+                        className="absolute inset-0 w-full h-full object-cover rounded-l-lg  "
                         loading="lazy"
                     />
                 </Link>
             </div>
 
-            <form className="flex-auto p-6  bg-white rounded-r-lg">
+            <form className="flex-auto p-6 bg-white rounded-r-lg">
                 <Link to={`/event/${id}`}>
                     <div className="flex flex-wrap">
                         <h1 className="flex-auto text-lg font-semibold text-slate-900">

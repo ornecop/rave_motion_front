@@ -23,7 +23,7 @@ import * as Yup from "yup";
 
 // React router dom
 import { useNavigate } from "react-router-dom";
-
+import{ useState } from "react";
 // Redux
 import { connect } from "react-redux";
 
@@ -35,9 +35,15 @@ const validationSchema = Yup.object().shape({
     name: Yup.string()
         .max(50, "Debe ser hasta 50 caracteres.")
         .required("Este campo es requerido."),
-    image: Yup.string()
-        .url("El link de la imagen no es válido.")
-        .required("Este campo es requerido."),
+    // // image: Yup.mixed()
+    // //     .test("tipoArchivo", "Debe ser una imagen válida", (value) => {
+    // //         if (value && value.file) {
+    // //             const fileType = value.type;
+    // //             return fileType.startsWith("image/");
+    // //         }
+    // //         return false;
+    // //     })
+    //     .required("Este campo es requerido."),
     date: Yup.date()
         .typeError("Debe ingresar una fecha válida.")
         .min(new Date(Date.now()), "Debe ingresar una fecha válida.")
@@ -68,13 +74,30 @@ const EventCreate = ({ userData }) => {
         description: "",
     };
 
+    
     // Handle Submit
     const navigate = useNavigate();
+    
+    const [imageDataUrl, setImageDataUrl] = useState("");
+    
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const dataURL = e.target.result;
+            setImageDataUrl(dataURL);
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+
+
     const handleSubmitEventCreate = async (
         values,
-        { setSubmitting, resetForm }
+        { setSubmitting, resetForm  }
     ) => {
-        const event = { ...values, userId: userData.id };
+        const event = { ...values, userId: userData.id, image: imageDataUrl };
         try {
             const response = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/events/eventcreate`,
@@ -150,18 +173,13 @@ const EventCreate = ({ userData }) => {
                                             Imagen:
                                         </label>
                                         <Field
-                                            className={
-                                                touched.image && errors.image
-                                                    ? "inputError"
-                                                    : touched.image &&
-                                                      !errors.image
-                                                    ? "inputSuccess"
-                                                    : "input"
-                                            }
-                                            type="text"
+                                            className="file: "
+                                            type="file"
                                             placeholder="Url de la imagen"
                                             name="image"
                                             autoComplete="false"
+                                            accept=".jpg, .jpeg, .png"
+                                            onChange={handleImageChange}
                                         />
                                         <ErrorMessage
                                             name="image"
@@ -352,8 +370,8 @@ const EventCreate = ({ userData }) => {
                                             className="h-full w-full bg-cover bg-bottom bg-no-repeat place-content-center rounded-xl "
                                             style={{
                                                 backgroundImage: `url(${
-                                                    values.image
-                                                        ? values.image
+                                                    imageDataUrl
+                                                        ? imageDataUrl
                                                         : defaultImage
                                                 })`,
                                             }}

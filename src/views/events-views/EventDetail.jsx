@@ -42,7 +42,7 @@ const EventDetail = () => {
 
     return (
         <div className="w-screen">
-            <div className="h-96 relative overflow-hidden">
+            <div className="h-52 relative overflow-hidden">
                 <div
                     className="h-full w-full absolute top-0 left-0 bg-center bg-repeat-x "
                     style={{
@@ -102,9 +102,6 @@ const EventDetail = () => {
                                         Name: {ticket.name}
                                     </div>
                                     <p className="mt-1 text-sm text-white">
-                                        Description: {ticket.description}
-                                    </p>
-                                    <p className="mt-1 text-sm text-white">
                                         Access Type: {ticket.accessType}
                                     </p>
                                     <p className="mt-1 text-sm text-white">
@@ -116,7 +113,7 @@ const EventDetail = () => {
                                     <p className="mt-1 text-sm text-white">
                                         Description: {ticket.description}
                                     </p>
-                                    <Link to="/cart">
+                                    <Link to={`/cart/${ticket.id}`}>
                                         <button className="mt-3 bg-white hover:bg-gray-200 text-primary font-bold py-2 px-4 rounded">
                                             Comprar
                                         </button>
