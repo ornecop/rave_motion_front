@@ -30,6 +30,7 @@ import {
     USER_SIGN_OUT,
     USER_CHANGE_PASSWORD,
 } from "../actions/usersActions";
+import { FILL_CART } from "../actions/usersTicketsActions";
 
 // User Tickets Actions Types
 
@@ -149,6 +150,9 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
             };
+
+        case FILL_CART:
+            return{...state, selectedTickets:action.payload}
 
         //* ----------
         default:
