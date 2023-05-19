@@ -107,6 +107,7 @@ const TicketsCreate = (props) => {
     };
 
     // Create or modify tickets on Event
+    const navigate = useNavigate();
     const handleSubmitTicketsSyncToDB = async () => {
         const eventTickets = { tickets: [...ticketsArray] };
         try {

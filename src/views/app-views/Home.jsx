@@ -26,7 +26,7 @@ import { connect, useDispatch, useSelector } from "react-redux";
 import { filteredEvents } from "../../redux/actions/filtersActions";
 import { getAllEvents } from "../../redux/actions/eventsActions";
 import { alphabeticOrder, dateOrder } from "../../redux/actions/orderActions";
-import getCurrentDate from"../../functions/getCurrentDate";
+import getCurrentDate from "../../functions/getCurrentDate";
 
 // Functions
 import setProducer from "../../functions/setProducer";
@@ -41,8 +41,8 @@ const Home = () => {
 
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
-    //PAGINADO
 
+    // Paginado
     const [currentPage, setCurrentPage] = useState(1);
     const [eventsPerPage, setEventsPerPage] = useState(9);
     const indexOfLastEvent = currentPage * eventsPerPage;
@@ -130,7 +130,7 @@ const Home = () => {
 
     useEffect(() => {
         setTimeout(() => {
-        setIsLoading(false);
+            setIsLoading(false);
         }, 2000);
     }, []);
 
@@ -238,35 +238,38 @@ const Home = () => {
                 </div>
             </div>
 
-        <div>
-        {isLoading ? (
-          <div className="flex m-28 flex-col items-center">
-            <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-fuchsia-600"></div>
-            <h1 className="font-bold text-center text-2xl mt-4">Loading...</h1>
-          </div>
-        ) : currentEvents.length === 0 ? (
-          <div>
-            <h1 className="font-bold text-center text-5xl">LO SENTIMOS</h1>
-            <h1 className="text-white text-xl text-center">
-              No se han encontrado resultados
-            </h1>
-          </div>
-        ) : (
-          <div>
-            <EventContainer events={currentEvents} />
-                {isLoading ? null : (
-            <Paginado
-                eventsPerPage={eventsPerPage}
-                allEventos={allEventos.length}
-                paginado={paginado}
-                currentPage={currentPage}
-            />
-            )}
-          </div>
-        )}
-      </div>    
-    </div>
-        
+            <div>
+                {isLoading ? (
+                    <div className="flex m-28 flex-col items-center">
+                        <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-fuchsia-600"></div>
+                        <h1 className="font-bold text-center text-2xl mt-4">
+                            Loading...
+                        </h1>
+                    </div>
+                ) : currentEvents.length === 0 ? (
+                    <div>
+                        <h1 className="font-bold text-center text-5xl">
+                            LO SENTIMOS
+                        </h1>
+                        <h1 className="text-white text-xl text-center">
+                            No se han encontrado resultados
+                        </h1>
+                    </div>
+                ) : (
+                    <div>
+                        <EventContainer events={currentEvents} />
+                        {isLoading ? null : (
+                            <Paginado
+                                eventsPerPage={eventsPerPage}
+                                allEventos={allEventos.length}
+                                paginado={paginado}
+                                currentPage={currentPage}
+                            />
+                        )}
+                    </div>
+                )}
+            </div>
+        </div>
     );
 };
 
