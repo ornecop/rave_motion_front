@@ -90,8 +90,8 @@ const EventCreate = ({ userData }) => {
     };
 
     return (
-        <div className="w-screen">
-            <div className="h-96 relative overflow-hidden">
+        <div className="w-screen ">
+            <div className="h-96 relative overflow-hidden ">
                 <div
                     className="h-full w-full absolute top-0 left-0 bg-cover bg-bottom bg-no-repeat "
                     style={{
@@ -105,7 +105,7 @@ const EventCreate = ({ userData }) => {
                 validationSchema={validationSchema}
             >
                 {({ isSubmitting, touched, errors, values }) => (
-                    <div className="grid grid-cols-2 h-fit">
+                    <div className="grid grid-cols-2 h-fit w-fit">
                         <div className="flex flex-col place-content-center h-full">
                             <div className="floatBox my-6 mx-6 flex flex-col h-full justify-center">
                                 <Form className="">

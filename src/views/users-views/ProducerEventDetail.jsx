@@ -9,7 +9,9 @@ import React from "react";
 */
 
 const ProducerEventDetail = () => {
-    return <div>ProducerEventDetail</div>;
+    return  (
+        <div> detail user! aqui sera el detalle del evento del producer, tikects y graficos</div>
+    )
 };
 
 export default ProducerEventDetail;
