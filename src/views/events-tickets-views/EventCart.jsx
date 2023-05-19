@@ -3,8 +3,10 @@ import { useParams } from "react-router-dom";
 import Temporizador from "../../components/Temporizador";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+initMercadoPago('TEST-2c22f2ae-6e1a-4d97-8e31-35aaa4167837');
 /* =======================================================
     VIEW EventCart - "/cart" - Vista a la que redirección al comprar un evento
 
@@ -47,7 +49,7 @@ const EventCart = () => {
                             cantidad de tickets:{" "}
                         </label>
                     </form>
-                    <button>Mercado Pago</button>
+                    <Wallet initialization={{ preferenceId: '<PREFERENCE_ID>',redirectMode: 'blank' }} />
                 </div>
             </div>
         </div>
