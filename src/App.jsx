@@ -81,7 +81,7 @@ const App = ({ verifyToken, isLogin, userData }) => {
                     }
                 />
 
-                <Route path="/cart/:ticketId" element={<EventCart />} />
+                <Route path="/cart" element={<EventCart />} />
 
                 {/* User views */}
 
