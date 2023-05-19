@@ -82,11 +82,8 @@ export const setSignUpStep = (step) => {
 };
 
 export const signout = () => {
-    console.log("signout");
     localStorage.removeItem("token");
-    console.log(localStorage);
     return {
         type: USER_SIGN_OUT,
     };
 };
- 

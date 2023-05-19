@@ -128,7 +128,6 @@ const TicketsCreate = (props) => {
     // Delete tanda
     const handleDeleteTicket = (event) => {
         const ticketName = event.target.id;
-        console.log(ticketName);
     };
 
     // Modal ==========================
