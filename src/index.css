@@ -70,7 +70,7 @@
 
     /* Form errors */
     .errorMessage {
-        @apply text-red-600 block text-center mt-1 font-medium;
+        @apply text-red-400 block text-center mt-1 font-medium;
     }
 
     /* Links */
