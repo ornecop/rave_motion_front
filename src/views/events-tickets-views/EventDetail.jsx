@@ -28,6 +28,7 @@ import { Link as ScrollLink } from "react-scroll";
 
 const SelectTickets = ({ ticket, handleTicketSelect }) => {
     const availableQ = ticket.maxQuantity - ticket.sells;
+    console.log(ticket.price);
 
     if (availableQ && availableQ > 4) {
         return (
@@ -38,19 +39,19 @@ const SelectTickets = ({ ticket, handleTicketSelect }) => {
                     onChange={handleTicketSelect}
                 >
                     <>
-                        <option id={ticket.id} value="0">
+                        <option id={ticket.id} name={ticket.price} value="0">
                             0
                         </option>
-                        <option id={ticket.id} value="1">
+                        <option id={ticket.id} name={ticket.price} value="1">
                             1
                         </option>
-                        <option id={ticket.id} value="2">
+                        <option id={ticket.id} name={ticket.price} value="2">
                             2
                         </option>
-                        <option id={ticket.id} value="3">
+                        <option id={ticket.id} name={ticket.price} value="3">
                             3
                         </option>
-                        <option id={ticket.id} value="4">
+                        <option id={ticket.id} name={ticket.price} value="4">
                             4
                         </option>
                     </>
@@ -72,7 +73,12 @@ const SelectTickets = ({ ticket, handleTicketSelect }) => {
                         0
                     </option>
                     {arr.map((index) => (
-                        <option id={ticket.id} key={ticket.id} value={index}>
+                        <option
+                            id={ticket.id}
+                            key={ticket.id}
+                            value={index}
+                            name={ticket.price}
+                        >
                             {index}
                         </option>
                     ))}
@@ -130,7 +136,6 @@ const EventDetail = () => {
             ?.map((t) => t.price);
 
         const minPrice = Math.min.apply(null, ticketsSells);
-        console.log(minPrice);
         return minPrice !== Infinity
             ? ` desde $${minPrice.toLocaleString("es")}.`
             : null;
@@ -145,7 +150,14 @@ const EventDetail = () => {
     const [quantity, setQuantity] = useState(0);
 
     const handleTicketSelect = (event) => {
-        // Como voy
+        const { id, value, name } = event.target;
+        setSelectedTickets((prevState) => ({
+            ...prevState,
+            [id]: {
+                quantity: Number(value),
+                price: Number(name),
+            },
+        }));
     };
 
     return (
