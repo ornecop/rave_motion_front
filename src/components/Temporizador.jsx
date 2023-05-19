@@ -20,6 +20,7 @@ export default function Temporizador ({ duracion, onFinalizar }) {
   
       // Limpia el intervalo cuando el componente se desmonta
       return () => clearInterval(intervalo);
+
     }, [tiempoRestante, onFinalizar]);
   
     // Convierte el tiempo restante en minutos y segundos
@@ -28,6 +29,9 @@ export default function Temporizador ({ duracion, onFinalizar }) {
 
 
     return(
-    <div>{`${minutos}:${segundos < 10 ? '0' : ''}${segundos}`}</div>)
+    <div>
+        <div className='text-3xl'>{`${minutos}:${segundos < 10 ? '0' : ''}${segundos}`}</div>
+        {tiempoRestante === 0 ? (<div>su tiempo estimado para comprar el ticket a caducado</div>) : (<div>tiempo restante para realizar su compra</div>)}
+    </div>)
         
 }
