@@ -21,10 +21,10 @@ import SearchResults from "./views/app-views/SearchResults";
 import NotFound from "./views/app-views/NotFound";
 
 // Events views
-import EventCart from "./views/events-views/EventCart";
-import EventCreate from "./views/events-views/EventCreate";
-import EventTicketsCreate from "./views/events-views/EventTicketsCreate";
-import EventDetail from "./views/events-views/EventDetail";
+import EventCart from "./views/events-tickets-views/EventCart";
+import EventCreate from "./views/events-tickets-views/EventCreate";
+import TicketsCreate from "./views/events-tickets-views/TicketsCreate";
+import EventDetail from "./views/events-tickets-views/EventDetail";
 
 // User views
 import ChangePassword from "./views/users-views/ChangePassword";
@@ -65,7 +65,7 @@ const App = ({ verifyToken, isLogin, userData }) => {
                 <Route path="/event/:id" element={<EventDetail />} />
                 {/* Secure Routes */}
                 <Route
-                    path="/create"
+                    path="/create/:eventId?"
                     element={
                         <RequireAuth>
                             <EventCreate />
@@ -76,7 +76,7 @@ const App = ({ verifyToken, isLogin, userData }) => {
                     path="/create/tickets/:eventId/"
                     element={
                         <RequireAuth>
-                            <EventTicketsCreate />
+                            <TicketsCreate />
                         </RequireAuth>
                     }
                 />
