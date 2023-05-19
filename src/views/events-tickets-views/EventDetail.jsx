@@ -21,6 +21,7 @@ import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 // Scroll
 import { Link as ScrollLink } from "react-scroll";
+import { fillCart } from "../../redux/actions/usersTicketsActions";
 
 // React router dom
 
@@ -131,8 +132,9 @@ const EventDetail = () => {
     const minPrice = ticketsMinPrice();
 
     // Carrito de compra del evento
+    const selectedTicketsGlobal=useSelector(state=>state.selectedTickets)
     const [selectedTickets, setSelectedTickets] = useState({});
-
+    
     const handleTicketSelect = (event) => {
         const { id, value } = event.target;
 
@@ -144,6 +146,11 @@ const EventDetail = () => {
             },
         }));
     };
+    
+    const buyTickets=()=>{
+        dispatch(fillCart(selectedTickets));
+        navigate('/cart')
+    }
 
     // Calculo de totales
     const [total, setTotal] = useState(0);
@@ -352,7 +359,10 @@ const EventDetail = () => {
                                                 key="sum"
                                             >
                                                 <td className="px-2 py-4">
-                                                    <button className="btnPrimary">
+                                                    <button
+                                                        className="btnPrimary"
+                                                        onClick={buyTickets}
+                                                    >
                                                         Comprar tickets
                                                     </button>
                                                 </td>

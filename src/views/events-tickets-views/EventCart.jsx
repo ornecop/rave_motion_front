@@ -2,6 +2,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import Temporizador from "../../components/Temporizador";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 /* =======================================================
@@ -16,9 +17,8 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     
 */
 const EventCart = () => {
-    const { cartId } = useParams();
-    const duracion = 10;
-
+    const duracion = 600;
+    const selectedTickets=useSelector(state=>state.selectedTickets);
     async function alFinalizar() {
         const response = await axios.get(`${BACKEND_URL}/events`);
         console.log(response);
@@ -46,14 +46,8 @@ const EventCart = () => {
                         <label htmlFor="" className="text-white m-9 mr-3">
                             cantidad de tickets:{" "}
                         </label>
-                        <select name="" id="" className="w-44 m-9 mr-3">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
                     </form>
+                    <button>Mercado Pago</button>
                 </div>
             </div>
         </div>
