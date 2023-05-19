@@ -292,7 +292,7 @@ const EventDetail = () => {
                                 </div>
                                 {/* Tabla de tickets */}
                                 <div className="flex flex-row w-full items-center justify-center pb-4 ">
-                                    <table className="w-full text-start">
+                                    <table className="w-full text-start ">
                                         <thead className="font-semibold border-b-4 border-fuchsia-600">
                                             <tr>
                                                 <th
@@ -355,7 +355,7 @@ const EventDetail = () => {
                                                 </tr>
                                             ))}
                                             <tr
-                                                className="font-semibold border-y-4 border-fuchsia-600 rounded-md"
+                                                className="font-semibold border-t-4 border-fuchsia-600 rounded-md"
                                                 key="sum"
                                             >
                                                 <td className="px-2 py-4">

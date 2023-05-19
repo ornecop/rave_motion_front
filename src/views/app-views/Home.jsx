@@ -41,8 +41,8 @@ const Home = () => {
 
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
-    //PAGINADO
 
+    // Paginado
     const [currentPage, setCurrentPage] = useState(1);
     const [eventsPerPage, setEventsPerPage] = useState(9);
     const indexOfLastEvent = currentPage * eventsPerPage;
