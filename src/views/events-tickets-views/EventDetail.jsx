@@ -132,9 +132,9 @@ const EventDetail = () => {
     const minPrice = ticketsMinPrice();
 
     // Carrito de compra del evento
-    const selectedTicketsGlobal=useSelector(state=>state.selectedTickets)
+    const selectedTicketsGlobal = useSelector((state) => state.selectedTickets);
     const [selectedTickets, setSelectedTickets] = useState({});
-    
+
     const handleTicketSelect = (event) => {
         const { id, value } = event.target;
 
@@ -146,11 +146,11 @@ const EventDetail = () => {
             },
         }));
     };
-    
-    const buyTickets=()=>{
+
+    const buyTickets = () => {
         dispatch(fillCart(selectedTickets));
-        navigate('/cart')
-    }
+        navigate(`/cart/${event.id}`);
+    };
 
     // Calculo de totales
     const [total, setTotal] = useState(0);
