@@ -28,7 +28,7 @@ import {
     USERS_REMOVE_SIGN_ERROR,
     USERS_SIGN_UP_STEP_SET,
     USER_SIGN_OUT,
-    USER_CHANGE_PASSWORD
+    USER_CHANGE_PASSWORD,
 } from "../actions/usersActions";
 
 // User Tickets Actions Types
@@ -38,7 +38,6 @@ import initialState from "./initialState";
 
 // Root reducer
 const rootReducer = (state = initialState, action) => {
-    console.log(state)
     switch (action.type) {
         case EVENTS_GET_ALL:
             return {
@@ -130,7 +129,7 @@ const rootReducer = (state = initialState, action) => {
             return { ...state, signUpStep: action.payload };
         case USER_SIGN_OUT:
             return { ...state, isLogin: false, userData: {} };
- 
+
         //Tickets
         case TICKETS_GET_ALL:
             return {

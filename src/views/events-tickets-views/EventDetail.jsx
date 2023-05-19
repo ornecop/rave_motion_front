@@ -26,7 +26,7 @@ import { Link as ScrollLink } from "react-scroll";
 
 // Comp buy
 
-const SelectTickets = ({ ticket, handleTicketSelect }) => {
+const SelectTickets = ({ ticket, handleTicketSelect, selectedTickets }) => {
     const availableQ = ticket.maxQuantity - ticket.sells;
 
     if (availableQ && availableQ > 4) {
@@ -34,25 +34,16 @@ const SelectTickets = ({ ticket, handleTicketSelect }) => {
             <form>
                 <select
                     className="inputSelect w-fit text-normal"
-                    value={null}
                     onChange={handleTicketSelect}
+                    id={ticket.id}
+                    value={selectedTickets[ticket.id]?.quantity || 0}
                 >
                     <>
-                        <option id={ticket.id} value="0">
-                            0
-                        </option>
-                        <option id={ticket.id} value="1">
-                            1
-                        </option>
-                        <option id={ticket.id} value="2">
-                            2
-                        </option>
-                        <option id={ticket.id} value="3">
-                            3
-                        </option>
-                        <option id={ticket.id} value="4">
-                            4
-                        </option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
                     </>
                 </select>
             </form>
@@ -67,12 +58,12 @@ const SelectTickets = ({ ticket, handleTicketSelect }) => {
                 <select
                     className="inputSelect w-fit text-normal"
                     onChange={handleTicketSelect}
+                    id={ticket.id}
+                    value={selectedTickets[ticket.id]?.quantity || 0}
                 >
-                    <option selected value="0">
-                        0
-                    </option>
+                    <option value="0">0</option>
                     {arr.map((index) => (
-                        <option id={ticket.id} key={ticket.id} value={index}>
+                        <option key={index} value={index}>
                             {index}
                         </option>
                     ))}
@@ -93,6 +84,7 @@ const EventDetail = () => {
     useEffect(() => {
         dispatch(getEventById(id));
 
+        // PENDIENTE SI NO ENCUENTRA EVENTO
         //setTimeout(() => !event.name && navigate("/notfound"), 2000);
 
         return () => {
@@ -130,7 +122,6 @@ const EventDetail = () => {
             ?.map((t) => t.price);
 
         const minPrice = Math.min.apply(null, ticketsSells);
-        console.log(minPrice);
         return minPrice !== Infinity
             ? ` desde $${minPrice.toLocaleString("es")}.`
             : null;
@@ -141,12 +132,35 @@ const EventDetail = () => {
 
     // Carrito de compra del evento
     const [selectedTickets, setSelectedTickets] = useState({});
+
+    const handleTicketSelect = (event) => {
+        const { id, value } = event.target;
+
+        setSelectedTickets((prevState) => ({
+            ...prevState,
+            [id]: {
+                quantity: Number(value),
+                price: tickets.find((ticket) => ticket.id === id).price,
+            },
+        }));
+    };
+
+    // Calculo de totales
     const [total, setTotal] = useState(0);
     const [quantity, setQuantity] = useState(0);
 
-    const handleTicketSelect = (event) => {
-        // Como voy
-    };
+    useEffect(() => {
+        let total = 0;
+        let quantity = 0;
+        for (const ticket in selectedTickets) {
+            total +=
+                selectedTickets[ticket].price *
+                selectedTickets[ticket].quantity;
+            quantity += selectedTickets[ticket].quantity;
+        }
+        setTotal(total);
+        setQuantity(quantity);
+    }, [selectedTickets]);
 
     return (
         <div className="w-screen">
@@ -325,6 +339,9 @@ const EventDetail = () => {
                                                             ticket={ticket}
                                                             handleTicketSelect={
                                                                 handleTicketSelect
+                                                            }
+                                                            selectedTickets={
+                                                                selectedTickets
                                                             }
                                                         />
                                                     </td>
