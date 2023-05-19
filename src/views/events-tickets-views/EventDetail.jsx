@@ -61,7 +61,7 @@ const EventDetail = () => {
                 <div className=" flex flex-col text-center">
                     <div className="h-96 w-96 rounded-xl border border-secondaryBorder self-center">
                         <div
-                            className="h-full w-full bg-cover bg-bottom bg-no-repeat place-content-center rounded-xl"
+                            className="h-full w-full bg-cover bg-center bg-no-repeat place-content-center rounded-xl"
                             style={{
                                 backgroundImage: `url(${event.image})`,
                             }}

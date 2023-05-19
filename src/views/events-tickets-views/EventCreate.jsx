@@ -19,15 +19,17 @@ import { ImLocation2 } from "react-icons/im";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-// React router dom
-import { useNavigate } from "react-router-dom";
-
 // Hooks / funciones
 import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import getCurrentDate from "../../functions/getCurrentDate";
 
 // Redux
 import { connect } from "react-redux";
+import {
+    getEventById,
+    removeEventDetail,
+} from "../../redux/actions/eventsActions";
 
 // axios
 import axios from "axios";
@@ -56,17 +58,36 @@ const validationSchema = Yup.object().shape({
 
 const createImage = "https://wallpapercave.com/wp/wp12143405.jpg";
 
-const EventCreate = ({ userData }) => {
-    // Initial values
-    const initialValues = {
-        name: "",
-        image: "",
-        date: "",
-        hour: "",
-        venue: "",
-        producer: "",
-        description: "",
-    };
+const EventCreate = (props) => {
+    // Actions & global state from props
+    const { userData, eventDetail } = props;
+    const { getEventById, removeEventDetail } = props;
+
+    // Get event if param
+    const { eventId } = useParams();
+
+    useEffect(() => {
+        eventId && getEventById(eventId);
+
+        return () => {
+            removeEventDetail();
+        };
+    }, []);
+
+    let initialValues = {};
+    useEffect(() => {
+        eventDetail.id
+            ? (initialValues = eventDetail)
+            : (initialValues = {
+                  name: "",
+                  image: "",
+                  date: "",
+                  hour: "",
+                  venue: "",
+                  producer: "",
+                  description: "",
+              });
+    }, [eventDetail]);
 
     // Handle Submit
     const navigate = useNavigate();
@@ -75,6 +96,7 @@ const EventCreate = ({ userData }) => {
     const [imageError, setImageError] = useState({ status: "", disabled: "y" });
     const [imageName, setImageName] = useState({ name: "" });
 
+    // Image field handle & error
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -103,6 +125,16 @@ const EventCreate = ({ userData }) => {
             }
         }
     };
+
+    const errorImageHandler = () => {
+        if (!imageDataUrl) {
+            setImageDataUrl("error");
+        } else {
+            return;
+        }
+    };
+
+    // Submit
     const handleSubmitEventCreate = async (
         values,
         { setSubmitting, resetForm }
@@ -121,13 +153,7 @@ const EventCreate = ({ userData }) => {
         setSubmitting(false);
         resetForm();
     };
-    const errorImageHandler = () => {
-        if (!imageDataUrl) {
-            setImageDataUrl("error");
-        } else {
-            return;
-        }
-    };
+
     return (
         <div className="w-screen">
             <div className="h-60 relative overflow-hidden">
@@ -447,7 +473,15 @@ const EventCreate = ({ userData }) => {
 const mapStateToProps = (state) => {
     return {
         userData: state.userData,
+        eventDetail: state.eventDetail,
     };
 };
 
-export default connect(mapStateToProps, null)(EventCreate);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getEventById: (eventId) => dispatch(getEventById(eventId)),
+        removeEventDetail: () => dispatch(removeEventDetail()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventCreate);
