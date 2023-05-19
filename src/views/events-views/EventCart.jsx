@@ -30,8 +30,9 @@ const EventCart = () => {
   const submitTickets = async () =>{
     try{
     setIniciar(true);
-    const ticketsNumber = {reservation: Number(tickets)}
-    console.log(typeof(tickets))
+    let ticketsToNumber= Number(tickets)  
+    const ticketsNumber = {reservation: ticketsToNumber}
+    console.log(typeof(ticketsToNumber))
     const response = await axios.put(`http://localhost:3001/tickets/setsumstock/${ticketId}`,ticketsNumber)
     if(response){setReserva(true);}
     console.log(response, "esta response")}
@@ -39,13 +40,11 @@ const EventCart = () => {
   }
 
   async function alFinalizar() {
-    const ticketsNumber = {reservation: Number(tickets)}
+    let ticketsToNumber= Number(tickets)  
+    const ticketsNumber = {reservation: ticketsToNumber}
     if(reserva===true){const response = await axios.put(`http://localhost:3001/tickets/substracksells/${ticketId}`,ticketsNumber);
     console.log(response);}
   }
-
-  console.log(duracion);
-  console.log(tickets)
 
   return (
     <div className="w-full min-h-screen flex justify-center items-center">
