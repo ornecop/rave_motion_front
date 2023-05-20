@@ -37,6 +37,7 @@ import UserTickets from "./views/users-views/UserTickets";
 
 // Secure Routes
 import RequireAuth from "./auth/RequireAuth";
+import RequireLogin from "./auth/RequireLogin";
 
 const App = ({ verifyToken, isLogin, userData }) => {
     // Locations
@@ -81,7 +82,7 @@ const App = ({ verifyToken, isLogin, userData }) => {
                     }
                 />
 
-                <Route path="/cart/:eventId" element={<EventCart />} />
+                <Route path="/cart/:eventId" element={<RequireLogin><EventCart /></RequireLogin>} />
 
                 {/* User views */}
 
