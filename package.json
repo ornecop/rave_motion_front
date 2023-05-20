@@ -12,6 +12,7 @@
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.4.0",
         "@fortawesome/free-brands-svg-icons": "^6.4.0",
+        "@mercadopago/sdk-react": "^0.0.10",
         "@react-oauth/google": "^0.11.0",
         "axios": "^1.4.0",
         "downshift": "^7.6.0",
