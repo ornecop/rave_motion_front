@@ -54,7 +54,7 @@ export const EventCard = ({
 
                 <div className="flex space-x-4 mb-6 text-sm font-medium">
                     <div className="flex-auto flex space-x-4">
-                        <Link to="/event/:eventName">
+                        <Link to={`/event/${id}`}>
                             <button
                                 className="h-10 px-6 font-semibold rounded-md bg-black text-white hover:shadow-lg shadow-black/40 "
                                 type="submit"
