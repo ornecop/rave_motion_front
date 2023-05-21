@@ -9,7 +9,7 @@ export default function Paginado({ eventsPerPage, allEventos, paginado, currentP
     }
   
     return (
-      <div className='flex justify-center mt-5'>
+      <div className={pageNumber.length > 1?'flex justify-center mt-5':'display hidden'}>
         <nav>
           <ul className="flex space-x-2 w-fit justify-self-end justify-center my-2 items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder ">
             {pageNumber.length > 1 && (
@@ -24,7 +24,7 @@ export default function Paginado({ eventsPerPage, allEventos, paginado, currentP
               </li>
             )}
   
-            {pageNumber.map((number) => (
+            {pageNumber.length > 0 && pageNumber.map((number) => (
               <li className="hover:font-semibold focus:outline-none transition-colors duration-300 disabled:opacity-50 hover:text-fuchsia-600" key={number}>
                 <button className="" onClick={() => paginado(number)}>
                   {number}

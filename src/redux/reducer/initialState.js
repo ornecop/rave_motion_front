@@ -28,12 +28,15 @@ const initialState = {
     userData: {},
     userSignError: "",
     signUpStep: 1,
-
+    
     // User tickets states
 
     // Global states
     globalError: "",
     globalSuccess: "",
+
+    //Cart
+    selectedTickets:{}
 };
 
 export default initialState;

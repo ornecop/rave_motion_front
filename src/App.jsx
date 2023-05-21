@@ -21,13 +21,14 @@ import SearchResults from "./views/app-views/SearchResults";
 import NotFound from "./views/app-views/NotFound";
 
 // Events views
-import EventCart from "./views/events-views/EventCart";
-import EventCreate from "./views/events-views/EventCreate";
-import EventTicketsCreate from "./views/events-views/EventTicketsCreate";
-import EventDetail from "./views/events-views/EventDetail";
+import EventCart from "./views/events-tickets-views/EventCart";
+import EventCreate from "./views/events-tickets-views/EventCreate";
+import TicketsCreate from "./views/events-tickets-views/TicketsCreate";
+import EventDetail from "./views/events-tickets-views/EventDetail";
 
 // User views
-import PasswordChange from "./views/users-views/PasswordChange";
+import ChangePassword from "./views/users-views/ChangePassword";
+import EmailPassword from "./views/users-views/EmailPassword";
 import ProducerDashboard from "./views/users-views/ProducerDashboard";
 import ProducerEventDetail from "./views/users-views/ProducerEventDetail";
 import SignIn from "./views/users-views/SignIn";
@@ -36,6 +37,7 @@ import UserTickets from "./views/users-views/UserTickets";
 
 // Secure Routes
 import RequireAuth from "./auth/RequireAuth";
+import RequireLogin from "./auth/RequireLogin";
 
 const App = ({ verifyToken, isLogin, userData }) => {
     // Locations
@@ -44,8 +46,8 @@ const App = ({ verifyToken, isLogin, userData }) => {
 
     // Sign In by JSW
     useEffect(() => {
-        const token=localStorage.getItem('token');
-        if(token&&!isLogin){
+        const token = localStorage.getItem("token");
+        if (token && !isLogin) {
             verifyToken(token);
         }
     }, []);
@@ -64,7 +66,7 @@ const App = ({ verifyToken, isLogin, userData }) => {
                 <Route path="/event/:id" element={<EventDetail />} />
                 {/* Secure Routes */}
                 <Route
-                    path="/create"
+                    path="/create/:eventId?"
                     element={
                         <RequireAuth>
                             <EventCreate />
@@ -73,14 +75,19 @@ const App = ({ verifyToken, isLogin, userData }) => {
                 />
                 <Route
                     path="/create/tickets/:eventId/"
-                    element={<EventTicketsCreate />}
+                    element={
+                        <RequireAuth>
+                            <TicketsCreate />
+                        </RequireAuth>
+                    }
                 />
 
-                <Route path="/cart" element={<EventCart />} />
+                <Route path="/cart/:eventId" element={<RequireLogin><EventCart /></RequireLogin>} />
 
                 {/* User views */}
 
-                <Route path="/changepassword" element={<PasswordChange />} />
+                <Route path="/changepassword" element={<EmailPassword />} />
+                <Route path="/changepassword/2" element={<ChangePassword />} />
                 <Route path="/dashboard" element={<ProducerDashboard />} />
                 <Route
                     path="/dashboard/:eventId"

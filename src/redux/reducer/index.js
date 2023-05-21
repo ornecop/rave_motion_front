@@ -28,7 +28,9 @@ import {
     USERS_REMOVE_SIGN_ERROR,
     USERS_SIGN_UP_STEP_SET,
     USER_SIGN_OUT,
+    USER_CHANGE_PASSWORD,
 } from "../actions/usersActions";
+import { FILL_CART } from "../actions/usersTicketsActions";
 
 // User Tickets Actions Types
 
@@ -76,7 +78,7 @@ const rootReducer = (state = initialState, action) => {
         //* Filtros
 
         case EVENTS_FILTER:
-            return { ...state, homeEvents: action.payload };
+            return { ...state, homeEvents: action.payload, currentPage: 1 };
 
         // * Order
 
@@ -93,6 +95,7 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 homeEvents: order,
+                currentPage: 1,
             };
 
         case DATE_ORDER:
@@ -107,6 +110,7 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 homeEvents: dateOrder,
+                currentPage: 1,
             };
 
         // Users
@@ -146,6 +150,9 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
             };
+
+        case FILL_CART:
+            return{...state, selectedTickets:action.payload}
 
         //* ----------
         default:
