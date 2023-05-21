@@ -34,6 +34,9 @@ const initialState = {
     // Global states
     globalError: "",
     globalSuccess: "",
+
+    //Cart
+    selectedTickets:{}
 };
 
 export default initialState;

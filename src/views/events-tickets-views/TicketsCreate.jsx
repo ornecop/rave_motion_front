@@ -38,10 +38,10 @@ import NotFound from "../app-views/NotFound";
 const createImage = "https://wallpapercave.com/wp/wp12143405.jpg";
 
 // *********************** Componente ***********************
-const EventTicketsCreate = (props) => {
+const TicketsCreate = (props) => {
     // Props y Params =================
     const { getEventById, removeEventDetail } = props; // Actions
-    const { eventDetail, userData } = props; // Global state
+    const { eventDetail } = props; // Global state
     const { eventId } = useParams();
 
     // Event ==========================
@@ -107,6 +107,7 @@ const EventTicketsCreate = (props) => {
     };
 
     // Create or modify tickets on Event
+    const navigate = useNavigate();
     const handleSubmitTicketsSyncToDB = async () => {
         const eventTickets = { tickets: [...ticketsArray] };
         try {
@@ -128,7 +129,6 @@ const EventTicketsCreate = (props) => {
     // Delete tanda
     const handleDeleteTicket = (event) => {
         const ticketName = event.target.id;
-        console.log(ticketName);
     };
 
     // Modal ==========================
@@ -492,7 +492,7 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventTicketsCreate);
+export default connect(mapStateToProps, mapDispatchToProps)(TicketsCreate);
 
 // Verificar si el user tiene acceso PENDIENTE
 /*

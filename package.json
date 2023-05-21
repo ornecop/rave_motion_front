@@ -12,8 +12,10 @@
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.4.0",
         "@fortawesome/free-brands-svg-icons": "^6.4.0",
+        "@mercadopago/sdk-react": "^0.0.10",
         "@react-oauth/google": "^0.11.0",
         "axios": "^1.4.0",
+        "downshift": "^7.6.0",
         "formik": "^2.2.9",
         "icons": "^1.0.0",
         "react": "^18.2.0",
@@ -22,6 +24,7 @@
         "react-icons": "^4.8.0",
         "react-redux": "^8.0.5",
         "react-router-dom": "^6.11.1",
+        "react-scroll": "^1.8.9",
         "react-timer-hook": "^3.0.6",
         "redux": "^4.2.1",
         "redux-thunk": "^2.4.2",

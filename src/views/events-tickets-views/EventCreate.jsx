@@ -1,5 +1,3 @@
-import React from "react";
-
 /* =======================================================
     VIEW EventCreate - "/create" - Vista para crear y modificar evento
 
@@ -10,10 +8,10 @@ import React from "react";
     form con preview  
 */
 
+import React from "react";
+
 // Assets
 import defaultImage from "../../assets/picture.png";
-
-// React icons
 import { AiOutlineCalendar } from "react-icons/ai";
 import { ImLocation2 } from "react-icons/im";
 
@@ -21,12 +19,17 @@ import { ImLocation2 } from "react-icons/im";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-// React router dom
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+// Hooks / funciones
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import getCurrentDate from "../../functions/getCurrentDate";
+
 // Redux
 import { connect } from "react-redux";
+import {
+    getEventById,
+    removeEventDetail,
+} from "../../redux/actions/eventsActions";
 
 // axios
 import axios from "axios";
@@ -55,47 +58,83 @@ const validationSchema = Yup.object().shape({
 
 const createImage = "https://wallpapercave.com/wp/wp12143405.jpg";
 
-const EventCreate = ({ userData }) => {
-    // Initial values
-    const initialValues = {
-        name: "",
-        image: "",
-        date: "",
-        hour: "",
-        venue: "",
-        producer: "",
-        description: "",
-    };
+const EventCreate = (props) => {
+    // Actions & global state from props
+    const { userData, eventDetail } = props;
+    const { getEventById, removeEventDetail } = props;
+
+    // Get event if param
+    const { eventId } = useParams();
+
+    useEffect(() => {
+        eventId && getEventById(eventId);
+
+        return () => {
+            removeEventDetail();
+        };
+    }, []);
+
+    let initialValues = {};
+    useEffect(() => {
+        eventDetail.id
+            ? (initialValues = eventDetail)
+            : (initialValues = {
+                  name: "",
+                  image: "",
+                  date: "",
+                  hour: "",
+                  venue: "",
+                  producer: "",
+                  description: "",
+              });
+    }, [eventDetail]);
 
     // Handle Submit
     const navigate = useNavigate();
 
     const [imageDataUrl, setImageDataUrl] = useState("");
-    const [imageError, setImageError] = useState({status:"", disabled:"y"});
-    const [imageName, setImageName] = useState({name:""});
-    
+    const [imageError, setImageError] = useState({ status: "", disabled: "y" });
+    const [imageName, setImageName] = useState({ name: "" });
+
+    // Image field handle & error
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-        const fileName = file.name;
-        const fileExtension = fileName.split(".").pop().toLowerCase();
-      if (fileExtension === "jpg" || fileExtension === "jpeg" || fileExtension === "png") {
-        setImageError({status:"", disabled:""});
-        setImageName({name:fileName})
-            const reader = new FileReader();
-            reader.onload = (e) => {
-            const dataURL = e.target.result;
-            setImageDataUrl(dataURL);
-            };
-            reader.readAsDataURL(file);
-        } else {
-            setImageName({name:""})
-            setImageDataUrl("")
-            setImageError({disabled:"y" , status:"Debe seleccionar una imagen valida. (.jpg .png .jpeg)"});
-          }  
+            const fileName = file.name;
+            const fileExtension = fileName.split(".").pop().toLowerCase();
+            if (
+                fileExtension === "jpg" ||
+                fileExtension === "jpeg" ||
+                fileExtension === "png"
+            ) {
+                setImageError({ status: "", disabled: "" });
+                setImageName({ name: fileName });
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const dataURL = e.target.result;
+                    setImageDataUrl(dataURL);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                setImageName({ name: "" });
+                setImageDataUrl("");
+                setImageError({
+                    disabled: "y",
+                    status: "Debe seleccionar una imagen valida. (.jpg .png .jpeg)",
+                });
+            }
         }
-     
-    }
+    };
+
+    const errorImageHandler = () => {
+        if (!imageDataUrl) {
+            setImageDataUrl("error");
+        } else {
+            return;
+        }
+    };
+
+    // Submit
     const handleSubmitEventCreate = async (
         values,
         { setSubmitting, resetForm }
@@ -114,10 +153,7 @@ const EventCreate = ({ userData }) => {
         setSubmitting(false);
         resetForm();
     };
-    const errorImageHandler= () => {
-        if(!imageDataUrl){setImageDataUrl("error")}
-        else{return}
-    }
+
     return (
         <div className="w-screen">
             <div className="h-60 relative overflow-hidden">
@@ -190,10 +226,19 @@ const EventCreate = ({ userData }) => {
                                         type="file"
                                         accept=".jpg, .jpeg, .png"
                                     />
-                                     <span className="errorMessage">{imageError&&imageError.status}</span>
-                                     <span className="errorMessage" style={{"color":"white"}}>{imageName&&imageName.name}</span>
-                                     <span className="errorMessage">{imageDataUrl==="error" && "Este campo es requerido."}</span>
-
+                                    <span className="errorMessage">
+                                        {imageError && imageError.status}
+                                    </span>
+                                    <span
+                                        className="errorMessage"
+                                        style={{ color: "white" }}
+                                    >
+                                        {imageName && imageName.name}
+                                    </span>
+                                    <span className="errorMessage">
+                                        {imageDataUrl === "error" &&
+                                            "Este campo es requerido."}
+                                    </span>
                                 </div>
 
                                 {/* Row date y hour */}
@@ -352,7 +397,9 @@ const EventCreate = ({ userData }) => {
                                         type="submit"
                                         className="btnPrimary"
                                         onClick={errorImageHandler}
-                                        disabled={isSubmitting && imageError.disabled}
+                                        disabled={
+                                            isSubmitting && imageError.disabled
+                                        }
                                     >
                                         Crear o modificar evento
                                     </button>
@@ -398,7 +445,7 @@ const EventCreate = ({ userData }) => {
                                         -{" "}
                                         {values.venue
                                             ? values.venue
-                                            : "Venue del evento"}
+                                            : "Lugar del evento"}
                                     </span>
                                     <div className="w-4 font-semibold"></div>
                                     <AiOutlineCalendar size="1.3rem" />
@@ -426,7 +473,15 @@ const EventCreate = ({ userData }) => {
 const mapStateToProps = (state) => {
     return {
         userData: state.userData,
+        eventDetail: state.eventDetail,
     };
 };
 
-export default connect(mapStateToProps, null)(EventCreate);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getEventById: (eventId) => dispatch(getEventById(eventId)),
+        removeEventDetail: () => dispatch(removeEventDetail()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventCreate);

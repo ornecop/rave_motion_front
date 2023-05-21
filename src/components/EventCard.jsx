@@ -1,14 +1,12 @@
-import { Link } from "react-router-dom";
+// React Router Dom
+import { Link, useNavigate } from "react-router-dom";
 
-export const EventCard = ({
-    id,
-    name,
-    image,
-    description,
-    date,
-    venue,
-    hour,
-}) => {
+// Assets
+import { ImLocation2 } from "react-icons/im";
+import { AiOutlineCalendar } from "react-icons/ai";
+
+export const EventCard = ({ id, name, image, date, venue, hour }) => {
+    // Format date
     const dateNew = new Date(date);
     const day = dateNew.getDate().toString().padStart(2, "0");
     const month = (dateNew.getMonth() + 1).toString().padStart(2, "0");
@@ -17,16 +15,24 @@ export const EventCard = ({
     const formatDate = `${day}-${month}-${year}`;
 
     const formatHour = hour ? hour.slice(0, 5) : "-";
+
+    // Buy click
+    const navigate = useNavigate();
+    const handleBuyClick = () => {
+        navigate(`/event/${id}`);
+    };
+
     return (
-        <div className="flex font-sans mx-5 my-7 h-96">
-            <div className="flex-none w-48 relative ">
+        <div className="h-[15rem] w-[35rem] mx-auto flex flex-row bg-slate-900 rounded-xl border border-secondaryBorder">
+            <div className="w-[15rem] rounded-l-xl">
                 <Link to={`/event/${id}`}>
-                    <img
-                        src={image}
-                        alt={name}
-                        className="absolute inset-0 w-full h-full object-cover rounded-l-lg  "
+                    <div
+                        className="h-full w-full rounded-l-xl bg-cover bg-bottom bg-no-repeat"
+                        style={{
+                            backgroundImage: `url(${image})`,
+                        }}
                         loading="lazy"
-                    />
+                    ></div>
                 </Link>
             </div>
 
@@ -54,7 +60,7 @@ export const EventCard = ({
 
                 <div className="flex space-x-4 mb-6 text-sm font-medium">
                     <div className="flex-auto flex space-x-4">
-                        <Link to={`/event/${id}`}>
+                        <Link to="/event/:eventName">
                             <button
                                 className="h-10 px-6 font-semibold rounded-md bg-black text-white hover:shadow-lg shadow-black/40 "
                                 type="submit"
@@ -83,8 +89,7 @@ export const EventCard = ({
                         </svg>
                     </button>
                 </div>
-                <p className="text-sm text-slate-700">{venue}</p>
-            </form>
+            </div>
         </div>
     );
 };

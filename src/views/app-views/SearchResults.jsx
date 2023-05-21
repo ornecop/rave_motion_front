@@ -1,41 +1,47 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import EventContainer from "../../components/EventContainer";
 import { connect } from "react-redux";
-/* =======================================================
-    VIEW SearchResults - "/search/:searchedName" - Vista a la que redirección al buscar algo en el searchbar
 
-    * El back puede traer un array de eventos
+const SearchResults = ({ events }) => {
 
-    styles:
-    filtros (por provincia, por productora) + orden (por fecha) 
-    lista de eventos encontrados 
+//loading
+const [isLoading, setIsLoading] = useState(true);
 
-*/
-// const events = useSelector((state) => state.searchResult);
+useEffect(() => {
+    setTimeout(() => {
+    setIsLoading(false);
+    }, 2000);
+}, []);
 
-
-
-const SearchResults = ({events}) => {
-    console.log(events)
-
-
-    return (
-        <div className="w-full min-h-screen m-0">
-            <div className="flex justify-center items-center h-screen">
-            { 
-                events.length === 0 ? (<div><h1 className="font-bold text-center text-5xl">LO SENTIMOS</h1><h1  className="text-white text-xl  text-center ">no se han encontrado resultados</h1></div>)
-                : (<div><EventContainer events={events} /></div>)
-            }
-            </div>
-        </div>
-    );
+  return (
+    <div className="w-full min-h-screen m-0">
+      <div className="flex justify-center items-center h-screen">
+        {isLoading ? (
+          <div className="flex flex-col items-center">
+            <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-fuchsia-600"></div>
+            <h1 className="font-bold text-center text-2xl mt-4">Loading...</h1>
+          </div>
+        ) : events.length === 0 ? (
+          <div>
+            <h1 className="font-bold text-center text-5xl">LO SENTIMOS</h1>
+            <h1 className="text-white text-xl text-center">
+              No se han encontrado resultados
+            </h1>
+          </div>
+        ) : (
+          <div>
+            <EventContainer events={events} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
-
-
 const mapStateToProps = (state) => {
-    return{
-        events: state.searchResult,  
-    }
-}
+  return {
+    events: state.searchResult,
+  };
+};
+
 export default connect(mapStateToProps, null)(SearchResults);
