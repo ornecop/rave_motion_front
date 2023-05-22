@@ -46,41 +46,28 @@ const Header = (props) => {
     // Dropdown ================
 
     const [showDropdown, setShowDropdown] = useState(false);
-    const dropdownRef = useRef(null);
-  
-  
-    const handleOptionClick = () => {
-        setShowDropdown(false);
-      };
-  
-    const handleOutsideClick = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setShowDropdown(false);
-      }
-    };
-  
-    useEffect(() => {
-      document.addEventListener('mousedown', handleOutsideClick);
-      return () => {
-        document.removeEventListener('mousedown', handleOutsideClick);
-      };
-    }, []);
+  const dropdownRef = useRef(null);
 
-    const handleMouseEnter = () => {
-        setShowDropdown(true);
-      };
-      
-      const handleMouseLeave = () => {
-        setShowDropdown(false);
-      };
-      
-      const handleDropdownClick = () => {
-        setShowDropdown(!showDropdown);
-      };
-      
- 
-      
-   
+  const toggleShowDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
+  const handleOutsideClick = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target) && showDropdown) {
+      // El usuario ha hecho clic fuera del dropdown y está abierto, cerrarlo aquí
+      toggleShowDropdown();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick);
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
     
     // Search bar logic ================
     const [name, setName] = useState("");
@@ -113,7 +100,7 @@ const Header = (props) => {
 
     return (
         <div
-            className="grid grid-cols-3 w-screen h-16 fixed top-0 z-10 font-medium px-2"
+            className="grid grid-cols-3 w-screen h-16 fixed top-0 z-10 font-medium"
             style={headerStyle}
         >
             <div className="flex justify-self-start items-center ml-4">
@@ -147,33 +134,32 @@ const Header = (props) => {
                 {isLogin ? (
                     <>
                         {/* Dropdown user  */}
-                        <div className="inline-block relative" ref={dropdownRef}>
-
-                        <button onClick={handleDropdownClick}
-                        
-                        onMouseEnter={handleMouseEnter}
-                        onMouseLeave={handleMouseLeave}
-                        className="btnPrimary py-0 px-4 w-fit border-none">
-                             Tu cuenta
-                        </button>
-                        <div  
-                            onClick={handleDropdownClick}
-                            onMouseEnter={handleMouseEnter}
-                            onMouseLeave={handleMouseLeave}
-                              className={`"z-20 bg-secondary rounded-md w-40 left-[-2rem] top-[2rem] text-center" ${
-                                showDropdown ? "block" : "hidden"
-                              }`}
-                              style={{ position: "absolute" }}
+                        <div
+                            className="inline-block relative"
+                            ref={dropdownRef}
+                        >
+                            <button
+                                onClick={handlDropdownClick}
+                                className="btnPrimary py-0 px-4 w-fit border-none"
                             >
-                              <div className="dropDownItem">
-                                <Link className="navLinkDropdown" onClick={handleOptionClick}>{userData.firstName}</Link>
-                              </div>
+                                Tu cuenta
+                            </button>
+                            <div
+                                className={`"z-20 bg-secondary rounded-md w-40 left-[-2rem] top-[2rem] text-center" ${
+                                    showDropdown ? "block" : "hidden"
+                                }`}
+                                style={{ position: "absolute" }}
+                            >
+                                <div className="dropDownItem">
+                                    <Link className="navLinkDropdown">
+                                        {userData.firstName}
+                                    </Link>
+                                </div>
 
                                 <div className="dropDownItem border-b-2 border-secondaryBorder">
                                     <Link
                                         className="navLinkDropdown"
                                         to="/tickets"
-                                        onClick={handleOptionClick}
                                     >
                                         Mis tickets
                                     </Link>
@@ -181,10 +167,9 @@ const Header = (props) => {
                                 {userData.accessType === "producer" && (
                                     <>
                                         <div className="dropDownItem">
-                                            <Link 
+                                            <Link
                                                 className="navLinkDropdown"
                                                 to="/create"
-                                                onClick={handleOptionClick}
                                             >
                                                 Crear evento
                                             </Link>
@@ -193,7 +178,6 @@ const Header = (props) => {
                                             <Link
                                                 className="navLinkDropdown"
                                                 to="/dashboard"
-                                                onClick={handleOptionClick}
                                             >
                                                 Mis Eventos
                                             </Link>
