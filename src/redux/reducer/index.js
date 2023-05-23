@@ -1,3 +1,6 @@
+// App Actions Types
+import { GLOBAL_ERROR_REMOVE } from "../actions/appActions";
+
 // Events Actions Types
 import {
     EVENTS_SEARCH,
@@ -152,8 +155,10 @@ const rootReducer = (state = initialState, action) => {
             };
 
         case FILL_CART:
-            return{...state, selectedTickets:action.payload}
+            return { ...state, selectedTickets: action.payload };
 
+        case GLOBAL_ERROR_REMOVE:
+            return { ...state, globalError: "" };
         //* ----------
         default:
             return { ...state };

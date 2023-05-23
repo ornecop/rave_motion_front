@@ -28,15 +28,15 @@ const initialState = {
     userData: {},
     userSignError: "",
     signUpStep: 1,
-    
+
     // User tickets states
 
     // Global states
-    globalError: "",
+    globalError: "El evento que intentaste crear no pudo ser creado.",
     globalSuccess: "",
 
     //Cart
-    selectedTickets:{}
+    selectedTickets: {},
 };
 
 export default initialState;
