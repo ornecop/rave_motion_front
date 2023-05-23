@@ -13,6 +13,7 @@ export const USER_SIGN_OUT = "USER_SIGN_OUT";
 export const USERS_SET_SIGN_ERROR = "USERS_SET_SIGN_ERROR";
 export const USERS_REMOVE_SIGN_ERROR = "USERS_REMOVE_SIGN_ERROR";
 export const USERS_SIGN_UP_STEP_SET = "USERS_SIGN_UP_STEP_SET";
+export const USER_CHANGE_PASSWORD = "USER_CHANGE_PASSWORD";
 
 // ============= Actions Creators
 
@@ -24,7 +25,7 @@ export const signIn = ({ mail, password }) => {
                 password: password,
             });
             const { user, jwt } = response.data;
-            localStorage.setItem('token',jwt)
+            localStorage.setItem("token", jwt);
 
             dispatch({
                 type: USER_SIGN_IN,
@@ -40,7 +41,6 @@ export const signIn = ({ mail, password }) => {
 };
 
 export const verifyToken = (token) => {
-
     return async (dispatch) => {
         try {
             const response = await axios.post(
@@ -82,8 +82,7 @@ export const setSignUpStep = (step) => {
 };
 
 export const signout = () => {
-    const cookies = new Cookies();
-    cookies.remove("jwt");
+    localStorage.removeItem("token");
     return {
         type: USER_SIGN_OUT,
     };

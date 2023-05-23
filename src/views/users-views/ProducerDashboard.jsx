@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom';
 
       //? importar view \\
 import DashboardCard from './DashboardCard'
-import PasswordChange from '../users-views/PasswordChange';
-import EventCart from "../events-views/EventCart";
+import PasswordChange from './ChangePassword';
+import EventCart from "../events-tickets-views/EventCart";
 import EventCreate from "../events-views/EventCreate";
-import EventTicketsCreate from "../events-views/EventTicketsCreate";
+import EventTicketsCreate from "../events-views/EventCreate";
 import ProducerEventDetail from "../users-views/ProducerEventDetail";   
     /* =======================================================
     VIEW ProducerDashboard - "/dashboard" - Vista para producers
