@@ -33,7 +33,7 @@ const initialState = {
 
     // Global states
     globalError: "El evento que intentaste crear no pudo ser creado.",
-    globalSuccess: "",
+    globalSuccess: "El evento fue creado correctamente.",
 
     //Cart
     selectedTickets: {},
