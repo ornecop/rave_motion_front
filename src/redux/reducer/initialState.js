@@ -33,7 +33,8 @@ const initialState = {
 
     // Global states
     globalError: "",
-    globalSuccess: "",
+    globalSuccess:
+        "Los tickets del evento ${eventDetail.name} se han creado correctamente.",
 
     //Cart
     selectedTickets: {},
