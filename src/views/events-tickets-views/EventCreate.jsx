@@ -8,8 +8,6 @@
     form con preview  
 */
 
-import React from "react";
-
 // Assets
 import defaultImage from "../../assets/picture.png";
 import { AiOutlineCalendar } from "react-icons/ai";
@@ -30,6 +28,8 @@ import {
     getEventById,
     removeEventDetail,
 } from "../../redux/actions/eventsActions";
+import { setGlobalError } from "../../redux/actions/appActions";
+import { setGlobalSuccess } from "../../redux/actions/appActions";
 
 // axios
 import axios from "axios";
@@ -61,7 +61,12 @@ const createImage = "https://wallpapercave.com/wp/wp12143405.jpg";
 const EventCreate = (props) => {
     // Actions & global state from props
     const { userData, eventDetail } = props;
-    const { getEventById, removeEventDetail } = props;
+    const {
+        getEventById,
+        removeEventDetail,
+        setGlobalError,
+        setGlobalSuccess,
+    } = props;
 
     // Get event if param
     const { eventId } = useParams();
@@ -72,7 +77,7 @@ const EventCreate = (props) => {
         return () => {
             removeEventDetail();
         };
-    }, []);
+    }, [eventId, getEventById, removeEventDetail]);
 
     let initialValues = {};
     useEffect(() => {
@@ -146,9 +151,12 @@ const EventCreate = (props) => {
                 event
             );
             const newEvent = response.data;
+            setGlobalSuccess(
+                `El evento ${newEvent.name} se ha creado correctamente.`
+            );
             navigate(`/create/tickets/${newEvent.id}`);
         } catch (error) {
-            console.log(error);
+            setGlobalError(error.data.response.error);
         }
         setSubmitting(false);
         resetForm();
@@ -481,6 +489,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getEventById: (eventId) => dispatch(getEventById(eventId)),
         removeEventDetail: () => dispatch(removeEventDetail()),
+        setGlobalError: (error) => dispatch(setGlobalError(error)),
+        setGlobalSuccess: (message) => dispatch(setGlobalSuccess(message)),
     };
 };
 

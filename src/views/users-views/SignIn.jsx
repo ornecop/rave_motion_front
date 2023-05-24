@@ -28,7 +28,7 @@ import { connect } from "react-redux";
 import { signIn } from "../../redux/actions/usersActions";
 
 // Google button
-import { useGoogleLogin } from "@react-oauth/google";
+import GoogleLogin from "./GoogleLogin"
 import { useEffect } from "react";
 
 // Validation schemas
@@ -61,10 +61,6 @@ const SignIn = ({ signIn, userSignError, isLogin }) => {
         resetForm();
     };
 
-    // Google login
-    const googleLogin = useGoogleLogin({
-        onSuccess: (tokenResponse) => console.log(tokenResponse),
-    });
 
     return (
         <div className="w-full h-screen flex flex-col justify-center items-center">
@@ -194,18 +190,7 @@ const SignIn = ({ signIn, userSignError, isLogin }) => {
                 </Formik>
 
                 {/* Google */}
-                <button
-                    type="submit"
-                    className="grid btnPrimary"
-                    onClick={() => googleLogin()}
-                >
-                    <div className="flex flex-row justify-self-center items-center gap-2">
-                        <FcGoogle size="1.5rem" />
-                        <span className="text-lg">
-                            Iniciar sesión con Google
-                        </span>
-                    </div>
-                </button>
+              <GoogleLogin/>
 
                 {/* Links */}
                 <div className="flex flex-col mt-8">

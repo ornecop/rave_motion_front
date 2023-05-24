@@ -132,7 +132,6 @@ const EventDetail = () => {
     const minPrice = ticketsMinPrice();
 
     // Carrito de compra del evento
-    const selectedTicketsGlobal = useSelector((state) => state.selectedTickets);
     const [selectedTickets, setSelectedTickets] = useState({});
 
     const handleTicketSelect = (event) => {
