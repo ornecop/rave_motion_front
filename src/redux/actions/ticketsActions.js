@@ -11,7 +11,7 @@ export const TICKETS_CREATE = "TICKETS_CREATE";
 export const getAllTickets = () => {
     return async function (dispatch) {
         const tickets = (await axios.get(`BACKEND_URL/tickets`)).data;
-        dispatch({ type: TICKETS_GET_ALL, payload: tickets});
+        dispatch({ type: TICKETS_GET_ALL, payload: tickets });
     };
 };
 
@@ -31,7 +31,9 @@ export const modifyTickets = (id, ticketsData) => {
 
 export const getTicketsEventById = (id) => {
     return async function (dispatch) {
-        const response = await axios.get(`${BACKEND_URL}/tickets/ticketsByEvent/${id}`);
+        const response = await axios.get(
+            `${BACKEND_URL}/tickets/ticketsByEvent/${id}`
+        );
         const ticketsEventById = response.data;
         dispatch({
             type: TICKET_EVENT_GET,
