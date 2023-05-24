@@ -3,20 +3,21 @@ import { useEffect } from "react";
 
 // Redux
 import { connect } from "react-redux";
-import { removeGlobalError } from "../redux/actions/appActions";
 
-const Alert = ({ globalError, removeGlobalError }) => {
+import { removeGlobalSuccess } from "../redux/actions/appActions";
+
+const Success = ({ globalSuccess, removeGlobalSuccess }) => {
     // Cierre auto
     useEffect(() => {
         const timer = setTimeout(() => {
-            removeGlobalError();
+            removeGlobalSuccess();
         }, 10000);
         return () => clearTimeout(timer);
-    }, [globalError, removeGlobalError]);
+    }, [globalSuccess, removeGlobalSuccess]);
 
     // Cierre user
     const handleCloseAlert = () => {
-        removeGlobalError();
+        removeGlobalSuccess();
     };
 
     return (
@@ -31,7 +32,7 @@ const Alert = ({ globalError, removeGlobalError }) => {
                         &times;
                     </span>
                 </button>
-                <p className="font-medium">{globalError}</p>
+                <p className="font-medium">{globalSuccess}</p>
             </div>
         </div>
     );
@@ -49,4 +50,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Alert);
+export default connect(mapStateToProps, mapDispatchToProps)(Success);
