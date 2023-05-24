@@ -22,7 +22,7 @@ const Success = ({ globalSuccess, removeGlobalSuccess }) => {
 
     return (
         <div className="flex justify-center absolute z-10 w-screen mt-20">
-            <div className="relative py-5 px-16 floatBox border-red-400 text-red-400">
+            <div className="relative py-5 px-16 floatBox border-green-400 text-green-400">
                 <button
                     type="button"
                     className="absolute top-0 right-2 p-1"
@@ -40,13 +40,13 @@ const Success = ({ globalSuccess, removeGlobalSuccess }) => {
 
 const mapStateToProps = (state) => {
     return {
-        globalError: state.globalError,
+        globalSuccess: state.globalSuccess,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        removeGlobalError: () => dispatch(removeGlobalError()),
+        removeGlobalSuccess: () => dispatch(removeGlobalSuccess()),
     };
 };
 
