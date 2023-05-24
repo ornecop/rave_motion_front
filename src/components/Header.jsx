@@ -7,13 +7,13 @@ import { Link, useNavigate } from "react-router-dom";
 // Redux
 import { connect } from "react-redux";
 import { getEventsByName } from "../redux/actions/eventsActions";
-import { signout } from "../redux/actions/usersActions";
+import { signOut } from "../redux/actions/usersActions";
 
 // Assets
 import rave from "../assets/logo3.png";
 
 const Header = (props) => {
-    const { isLogin, userData, signout } = props;
+    const { isLogin, userData, signOut } = props;
     const { getEventsByName } = props;
 
     // Fondo opaco
@@ -91,7 +91,7 @@ const Header = (props) => {
 
     // Sign Out
     const handleSignOut = () => {
-        isLogin && signout();
+        isLogin && signOut();
         navigate("/");
     };
 
@@ -224,7 +224,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        signout: () => dispatch(signout()),
+        signOut: () => dispatch(signOut()),
         getEventsByName: (name) => dispatch(getEventsByName(name)),
     };
 };
