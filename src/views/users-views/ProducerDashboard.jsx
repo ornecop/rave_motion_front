@@ -51,8 +51,8 @@ const ProducerDashboard = () => {
    switch (selectedView) {
      case 'changepassword':
        return <div><PasswordChange/></div>;
-     case 'cart':
-       return <div><EventCart/></div>;
+     case 'perfil':
+       return <div><h1>Perfil</h1></div>;
      case 'ProducerEventDetail':
        return <div><ProducerEventDetail/></div>;
      case 'EventTicketsCreate':
@@ -92,21 +92,24 @@ const ProducerDashboard = () => {
             <div className={`${!open && "hidden"} `}>
                <div >
 
-                  <div className= {`ml-14 mb-1 mt-1 p-2 text-sm hover:text-base rounded-lg transition duration-1000 ease-out  hover:bg-secondary ${selectedView == "changepassword"? "bg-secondary": ""}`} >
+               <div className={`ml-14 mb-1 mt-1 p-2 text-sm hover:text-base rounded-lg  hover:bg-secondary transition duration-1000 ease-out ${selectedView == "cart"? "bg-secondary": ""}`}>
+                     <Link onClick={() => handleViewClick('perfil')}>
+                     <svg class="h-6 w-6 text-white inline"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                     </svg>
+                     <span className="flex-1 ml-3 whitespace-nowrap ">Perfil</span>
+                     </Link> 
+                  </div>
+
+               <div className= {`ml-14 mb-5 p-2 text-sm hover:text-base rounded-lg transition duration-1000 ease-out  hover:bg-secondary ${selectedView == "changepassword"? "bg-secondary": ""}`} >
                      <Link onClick={() => handleViewClick('changepassword')} className={` `}>
                      <svg className="h-6 w-6 text-white inline" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeLinejoin="round"  >
                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
                      </svg>
                      <span className="flex-1 ml-3 whitespace-nowrap">Contraseña</span>
                      </Link>
-                  </div>
-
-                  <div className={`ml-14 mb-5 p-2 text-sm hover:text-base rounded-lg  hover:bg-secondary transition duration-1000 ease-out ${selectedView == "cart"? "bg-secondary": ""}`}>
-                     <Link onClick={() => handleViewClick('cart')}>
-                  <svg className="h-6 w-6 text-white inline" width="24" height="24" viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  strokeWidth="2"  strokeLinecap="round"  strokeLinejoin="round">  <circle cx="9" cy="21" r="1" />  <circle cx="20" cy="21" r="1" />  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" /></svg>
-                     <span className="flex-1 ml-3 whitespace-nowrap ">Carrito</span>
-                     </Link> 
-                  </div>
+               </div>
+                 
             </div>
             </div>
             
