@@ -156,7 +156,7 @@ const EventCreate = (props) => {
             );
             navigate(`/create/tickets/${newEvent.id}`);
         } catch (error) {
-            setGlobalError(error.data.response.error);
+            setGlobalError(error.response.data.error);
         }
         setSubmitting(false);
         resetForm();
