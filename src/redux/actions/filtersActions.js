@@ -9,45 +9,43 @@ export const EVENTS_FILTER = "EVENTS_FILTER";
 
 export const filteredEvents = ({ startDate, endDate, producer }) => {
     return async (dispatch) => {
-        let filteredEvents;
+        try {
+            let filteredEvents;
 
-        if (producer === null && startDate && endDate === null) {
-            try {
+            if (producer === null && startDate && endDate === null) {
                 const response = await axios.get(
                     `${BACKEND_URL}/events/filter?startDate=${startDate}`
                 );
+            } else if (startDate && endDate && producer) {
+                const response = await axios.get(
+                    `${BACKEND_URL}/events/filter?producer=${producer}&startDate=${startDate}&endDate=${endDate}`
+                );
                 filteredEvents = response.data;
-            } catch (error) {
-                dispatch({
-                    type: GLOBAL_ERROR_SET,
-                    payload: error.response.data.error,
-                });
+            } else if (startDate && endDate === null && producer) {
+                const response = await axios.get(
+                    `${BACKEND_URL}/events/filter?producer=${producer}&startDate=${startDate}`
+                );
+                filteredEvents = response.data;
+            } else if (producer === null) {
+                const response = await axios.get(
+                    `${BACKEND_URL}/events/filter?startDate=${startDate}&endDate=${endDate}`
+                );
+                filteredEvents = response.data;
+            } else if (producer !== null) {
+                const response = await axios.get(
+                    `${BACKEND_URL}/events/filter?producer=${producer}`
+                );
+                filteredEvents = response.data;
             }
-        } else if (startDate && endDate && producer) {
-            const response = await axios.get(
-                `${BACKEND_URL}/events/filter?producer=${producer}&startDate=${startDate}&endDate=${endDate}`
-            );
-            filteredEvents = response.data;
-        } else if (startDate && endDate === null && producer) {
-            const response = await axios.get(
-                `${BACKEND_URL}/events/filter?producer=${producer}&startDate=${startDate}`
-            );
-            filteredEvents = response.data;
-        } else if (producer === null) {
-            const response = await axios.get(
-                `${BACKEND_URL}/events/filter?startDate=${startDate}&endDate=${endDate}`
-            );
-            filteredEvents = response.data;
-        } else if (producer !== null) {
-            const response = await axios.get(
-                `${BACKEND_URL}/events/filter?producer=${producer}`
-            );
-            filteredEvents = response.data;
+            dispatch({
+                type: EVENTS_FILTER,
+                payload: filteredEvents,
+            });
+        } catch (error) {
+            dispatch({
+                type: GLOBAL_ERROR_SET,
+                payload: error.response.data.error,
+            });
         }
-
-        dispatch({
-            type: EVENTS_FILTER,
-            payload: filteredEvents,
-        });
     };
 };
