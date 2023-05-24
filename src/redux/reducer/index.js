@@ -17,18 +17,10 @@ import {
     EVENT_MODIFY,
 } from "../actions/eventsActions";
 
-// Filters
-
+// Filters & Orders
 import { EVENTS_FILTER } from "../actions/filtersActions";
 import { ALPHABETIC_ORDER, DATE_ORDER } from "../actions/orderActions";
 
-// Tickets Actions Types
-import {
-    TICKETS_GET_ALL,
-    TICKETS_MODIFY,
-    TICKET_EVENT_GET,
-    TICKETS_CREATE,
-} from "../actions/ticketsActions";
 // User Actions Types
 import {
     USER_SIGN_IN,
@@ -39,8 +31,6 @@ import {
     USER_CHANGE_PASSWORD,
 } from "../actions/usersActions";
 import { FILL_CART } from "../actions/usersTicketsActions";
-
-// User Tickets Actions Types
 
 // Initial State
 import initialState from "./initialState";
@@ -91,8 +81,7 @@ const rootReducer = (state = initialState, action) => {
         // * Order
 
         case ALPHABETIC_ORDER:
-            const alphabetic = [...state.homeEvents];
-            let order = alphabetic;
+            let order = [...state.homeEvents];
 
             if (action.payload === "Asc") {
                 order.sort((a, b) => a.name.localeCompare(b.name));
@@ -114,7 +103,6 @@ const rootReducer = (state = initialState, action) => {
             if (action.payload === "First") {
                 dateOrder.sort((a, b) => new Date(a.date) - new Date(b.date));
             }
-
             return {
                 ...state,
                 homeEvents: dateOrder,
@@ -129,6 +117,7 @@ const rootReducer = (state = initialState, action) => {
                 isLogin: true,
                 userSignError: "",
             };
+
         case USERS_SET_SIGN_ERROR:
             return { ...state, userSignError: action.payload };
         case USERS_REMOVE_SIGN_ERROR:
@@ -136,32 +125,15 @@ const rootReducer = (state = initialState, action) => {
 
         case USERS_SIGN_UP_STEP_SET:
             return { ...state, signUpStep: action.payload };
+
         case USER_SIGN_OUT:
             return { ...state, isLogin: false, userData: {} };
 
-        //Tickets
-        case TICKETS_GET_ALL:
-            return {
-                ...state,
-                allTickets: action.payload,
-            };
-        case TICKET_EVENT_GET:
-            return {
-                ...state,
-                allTicketsByEvents: action.payload,
-            };
-        case TICKETS_CREATE:
-            return {
-                ...state,
-            };
-        case TICKETS_MODIFY:
-            return {
-                ...state,
-            };
-
+        // Fill Cart
         case FILL_CART:
             return { ...state, selectedTickets: action.payload };
 
+        // Global
         case GLOBAL_ERROR_SET:
             return { ...state, globalError: action.payload };
         case GLOBAL_ERROR_REMOVE:

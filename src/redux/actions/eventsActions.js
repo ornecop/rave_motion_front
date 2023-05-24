@@ -25,7 +25,7 @@ export const getAllEvents = () => {
         } catch (error) {
             dispatch({
                 type: GLOBAL_ERROR_SET,
-                payload: error.data.response.error,
+                payload: error.response.data.error,
             });
         }
     };
@@ -42,7 +42,7 @@ export const getEventsByName = (name) => {
         } catch (error) {
             dispatch({
                 type: GLOBAL_ERROR_SET,
-                payload: error.data.response.error,
+                payload: error.response.data.error,
             });
         }
     };
@@ -66,7 +66,7 @@ export const getEventById = (id) => {
         } catch (error) {
             dispatch({
                 type: GLOBAL_ERROR_SET,
-                payload: error.data.response.error,
+                payload: error.response.data.error,
             });
         }
     };

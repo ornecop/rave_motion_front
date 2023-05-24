@@ -20,7 +20,7 @@ export const filteredEvents = ({ startDate, endDate, producer }) => {
             } catch (error) {
                 dispatch({
                     type: GLOBAL_ERROR_SET,
-                    payload: error.data.response.error,
+                    payload: error.response.data.error,
                 });
             }
         } else if (startDate && endDate && producer) {
