@@ -54,6 +54,7 @@ const TicketsCreate = (props) => {
     // Event ==========================
     useEffect(() => {
         // Get Event
+
         getEventById(eventId);
 
         return () => {
@@ -127,7 +128,7 @@ const TicketsCreate = (props) => {
             );
             navigate(`/event/${eventId}`);
         } catch (error) {
-            setGlobalError(error.data.response.error);
+            setGlobalError(error.response.data.error);
         }
     };
 

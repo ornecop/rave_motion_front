@@ -1,13 +1,10 @@
+import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-// Axios
-import axios from "axios";
-
-// Cookies
-import Cookies from "universal-cookie";
+// ============= Global Actions Types
+import { GLOBAL_ERROR_SET } from "./appActions";
 
 // ============= Users Actions Types
-
 export const USER_SIGN_IN = "USER_SIGN_IN";
 export const USER_SIGN_OUT = "USER_SIGN_OUT";
 export const USERS_SET_SIGN_ERROR = "USERS_SET_SIGN_ERROR";
@@ -76,7 +73,10 @@ export const verifyToken = (token) => {
                 payload: user,
             });
         } catch (error) {
-            console.error(error);
+            dispatch({
+                type: GLOBAL_ERROR_SET,
+                payload: error.response.data.error,
+            });
         }
     };
 };
