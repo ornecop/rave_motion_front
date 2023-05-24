@@ -38,8 +38,7 @@ import initialState from "./initialState";
 
 // Root reducer
 const rootReducer = (state = initialState, action) => {
-    console.log(state)
-    switch (action.type) {
+   switch (action.type) {
         case EVENTS_GET_ALL:
             return {
                 ...state,
