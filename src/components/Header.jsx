@@ -1,8 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+// Hooks
+import { useState, useEffect, useRef } from "react";
+
+// React Router Dom
 import { Link, useNavigate } from "react-router-dom";
+
+// Redux
 import { connect } from "react-redux";
 import { getEventsByName } from "../redux/actions/eventsActions";
 import { signout } from "../redux/actions/usersActions";
+
+// Assets
 import rave from "../assets/logo3.png";
 
 const Header = (props) => {
@@ -19,6 +26,11 @@ const Header = (props) => {
         }
     };
 
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     const headerStyle = {
         backgroundColor: `rgba(2, 6, 23, ${opacity})`,
     };
@@ -27,10 +39,6 @@ const Header = (props) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
 
-    useEffect(() => {
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
     const handleOptionClick = () => {
         setShowDropdown(false);
     };
@@ -113,7 +121,7 @@ const Header = (props) => {
                 {/* <Link to="/" className="navLink">
                     Home
                 </Link> */}
-                <Link to="/" className="navLink" onClick={handleHomeClick}>
+                <Link to="/" className="navLink">
                     Home
                 </Link>
 
@@ -175,7 +183,7 @@ const Header = (props) => {
                                                 className="navLinkDropdown"
                                                 to="/dashboard"
                                             >
-                                                Mis Eventos
+                                                Dashboard
                                             </Link>
                                         </div>
                                     </>
