@@ -107,6 +107,7 @@ const TicketsCreate = (props) => {
     };
 
     // Create or modify tickets on Event
+    const navigate = useNavigate();
     const handleSubmitTicketsSyncToDB = async () => {
         const eventTickets = { tickets: [...ticketsArray] };
         try {
@@ -128,7 +129,6 @@ const TicketsCreate = (props) => {
     // Delete tanda
     const handleDeleteTicket = (event) => {
         const ticketName = event.target.id;
-        console.log(ticketName);
     };
 
     // Modal ==========================
