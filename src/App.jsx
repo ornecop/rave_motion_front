@@ -123,6 +123,7 @@ const mapStateToProps = (state) => {
         isLogin: state.isLogin,
         userData: state.userData,
         globalError: state.globalError,
+        globalSuccess: state.globalSuccess,
     };
 };
 
