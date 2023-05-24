@@ -54,6 +54,7 @@ const TicketsCreate = (props) => {
     // Event ==========================
     useEffect(() => {
         // Get Event
+
         getEventById(eventId);
 
         return () => {
