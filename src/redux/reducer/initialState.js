@@ -32,7 +32,7 @@ const initialState = {
     // User tickets states
 
     // Global states
-    globalError: "El evento que intentaste crear no pudo ser creado.",
+    globalError: "",
     globalSuccess: "El evento fue creado correctamente.",
 
     //Cart

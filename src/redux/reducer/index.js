@@ -1,5 +1,10 @@
 // App Actions Types
-import { GLOBAL_ERROR_REMOVE } from "../actions/appActions";
+import {
+    GLOBAL_ERROR_SET,
+    GLOBAL_ERROR_REMOVE,
+    GLOBAL_SUCCESS_SET,
+    GLOBAL_SUCCESS_REMOVE,
+} from "../actions/appActions";
 
 // Events Actions Types
 import {
@@ -157,8 +162,14 @@ const rootReducer = (state = initialState, action) => {
         case FILL_CART:
             return { ...state, selectedTickets: action.payload };
 
+        case GLOBAL_ERROR_SET:
+            return { ...state, globalError: action.payload };
         case GLOBAL_ERROR_REMOVE:
             return { ...state, globalError: "" };
+        case GLOBAL_SUCCESS_SET:
+            return { ...state, globalSuccess: action.payload };
+        case GLOBAL_SUCCESS_REMOVE:
+            return { ...state, globalSuccess: "" };
         //* ----------
         default:
             return { ...state };
