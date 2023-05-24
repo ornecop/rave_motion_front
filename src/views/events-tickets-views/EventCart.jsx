@@ -12,9 +12,12 @@
 
 // Axios
 import axios from "axios";
-import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-initMercadoPago('TEST-2c22f2ae-6e1a-4d97-8e31-35aaa4167837');
+
+// Mercado Pago
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+initMercadoPago("TEST-2c22f2ae-6e1a-4d97-8e31-35aaa4167837");
+
 // Hooks
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -89,19 +92,19 @@ const EventCart = () => {
     };
 
     //* Mercado Pago
-    const [preferenceId,setPreferenceId]=useState(null);
-    useEffect(()=>{
-        let MPbody={name:event.name, price:totalToPay}
-        if(totalToPay>0){
-            axios.post('http://localhost:3001/payments',MPbody)
-            .then(response=>{
-                console.log(response.data.preference_id);
-                setPreferenceId(response.data.preference_id)
-            })
-            .catch(error=>console.log({MPerror:error}))
+    const [preferenceId, setPreferenceId] = useState(null);
+    useEffect(() => {
+        let MPbody = { name: event.name, price: totalToPay };
+        if (totalToPay > 0) {
+            axios
+                .post("http://localhost:3001/payments", MPbody)
+                .then((response) => {
+                    console.log(response.data.preference_id);
+                    setPreferenceId(response.data.preference_id);
+                })
+                .catch((error) => console.log({ MPerror: error }));
         }
-        
-    },[totalToPay])
+    }, [totalToPay]);
 
     return (
         <div className="w-full">
@@ -218,7 +221,12 @@ const EventCart = () => {
                     />
                 </div>
                 <div className="floatBox md:w-2/3 h-fit mx-auto overflow-hidden font-sans bg-secondary">
-                {preferenceId && <Wallet className='px-6' initialization={{ preferenceId:preferenceId }} />}
+                    {preferenceId && (
+                        <Wallet
+                            className="px-6"
+                            initialization={{ preferenceId: preferenceId }}
+                        />
+                    )}
                 </div>
             </div>
         </div>
