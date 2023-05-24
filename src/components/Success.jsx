@@ -11,7 +11,7 @@ const Success = ({ globalSuccess, removeGlobalSuccess }) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             removeGlobalSuccess();
-        }, 10000);
+        }, 7000);
         return () => clearTimeout(timer);
     }, [globalSuccess, removeGlobalSuccess]);
 

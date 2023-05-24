@@ -10,7 +10,7 @@ const Alert = ({ globalError, removeGlobalError }) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             removeGlobalError();
-        }, 10000);
+        }, 7000);
         return () => clearTimeout(timer);
     }, [globalError, removeGlobalError]);
 
