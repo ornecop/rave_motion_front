@@ -238,22 +238,19 @@ const Home = () => {
                 </div>
             </div>
 
-            <div>
+            <div className="min-h-[50vh] flex items-center justify-center">
                 {isLoading ? (
-                    <div className="flex m-28 flex-col items-center">
+                    <div className="flex flex-col w-full h-full items-center justify-center">
                         <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-fuchsia-600"></div>
-                        <h1 className="font-bold text-center text-2xl mt-4">
-                            Loading...
-                        </h1>
                     </div>
                 ) : currentEvents.length === 0 ? (
-                    <div>
-                        <h1 className="font-bold text-center text-5xl">
+                    <div className="flex flex-col w-full h-full items-center justify-center">
+                        <h2 className="font-bold text-center text-5xl">
                             LO SENTIMOS
-                        </h1>
-                        <h1 className="text-white text-xl text-center">
+                        </h2>
+                        <h3 className="text-white text-xl text-center">
                             No se han encontrado resultados
-                        </h1>
+                        </h3>
                     </div>
                 ) : (
                     <div>
