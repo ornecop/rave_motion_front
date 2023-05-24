@@ -1,115 +1,93 @@
-import React from "react";
-
-// React Router Dom
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-// Hooks
-import { useState, useEffect, useRef } from "react";
-import { useToggle } from "../functions/customHooks";
-import { useLocation } from "react-router-dom";
-
-// React redux
 import { connect } from "react-redux";
 import { getEventsByName } from "../redux/actions/eventsActions";
 import { signout } from "../redux/actions/usersActions";
-
-// Assets
 import rave from "../assets/logo3.png";
 
 const Header = (props) => {
-    // States en props ================
-    const { isLogin, userData, signout } = props;
+  const { isLogin, userData, signout } = props;
+  const { getEventsByName } = props;
+  const [opacity, setOpacity] = useState(0);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
+  const [name, setName] = useState("");
 
-    // Dispatch en props ================
-    const { getEventsByName } = props;
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-    // Style on scroll ================
-    const [opacity, setOpacity] = useState(0);
+  const handleScroll = () => {
+    if (window.pageYOffset > window.innerHeight * 0.4) {
+      setOpacity(0.7);
+    } else {
+      setOpacity(window.pageYOffset / (window.innerHeight * 0.4) / 1.42);
+    }
+  };
 
-    useEffect(() => {
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+  const headerStyle = {
+    backgroundColor: `rgba(2, 6, 23, ${opacity})`,
+  };
 
-    const handleScroll = () => {
-        if (window.pageYOffset > window.innerHeight * 0.4) {
-            setOpacity(0.7);
-        } else {
-            setOpacity(window.pageYOffset / (window.innerHeight * 0.4) / 1.42);
-        }
-    };
+  const handleOptionClick = () => {
+    setShowDropdown(false);
+  };
 
-    const headerStyle = {
-        backgroundColor: `rgba(2, 6, 23, ${opacity})`,
-    };
-
-    // Dropdown ================
-
-    const [showDropdown, setShowDropdown] = useState(false);
-    const dropdownRef = useRef(null);
-    let hideTimeout; 
-    
-    const handleOptionClick = () => {
+  const handleOutsideClick = (event) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target) &&
+      !event.target.classList.contains("navLinkDropdown")
+    ) {
       setShowDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
-    
-    const handleOutsideClick = (event) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target) &&
-        !event.target.classList.contains("navLinkDropdown")
-      ) {
-        setShowDropdown(false);
-      }
-    };
-    
-    useEffect(() => {
-      document.addEventListener('mousedown', handleOutsideClick);
-      return () => {
-        document.removeEventListener('mousedown', handleOutsideClick);
-      };
-    }, []);
-    
-    const handleMouseEnter = () => {
-      clearTimeout(hideTimeout); 
+  }, []);
+
+  const handleMouseEnter = () => {
+    clearTimeout(hideTimeout);
+    setShowDropdown(true);
+  };
+
+  const handleMouseLeave = () => {
+    hideTimeout = setTimeout(() => {
       setShowDropdown(true);
-    };
-    
-    const handleMouseLeave = () => {
-      hideTimeout = setTimeout(() => {
-        setShowDropdown(false);
-      }, 100); 
-    };
+    }, 100);
+  };
 
-    
-    // Search bar logic ================
-    const [name, setName] = useState("");
+  const handleDropdownClick = () => {
+    setShowDropdown(!showDropdown);
+  };
 
-    const handleInputChange = (event) => {
-        setName(event.target.value);
-    };
+  const handleInputChange = (event) => {
+    setName(event.target.value);
+  };
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleSearchsubmit = (event) => {
-        event.preventDefault();
-        navigate("/search");
-        getEventsByName(name.trim());
-        setName("");
-    };
+  const handleSearchsubmit = (event) => {
+    event.preventDefault();
+    navigate("/search");
+    getEventsByName(name.trim());
+    setName("");
+  };
 
-    // Sign Out ================
-    const handleSignOut = () => {
-        isLogin && signout();
-        navigate("/");
-    };
+  const handleSignOut = () => {
+    isLogin && signout();
+    navigate("/");
+  };
 
-    //Volver a pagina 1
-    const handleHomeClick = () => {
-        if (currentPage > 1) {
-            setCurrentPage(1);
-        }
-    };    
+  const handleHomeClick = () => {
+    // Implementa la lógica necesaria para manejar el estado de currentPage si es necesario
+    // ...
+  };
 
     return (
         <div
@@ -223,17 +201,17 @@ const Header = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    return {
-        isLogin: state.isLogin,
-        userData: state.userData,
-    };
+  return {
+    isLogin: state.isLogin,
+    userData: state.userData,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        signout: () => dispatch(signout()),
-        getEventsByName: (name) => dispatch(getEventsByName(name)),
-    };
+  return {
+    signout: () => dispatch(signout()),
+    getEventsByName: (name) => dispatch(getEventsByName(name)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
