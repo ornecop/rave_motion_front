@@ -12,6 +12,9 @@ export const USERS_REMOVE_SIGN_ERROR = "USERS_REMOVE_SIGN_ERROR";
 export const USERS_SIGN_UP_STEP_SET = "USERS_SIGN_UP_STEP_SET";
 export const USER_CHANGE_PASSWORD = "USER_CHANGE_PASSWORD";
 
+export const USER_GET_USER_EVENTS_BY_USER_ID = "USER_GET_EVENTS_BY_USER_ID";
+export const USER_REMOVE_USER_EVENTS = "USER_REMOVE_USER_EVENTS";
+
 // ============= Actions Creators
 
 export const signIn = ({ mail, password }) => {
@@ -107,5 +110,31 @@ export const signOut = () => {
     localStorage.removeItem("token");
     return {
         type: USER_SIGN_OUT,
+    };
+};
+
+export const getUserEventsByUserId = (userId) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.get(
+                `${BACKEND_URL}/events/eventbyuserid/${userId}`
+            );
+            const userEvents = response.data;
+            dispatch({
+                type: USER_GET_USER_EVENTS_BY_USER_ID,
+                payload: userEvents,
+            });
+        } catch (error) {
+            dispatch({
+                type: GLOBAL_ERROR_SET,
+                payload: error.response.data.error,
+            });
+        }
+    };
+};
+
+export const removeUserEvents = () => {
+    return {
+        type: USER_REMOVE_USER_EVENTS,
     };
 };
