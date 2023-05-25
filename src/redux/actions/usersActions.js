@@ -116,7 +116,7 @@ export const signOut = () => {
 export const getUserEventsByUserId = (userId) => {
     return async (dispatch) => {
         try {
-            const response = axios.get(
+            const response = await axios.get(
                 `${BACKEND_URL}/events/eventbyuserid/${userId}`
             );
             const userEvents = response.data;
