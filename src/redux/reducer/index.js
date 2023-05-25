@@ -31,6 +31,7 @@ import {
     USER_GET_USER_EVENTS_BY_USER_ID,
     USER_SET_USER_EVENTS,
     USER_REMOVE_USER_EVENTS,
+    USER_SEARCH_USER_EVENTS,
 } from "../actions/usersActions";
 import { FILL_CART } from "../actions/usersTicketsActions";
 
@@ -155,6 +156,13 @@ const rootReducer = (state = initialState, action) => {
             };
         case USER_REMOVE_USER_EVENTS:
             return { ...state, userEvents: [] };
+        case USER_SEARCH_USER_EVENTS:
+            return {
+                ...state,
+                userEvents: allUserEvents.filter((event) =>
+                    event.name.toLowerCase().includes(subString.toLowerCase())
+                ),
+            };
 
         // Fill Cart
         case FILL_CART:

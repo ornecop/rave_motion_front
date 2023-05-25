@@ -24,69 +24,35 @@ import {
 import { Link } from "react-router-dom";
 
 // Assets
-import {
-    MdOutlineDashboardCustomize,
-    MdInsertChartOutlined,
-    MdOutlineNotificationsNone,
-    MdEventAvailable,
-    MdDeleteOutline,
-} from "react-icons/md";
 import { TiHomeOutline } from "react-icons/ti";
 import { BsCalendarPlus } from "react-icons/bs";
 import { IoTicketOutline } from "react-icons/io5";
 import { VscSignOut } from "react-icons/vsc";
 import { GoLock } from "react-icons/go";
-import { RiLineChartLine } from "react-icons/ri";
-import { HiOutlineUserGroup } from "react-icons/hi";
+
 import { FaExchangeAlt, FaRegEye } from "react-icons/fa";
+import {
+    MdOutlineDashboardCustomize,
+    MdInsertChartOutlined,
+    MdOutlineNotificationsNone,
+    MdDeleteOutline,
+} from "react-icons/md";
 
 // Components
+import EventDate from "../../components/EventDate";
+import EventTickets from "../../components/EventTickets";
 import Tooltip from "../../components/Tooltip";
+import ProducerKeys from "../../components/ProducerKeys";
 
-const EventDate = ({ date, hour }) => {
-    // Formateo de fecha y hour
-    const dateDate = new Date(date);
-    const day = dateDate.getDate().toString().padStart(2, "0");
-    const month = (dateDate.getMonth() + 1).toString().padStart(2, "0");
-    const year = dateDate.getFullYear().toString();
+// Const
+import { FILTER_EVENTS_BY_DATE } from "../../const";
+const { ACTIVE, PASS, ALL } = FILTER_EVENTS_BY_DATE;
 
-    const formatDate = `${day}-${month}-${year}`;
+const ProducerDashboard = (props) => {
+    // Props
+    const { isLogin, userData, signOut, userEvents } = props;
+    const { getUserEventsByUserId } = props;
 
-    const formatHour = hour ? hour.slice(0, 5) : "-";
-    return (
-        <>
-            {formatDate} {formatHour}
-        </>
-    );
-};
-
-const EventTickets = ({ tickets }) => {
-    const tickets1 = tickets?.map((t) => t.maxQuantity);
-    const ticketsMax = tickets1?.reduce(
-        (accumulator, currentValue) => accumulator + currentValue,
-        0
-    );
-
-    const tickets2 = tickets?.map((t) => t.sells);
-    const ticketsSells = tickets2?.reduce(
-        (accumulator, currentValue) => accumulator + currentValue,
-        0
-    );
-
-    return (
-        <span className={`${ticketsMax === ticketsSells && "text-green-500"}`}>
-            <span className="font-semibold">{ticketsSells}</span> / {ticketsMax}
-        </span>
-    );
-};
-
-const ProducerDashboard = ({
-    isLogin,
-    userData,
-    signOut,
-    userEvents,
-    getUserEventsByUserId,
-}) => {
     const [view, setView] = useState("dashboard");
     const location = useLocation().pathname;
     useEffect(() => {}, [location]);
@@ -95,7 +61,6 @@ const ProducerDashboard = ({
     useEffect(() => {
         getUserEventsByUserId(userData.id);
     }, [userData, getUserEventsByUserId]);
-    console.log(userEvents);
 
     // Search on dashboard
     const [search, setSeach] = useState("");
@@ -106,7 +71,7 @@ const ProducerDashboard = ({
     };
 
     // Filter events
-    const [filterByDate, setFilterByDate] = useState("active_events");
+    const [filterByDate, setFilterByDate] = useState(ACTIVE);
 
     const handleFilter = (event) => {
         setFilterByDate(event.target.value);
@@ -229,46 +194,7 @@ const ProducerDashboard = ({
                     </nav>
 
                     {/* Indicadores */}
-                    <section className="grid grid-cols-3 w-full place-content-between my-4 gap-16">
-                        <div className="p-4 rounded-xl bg-green-200 flex flex-row gap-6 items-center">
-                            <RiLineChartLine
-                                size="4rem"
-                                className="text-green-600"
-                            />
-                            <div className="w-full flex flex-col text-green-600">
-                                <span className="text-4xl font-bold ">
-                                    $554.500
-                                </span>
-                                <h3 className="text-l block font-semibold">
-                                    VENTAS
-                                </h3>
-                            </div>
-                        </div>
-                        <div className="p-4 rounded-xl bg-orange-200 flex flex-row gap-6 items-center">
-                            <HiOutlineUserGroup
-                                size="4rem"
-                                className="text-orange-600"
-                            />
-                            <div className="w-full flex flex-col text-orange-600">
-                                <span className="text-4xl font-bold ">780</span>
-                                <h3 className="text-l block font-semibold">
-                                    TICKETS VENDIDOS
-                                </h3>
-                            </div>
-                        </div>
-                        <div className="p-4 rounded-xl bg-fuchsia-200 flex flex-row gap-6 items-center">
-                            <MdEventAvailable
-                                size="4rem"
-                                className="text-fuchsia-600"
-                            />
-                            <div className="w-full flex flex-col text-fuchsia-600">
-                                <span className="text-4xl font-bold ">5</span>
-                                <h3 className="text-l block font-semibold">
-                                    EVENTOS ACTIVOS
-                                </h3>
-                            </div>
-                        </div>
-                    </section>
+                    <ProducerKeys />
 
                     {/* Eventos */}
                     {/* Navbar eventos */}
@@ -285,15 +211,11 @@ const ProducerDashboard = ({
                                 onChange={handleFilter}
                                 value={filterByDate}
                             >
-                                <option value="active_events" selected>
+                                <option value={ACTIVE} selected>
                                     Eventos activos
                                 </option>
-                                <option value="pass_events">
-                                    Eventos pasados
-                                </option>
-                                <option value="all_eventos">
-                                    Todos los eventos
-                                </option>
+                                <option value={PASS}>Eventos pasados</option>
+                                <option value={ALL}>Todos los eventos</option>
                             </select>
                         </div>
                     </nav>
