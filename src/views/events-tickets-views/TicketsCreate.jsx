@@ -7,7 +7,6 @@ VIEW EventTicketsCreate - "/create/tickets" - Vista para crear y modificar ticke
 styles:
 form 
 */
-import React from "react";
 
 // Hooks
 import { useNavigate, useParams } from "react-router-dom";
@@ -19,6 +18,10 @@ import {
     getEventById,
     removeEventDetail,
 } from "../../redux/actions/eventsActions";
+import {
+    setGlobalError,
+    setGlobalSuccess,
+} from "../../redux/actions/appActions";
 
 // Formik, Yup
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -29,24 +32,29 @@ import axios from "axios";
 
 // Assets
 import { FaExchangeAlt } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
+import { MdDeleteOutline } from "react-icons/md";
 
 // Components
 import Modal from "../app-views/Modal";
-import NotFound from "../app-views/NotFound";
 
 const createImage = "https://wallpapercave.com/wp/wp12143405.jpg";
 
 // *********************** Componente ***********************
 const TicketsCreate = (props) => {
     // Props y Params =================
-    const { getEventById, removeEventDetail } = props; // Actions
+    const {
+        getEventById,
+        removeEventDetail,
+        setGlobalError,
+        setGlobalSuccess,
+    } = props; // Actions
     const { eventDetail } = props; // Global state
     const { eventId } = useParams();
 
     // Event ==========================
     useEffect(() => {
         // Get Event
+
         getEventById(eventId);
 
         return () => {
@@ -111,13 +119,16 @@ const TicketsCreate = (props) => {
     const handleSubmitTicketsSyncToDB = async () => {
         const eventTickets = { tickets: [...ticketsArray] };
         try {
-            const response = await axios.post(
+            await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/tickets/createtickets`,
                 eventTickets
             );
+            setGlobalSuccess(
+                `Los tickets del evento ${eventDetail.name} se han creado correctamente.`
+            );
             navigate(`/event/${eventId}`);
         } catch (error) {
-            console.log(error);
+            setGlobalError(error.response.data.error);
         }
     };
 
@@ -444,7 +455,7 @@ const TicketsCreate = (props) => {
                                                                             handleDeleteTicket
                                                                         }
                                                                     >
-                                                                        <MdDelete
+                                                                        <MdDeleteOutline
                                                                             className="text-red-600"
                                                                             id={
                                                                                 tanda.name
@@ -489,15 +500,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getEventById: (eventId) => dispatch(getEventById(eventId)),
         removeEventDetail: () => dispatch(removeEventDetail()),
+        setGlobalError: (error) => dispatch(setGlobalError(error)),
+        setGlobalSuccess: (message) => dispatch(setGlobalSuccess(message)),
     };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TicketsCreate);
-
-// Verificar si el user tiene acceso PENDIENTE
-/*
-const navigate = useNavigate();
-useEffect(() => {
-    // if (eventDetail.id && eventDetail.UserId !== userData.id)
-    //    navigate("/notfound");
-}, [eventDetail]);*/
