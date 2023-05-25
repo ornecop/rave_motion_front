@@ -14,7 +14,7 @@
 import axios from "axios";
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-initMercadoPago('TEST-2c22f2ae-6e1a-4d97-8e31-35aaa4167837');
+initMercadoPago('APP_USR-b57d9ae5-1007-4156-a282-4763ddd6afd1');
 // Hooks
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -47,7 +47,7 @@ const EventCart = () => {
         return () => {
             dispatch(removeEventDetail());
         };
-    }, []);
+    }, [eventId]);
 
     const [ticketsToPay, setTicketsToPay] = useState([]);
 
@@ -77,7 +77,7 @@ const EventCart = () => {
         }
         setTimeout(() => {
             setServiceFee(totalTickets * 0.15);
-            setTotalToPay(totalTickets + serviceFee);
+            setTotalToPay(totalTickets + (totalTickets * 0.15));
         }, 1000);
     }, [ticketsToPay]);
 
@@ -91,8 +91,22 @@ const EventCart = () => {
     //* Mercado Pago
     const [preferenceId,setPreferenceId]=useState(null);
     useEffect(()=>{
-        let MPbody={name:event.name, price:totalToPay}
+        let MPbody={name:event.name, price:totalToPay,tickets:[
+            {
+                "ticketId":"c5464424-a536-4c07-bad5-c550679fe446",
+                "userId":"cd353ae1-4922-43d9-94df-ab2c94a28f7e",
+                "eventId":"4ca2e26a-56cb-4031-9e18-f373043bd0e0",
+                "mail":"facufcasado@gmail.com"
+            },
+            {
+                "ticketId":"c5464424-a536-4c07-bad5-c550679fe446",
+                "userId":"cd353ae1-4922-43d9-94df-ab2c94a28f7e",
+                "eventId":"4ca2e26a-56cb-4031-9e18-f373043bd0e0",
+                "mail":"facufcasado@gmail.com"
+            }
+        ]}
         if(totalToPay>0){
+            console.log(MPbody);
             axios.post('http://localhost:3001/payments',MPbody)
             .then(response=>{
                 console.log(response.data.preference_id);
@@ -218,7 +232,7 @@ const EventCart = () => {
                     />
                 </div>
                 <div className="floatBox md:w-2/3 h-fit mx-auto overflow-hidden font-sans bg-secondary">
-                {preferenceId && <Wallet className='px-6' initialization={{ preferenceId:preferenceId }} />}
+                {preferenceId && <Wallet className='px-6' initialization={{ preferenceId:preferenceId, redirectMode: 'blank' }}/>}
                 </div>
             </div>
         </div>
