@@ -129,7 +129,14 @@ const rootReducer = (state = initialState, action) => {
             return { ...state, signUpStep: action.payload };
 
         case USER_SIGN_OUT:
-            return { ...state, isLogin: false, userData: {} };
+            return {
+                ...state,
+                isLogin: false,
+                userData: {},
+                allUserEvents: [],
+                userEvents: [],
+                selectedTickets: [],
+            };
 
         case USER_GET_USER_EVENTS_BY_USER_ID:
             return {
