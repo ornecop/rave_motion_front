@@ -46,7 +46,11 @@ const App = ({
 }) => {
     // Locations
     const location = useLocation().pathname;
-    const showHeader = location !== "/signin" && location !== "/signup";
+    const showHeader =
+        location !== "/signin" &&
+        location !== "/signup" &&
+        location.slice(0, 10) !== "/dashboard";
+    const showFooter = location.slice(0, 10) !== "/dashboard";
 
     // Sign In by JSW
     useEffect(() => {
@@ -113,7 +117,7 @@ const App = ({
                 {/* Not found Page */}
                 <Route path="*" element={<NotFound />} />
             </Routes>
-            <Footer />
+            {showFooter && <Footer />}
         </div>
     );
 };

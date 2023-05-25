@@ -32,7 +32,7 @@ import axios from "axios";
 
 // Assets
 import { FaExchangeAlt } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
+import { MdDeleteOutline } from "react-icons/md";
 
 // Components
 import Modal from "../app-views/Modal";
@@ -54,6 +54,7 @@ const TicketsCreate = (props) => {
     // Event ==========================
     useEffect(() => {
         // Get Event
+
         getEventById(eventId);
 
         return () => {
@@ -127,7 +128,7 @@ const TicketsCreate = (props) => {
             );
             navigate(`/event/${eventId}`);
         } catch (error) {
-            setGlobalError(error.data.response.error);
+            setGlobalError(error.response.data.error);
         }
     };
 
@@ -454,7 +455,7 @@ const TicketsCreate = (props) => {
                                                                             handleDeleteTicket
                                                                         }
                                                                     >
-                                                                        <MdDelete
+                                                                        <MdDeleteOutline
                                                                             className="text-red-600"
                                                                             id={
                                                                                 tanda.name

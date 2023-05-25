@@ -37,7 +37,7 @@ const Alert = ({ globalError, removeGlobalError }) => {
     }, [location]);
 
     return (
-        <div className="ubicStyle">
+        <div className={ubicStyle}>
             <div className="relative py-5 px-16 floatBox border-red-400 text-red-400">
                 <button
                     type="button"
