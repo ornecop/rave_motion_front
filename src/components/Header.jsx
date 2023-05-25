@@ -1,36 +1,23 @@
-import React from "react";
+// Hooks
+import { useState, useEffect, useRef } from "react";
 
 // React Router Dom
 import { Link, useNavigate } from "react-router-dom";
 
-// Hooks
-import { useState, useEffect, useRef } from "react";
-import { useToggle } from "../functions/customHooks";
-import { useLocation } from "react-router-dom";
-
-// React redux
+// Redux
 import { connect } from "react-redux";
 import { getEventsByName } from "../redux/actions/eventsActions";
-import { signout } from "../redux/actions/usersActions";
+import { signOut } from "../redux/actions/usersActions";
 
 // Assets
 import rave from "../assets/logo3.png";
 
 const Header = (props) => {
-    // States en props ================
-    const { isLogin, userData, signout } = props;
-
-    // Dispatch en props ================
+    const { isLogin, userData, signOut } = props;
     const { getEventsByName } = props;
 
-    // Style on scroll ================
+    // Fondo opaco
     const [opacity, setOpacity] = useState(0);
-
-    useEffect(() => {
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
     const handleScroll = () => {
         if (window.pageYOffset > window.innerHeight * 0.4) {
             setOpacity(0.7);
@@ -39,58 +26,62 @@ const Header = (props) => {
         }
     };
 
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     const headerStyle = {
         backgroundColor: `rgba(2, 6, 23, ${opacity})`,
     };
 
-    // Dropdown ================
-
+    // Dropdown
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
-  
-  
+
     const handleOptionClick = () => {
         setShowDropdown(false);
-      };
-  
-    const handleOutsideClick = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setShowDropdown(false);
-      }
     };
-  
+
+    const handleOutsideClick = (event) => {
+        if (
+            dropdownRef.current &&
+            !dropdownRef.current.contains(event.target) &&
+            !event.target.classList.contains("navLinkDropdown")
+        ) {
+            setShowDropdown(false);
+        }
+    };
+
     useEffect(() => {
-      document.addEventListener('mousedown', handleOutsideClick);
-      return () => {
-        document.removeEventListener('mousedown', handleOutsideClick);
-      };
+        document.addEventListener("mousedown", handleOutsideClick);
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick);
+        };
     }, []);
 
     const handleMouseEnter = () => {
+        clearTimeout(hideTimeout);
         setShowDropdown(true);
-      };
-      
-      const handleMouseLeave = () => {
-        setShowDropdown(false);
-      };
-      
-      const handleDropdownClick = () => {
-        setShowDropdown(!showDropdown);
-      };
-      
- 
-      
-   
-    
-    // Search bar logic ================
-    const [name, setName] = useState("");
+    };
 
+    const handleMouseLeave = () => {
+        hideTimeout = setTimeout(() => {
+            setShowDropdown(true);
+        }, 100);
+    };
+
+    const handleDropdownClick = () => {
+        setShowDropdown(!showDropdown);
+    };
+
+    // Search
+    const [name, setName] = useState("");
     const handleInputChange = (event) => {
         setName(event.target.value);
     };
 
     const navigate = useNavigate();
-
     const handleSearchsubmit = (event) => {
         event.preventDefault();
         navigate("/search");
@@ -98,22 +89,15 @@ const Header = (props) => {
         setName("");
     };
 
-    // Sign Out ================
+    // Sign Out
     const handleSignOut = () => {
-        isLogin && signout();
+        isLogin && signOut();
         navigate("/");
     };
 
-    //Volver a pagina 1
-    const handleHomeClick = () => {
-        if (currentPage > 1) {
-            setCurrentPage(1);
-        }
-    };    
-
     return (
         <div
-            className="grid grid-cols-3 w-screen h-16 fixed top-0 z-10 font-medium px-2"
+            className="grid grid-cols-3 w-screen h-16 fixed top-0 z-10 font-medium"
             style={headerStyle}
         >
             <div className="flex justify-self-start items-center ml-4">
@@ -137,7 +121,7 @@ const Header = (props) => {
                 {/* <Link to="/" className="navLink">
                     Home
                 </Link> */}
-                <Link to="/" className="navLink" onClick={handleHomeClick}>
+                <Link to="/" className="navLink">
                     Home
                 </Link>
 
@@ -147,28 +131,33 @@ const Header = (props) => {
                 {isLogin ? (
                     <>
                         {/* Dropdown user  */}
-                        <div className="inline-block relative" ref={dropdownRef}>
-
-                        <button onClick={handleDropdownClick}
-                        
-                        onMouseEnter={handleMouseEnter}
-                        onMouseLeave={handleMouseLeave}
-                        className="btnPrimary py-0 px-4 w-fit border-none">
-                             Tu cuenta
-                        </button>
-                        <div  
-                            onClick={handleDropdownClick}
-                            onMouseEnter={handleMouseEnter}
-                            onMouseLeave={handleMouseLeave}
-                              className={`"z-20 bg-secondary rounded-md w-40 left-[-2rem] top-[2rem] text-center" ${
-                                showDropdown ? "block" : "hidden"
-                              }`}
-                              style={{ position: "absolute" }}
+                        <div
+                            className="inline-block relative"
+                            ref={dropdownRef}
+                        >
+                            <button
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
+                                className="btnPrimary py-0 px-4 w-fit border-none"
                             >
-                              <div className="dropDownItem">
-                                <Link className="navLinkDropdown" onClick={handleOptionClick}>{userData.firstName}</Link>
-                              </div>
-
+                                Tu cuenta
+                            </button>
+                            <div
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
+                                className={`"z-20 bg-secondary rounded-md w-40 left-[-2rem] top-[2rem] text-center" ${
+                                    showDropdown ? "block" : "hidden"
+                                }`}
+                                style={{ position: "absolute" }}
+                            >
+                                <div className="dropDownItem">
+                                    <Link
+                                        className="navLinkDropdown"
+                                        onClick={handleOptionClick}
+                                    >
+                                        {userData.firstName}
+                                    </Link>
+                                </div>
                                 <div className="dropDownItem border-b-2 border-secondaryBorder">
                                     <Link
                                         className="navLinkDropdown"
@@ -181,7 +170,7 @@ const Header = (props) => {
                                 {userData.accessType === "producer" && (
                                     <>
                                         <div className="dropDownItem">
-                                            <Link 
+                                            <Link
                                                 className="navLinkDropdown"
                                                 to="/create"
                                                 onClick={handleOptionClick}
@@ -193,9 +182,8 @@ const Header = (props) => {
                                             <Link
                                                 className="navLinkDropdown"
                                                 to="/dashboard"
-                                                onClick={handleOptionClick}
                                             >
-                                                Mis Eventos
+                                                Dashboard
                                             </Link>
                                         </div>
                                     </>
@@ -236,7 +224,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        signout: () => dispatch(signout()),
+        signOut: () => dispatch(signOut()),
         getEventsByName: (name) => dispatch(getEventsByName(name)),
     };
 };

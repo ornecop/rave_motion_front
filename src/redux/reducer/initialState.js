@@ -22,13 +22,15 @@ const initialState = {
     // Tickets states
     allTickets: [],
     allTicketsByEvents: [],
-    // User states
 
+    // User states
     isLogin: false,
     userData: {},
     userSignError: "",
     signUpStep: 1,
-    
+
+    userEvents: [],
+
     // User tickets states
 
     // Global states
@@ -36,7 +38,7 @@ const initialState = {
     globalSuccess: "",
 
     //Cart
-    selectedTickets:{}
+    selectedTickets: {},
 };
 
 export default initialState;

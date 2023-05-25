@@ -1,3 +1,11 @@
+// App Actions Types
+import {
+    GLOBAL_ERROR_SET,
+    GLOBAL_ERROR_REMOVE,
+    GLOBAL_SUCCESS_SET,
+    GLOBAL_SUCCESS_REMOVE,
+} from "../actions/appActions";
+
 // Events Actions Types
 import {
     EVENTS_SEARCH,
@@ -9,18 +17,10 @@ import {
     EVENT_MODIFY,
 } from "../actions/eventsActions";
 
-// Filters
-
+// Filters & Orders
 import { EVENTS_FILTER } from "../actions/filtersActions";
 import { ALPHABETIC_ORDER, DATE_ORDER } from "../actions/orderActions";
 
-// Tickets Actions Types
-import {
-    TICKETS_GET_ALL,
-    TICKETS_MODIFY,
-    TICKET_EVENT_GET,
-    TICKETS_CREATE,
-} from "../actions/ticketsActions";
 // User Actions Types
 import {
     USER_SIGN_IN,
@@ -28,11 +28,10 @@ import {
     USERS_REMOVE_SIGN_ERROR,
     USERS_SIGN_UP_STEP_SET,
     USER_SIGN_OUT,
-    USER_CHANGE_PASSWORD,
+    USER_GET_USER_EVENTS_BY_USER_ID,
+    USER_REMOVE_USER_EVENTS,
 } from "../actions/usersActions";
 import { FILL_CART } from "../actions/usersTicketsActions";
-
-// User Tickets Actions Types
 
 // Initial State
 import initialState from "./initialState";
@@ -83,8 +82,7 @@ const rootReducer = (state = initialState, action) => {
         // * Order
 
         case ALPHABETIC_ORDER:
-            const alphabetic = [...state.homeEvents];
-            let order = alphabetic;
+            let order = [...state.homeEvents];
 
             if (action.payload === "Asc") {
                 order.sort((a, b) => a.name.localeCompare(b.name));
@@ -106,7 +104,6 @@ const rootReducer = (state = initialState, action) => {
             if (action.payload === "First") {
                 dateOrder.sort((a, b) => new Date(a.date) - new Date(b.date));
             }
-
             return {
                 ...state,
                 homeEvents: dateOrder,
@@ -121,6 +118,7 @@ const rootReducer = (state = initialState, action) => {
                 isLogin: true,
                 userSignError: "",
             };
+
         case USERS_SET_SIGN_ERROR:
             return { ...state, userSignError: action.payload };
         case USERS_REMOVE_SIGN_ERROR:
@@ -128,32 +126,33 @@ const rootReducer = (state = initialState, action) => {
 
         case USERS_SIGN_UP_STEP_SET:
             return { ...state, signUpStep: action.payload };
+
         case USER_SIGN_OUT:
             return { ...state, isLogin: false, userData: {} };
 
-        //Tickets
-        case TICKETS_GET_ALL:
+        case USER_GET_USER_EVENTS_BY_USER_ID:
             return {
                 ...state,
-                allTickets: action.payload,
+                userEvents: action.payload.sort(
+                    (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+                ),
             };
-        case TICKET_EVENT_GET:
-            return {
-                ...state,
-                allTicketsByEvents: action.payload,
-            };
-        case TICKETS_CREATE:
-            return {
-                ...state,
-            };
-        case TICKETS_MODIFY:
-            return {
-                ...state,
-            };
+        case USER_REMOVE_USER_EVENTS:
+            return { ...state, userEvents: [] };
 
+        // Fill Cart
         case FILL_CART:
-            return{...state, selectedTickets:action.payload}
+            return { ...state, selectedTickets: action.payload };
 
+        // Global
+        case GLOBAL_ERROR_SET:
+            return { ...state, globalError: action.payload };
+        case GLOBAL_ERROR_REMOVE:
+            return { ...state, globalError: "" };
+        case GLOBAL_SUCCESS_SET:
+            return { ...state, globalSuccess: action.payload };
+        case GLOBAL_SUCCESS_REMOVE:
+            return { ...state, globalSuccess: "" };
         //* ----------
         default:
             return { ...state };

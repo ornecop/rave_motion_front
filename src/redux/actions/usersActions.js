@@ -1,19 +1,19 @@
+import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-// Axios
-import axios from "axios";
-
-// Cookies
-import Cookies from "universal-cookie";
+// ============= Global Actions Types
+import { GLOBAL_ERROR_SET } from "./appActions";
 
 // ============= Users Actions Types
-
 export const USER_SIGN_IN = "USER_SIGN_IN";
 export const USER_SIGN_OUT = "USER_SIGN_OUT";
 export const USERS_SET_SIGN_ERROR = "USERS_SET_SIGN_ERROR";
 export const USERS_REMOVE_SIGN_ERROR = "USERS_REMOVE_SIGN_ERROR";
 export const USERS_SIGN_UP_STEP_SET = "USERS_SIGN_UP_STEP_SET";
 export const USER_CHANGE_PASSWORD = "USER_CHANGE_PASSWORD";
+
+export const USER_GET_USER_EVENTS_BY_USER_ID = "USER_GET_EVENTS_BY_USER_ID";
+export const USER_REMOVE_USER_EVENTS = "USER_REMOVE_USER_EVENTS";
 
 // ============= Actions Creators
 
@@ -27,6 +27,28 @@ export const signIn = ({ mail, password }) => {
             const { user, jwt } = response.data;
             localStorage.setItem("token", jwt);
 
+            dispatch({
+                type: USER_SIGN_IN,
+                payload: user,
+            });
+        } catch (error) {
+            dispatch({
+                type: USERS_SET_SIGN_ERROR,
+                payload: error.response.data.error,
+            });
+        }
+    };
+};
+
+export const signInGoogle = (extractedData) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.post(
+                `${BACKEND_URL}/users/logingoogle`,
+                extractedData
+            );
+            const { user, jwt } = response.data;
+            localStorage.setItem("token", jwt);
             dispatch({
                 type: USER_SIGN_IN,
                 payload: user,
@@ -56,7 +78,10 @@ export const verifyToken = (token) => {
                 payload: user,
             });
         } catch (error) {
-            console.error(error);
+            dispatch({
+                type: GLOBAL_ERROR_SET,
+                payload: error.response.data.error,
+            });
         }
     };
 };
@@ -81,9 +106,35 @@ export const setSignUpStep = (step) => {
     };
 };
 
-export const signout = () => {
+export const signOut = () => {
     localStorage.removeItem("token");
     return {
         type: USER_SIGN_OUT,
+    };
+};
+
+export const getUserEventsByUserId = (userId) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.get(
+                `${BACKEND_URL}/events/eventbyuserid/${userId}`
+            );
+            const userEvents = response.data;
+            dispatch({
+                type: USER_GET_USER_EVENTS_BY_USER_ID,
+                payload: userEvents,
+            });
+        } catch (error) {
+            dispatch({
+                type: GLOBAL_ERROR_SET,
+                payload: error.response.data.error,
+            });
+        }
+    };
+};
+
+export const removeUserEvents = () => {
+    return {
+        type: USER_REMOVE_USER_EVENTS,
     };
 };

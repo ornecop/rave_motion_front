@@ -12,9 +12,14 @@
 
 // Axios
 import axios from "axios";
-import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-initMercadoPago('APP_USR-b57d9ae5-1007-4156-a282-4763ddd6afd1');
+
+
+// Mercado Pago
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+initMercadoPago("TEST-2c22f2ae-6e1a-4d97-8e31-35aaa4167837");
+
+
 // Hooks
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -89,6 +94,7 @@ const EventCart = () => {
     };
 
     //* Mercado Pago
+
     const [preferenceId,setPreferenceId]=useState(null);
     useEffect(()=>{
         let MPbody={name:event.name, price:totalToPay,tickets:[
@@ -113,9 +119,9 @@ const EventCart = () => {
                 setPreferenceId(response.data.preference_id)
             })
             .catch(error=>console.log({MPerror:error}))
+
         }
-        
-    },[totalToPay])
+    }, [totalToPay]);
 
     return (
         <div className="w-full">
@@ -232,7 +238,13 @@ const EventCart = () => {
                     />
                 </div>
                 <div className="floatBox md:w-2/3 h-fit mx-auto overflow-hidden font-sans bg-secondary">
-                {preferenceId && <Wallet className='px-6' initialization={{ preferenceId:preferenceId, redirectMode: 'blank' }}/>}
+
+                    {preferenceId && (
+                        <Wallet
+                            className="px-6"
+                            initialization={{ preferenceId: preferenceId }}
+                        />
+                    )}
                 </div>
             </div>
         </div>

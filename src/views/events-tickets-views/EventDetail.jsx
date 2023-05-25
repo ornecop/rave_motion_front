@@ -132,7 +132,6 @@ const EventDetail = () => {
     const minPrice = ticketsMinPrice();
 
     // Carrito de compra del evento
-    const selectedTicketsGlobal = useSelector((state) => state.selectedTickets);
     const [selectedTickets, setSelectedTickets] = useState({});
 
     const handleTicketSelect = (event) => {
@@ -323,37 +322,43 @@ const EventDetail = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {tickets?.map((ticket) => (
-                                                <tr
-                                                    className="border-b"
-                                                    key={ticket.id}
-                                                >
-                                                    <td className="px-2 py-4">
-                                                        {ticket.name}
-                                                    </td>
-                                                    <td className="px-2 py-4">
-                                                        {ticket.accessType}
-                                                    </td>
+                                            {tickets
+                                                ?.sort(
+                                                    (a, b) =>
+                                                        new Date(a.createdAt) -
+                                                        new Date(b.createdAt)
+                                                )
+                                                .map((ticket) => (
+                                                    <tr
+                                                        className="border-b"
+                                                        key={ticket.id}
+                                                    >
+                                                        <td className="px-2 py-4">
+                                                            {ticket.name}
+                                                        </td>
+                                                        <td className="px-2 py-4">
+                                                            {ticket.accessType}
+                                                        </td>
 
-                                                    <td className="px-2 py-4">
-                                                        ${" "}
-                                                        {ticket.price.toLocaleString(
-                                                            "es"
-                                                        )}
-                                                    </td>
-                                                    <td className="px-2 py-4 text-center">
-                                                        <SelectTickets
-                                                            ticket={ticket}
-                                                            handleTicketSelect={
-                                                                handleTicketSelect
-                                                            }
-                                                            selectedTickets={
-                                                                selectedTickets
-                                                            }
-                                                        />
-                                                    </td>
-                                                </tr>
-                                            ))}
+                                                        <td className="px-2 py-4">
+                                                            ${" "}
+                                                            {ticket.price.toLocaleString(
+                                                                "es"
+                                                            )}
+                                                        </td>
+                                                        <td className="px-2 py-4 text-center">
+                                                            <SelectTickets
+                                                                ticket={ticket}
+                                                                handleTicketSelect={
+                                                                    handleTicketSelect
+                                                                }
+                                                                selectedTickets={
+                                                                    selectedTickets
+                                                                }
+                                                            />
+                                                        </td>
+                                                    </tr>
+                                                ))}
                                             <tr
                                                 className="font-semibold border-t-4 border-fuchsia-600 rounded-md"
                                                 key="sum"
