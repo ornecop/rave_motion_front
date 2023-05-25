@@ -12,8 +12,11 @@ export const USERS_REMOVE_SIGN_ERROR = "USERS_REMOVE_SIGN_ERROR";
 export const USERS_SIGN_UP_STEP_SET = "USERS_SIGN_UP_STEP_SET";
 export const USER_CHANGE_PASSWORD = "USER_CHANGE_PASSWORD";
 
+// ============= User events Actions Types
 export const USER_GET_USER_EVENTS_BY_USER_ID = "USER_GET_EVENTS_BY_USER_ID";
+export const USER_SET_USER_EVENTS = "USER_SET_USER_EVENTS";
 export const USER_REMOVE_USER_EVENTS = "USER_REMOVE_USER_EVENTS";
+export const USER_SEARCH_USER_EVENTS = "USER_SEARCH_USER_EVENTS";
 
 // ============= Actions Creators
 
@@ -133,8 +136,21 @@ export const getUserEventsByUserId = (userId) => {
     };
 };
 
+export const setUserEvents = () => {
+    return {
+        type: USER_SET_USER_EVENTS,
+    };
+};
+
 export const removeUserEvents = () => {
     return {
         type: USER_REMOVE_USER_EVENTS,
+    };
+};
+
+export const searchUserEvents = (name) => {
+    return {
+        type: USER_SEARCH_USER_EVENTS,
+        payload: name,
     };
 };

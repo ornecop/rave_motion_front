@@ -28,7 +28,7 @@ import { connect } from "react-redux";
 import { signIn } from "../../redux/actions/usersActions";
 
 // Google button
-import GoogleLogin from "./GoogleLogin"
+import GoogleLogin from "./GoogleLogin";
 import { useEffect } from "react";
 
 // Validation schemas
@@ -60,7 +60,6 @@ const SignIn = ({ signIn, userSignError, isLogin }) => {
         setSubmitting(false);
         resetForm();
     };
-
 
     return (
         <div className="w-full h-screen flex flex-col justify-center items-center">
@@ -190,7 +189,7 @@ const SignIn = ({ signIn, userSignError, isLogin }) => {
                 </Formik>
 
                 {/* Google */}
-              <GoogleLogin/>
+                <GoogleLogin />
 
                 {/* Links */}
                 <div className="flex flex-col mt-8">
