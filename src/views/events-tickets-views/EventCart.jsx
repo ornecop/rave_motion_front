@@ -17,7 +17,7 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // Mercado Pago
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
-initMercadoPago("TEST-2c22f2ae-6e1a-4d97-8e31-35aaa4167837");
+initMercadoPago("APP_USR-b57d9ae5-1007-4156-a282-4763ddd6afd1");
 
 
 // Hooks
@@ -99,21 +99,21 @@ const EventCart = () => {
     useEffect(()=>{
         let MPbody={name:event.name, price:totalToPay,tickets:[
             {
-                "ticketId":"c5464424-a536-4c07-bad5-c550679fe446",
-                "userId":"cd353ae1-4922-43d9-94df-ab2c94a28f7e",
-                "eventId":"4ca2e26a-56cb-4031-9e18-f373043bd0e0",
+                "ticketId":"27efc161-ec10-4cb8-88ca-4b720587a0b1",
+                "userId":"73f0d2d0-478a-4096-ad4d-24fa6cfbf589",
+                "eventId":"aced08ea-a6f1-4d79-a0da-e3850b61f82d",
                 "mail":"facufcasado@gmail.com"
             },
             {
-                "ticketId":"c5464424-a536-4c07-bad5-c550679fe446",
-                "userId":"cd353ae1-4922-43d9-94df-ab2c94a28f7e",
-                "eventId":"4ca2e26a-56cb-4031-9e18-f373043bd0e0",
+                "ticketId":"27efc161-ec10-4cb8-88ca-4b720587a0b1",
+                "userId":"73f0d2d0-478a-4096-ad4d-24fa6cfbf589",
+                "eventId":"aced08ea-a6f1-4d79-a0da-e3850b61f82d",
                 "mail":"facufcasado@gmail.com"
             }
         ]}
         if(totalToPay>0){
             console.log(MPbody);
-            axios.post('http://localhost:3001/payments',MPbody)
+            axios.post(`${BACKEND_URL}/payments`,MPbody)
             .then(response=>{
                 console.log(response.data.preference_id);
                 setPreferenceId(response.data.preference_id)
