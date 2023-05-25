@@ -14,115 +14,290 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Redux
-import { useSelector } from "react-redux";
-import { signout } from "../../redux/actions/usersActions";
+import { connect } from "react-redux";
+import { signOut } from "../../redux/actions/usersActions";
 
 // React Router Dom
 import { Link } from "react-router-dom";
 
-// Views
-import DashboardCard from "./DashboardCard";
-import PasswordChange from "./ChangePassword";
-import EventCart from "../events-tickets-views/EventCart";
-import EventCreate from "../events-views/EventCreate";
-import EventTicketsCreate from "../events-views/EventCreate";
-import ProducerEventDetail from "../users-views/ProducerEventDetail";
+// Assets
+import {
+    MdOutlineDashboardCustomize,
+    MdInsertChartOutlined,
+    MdOutlineNotificationsNone,
+    MdEventAvailable,
+    MdDeleteOutline,
+} from "react-icons/md";
+import { TiHomeOutline } from "react-icons/ti";
+import { BsCalendarPlus } from "react-icons/bs";
+import { IoTicketOutline } from "react-icons/io5";
+import { VscSignOut } from "react-icons/vsc";
+import { GoLock } from "react-icons/go";
+import { RiLineChartLine } from "react-icons/ri";
+import { HiOutlineUserGroup } from "react-icons/hi";
+import { FaExchangeAlt } from "react-icons/fa";
 
-const ProducerDashboard = () => {
-    //? select view\\
-    const [selectedView, setSelectedView] = useState(false);
-    const handleViewClick = (viewName) => {
-        setSelectedView(viewName);
+const ProducerDashboard = ({ isLogin, userData, signOut }) => {
+    // Search on dashboard
+    const [search, setSeach] = useState("");
+
+    // Busca eventos y los despliega en un dropdown a medida que busca
+    const handleInputChange = (event) => {
+        setSeach(event.target.value);
     };
-    //? login\\
-    const isLogin = useSelector((state) => state.isLogin);
 
-    //? dropdown\\
-    const [open, setOpen] = useState(false);
+    // Filter events
+    const [filterByDate, setFilterByDate] = useState("active_events");
 
+    const handleFilter = (event) => {
+        setFilterByDate(event.target.value);
+    };
+
+    // SignOut
     const navigate = useNavigate();
-    const handleSignOut = () => {
-        isLogin && signout();
+    const handleSignOutClick = () => {
+        isLogin && signOut();
         navigate("/");
     };
 
-    //! views en del User!\\
-    const renderContent = () => {
-        switch (selectedView) {
-            case "changepassword":
-                return (
-                    <div>
-                        <PasswordChange />
-                    </div>
-                );
-            case "perfil":
-                return (
-                    <div>
-                        <h1>Perfil</h1>
-                    </div>
-                );
-            case "ProducerEventDetail":
-                return (
-                    <div>
-                        <ProducerEventDetail />
-                    </div>
-                );
-            case "EventTicketsCreate":
-                return (
-                    <div>
-                        <EventCreate />
-                    </div>
-                );
-            case "DashboardCard":
-                return (
-                    <div>
-                        <DashboardCard />
-                    </div>
-                );
-            case "deleteEvent":
-                return (
-                    <div>
-                        {" "}
-                        <h1>eliminaaaaar evento</h1>{" "}
-                    </div>
-                );
-            default:
-                return (
-                    <div>
-                        <DashboardCard />
-                    </div>
-                );
-        }
-    };
-
     return (
-        <div className="flex mt-14 ">
-            <button
-                data-drawer-target="cta-button-sidebar"
-                data-drawer-toggle="cta-button-sidebar"
-                aria-controls="cta-button-sidebar"
-                type="button"
-                className="inline-flex items-center p-2 mt-2 ml-3 text-sm text-white rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
-            >
-                <span className="sr-only">Open sidebar</span>
-                <svg
-                    className="w-6 h-6"
-                    aria-hidden="true"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        clipRule="evenodd"
-                        fillRule="evenodd"
-                        d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
-                    ></path>
-                </svg>
-            </button>
+        <div className="w-screen h-screen flex overflow-scrol">
+            <aside className="w-1/6 bg-secondary py-4">
+                {/* Section logo */}
+                <div className="flex w-full px-4 py-2 items-center h-16 gap-2">
+                    <div className="bg-slate-500 rounded-full w-12 h-12 flex justify-center items-center text-2xl font-semibold">
+                        <span>{userData?.firstName[0]?.toUpperCase()}</span>
+                    </div>
+                    <div className="flex justify-center items-center text-2xl font-semibold">
+                        <span>Ravemotion</span>
+                    </div>
+                </div>
 
-            <aside
+                {/* Section App */}
+                <div className="dropDownItem mt-8">
+                    <Link className="navLinkDropdown" to="/dashboard">
+                        <div className="flex flex-row items-center gap-2">
+                            <MdOutlineDashboardCustomize size="1.5rem" />
+                            Dashboard
+                        </div>
+                    </Link>
+                </div>
+                <div className="dropDownItem ">
+                    <Link className="navLinkDropdown" to="/">
+                        <div className="flex flex-row items-center gap-2">
+                            <TiHomeOutline size="1.5rem" />
+                            Home
+                        </div>
+                    </Link>
+                </div>
+
+                {/* Section Producer */}
+                <div className="dropDownItem mt-8">
+                    <Link className="navLinkDropdown" to="/">
+                        <div className="flex flex-row items-center gap-2">
+                            <MdInsertChartOutlined size="1.5rem" />
+                            Ventas
+                        </div>
+                    </Link>
+                </div>
+                <div className="dropDownItem ">
+                    <Link className="navLinkDropdown" to="/create">
+                        <div className="flex flex-row items-center gap-2">
+                            <BsCalendarPlus size="1.5rem" />
+                            Nuevo evento
+                        </div>
+                    </Link>
+                </div>
+
+                {/* Section User */}
+                <div className="dropDownItem mt-8">
+                    <Link className="navLinkDropdown" to="/tickets">
+                        <div className="flex flex-row items-center gap-2">
+                            <IoTicketOutline size="1.5rem" />
+                            Tus tickets
+                        </div>
+                    </Link>
+                </div>
+                <div className="dropDownItem ">
+                    <Link className="navLinkDropdown" to="/changepassword">
+                        <div className="flex flex-row items-center gap-2">
+                            <GoLock size="1.5rem" />
+                            Cambiar contraseña
+                        </div>
+                    </Link>
+                </div>
+                <div className="dropDownItem ">
+                    <Link
+                        className="navLinkDropdown"
+                        onClick={handleSignOutClick}
+                    >
+                        <div className="flex flex-row items-center gap-2">
+                            <VscSignOut size="1.5rem" />
+                            Cerrar sesión
+                        </div>
+                    </Link>
+                </div>
+            </aside>
+
+            {/* Content */}
+            <section className="flex flex-col w-5/6 px-8 py-4 ">
+                {/* NavBar */}
+                <nav className="grid grid-cols-3 w-full h-16 ">
+                    <div className="flex justify-self-start items-center">
+                        <span className="text-4xl font-semibold">Overview</span>
+                    </div>
+                    <div className="flex justify-self-center items-center">
+                        <input
+                            className="input w-96 bg-secondary border-secondaryBorder text-white"
+                            type="text"
+                            placeholder="Buscar evento"
+                            onChange={handleInputChange}
+                            value={search}
+                        />
+                    </div>
+                    <div className="flex justify-self-end items-center">
+                        <button>
+                            <MdOutlineNotificationsNone size="2rem" />
+                        </button>
+                    </div>
+                </nav>
+
+                {/* Indicadores */}
+                <section className="grid grid-cols-3 w-full place-content-between my-4 gap-16">
+                    <div className="p-4 rounded-xl bg-green-200 flex flex-row gap-6 items-center">
+                        <RiLineChartLine
+                            size="4rem"
+                            className="text-green-600"
+                        />
+                        <div className="w-full flex flex-col text-green-600">
+                            <span className="text-4xl font-bold ">
+                                $554.500
+                            </span>
+                            <h3 className="text-l block font-semibold">
+                                VENTAS
+                            </h3>
+                        </div>
+                    </div>
+                    <div className="p-4 rounded-xl bg-orange-200 flex flex-row gap-6 items-center">
+                        <HiOutlineUserGroup
+                            size="4rem"
+                            className="text-orange-600"
+                        />
+                        <div className="w-full flex flex-col text-orange-600">
+                            <span className="text-4xl font-bold ">780</span>
+                            <h3 className="text-l block font-semibold">
+                                TICKETS VENDIDOS
+                            </h3>
+                        </div>
+                    </div>
+                    <div className="p-4 rounded-xl bg-fuchsia-200 flex flex-row gap-6 items-center">
+                        <MdEventAvailable
+                            size="4rem"
+                            className="text-fuchsia-600"
+                        />
+                        <div className="w-full flex flex-col text-fuchsia-600">
+                            <span className="text-4xl font-bold ">5</span>
+                            <h3 className="text-l block font-semibold">
+                                EVENTOS ACTIVOS
+                            </h3>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Eventos */}
+                {/* Navbar eventos */}
+                <nav className="grid grid-cols-2 w-full h-16 mt-8">
+                    <div className="flex justify-self-start items-center">
+                        <span className="text-4xl font-semibold">
+                            Tus eventos
+                        </span>
+                    </div>
+
+                    <div className="flex justify-self-end items-center">
+                        <select
+                            className="inputSelect bg-secondary border-secondaryBorder text-white w-fit"
+                            onChange={handleFilter}
+                            value={filterByDate}
+                        >
+                            <option value="active_events" selected>
+                                Eventos activos
+                            </option>
+                            <option value="pass_events">Eventos pasados</option>
+                            <option value="all_eventos">
+                                Todos los eventos
+                            </option>
+                        </select>
+                    </div>
+                </nav>
+                <table className="w-full text-center">
+                    <thead className="font-semibold border-b-4 border-fuchsia-600">
+                        <tr>
+                            <th scope="col" className="px-2 py-3">
+                                Nombre
+                            </th>
+                            <th scope="col" className="px-2 py-3">
+                                Fecha
+                            </th>
+
+                            <th scope="col" className="px-2 py-3">
+                                Tickets disponibles
+                            </th>
+                            <th scope="col" className="px-2 py-3">
+                                Opciones
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr className="border-b">
+                            <td
+                                scope="row"
+                                className="px-2 py-4 font-medium whitespace-nowrap"
+                            >
+                                <Link to="/detail" className="link">
+                                    Miss Monique - 22.07 - Día del amigo
+                                </Link>
+                            </td>
+                            <td className="px-2 py-4">22/07/2023 23:00hs</td>
+
+                            <td className="px-2 py-4">983/5500</td>
+
+                            <td className="px-2 py-4">
+                                <div className="flex flex-row justify-center gap-6">
+                                    <button>
+                                        <MdDeleteOutline size="1.5rem" />
+                                    </button>
+                                    <button>
+                                        <FaExchangeAlt size="1.5rem" />
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    );
+};
+
+const mapStateToProps = (state) => {
+    return {
+        isLogin: state.isLogin,
+        userData: state.userData,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signOut: () => dispatch(signOut()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProducerDashboard);
+
+/*
+ <aside
                 id="cta-button-sidebar"
-                className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 mt-14 border-r-2 border-secondary  "
+                className=""
                 aria-label="Sidebar"
             >
                 <div className="h-full px-3 py-4 overflow-y-auto bg-primary ">
@@ -383,8 +558,4 @@ const ProducerDashboard = () => {
             </aside>
 
             <div className="p-4 sm:ml-64 w-11/12">{renderContent()}</div>
-        </div>
-    );
-};
-
-export default ProducerDashboard;
+*/

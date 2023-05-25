@@ -32,7 +32,7 @@ import axios from "axios";
 
 // Assets
 import { FaExchangeAlt } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
+import { MdDeleteOutline } from "react-icons/md";
 
 // Components
 import Modal from "../app-views/Modal";
@@ -455,7 +455,7 @@ const TicketsCreate = (props) => {
                                                                             handleDeleteTicket
                                                                         }
                                                                     >
-                                                                        <MdDelete
+                                                                        <MdDeleteOutline
                                                                             className="text-red-600"
                                                                             id={
                                                                                 tanda.name
