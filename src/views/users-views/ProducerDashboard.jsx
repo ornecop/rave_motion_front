@@ -31,7 +31,7 @@ import {
     MdEventAvailable,
     MdDeleteOutline,
 } from "react-icons/md";
-import { TiHomeOutline, TiTicket } from "react-icons/ti";
+import { TiHomeOutline } from "react-icons/ti";
 import { BsCalendarPlus } from "react-icons/bs";
 import { IoTicketOutline } from "react-icons/io5";
 import { VscSignOut } from "react-icons/vsc";
@@ -117,6 +117,7 @@ const ProducerDashboard = ({
     const handleSignOutClick = () => {
         isLogin && signOut();
         navigate("/");
+        console.log("ok");
     };
 
     return (

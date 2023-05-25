@@ -152,7 +152,7 @@ const EventCreate = (props) => {
             );
             const newEvent = response.data;
             setGlobalSuccess(
-                `El evento ${newEvent.name} se ha creado correctamente.`
+                `El evento "${newEvent.name}" se ha creado correctamente.`
             );
             navigate(`/create/tickets/${newEvent.id}`);
         } catch (error) {

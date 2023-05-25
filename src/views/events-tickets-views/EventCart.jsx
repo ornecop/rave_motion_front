@@ -221,11 +221,15 @@ const EventCart = () => {
                     />
                 </div>
                 <div className="floatBox md:w-2/3 h-fit mx-auto overflow-hidden font-sans bg-secondary">
-                    {preferenceId && (
+                    {preferenceId ? (
                         <Wallet
                             className="px-6"
                             initialization={{ preferenceId: preferenceId }}
                         />
+                    ) : (
+                        <div className="flex w-full h-full items-center justify-center my-6">
+                            <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-fuchsia-600"></div>
+                        </div>
                     )}
                 </div>
             </div>
