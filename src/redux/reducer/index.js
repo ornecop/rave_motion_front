@@ -131,7 +131,12 @@ const rootReducer = (state = initialState, action) => {
             return { ...state, isLogin: false, userData: {} };
 
         case USER_GET_USER_EVENTS_BY_USER_ID:
-            return { ...state, userEvents: action.payload };
+            return {
+                ...state,
+                userEvents: action.payload.sort(
+                    (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+                ),
+            };
         case USER_REMOVE_USER_EVENTS:
             return { ...state, userEvents: [] };
 
