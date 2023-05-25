@@ -29,6 +29,8 @@ import {
     USERS_SIGN_UP_STEP_SET,
     USER_SIGN_OUT,
     USER_CHANGE_PASSWORD,
+    USER_GET_USER_EVENTS_BY_USER_ID,
+    USER_REMOVE_USER_EVENTS,
 } from "../actions/usersActions";
 import { FILL_CART } from "../actions/usersTicketsActions";
 
@@ -37,7 +39,7 @@ import initialState from "./initialState";
 
 // Root reducer
 const rootReducer = (state = initialState, action) => {
-   switch (action.type) {
+    switch (action.type) {
         case EVENTS_GET_ALL:
             return {
                 ...state,
@@ -128,6 +130,11 @@ const rootReducer = (state = initialState, action) => {
 
         case USER_SIGN_OUT:
             return { ...state, isLogin: false, userData: {} };
+
+        case USER_GET_USER_EVENTS_BY_USER_ID:
+            return { ...state, userEvents: action.payload };
+        case USER_REMOVE_USER_EVENTS:
+            return { ...state, userEvents: [] };
 
         // Fill Cart
         case FILL_CART:
