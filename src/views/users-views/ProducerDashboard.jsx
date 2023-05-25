@@ -18,6 +18,7 @@ import { connect } from "react-redux";
 import {
     signOut,
     getUserEventsByUserId,
+    searchUserEvents,
 } from "../../redux/actions/usersActions";
 
 // React Router Dom
@@ -44,6 +45,9 @@ import EventTickets from "../../components/EventTickets";
 import Tooltip from "../../components/Tooltip";
 import ProducerKeys from "../../components/ProducerKeys";
 
+// Views
+import ProducerEventDetail from "./ProducerEventDetail";
+
 // Const
 import { FILTER_EVENTS_BY_DATE } from "../../const";
 const { ACTIVE, PASS, ALL } = FILTER_EVENTS_BY_DATE;
@@ -51,7 +55,7 @@ const { ACTIVE, PASS, ALL } = FILTER_EVENTS_BY_DATE;
 const ProducerDashboard = (props) => {
     // Props
     const { isLogin, userData, signOut, userEvents } = props;
-    const { getUserEventsByUserId } = props;
+    const { getUserEventsByUserId, searchUserEvents } = props;
 
     const [view, setView] = useState("dashboard");
     const location = useLocation().pathname;
@@ -59,7 +63,7 @@ const ProducerDashboard = (props) => {
 
     // Events by UserId
     useEffect(() => {
-        getUserEventsByUserId(userData.id);
+        userData?.id && getUserEventsByUserId(userData.id);
     }, [userData, getUserEventsByUserId]);
 
     // Search on dashboard
@@ -68,6 +72,8 @@ const ProducerDashboard = (props) => {
     // Busca eventos y los despliega en un dropdown a medida que busca
     const handleInputChange = (event) => {
         setSeach(event.target.value);
+        searchUserEvents(event.target.value);
+        event.target.value === "" && getUserEventsByUserId(userData.id);
     };
 
     // Filter events
@@ -335,446 +341,7 @@ const ProducerDashboard = (props) => {
                     </div>
                 </section>
             ) : (
-                <section className="flex flex-col w-5/6 px-8 py-4 ">
-                    {/* NavBar */}
-                    <nav className="grid grid-cols-2 w-full h-16 ">
-                        <div className="flex justify-self-start items-center">
-                            <span className="text-4xl font-semibold">
-                                Detalle de ventas de EVENT NAME
-                            </span>
-                        </div>
-
-                        <div className="flex justify-self-end items-center">
-                            <button>
-                                <MdOutlineNotificationsNone size="2rem" />
-                            </button>
-                        </div>
-                    </nav>
-
-                    {/* Indicadores */}
-                    <section className="grid grid-cols-3 w-full place-content-between my-4 gap-16">
-                        <div className="p-4 rounded-xl bg-green-200 flex flex-row gap-6 items-center">
-                            <RiLineChartLine
-                                size="4rem"
-                                className="text-green-600"
-                            />
-                            <div className="w-full flex flex-col text-green-600">
-                                <span className="text-4xl font-bold ">
-                                    $554.500
-                                </span>
-                                <h3 className="text-l block font-semibold">
-                                    VENTAS
-                                </h3>
-                            </div>
-                        </div>
-                        <div className="p-4 rounded-xl bg-orange-200 flex flex-row gap-6 items-center">
-                            <HiOutlineUserGroup
-                                size="4rem"
-                                className="text-orange-600"
-                            />
-                            <div className="w-full flex flex-col text-orange-600">
-                                <span className="text-4xl font-bold ">780</span>
-                                <h3 className="text-l block font-semibold">
-                                    TICKETS VENDIDOS
-                                </h3>
-                            </div>
-                        </div>
-                        <div className="p-4 rounded-xl bg-fuchsia-200 flex flex-row gap-6 items-center">
-                            <MdEventAvailable
-                                size="4rem"
-                                className="text-fuchsia-600"
-                            />
-                            <div className="w-full flex flex-col text-fuchsia-600">
-                                <span className="text-4xl font-bold ">5</span>
-                                <h3 className="text-l block font-semibold">
-                                    EVENTOS ACTIVOS
-                                </h3>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* Eventos */}
-                    {/* Navbar eventos */}
-                    <nav className="grid grid-cols-2 w-full h-16 mt-8">
-                        <div className="flex justify-self-start items-center">
-                            <span className="text-4xl font-semibold">
-                                Tus eventos
-                            </span>
-                        </div>
-
-                        <div className="flex justify-self-end items-center">
-                            <select
-                                className="inputSelect bg-secondary border-secondaryBorder text-white w-fit"
-                                onChange={handleFilter}
-                                value={filterByDate}
-                            >
-                                <option value="active_events" selected>
-                                    Eventos activos
-                                </option>
-                                <option value="pass_events">
-                                    Eventos pasados
-                                </option>
-                                <option value="all_eventos">
-                                    Todos los eventos
-                                </option>
-                            </select>
-                        </div>
-                    </nav>
-                    <div className="overflow-auto mt-4 scrollbar:!w-1.5 scrollbar:!h-1.5 scrollbar:bg-transparent scrollbar-track:!bg-slate-100 scrollbar-thumb:!rounded scrollbar-thumb:!bg-slate-300 scrollbar-track:!rounded">
-                        <table className="w-full text-start bg-secondary border border-secondaryBorder">
-                            <thead className="font-semibold border-b-4 border-fuchsia-600">
-                                <tr className="">
-                                    <th
-                                        scope="col"
-                                        className="px-2 py-3 text-start"
-                                    >
-                                        Nombre
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-2 py-3 text-start"
-                                    >
-                                        Fecha
-                                    </th>
-
-                                    <th
-                                        scope="col"
-                                        className="px-2 py-3 text-start"
-                                    >
-                                        Tickets disponibles
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-2 py-3 text-start"
-                                    >
-                                        Opciones
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr className="border-b">
-                                    <td
-                                        scope="row"
-                                        className="px-2 py-4 font-semibold whitespace-nowrap"
-                                    >
-                                        <Link to="/detail" className="link">
-                                            Miss Monique - 22.07 - Día del amigo
-                                        </Link>
-                                    </td>
-                                    <td className="px-2 py-4">
-                                        22/07/2023 23:00hs
-                                    </td>
-
-                                    <td className="px-2 py-4">983/5500</td>
-
-                                    <td className="px-2 py-4">
-                                        <div className="flex flex-row gap-6 items-center">
-                                            <Link to="/create" className="link">
-                                                Modificar
-                                            </Link>
-                                            <Link to="/create/tickets/">
-                                                Modificar tickets
-                                            </Link>
-                                            <Link>
-                                                <MdDeleteOutline size="1.3rem" />
-                                            </Link>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className="border-b">
-                                    <td
-                                        scope="row"
-                                        className="px-2 py-4 font-semibold whitespace-nowrap"
-                                    >
-                                        <Link to="/detail" className="link">
-                                            Miss Monique - 22.07 - Día del amigo
-                                        </Link>
-                                    </td>
-                                    <td className="px-2 py-4">
-                                        22/07/2023 23:00hs
-                                    </td>
-
-                                    <td className="px-2 py-4">983/5500</td>
-
-                                    <td className="px-2 py-4">
-                                        <div className="flex flex-row gap-6 items-center">
-                                            <Link to="/create" className="link">
-                                                Modificar
-                                            </Link>
-                                            <Link to="/create/tickets/">
-                                                Modificar tickets
-                                            </Link>
-                                            <Link>
-                                                <MdDeleteOutline size="1.3rem" />
-                                            </Link>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className="border-b">
-                                    <td
-                                        scope="row"
-                                        className="px-2 py-4 font-semibold whitespace-nowrap"
-                                    >
-                                        <Link to="/detail" className="link">
-                                            Miss Monique - 22.07 - Día del amigo
-                                        </Link>
-                                    </td>
-                                    <td className="px-2 py-4">
-                                        22/07/2023 23:00hs
-                                    </td>
-
-                                    <td className="px-2 py-4">983/5500</td>
-
-                                    <td className="px-2 py-4">
-                                        <div className="flex flex-row gap-6 items-center">
-                                            <Link to="/create" className="link">
-                                                Modificar
-                                            </Link>
-                                            <Link to="/create/tickets/">
-                                                Modificar tickets
-                                            </Link>
-                                            <Link>
-                                                <MdDeleteOutline size="1.3rem" />
-                                            </Link>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className="border-b">
-                                    <td
-                                        scope="row"
-                                        className="px-2 py-4 font-semibold whitespace-nowrap"
-                                    >
-                                        <Link to="/detail" className="link">
-                                            Miss Monique - 22.07 - Día del amigo
-                                        </Link>
-                                    </td>
-                                    <td className="px-2 py-4">
-                                        22/07/2023 23:00hs
-                                    </td>
-
-                                    <td className="px-2 py-4">983/5500</td>
-
-                                    <td className="px-2 py-4">
-                                        <div className="flex flex-row gap-6 items-center">
-                                            <Link to="/create" className="link">
-                                                Modificar
-                                            </Link>
-                                            <Link to="/create/tickets/">
-                                                Modificar tickets
-                                            </Link>
-                                            <Link>
-                                                <MdDeleteOutline size="1.3rem" />
-                                            </Link>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className="border-b">
-                                    <td
-                                        scope="row"
-                                        className="px-2 py-4 font-semibold whitespace-nowrap"
-                                    >
-                                        <Link to="/detail" className="link">
-                                            Miss Monique - 22.07 - Día del amigo
-                                        </Link>
-                                    </td>
-                                    <td className="px-2 py-4">
-                                        22/07/2023 23:00hs
-                                    </td>
-
-                                    <td className="px-2 py-4">983/5500</td>
-
-                                    <td className="px-2 py-4">
-                                        <div className="flex flex-row gap-6 items-center">
-                                            <Link to="/create" className="link">
-                                                Modificar
-                                            </Link>
-                                            <Link to="/create/tickets/">
-                                                Modificar tickets
-                                            </Link>
-                                            <Link>
-                                                <MdDeleteOutline size="1.3rem" />
-                                            </Link>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className="border-b">
-                                    <td
-                                        scope="row"
-                                        className="px-2 py-4 font-semibold whitespace-nowrap"
-                                    >
-                                        <Link to="/detail" className="link">
-                                            Miss Monique - 22.07 - Día del amigo
-                                        </Link>
-                                    </td>
-                                    <td className="px-2 py-4">
-                                        22/07/2023 23:00hs
-                                    </td>
-
-                                    <td className="px-2 py-4">983/5500</td>
-
-                                    <td className="px-2 py-4">
-                                        <div className="flex flex-row gap-6 items-center">
-                                            <Link to="/create" className="link">
-                                                Modificar
-                                            </Link>
-                                            <Link to="/create/tickets/">
-                                                Modificar tickets
-                                            </Link>
-                                            <Link>
-                                                <MdDeleteOutline size="1.3rem" />
-                                            </Link>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className="border-b">
-                                    <td
-                                        scope="row"
-                                        className="px-2 py-4 font-semibold whitespace-nowrap"
-                                    >
-                                        <Link to="/detail" className="link">
-                                            Miss Monique - 22.07 - Día del amigo
-                                        </Link>
-                                    </td>
-                                    <td className="px-2 py-4">
-                                        22/07/2023 23:00hs
-                                    </td>
-
-                                    <td className="px-2 py-4">983/5500</td>
-
-                                    <td className="px-2 py-4">
-                                        <div className="flex flex-row gap-6 items-center">
-                                            <Link to="/create" className="link">
-                                                Modificar
-                                            </Link>
-                                            <Link to="/create/tickets/">
-                                                Modificar tickets
-                                            </Link>
-                                            <Link>
-                                                <MdDeleteOutline size="1.3rem" />
-                                            </Link>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className="border-b">
-                                    <td
-                                        scope="row"
-                                        className="px-2 py-4 font-semibold whitespace-nowrap"
-                                    >
-                                        <Link to="/detail" className="link">
-                                            Miss Monique - 22.07 - Día del amigo
-                                        </Link>
-                                    </td>
-                                    <td className="px-2 py-4">
-                                        22/07/2023 23:00hs
-                                    </td>
-
-                                    <td className="px-2 py-4">983/5500</td>
-
-                                    <td className="px-2 py-4">
-                                        <div className="flex flex-row gap-6 items-center">
-                                            <Link to="/create" className="link">
-                                                Modificar
-                                            </Link>
-                                            <Link to="/create/tickets/">
-                                                Modificar tickets
-                                            </Link>
-                                            <Link>
-                                                <MdDeleteOutline size="1.3rem" />
-                                            </Link>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className="border-b">
-                                    <td
-                                        scope="row"
-                                        className="px-2 py-4 font-semibold whitespace-nowrap"
-                                    >
-                                        <Link to="/detail" className="link">
-                                            Miss Monique - 22.07 - Día del amigo
-                                        </Link>
-                                    </td>
-                                    <td className="px-2 py-4">
-                                        22/07/2023 23:00hs
-                                    </td>
-
-                                    <td className="px-2 py-4">983/5500</td>
-
-                                    <td className="px-2 py-4">
-                                        <div className="flex flex-row gap-6 items-center">
-                                            <Link to="/create" className="link">
-                                                Modificar
-                                            </Link>
-                                            <Link to="/create/tickets/">
-                                                Modificar tickets
-                                            </Link>
-                                            <Link>
-                                                <MdDeleteOutline size="1.3rem" />
-                                            </Link>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className="border-b">
-                                    <td
-                                        scope="row"
-                                        className="px-2 py-4 font-semibold whitespace-nowrap"
-                                    >
-                                        <Link to="/detail" className="link">
-                                            Miss Monique - 22.07 - Día del amigo
-                                        </Link>
-                                    </td>
-                                    <td className="px-2 py-4">
-                                        22/07/2023 23:00hs
-                                    </td>
-
-                                    <td className="px-2 py-4">983/5500</td>
-
-                                    <td className="px-2 py-4">
-                                        <div className="flex flex-row gap-6 items-center">
-                                            <Link to="/create" className="link">
-                                                Modificar
-                                            </Link>
-                                            <Link to="/create/tickets/">
-                                                Modificar tickets
-                                            </Link>
-                                            <Link>
-                                                <MdDeleteOutline size="1.3rem" />
-                                            </Link>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className="border-b">
-                                    <td
-                                        scope="row"
-                                        className="px-2 py-4 font-semibold whitespace-nowrap"
-                                    >
-                                        <Link to="/detail" className="link">
-                                            Miss Monique - 22.07 - Día del amigo
-                                        </Link>
-                                    </td>
-                                    <td className="px-2 py-4">
-                                        22/07/2023 23:00hs
-                                    </td>
-
-                                    <td className="px-2 py-4">983/5500</td>
-
-                                    <td className="px-2 py-4">
-                                        <div className="flex flex-row gap-6 items-center">
-                                            <Link to="/create" className="link">
-                                                Modificar
-                                            </Link>
-                                            <Link to="/create/tickets/">
-                                                Modificar tickets
-                                            </Link>
-                                            <Link>
-                                                <MdDeleteOutline size="1.3rem" />
-                                            </Link>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
+                <ProducerEventDetail />
             )}
         </div>
     );
@@ -793,6 +360,7 @@ const mapDispatchToProps = (dispatch) => {
         signOut: () => dispatch(signOut()),
         getUserEventsByUserId: (userId) =>
             dispatch(getUserEventsByUserId(userId)),
+        searchUserEvents: (name) => dispatch(searchUserEvents(name)),
     };
 };
 

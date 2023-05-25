@@ -160,7 +160,9 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userEvents: state.allUserEvents.filter((event) =>
-                    event.name.toLowerCase().includes(event.name.toLowerCase())
+                    event.name
+                        .toLowerCase()
+                        .includes(action.payload.toLowerCase())
                 ),
             };
 
