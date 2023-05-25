@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import axios from "axios";
+import { useEffect } from "react";
 // React Router Dom
 import { Routes, Route, useLocation } from "react-router-dom";
 
@@ -7,12 +6,11 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { verifyToken } from "./redux/actions/usersActions";
 
-// Universal Cookies
-import Cookies from "universal-cookie";
-
 // Components
+import Alert from "./components/Alert";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Success from "./components/Success";
 
 // App views
 import About from "./views/app-views/About";
@@ -39,10 +37,20 @@ import UserTickets from "./views/users-views/UserTickets";
 import RequireAuth from "./auth/RequireAuth";
 import RequireLogin from "./auth/RequireLogin";
 
-const App = ({ verifyToken, isLogin, userData }) => {
+const App = ({
+    verifyToken,
+    isLogin,
+    userData,
+    globalError,
+    globalSuccess,
+}) => {
     // Locations
     const location = useLocation().pathname;
-    const showHeader = location !== "/signin" && location !== "/signup";
+    const showHeader =
+        location !== "/signin" &&
+        location !== "/signup" &&
+        location.slice(0, 10) !== "/dashboard";
+    const showFooter = location.slice(0, 10) !== "/dashboard";
 
     // Sign In by JSW
     useEffect(() => {
@@ -55,6 +63,8 @@ const App = ({ verifyToken, isLogin, userData }) => {
     return (
         <div className="bg-primary text-white antialiased">
             {showHeader && <Header />}
+            {globalError && <Alert />}
+            {globalSuccess && <Success />}
             <Routes>
                 {/* App views */}
                 <Route exact path="/" element={<Home />} />
@@ -82,8 +92,14 @@ const App = ({ verifyToken, isLogin, userData }) => {
                     }
                 />
 
-                <Route path="/cart/:eventId" element={<RequireLogin><EventCart /></RequireLogin>} />
-                <Route path="/cart/:ticketId" element={<EventCart />} />
+                <Route
+                    path="/cart/:eventId"
+                    element={
+                        <RequireLogin>
+                            <EventCart />
+                        </RequireLogin>
+                    }
+                />
 
                 {/* User views */}
 
@@ -101,7 +117,7 @@ const App = ({ verifyToken, isLogin, userData }) => {
                 {/* Not found Page */}
                 <Route path="*" element={<NotFound />} />
             </Routes>
-            <Footer />
+            {showFooter && <Footer />}
         </div>
     );
 };
@@ -110,6 +126,8 @@ const mapStateToProps = (state) => {
     return {
         isLogin: state.isLogin,
         userData: state.userData,
+        globalError: state.globalError,
+        globalSuccess: state.globalSuccess,
     };
 };
 

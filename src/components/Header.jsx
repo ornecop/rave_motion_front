@@ -1,36 +1,23 @@
-import React from "react";
+// Hooks
+import { useState, useEffect, useRef } from "react";
 
 // React Router Dom
 import { Link, useNavigate } from "react-router-dom";
 
-// Hooks
-import { useState, useEffect, useRef } from "react";
-import { useToggle } from "../functions/customHooks";
-import { useLocation } from "react-router-dom";
-
-// React redux
+// Redux
 import { connect } from "react-redux";
 import { getEventsByName } from "../redux/actions/eventsActions";
-import { signout } from "../redux/actions/usersActions";
+import { signOut } from "../redux/actions/usersActions";
 
 // Assets
 import rave from "../assets/logo3.png";
 
 const Header = (props) => {
-    // States en props ================
-    const { isLogin, userData, signout } = props;
-
-    // Dispatch en props ================
+    const { isLogin, userData, signOut } = props;
     const { getEventsByName } = props;
 
-    // Style on scroll ================
+    // Fondo opaco
     const [opacity, setOpacity] = useState(0);
-
-    useEffect(() => {
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
     const handleScroll = () => {
         if (window.pageYOffset > window.innerHeight * 0.4) {
             setOpacity(0.7);
@@ -39,58 +26,62 @@ const Header = (props) => {
         }
     };
 
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     const headerStyle = {
         backgroundColor: `rgba(2, 6, 23, ${opacity})`,
     };
 
-    // Dropdown ================
-
+    // Dropdown
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
-    let hideTimeout; 
-    
+
     const handleOptionClick = () => {
-      setShowDropdown(false);
+        setShowDropdown(false);
     };
-    
+
     const handleOutsideClick = (event) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target) &&
-        !event.target.classList.contains("navLinkDropdown")
-      ) {
-        setShowDropdown(false);
-      }
+        if (
+            dropdownRef.current &&
+            !dropdownRef.current.contains(event.target) &&
+            !event.target.classList.contains("navLinkDropdown")
+        ) {
+            setShowDropdown(false);
+        }
     };
-    
+
     useEffect(() => {
-      document.addEventListener('mousedown', handleOutsideClick);
-      return () => {
-        document.removeEventListener('mousedown', handleOutsideClick);
-      };
+        document.addEventListener("mousedown", handleOutsideClick);
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick);
+        };
     }, []);
-    
+
     const handleMouseEnter = () => {
-      clearTimeout(hideTimeout); 
-      setShowDropdown(true);
+        clearTimeout(hideTimeout);
+        setShowDropdown(true);
     };
-    
+
     const handleMouseLeave = () => {
-      hideTimeout = setTimeout(() => {
-        setShowDropdown(false);
-      }, 100); 
+        hideTimeout = setTimeout(() => {
+            setShowDropdown(true);
+        }, 100);
     };
 
-    
-    // Search bar logic ================
-    const [name, setName] = useState("");
+    const handleDropdownClick = () => {
+        setShowDropdown(!showDropdown);
+    };
 
+    // Search
+    const [name, setName] = useState("");
     const handleInputChange = (event) => {
         setName(event.target.value);
     };
 
     const navigate = useNavigate();
-
     const handleSearchsubmit = (event) => {
         event.preventDefault();
         navigate("/search");
@@ -98,18 +89,11 @@ const Header = (props) => {
         setName("");
     };
 
-    // Sign Out ================
+    // Sign Out
     const handleSignOut = () => {
-        isLogin && signout();
+        isLogin && signOut();
         navigate("/");
     };
-
-    //Volver a pagina 1
-    const handleHomeClick = () => {
-        if (currentPage > 1) {
-            setCurrentPage(1);
-        }
-    };    
 
     return (
         <div
@@ -122,7 +106,7 @@ const Header = (props) => {
                 </Link>
             </div>
             <div className="flex justify-self-center items-center">
-            <form onSubmit={handleSearchsubmit}>
+                <form onSubmit={handleSearchsubmit}>
                     <input
                         className="w-96 input"
                         type="text"
@@ -134,10 +118,10 @@ const Header = (props) => {
                 </form>
             </div>
             <div className="flex w-fit justify-self-end justify-center my-2 items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder">
-                 {/* <Link to="/" className="navLink">
+                {/* <Link to="/" className="navLink">
                     Home
                 </Link> */}
-                <Link to="/" className="navLink" onClick={handleHomeClick}>
+                <Link to="/" className="navLink">
                     Home
                 </Link>
 
@@ -147,50 +131,59 @@ const Header = (props) => {
                 {isLogin ? (
                     <>
                         {/* Dropdown user  */}
-                        <div className="inline-block relative" ref={dropdownRef}>
-                            <button
-                            onMouseEnter={handleMouseEnter}
-                            onMouseLeave={handleMouseLeave}
-                            className="btnPrimary py-0 px-4 w-fit border-none"
-                            >
-                            Tu cuenta
-                             </button>
                         <div
-                            onMouseEnter={handleMouseEnter}
-                            onMouseLeave={handleMouseLeave}
-                            className={`"z-20 bg-secondary rounded-md w-40 left-[-2rem] top-[2rem] text-center" ${
-                            showDropdown ? "block" : "hidden"
-                            }`}
-                            style={{ position: "absolute" }}
+                            className="inline-block relative"
+                            ref={dropdownRef}
                         >
-                        <div className="dropDownItem">
-                            <Link className="navLinkDropdown" 
-                                onClick={handleOptionClick}>
-                                {userData.firstName}
-                            </Link>
-                        </div>
-                        <div className="dropDownItem border-b-2 border-secondaryBorder">
-                            <Link className="navLinkDropdown" 
-                                to="/tickets" 
-                                onClick={handleOptionClick}>
-                                Mis tickets
-                            </Link>
-                        </div>
-                        {userData.accessType === "producer" && (
-                        <>
-                        <div className="dropDownItem">
-                            <Link className="navLinkDropdown" 
-                                to="/create" 
-                                onClick={handleOptionClick}>
-                                Crear evento
-                            </Link>
+                            <button
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
+                                className="btnPrimary py-0 px-4 w-fit border-none"
+                            >
+                                Tu cuenta
+                            </button>
+                            <div
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
+                                className={`"z-20 bg-secondary rounded-md w-40 left-[-2rem] top-[2rem] text-center" ${
+                                    showDropdown ? "block" : "hidden"
+                                }`}
+                                style={{ position: "absolute" }}
+                            >
+                                <div className="dropDownItem">
+                                    <Link
+                                        className="navLinkDropdown"
+                                        onClick={handleOptionClick}
+                                    >
+                                        {userData.firstName}
+                                    </Link>
+                                </div>
+                                <div className="dropDownItem border-b-2 border-secondaryBorder">
+                                    <Link
+                                        className="navLinkDropdown"
+                                        to="/tickets"
+                                        onClick={handleOptionClick}
+                                    >
+                                        Mis tickets
+                                    </Link>
+                                </div>
+                                {userData.accessType === "producer" && (
+                                    <>
+                                        <div className="dropDownItem">
+                                            <Link
+                                                className="navLinkDropdown"
+                                                to="/create"
+                                                onClick={handleOptionClick}
+                                            >
+                                                Crear evento
+                                            </Link>
                                         </div>
                                         <div className="dropDownItem border-b-2 border-secondaryBorder">
                                             <Link
                                                 className="navLinkDropdown"
                                                 to="/dashboard"
                                             >
-                                                Mis Eventos
+                                                Dashboard
                                             </Link>
                                         </div>
                                     </>
@@ -231,7 +224,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        signout: () => dispatch(signout()),
+        signOut: () => dispatch(signOut()),
         getEventsByName: (name) => dispatch(getEventsByName(name)),
     };
 };
