@@ -6,7 +6,6 @@ import { GLOBAL_ERROR_SET } from "./appActions";
 
 // ============= Filter Actions Types
 export const EVENTS_FILTER = "EVENTS_FILTER";
-
 export const filteredEvents = ({ startDate, endDate, producer }) => {
     return async (dispatch) => {
         try {
@@ -16,6 +15,7 @@ export const filteredEvents = ({ startDate, endDate, producer }) => {
                 const response = await axios.get(
                     `${BACKEND_URL}/events/filter?startDate=${startDate}`
                 );
+                filteredEvents = response.data;
             } else if (startDate && endDate && producer) {
                 const response = await axios.get(
                     `${BACKEND_URL}/events/filter?producer=${producer}&startDate=${startDate}&endDate=${endDate}`
