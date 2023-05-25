@@ -30,6 +30,7 @@ const initialState = {
     signUpStep: 1,
 
     userEvents: [],
+    allUserEvents: [],
 
     // User tickets states
 

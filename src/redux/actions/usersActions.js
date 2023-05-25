@@ -13,6 +13,7 @@ export const USERS_SIGN_UP_STEP_SET = "USERS_SIGN_UP_STEP_SET";
 export const USER_CHANGE_PASSWORD = "USER_CHANGE_PASSWORD";
 
 export const USER_GET_USER_EVENTS_BY_USER_ID = "USER_GET_EVENTS_BY_USER_ID";
+export const USER_SET_USER_EVENTS = "USER_SET_USER_EVENTS";
 export const USER_REMOVE_USER_EVENTS = "USER_REMOVE_USER_EVENTS";
 
 // ============= Actions Creators
@@ -130,6 +131,12 @@ export const getUserEventsByUserId = (userId) => {
                 payload: error.response.data.error,
             });
         }
+    };
+};
+
+export const setUserEvents = () => {
+    return {
+        type: USER_SET_USER_EVENTS,
     };
 };
 
