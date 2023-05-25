@@ -43,6 +43,43 @@ import { FaExchangeAlt, FaRegEye } from "react-icons/fa";
 // Components
 import Tooltip from "../../components/Tooltip";
 
+const EventDate = ({ date, hour }) => {
+    // Formateo de fecha y hour
+    const dateDate = new Date(date);
+    const day = dateDate.getDate().toString().padStart(2, "0");
+    const month = (dateDate.getMonth() + 1).toString().padStart(2, "0");
+    const year = dateDate.getFullYear().toString();
+
+    const formatDate = `${day}-${month}-${year}`;
+
+    const formatHour = hour ? hour.slice(0, 5) : "-";
+    return (
+        <>
+            {formatDate} {formatHour}
+        </>
+    );
+};
+
+const EventTickets = ({ tickets }) => {
+    const tickets1 = tickets?.map((t) => t.maxQuantity);
+    const ticketsMax = tickets1?.reduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        0
+    );
+
+    const tickets2 = tickets?.map((t) => t.sells);
+    const ticketsSells = tickets2?.reduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        0
+    );
+
+    return (
+        <span className={`${ticketsMax === ticketsSells && "text-green-500"}`}>
+            <span className="font-semibold">{ticketsSells}</span> / {ticketsMax}
+        </span>
+    );
+};
+
 const ProducerDashboard = ({
     isLogin,
     userData,
@@ -88,7 +125,10 @@ const ProducerDashboard = ({
                 {/* Section logo */}
                 <div className="flex w-full px-4 py-2 items-center h-16 gap-2">
                     <div className="bg-slate-500 rounded-full w-12 h-12 flex justify-center items-center text-2xl font-semibold">
-                        <span>{userData?.firstName[0]?.toUpperCase()}</span>
+                        <span>
+                            {userData?.firstName &&
+                                userData.firstName[0].toUpperCase()}
+                        </span>
                     </div>
                     <div className="flex justify-center items-center text-2xl font-semibold">
                         <span>Ravemotion</span>
@@ -294,62 +334,79 @@ const ProducerDashboard = ({
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr className="border-b">
-                                    <td
-                                        scope="row"
-                                        className="px-2 py-4 font-semibold whitespace-nowrap"
-                                    >
-                                        <Link to="/detail" className="link">
-                                            <Tooltip tooltip="Ver detalle de ventas">
-                                                Miss Monique - 22.07 - Día del
-                                                amigo
-                                            </Tooltip>
-                                        </Link>
-                                    </td>
-                                    <td className="px-2 py-4">
-                                        22/07/2023 23:00hs
-                                    </td>
-
-                                    <td className="px-2 py-4 text-center">
-                                        983/5500
-                                    </td>
-
-                                    <td className="px-2 py-4 justify-center">
-                                        <div className="flex flex-row gap-6 items-center justify-center">
-                                            <Link to="/create" className="link">
-                                                <Tooltip tooltip="Modificar tickets">
-                                                    <TiTicket size="1.3rem" />
-                                                </Tooltip>
-                                            </Link>
-                                        </div>
-                                    </td>
-
-                                    <td className="px-2 py-4">
-                                        <div className="flex flex-row gap-6 justify-center items-center">
-                                            <Link
-                                                to="/create/"
-                                                className="link"
+                                {userEvents ? (
+                                    userEvents.map((event) => (
+                                        <tr className="border-b" key={event.id}>
+                                            <td
+                                                scope="row"
+                                                className="px-2 py-4 font-semibold whitespace-nowrap"
                                             >
-                                                <Tooltip tooltip="Modificar evento">
-                                                    <FaExchangeAlt size="1.3rem" />
-                                                </Tooltip>
-                                            </Link>
-                                            <Link to="/event/" className="link">
-                                                <Tooltip tooltip="Ver evento">
-                                                    <FaRegEye size="1.3rem" />
-                                                </Tooltip>
-                                            </Link>
-                                            <Link>
-                                                <Tooltip tooltip="Borrar evento">
-                                                    <MdDeleteOutline
-                                                        size="1.3rem"
-                                                        className="text-red-600"
-                                                    />
-                                                </Tooltip>
-                                            </Link>
-                                        </div>
-                                    </td>
-                                </tr>
+                                                <Link
+                                                    to={`/dashboard/event/${event.id}`}
+                                                    className="link"
+                                                >
+                                                    <Tooltip tooltip="Ver detalle de ventas">
+                                                        {event.name}
+                                                    </Tooltip>
+                                                </Link>
+                                            </td>
+                                            <td className="px-2 py-4">
+                                                <EventDate
+                                                    date={event.date}
+                                                    hour={event.hour}
+                                                />
+                                            </td>
+
+                                            <td className="px-2 py-4 text-center">
+                                                <EventTickets
+                                                    tickets={event.Tickets}
+                                                />
+                                            </td>
+
+                                            <td className="px-2 py-4 justify-center">
+                                                <div className="flex flex-row gap-6 items-center justify-center">
+                                                    <Link
+                                                        to={`/create/tickets/${event.id}`}
+                                                        className="link"
+                                                    >
+                                                        Modificar tickets
+                                                    </Link>
+                                                </div>
+                                            </td>
+
+                                            <td className="px-2 py-4">
+                                                <div className="flex flex-row gap-6 justify-center items-center">
+                                                    <Link
+                                                        to={`/create/${event.id}`}
+                                                        className="link"
+                                                    >
+                                                        <Tooltip tooltip="Modificar evento">
+                                                            <FaExchangeAlt size="1.3rem" />
+                                                        </Tooltip>
+                                                    </Link>
+                                                    <Link
+                                                        to={`/event/${event.id}`}
+                                                        className="link"
+                                                    >
+                                                        <Tooltip tooltip="Ver evento">
+                                                            <FaRegEye size="1.3rem" />
+                                                        </Tooltip>
+                                                    </Link>
+                                                    <Link>
+                                                        <Tooltip tooltip="Borrar evento">
+                                                            <MdDeleteOutline
+                                                                size="1.3rem"
+                                                                className="text-red-600"
+                                                            />
+                                                        </Tooltip>
+                                                    </Link>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr></tr>
+                                )}
                             </tbody>
                         </table>
                     </div>
