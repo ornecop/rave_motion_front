@@ -39,9 +39,9 @@ import { SECONDS_TO_PAY } from "../../const";
 
 const EventCart = () => {
     // Global state
+    const userData=useSelector(state=>state.userData)
     const selectedTickets = useSelector((state) => state.selectedTickets);
     const dispatch = useDispatch();
-
     // Get event
     const { eventId } = useParams();
     const event = useSelector((state) => state.eventDetail);
@@ -97,20 +97,25 @@ const EventCart = () => {
 
     const [preferenceId,setPreferenceId]=useState(null);
     useEffect(()=>{
-        let MPbody={name:event.name, price:totalToPay,tickets:[
-            {
-                "ticketId":"27efc161-ec10-4cb8-88ca-4b720587a0b1",
-                "userId":"73f0d2d0-478a-4096-ad4d-24fa6cfbf589",
-                "eventId":"aced08ea-a6f1-4d79-a0da-e3850b61f82d",
-                "mail":"facufcasado@gmail.com"
-            },
-            {
-                "ticketId":"27efc161-ec10-4cb8-88ca-4b720587a0b1",
-                "userId":"73f0d2d0-478a-4096-ad4d-24fa6cfbf589",
-                "eventId":"aced08ea-a6f1-4d79-a0da-e3850b61f82d",
-                "mail":"facufcasado@gmail.com"
+        const bodyMPTemplateCreator = (selectedTickets, eventId, userData) => {
+
+            let bodyMP = []
+        
+            for (const key in selectedTickets) {
+                for (let i = 1; i<= selectedTickets[key].quantity; i++) {
+                    bodyMP.push({
+                        eventId: eventId,
+                        ticketId: key,
+                        userId: userData.id,
+                        mail: userData.email
+                    })
+                }
             }
-        ]}
+        
+            return bodyMP
+        }
+        let MPbody={name:event.name, price:totalToPay,tickets:bodyMPTemplateCreator(selectedTickets, eventId, userData)}
+        console.log('MP', MPbody);
         if(totalToPay>0){
             console.log(MPbody);
             axios.post(`${BACKEND_URL}/payments`,MPbody)
@@ -239,11 +244,15 @@ const EventCart = () => {
                 </div>
                 <div className="floatBox md:w-2/3 h-fit mx-auto overflow-hidden font-sans bg-secondary">
 
-                    {preferenceId && (
+                    {preferenceId ? (
                         <Wallet
                             className="px-6"
-                            initialization={{ preferenceId: preferenceId }}
+                            initialization={{ preferenceId: preferenceId,redirectMode: 'blank' }}
                         />
+                    ) : (
+                        <div className="flex w-full h-full items-center justify-center my-6">
+                            <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-fuchsia-600"></div>
+                        </div>
                     )}
                 </div>
             </div>

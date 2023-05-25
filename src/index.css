@@ -79,7 +79,7 @@
     }
 
     .navLink {
-        @apply text-lg hover:text-fuchsia-600 hover:font-semibold focus:outline-none transition-colors duration-300;
+        @apply text-lg hover:text-fuchsia-600 focus:outline-none transition-colors duration-300;
     }
 
     .dropDownItem {

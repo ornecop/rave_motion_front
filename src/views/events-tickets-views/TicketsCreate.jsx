@@ -124,7 +124,7 @@ const TicketsCreate = (props) => {
                 eventTickets
             );
             setGlobalSuccess(
-                `Los tickets del evento ${eventDetail.name} se han creado correctamente.`
+                `Los tickets del evento "${eventDetail.name}" se han creado correctamente.`
             );
             navigate(`/event/${eventId}`);
         } catch (error) {
