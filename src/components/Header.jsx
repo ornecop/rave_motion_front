@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 
 // React Router Dom
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 // Redux
 import { connect } from "react-redux";
@@ -39,15 +39,19 @@ const Header = (props) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
 
-    const handleOptionClick = () => {
-        setShowDropdown(false);
+    const handlDropdownClick = () => {
+        setShowDropdown((prev) => !prev);
     };
+
+    const location = useLocation().pathname;
+    useEffect(() => {
+        showDropdown && setShowDropdown(false);
+    }, [location]);
 
     const handleOutsideClick = (event) => {
         if (
             dropdownRef.current &&
-            !dropdownRef.current.contains(event.target) &&
-            !event.target.classList.contains("navLinkDropdown")
+            !dropdownRef.current.contains(event.target)
         ) {
             setShowDropdown(false);
         }
@@ -59,21 +63,6 @@ const Header = (props) => {
             document.removeEventListener("mousedown", handleOutsideClick);
         };
     }, []);
-
-    const handleMouseEnter = () => {
-        clearTimeout(hideTimeout);
-        setShowDropdown(true);
-    };
-
-    const handleMouseLeave = () => {
-        hideTimeout = setTimeout(() => {
-            setShowDropdown(true);
-        }, 100);
-    };
-
-    const handleDropdownClick = () => {
-        setShowDropdown(!showDropdown);
-    };
 
     // Search
     const [name, setName] = useState("");
@@ -136,33 +125,21 @@ const Header = (props) => {
                             ref={dropdownRef}
                         >
                             <button
-                                onMouseEnter={handleMouseEnter}
-                                onMouseLeave={handleMouseLeave}
+                                onClick={handlDropdownClick}
                                 className="btnPrimary py-0 px-4 w-fit border-none"
                             >
                                 Tu cuenta
                             </button>
                             <div
-                                onMouseEnter={handleMouseEnter}
-                                onMouseLeave={handleMouseLeave}
                                 className={`"z-20 bg-secondary rounded-md w-40 left-[-2rem] top-[2rem] text-center" ${
                                     showDropdown ? "block" : "hidden"
                                 }`}
                                 style={{ position: "absolute" }}
                             >
-                                <div className="dropDownItem">
-                                    <Link
-                                        className="navLinkDropdown"
-                                        onClick={handleOptionClick}
-                                    >
-                                        {userData.firstName}
-                                    </Link>
-                                </div>
                                 <div className="dropDownItem border-b-2 border-secondaryBorder">
                                     <Link
                                         className="navLinkDropdown"
                                         to="/tickets"
-                                        onClick={handleOptionClick}
                                     >
                                         Mis tickets
                                     </Link>
@@ -173,7 +150,6 @@ const Header = (props) => {
                                             <Link
                                                 className="navLinkDropdown"
                                                 to="/create"
-                                                onClick={handleOptionClick}
                                             >
                                                 Crear evento
                                             </Link>
