@@ -17,6 +17,7 @@ import About from "./views/app-views/About";
 import Home from "./views/app-views/Home";
 import SearchResults from "./views/app-views/SearchResults";
 import NotFound from "./views/app-views/NotFound";
+import Reviews from "./views/app-views/Reviews";
 
 // Events views
 import EventCart from "./views/events-tickets-views/EventCart";
@@ -72,6 +73,7 @@ const App = ({
             <Routes>
                 {/* App views */}
                 <Route exact path="/" element={<Home />} />
+                <Route path="/reviews" element={<Reviews />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/search" element={<SearchResults />} />
 
