@@ -1,6 +1,9 @@
 import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
+// ============= Global Action Types
+import { GLOBAL_ERROR_SET } from "./appActions";
+
 // ============= Events Actions Types
 export const EVENTS_GET_ALL = "EVENTS_GET_ALL";
 
@@ -16,18 +19,32 @@ export const EVENT_MODIFY = "EVENT_MODIFY";
 // ============= Events Actions Creators
 export const getAllEvents = () => {
     return async function (dispatch) {
-        const events = (await axios.get(`${BACKEND_URL}/events`)).data;
-        dispatch({ type: EVENTS_GET_ALL, payload: events });
+        try {
+            const events = (await axios.get(`${BACKEND_URL}/events`)).data;
+            dispatch({ type: EVENTS_GET_ALL, payload: events });
+        } catch (error) {
+            dispatch({
+                type: GLOBAL_ERROR_SET,
+                payload: error.response.data.error,
+            });
+        }
     };
 };
 
 export const getEventsByName = (name) => {
     return async function (dispatch) {
-        const response = await axios.get(
-            `${BACKEND_URL}/events/name?name=${name}`
-        );
-        const eventsByName = response.data;
-        dispatch({ type: EVENTS_SEARCH, payload: eventsByName });
+        try {
+            const response = await axios.get(
+                `${BACKEND_URL}/events/name?name=${name}`
+            );
+            const eventsByName = response.data;
+            dispatch({ type: EVENTS_SEARCH, payload: eventsByName });
+        } catch (error) {
+            dispatch({
+                type: GLOBAL_ERROR_SET,
+                payload: error.response.data.error,
+            });
+        }
     };
 };
 
@@ -39,46 +56,24 @@ export const removeEventByName = () => {
 
 export const getEventById = (id) => {
     return async function (dispatch) {
-        const response = await axios.get(`${BACKEND_URL}/events/${id}`);
-        const eventDetail = response.data;
-        dispatch({
-            type: EVENT_DETAIL_GET,
-            payload: eventDetail,
-        });
+        try {
+            const response = await axios.get(`${BACKEND_URL}/events/${id}`);
+            const eventDetail = response.data;
+            dispatch({
+                type: EVENT_DETAIL_GET,
+                payload: eventDetail,
+            });
+        } catch (error) {
+            dispatch({
+                type: GLOBAL_ERROR_SET,
+                payload: error.response.data.error,
+            });
+        }
     };
 };
 
 export const removeEventDetail = () => {
     return {
         type: EVENT_DETAIL_REMOVE,
-    };
-};
-
-// Responde con evento sin tickets
-export const createEvent = (eventData) => {
-    return async (dispatch) => {
-        const response = await axios.post(
-            `${BACKEND_URL}/events/eventcreate`,
-            eventData
-        );
-        const eventCreated = response.data;
-        dispatch({
-            type: EVENT_CREATE,
-            payload: eventCreated,
-        });
-    };
-};
-
-export const modifyEvent = (id, eventData) => {
-    return async (dispatch) => {
-        const response = await axios.put(
-            `${BACKEND_URL}/events/${id}`,
-            eventData
-        );
-        const eventActualiced = response.data;
-        dispatch({
-            type: EVENT_MODIFY,
-            payload: eventActualiced,
-        });
     };
 };
