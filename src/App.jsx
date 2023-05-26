@@ -47,8 +47,12 @@ const App = ({ verifyToken, isLogin, userData }) => {
     // Sign In by JSW
     useEffect(() => {
         const token = localStorage.getItem("token");
+        const tokenGoogle = localStorage.getItem("tokenGoogle");
         if (token && !isLogin) {
             verifyToken(token);
+        } 
+        if (tokenGoogle && !isLogin) {
+            verifyToken(tokenGoogle);
         }
     }, []);
 

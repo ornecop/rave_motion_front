@@ -39,13 +39,13 @@ export const signIn = ({ mail, password }) => {
         }
     };
 };
-
+  
 export const signInGoogle = (extractedData) => {
     return async (dispatch) => {
         try {
             const response = await axios.post(`${BACKEND_URL}/users/logingoogle`, extractedData);
             const { user, jwt } = response.data;
-            localStorage.setItem("token", jwt);
+            localStorage.setItem("tokenGoogle", jwt);
             dispatch({
                 type: USER_SIGN_IN,
                 payload: user,
@@ -62,7 +62,7 @@ catch(error){
 
 export const verifyToken = (token) => {
     return async (dispatch) => {
-        try {
+        try { 
             const response = await axios.post(
                 `${BACKEND_URL}/users/signinsession`,
                 {
