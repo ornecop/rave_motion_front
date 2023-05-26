@@ -29,7 +29,7 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 // Validation schemas
 const validationSchema = Yup.object().shape({
     // Falta validación mail ya existe
-    mail: Yup.string()
+    email: Yup.string()
         .email("El mail no es valido.")
         .required("Este campo es requerido."),
     password: Yup.string()
@@ -61,7 +61,7 @@ const SignUpForm1 = ({
 
     // App login
     const initialValues = {
-        mail: "",
+        email: "",
         password: "",
         passwordConfirm: "",
     };
@@ -69,9 +69,9 @@ const SignUpForm1 = ({
     const handleNext = async (values, { setSubmitting, resetForm }) => {
         try {
             const response = await axios.post(`${BACKEND_URL}/users/signup1`, {
-                mail: values.mail,
+                email: values.email,
             });
-            callBack({ mail: values.mail.trim(), password: values.password });
+            callBack({ email: values.email.trim(), password: values.password });
             removeSignUserError();
         } catch (error) {
             setSignUserError(error.response.data.error);
@@ -90,7 +90,7 @@ const SignUpForm1 = ({
                 <Form>
                     <h2 className="text-xl text-center my-4">Crear cuenta</h2>
 
-                    {userSignError && (!touched.mail || !values.mail) && (
+                    {userSignError && (!touched.email || !values.email) && (
                         <div className="flex justify-center flex-row my-1">
                             <span className="errorMessage">
                                 {userSignError}
@@ -100,27 +100,27 @@ const SignUpForm1 = ({
                     {/* mail */}
                     <div className="flex flex-col my-2">
                         <label
-                            htmlFor="mail"
+                            htmlFor="email"
                             className="block my-1 font-semibold"
                         >
-                            Mail:
+                           Email:
                         </label>
                         <Field
                             className={
-                                touched.mail && errors.mail
+                                touched.email && errors.email
                                     ? "inputError"
-                                    : touched.mail && !errors.mail
+                                    : touched.email && !errors.email
                                     ? "inputSuccess"
                                     : "input"
                             }
                             type="text"
                             on
-                            placeholder="Tu mail"
-                            name="mail"
+                            placeholder="Tu email"
+                            name="email"
                             autoComplete="false"
                         />
                         <ErrorMessage
-                            name="mail"
+                            name="email"
                             component="span"
                             className="errorMessage"
                         />

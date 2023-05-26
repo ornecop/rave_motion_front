@@ -10,8 +10,8 @@ const dispatch= useDispatch()
   function handleCallbackResponse (response){
     const userObject= jwt_decode(response.credential)
   
-    const { given_name: name, family_name: lastname, email: mail } = userObject;
-    const extractedData = { name, lastname, mail };
+    const { given_name: name, family_name: lastname, email: email } = userObject;
+    const extractedData = { name, lastname, email };
     dispatch(signInGoogle(extractedData))
       }
  

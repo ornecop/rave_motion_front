@@ -26,7 +26,8 @@ import {
     removeSignUserError,
     setSignUpStep,
 } from "../../redux/actions/usersActions";
-
+// Google button
+import GoogleLogin from "./GoogleLogin"
 // React icons
 import { FcGoogle } from "react-icons/fc";
 
@@ -38,7 +39,7 @@ import SignUpForm3 from "../../components/SignUpForm3";
 const SignUp = ({ signUpStep, setSignUpStep }) => {
     // User data
     const [userData, setUserData] = useState({
-        mail: "",
+        email: "",
         password: "",
         firstName: "",
         lastName: "",
@@ -47,8 +48,8 @@ const SignUp = ({ signUpStep, setSignUpStep }) => {
     });
 
     // Step 1 =====================================
-    const setFormData1 = ({ mail, password }) => {
-        setUserData({ ...userData, mail: mail, password: password });
+    const setFormData1 = ({ email, password }) => {
+        setUserData({ ...userData, email: email, password: password });
         setSignUpStep(2);
     };
 
@@ -100,14 +101,8 @@ const SignUp = ({ signUpStep, setSignUpStep }) => {
                             </p>
                         </div>
 
-                        <button type="button" className="grid btnPrimary">
-                            <div className="flex flex-row justify-self-center items-center gap-2">
-                                <FcGoogle size="1.5rem" />
-                                <span className="text-lg">
-                                    Registrate con Google
-                                </span>
-                            </div>
-                        </button>
+                     
+              <GoogleLogin/>
                     </>
                 )}
 

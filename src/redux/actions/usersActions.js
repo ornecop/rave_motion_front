@@ -17,11 +17,11 @@ export const USER_CHANGE_PASSWORD = "USER_CHANGE_PASSWORD";
 
 // ============= Actions Creators
 
-export const signIn = ({ mail, password }) => {
+export const signIn = ({ email, password }) => {
     return async (dispatch) => {
         try {
             const response = await axios.post(`${BACKEND_URL}/users/signin`, {
-                mail: mail,
+                email: email,
                 password: password,
             });
             const { user, jwt } = response.data;

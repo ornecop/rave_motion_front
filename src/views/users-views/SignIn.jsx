@@ -33,7 +33,7 @@ import { useEffect } from "react";
 
 // Validation schemas
 const validationSchema = Yup.object().shape({
-    mail: Yup.string()
+    email: Yup.string()
         .email("El mail no es valido.")
         .required("Este campo es requerido."),
     password: Yup.string().required("Este campo es requerido."),
@@ -45,7 +45,7 @@ const SignIn = ({ signIn, userSignError, isLogin }) => {
 
     // App login
     const initialValues = {
-        mail: "",
+        email: "",
         password: "",
     };
 
@@ -55,7 +55,7 @@ const SignIn = ({ signIn, userSignError, isLogin }) => {
     }, [isLogin]);
 
     const handleSubmit = (values, { setSubmitting, resetForm }) => {
-        signIn({ mail: values.mail, password: values.password });
+        signIn({ email: values.email, password: values.password });
 
         setSubmitting(false);
         resetForm();
@@ -74,7 +74,7 @@ const SignIn = ({ signIn, userSignError, isLogin }) => {
                     {({ isSubmitting, touched, errors, values }) => (
                         <Form className="">
                             {userSignError &&
-                                (!touched.mail || !values.mail) && (
+                                (!touched.email || !values.email) && (
                                     <div className="flex justify-center flex-row my-1">
                                         <span className="errorMessage">
                                             {userSignError}
@@ -84,26 +84,26 @@ const SignIn = ({ signIn, userSignError, isLogin }) => {
                             {/* mail */}
                             <div className="flex flex-col my-2">
                                 <label
-                                    htmlFor="mail"
+                                    htmlFor="email"
                                     className="block my-1 font-semibold"
                                 >
                                     mail:
                                 </label>
                                 <Field
                                     className={
-                                        touched.mail && errors.mail
+                                        touched.email && errors.email
                                             ? "inputError"
-                                            : touched.mail && !errors.mail
+                                            : touched.email && !errors.email
                                             ? "inputSuccess"
                                             : "input"
                                     }
                                     type="text"
-                                    placeholder="Tu mail"
-                                    name="mail"
+                                    placeholder="Tu email"
+                                    name="email"
                                     autoComplete="false"
                                 />
                                 <ErrorMessage
-                                    name="mail"
+                                    name="email"
                                     component="span"
                                     className="errorMessage"
                                 />
