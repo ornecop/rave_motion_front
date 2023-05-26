@@ -11,7 +11,7 @@ listado de events con acciones (edit, remove, detail)
 
 // Hooks
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 // Redux
 import { connect } from "react-redux";
@@ -50,8 +50,12 @@ import ProducerKeys from "../../components/ProducerKeys";
 import ProducerEventDetail from "./ProducerEventDetail";
 
 // Const
-import { FILTER_EVENTS_BY_DATE, DASHBOARD_VIEW } from "../../const";
+import { FILTER_EVENTS_BY_DATE, DASHBOARD_VIEWS } from "../../const";
 const { ACTIVES, PASS, ALL } = FILTER_EVENTS_BY_DATE;
+
+// Axios
+import axios from "axios";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const ProducerDashboard = (props) => {
     // Props
@@ -59,15 +63,46 @@ const ProducerDashboard = (props) => {
     const { getUserEventsByUserId, searchUserEvents, filterEventsByCurrent } =
         props;
 
-    const [view, setView] = useState(DASHBOARD_VIEW.DASHBOARD);
-    const location = useLocation().pathname;
+    // Seteo de view dependiendo la url
+    const [view, setView] = useState(DASHBOARD_VIEWS.DASHBOARD);
+
+    const { eventId } = useParams();
     useEffect(() => {
-        if (location === "/dashboard") setView(DASHBOARD_VIEW.DASHBOARD);
-    }, [location]);
+        const getParamAndSearchEvent = async () => {
+            if (eventId) {
+                try {
+                    const response = await axios.get(
+                        `${BACKEND_URL}/events/${eventId}`
+                    );
+                    console.log(response);
+                    const eventExist =
+                        response.data.name &&
+                        response.data.userId === userData.id;
+                    console.log("event exits: ", eventExist);
+                    if (eventExist) {
+                        console.log(1);
+                        setView(DASHBOARD_VIEWS.EVENT_DETAIL);
+                    } else {
+                        console.log(2);
+                        setView(DASHBOARD_VIEWS.EVENT_NOT_FOUND);
+                    }
+                } catch (error) {
+                    console.log(3);
+                    setView(DASHBOARD_VIEWS.EVENT_NOT_FOUND);
+                }
+            } else {
+                console.log(4);
+                setView(DASHBOARD_VIEWS.DASHBOARD);
+            }
+        };
+
+        getParamAndSearchEvent();
+    }, [eventId]);
 
     // Events by UserId
     useEffect(() => {
         userData?.id && getUserEventsByUserId(userData.id);
+        setFilterByDate(filterByDate);
     }, [userData, getUserEventsByUserId]);
 
     // Search on dashboard
@@ -85,7 +120,6 @@ const ProducerDashboard = (props) => {
 
     const handleFilter = (event) => {
         setFilterByDate(event.target.value);
-        console.log(event.target.value);
         filterEventsByCurrent(event.target.value);
     };
 
@@ -179,7 +213,7 @@ const ProducerDashboard = (props) => {
             </aside>
 
             {/* Content */}
-            {view === DASHBOARD_VIEW.DASHBOARD ? (
+            {view === DASHBOARD_VIEWS.DASHBOARD ? (
                 <section className="flex flex-col w-5/6 px-8 py-4 ">
                     {/* NavBar */}
                     <nav className="grid grid-cols-3 w-full h-16 ">
@@ -274,7 +308,7 @@ const ProducerDashboard = (props) => {
                                                 className="px-2 py-4 font-semibold whitespace-nowrap"
                                             >
                                                 <Link
-                                                    to={`/dashboard/event/${event.id}`}
+                                                    to={`/dashboard/${event.id}`}
                                                     className="link"
                                                 >
                                                     <Tooltip tooltip="Ver detalle de ventas">
@@ -343,8 +377,10 @@ const ProducerDashboard = (props) => {
                         </table>
                     </div>
                 </section>
-            ) : (
+            ) : view === DASHBOARD_VIEWS.EVENT_DETAIL ? (
                 <ProducerEventDetail />
+            ) : (
+                <div>Not Found Event</div>
             )}
         </div>
     );
