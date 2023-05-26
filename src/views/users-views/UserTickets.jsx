@@ -28,6 +28,7 @@ import TicketPdf from "../../components/React-PDF/TicketPdf";
 import { BsDownload } from "react-icons/bs";
 
 const UserTickets = ({ userData, userTickets, getUserTickets }) => {
+    // Get User Tickets
     useEffect(() => {
         userData.id && getUserTickets(userData.id);
     }, [userData, getUserTickets]);
