@@ -21,6 +21,10 @@ import EventContainer from "../../components/EventContainer";
 // Hooks
 import { useState, useEffect } from "react";
 
+//Reset
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSync } from "@fortawesome/free-solid-svg-icons";
+
 // React Redux
 import { connect, useDispatch, useSelector } from "react-redux";
 import { filteredEvents } from "../../redux/actions/filtersActions";
@@ -33,6 +37,7 @@ import setProducer from "../../functions/setProducer";
 
 // Paginado
 import Paginado from "../../components/Paginado";
+
 const Home = () => {
     const dispatch = useDispatch();
     const Events = useSelector((state) => state.allEvents);
@@ -51,6 +56,12 @@ const Home = () => {
 
     const totalEvents = allEvents.length;
     const totalPages = Math.ceil(totalEvents / eventsPerPage);
+
+    //orders
+    const [ordersinput, setordersInput] = useState({
+        orderDate:'',
+        orderAlpha:''
+    })
 
     const paginado = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -76,8 +87,8 @@ const Home = () => {
     // Filtros
     const [filterEvents, setFilterEvents] = useState({
         startDate: getCurrentDate(),
-        endDate: null,
-        producer: null,
+        endDate: "",
+        producer:null,
     });
 
     const handleFilterEventsChange = (event) => {
@@ -88,6 +99,26 @@ const Home = () => {
             setFilterEvents({ ...filterEvents, endDate: event.target.value });
         }
     };
+
+    //resetFiltros
+    function resetFilters() {
+        setFilterEvents({
+          startDate: getCurrentDate(),
+          endDate: "",
+          producer: null,
+        });
+        
+        setFilterByProducer("Todas");
+        setordersInput(
+            {orderDate:'',
+             orderAlpha:''})
+        setCurrentPage(1);
+      }
+      
+      function handleResetFilters() {
+        resetFilters();
+        dispatch(getAllEvents());
+      }
 
     // Filtro por productora
     const [filterByProducer, setFilterByProducer] = useState("Todas");
@@ -101,7 +132,6 @@ const Home = () => {
             setCurrentPage(1);
             return;
         }
-
         setFilterEvents({ ...filterEvents, producer: event.target.value });
         dispatch(
             filteredEvents({ ...filterEvents, producer: event.target.value })
@@ -116,11 +146,13 @@ const Home = () => {
 
     //ORDENAMIENTOS
     const handleSortAbc = (event) => {
+        setordersInput({...ordersinput, orderAlpha: event.target.value})
         dispatch(alphabeticOrder(event.target.value));
         setCurrentPage(1);
     };
 
     const handleSortDate = (event) => {
+        setordersInput({...ordersinput,orderDate:event.target.value})
         dispatch(dateOrder(event.target.value));
         setCurrentPage(1);
     };
@@ -185,7 +217,7 @@ const Home = () => {
                             Filtrar
                         </button>
                     </div>
-                    <label htmlFor="startDate">Filtrar:</label>
+                    <label htmlFor="startDate"></label>
                     {/*SELECT PRODUCTORAS*/}
                     <select
                         className="inputSelect w-fit"
@@ -206,6 +238,7 @@ const Home = () => {
                     </select>
                     {/*odenamientos*/}
                     <select
+                        value={ordersinput.orderAlpha}
                         onChange={(event) => {
                             handleSortAbc(event);
                         }}
@@ -218,6 +251,7 @@ const Home = () => {
                         <option value="Desc">Z-A</option>
                     </select>
                     <select
+                        value={ordersinput.orderDate}
                         onChange={(event) => {
                             handleSortDate(event);
                         }}
@@ -229,6 +263,11 @@ const Home = () => {
                         <option value="First">Próximos</option>
                         <option value="Last">Ultimos</option>
                     </select>
+                    <div className=" flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 btnPrimary rounded-full border border-secondaryBorder mr-4" >
+                        <button className="" onClick={handleResetFilters}>
+                            <FontAwesomeIcon icon={faSync} /> 
+                        </button>
+                    </div>
                 </div>
 
                 {/* Info paginado */}
@@ -238,22 +277,19 @@ const Home = () => {
                 </div>
             </div>
 
-            <div>
+            <div className="min-h-[50vh] flex items-center justify-center">
                 {isLoading ? (
-                    <div className="flex m-28 flex-col items-center">
+                    <div className="flex flex-col w-full h-full items-center justify-center">
                         <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-fuchsia-600"></div>
-                        <h1 className="font-bold text-center text-2xl mt-4">
-                            Loading...
-                        </h1>
                     </div>
                 ) : currentEvents.length === 0 ? (
-                    <div>
-                        <h1 className="font-bold text-center text-5xl">
+                    <div className="flex flex-col w-full h-full items-center justify-center">
+                        <h2 className="font-bold text-center text-5xl">
                             LO SENTIMOS
-                        </h1>
-                        <h1 className="text-white text-xl text-center">
+                        </h2>
+                        <h3 className="text-white text-xl text-center">
                             No se han encontrado resultados
-                        </h1>
+                        </h3>
                     </div>
                 ) : (
                     <div>

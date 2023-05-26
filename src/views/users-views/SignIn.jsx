@@ -3,7 +3,7 @@
 
     styles:
     A un lado el form y al otro una imagen o mockup del home
-    mail, password || ingresar con Google) 
+    email, password || ingresar con Google) 
 
     * Redirecciona al UserTickets
     
@@ -28,7 +28,7 @@ import { connect } from "react-redux";
 import { signIn } from "../../redux/actions/usersActions";
 
 // Google button
-import GoogleLogin from "./GoogleLogin"
+import GoogleLogin from "./GoogleLogin";
 import { useEffect } from "react";
 
 // Validation schemas
@@ -52,7 +52,7 @@ const SignIn = ({ signIn, userSignError, isLogin }) => {
     const navigate = useNavigate();
     useEffect(() => {
         isLogin && navigate("/");
-    }, [isLogin]);
+    }, [isLogin, navigate]);
 
     const handleSubmit = (values, { setSubmitting, resetForm }) => {
         signIn({ email: values.email, password: values.password });
@@ -60,7 +60,6 @@ const SignIn = ({ signIn, userSignError, isLogin }) => {
         setSubmitting(false);
         resetForm();
     };
-
 
     return (
         <div className="w-full h-screen flex flex-col justify-center items-center">
@@ -81,7 +80,7 @@ const SignIn = ({ signIn, userSignError, isLogin }) => {
                                         </span>
                                     </div>
                                 )}
-                            {/* mail */}
+                            {/* email */}
                             <div className="flex flex-col my-2">
                                 <label
                                     htmlFor="email"
@@ -190,7 +189,7 @@ const SignIn = ({ signIn, userSignError, isLogin }) => {
                 </Formik>
 
                 {/* Google */}
-              <GoogleLogin/>
+                <GoogleLogin />
 
                 {/* Links */}
                 <div className="flex flex-col mt-8">

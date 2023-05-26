@@ -1,7 +1,7 @@
 /* =======================================================
     Form 1 on SignUp view
 
-    Fields: mail - password - passwordConfirm
+    Fields: email - password - passwordConfirm
     
 */
 
@@ -28,7 +28,7 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // Validation schemas
 const validationSchema = Yup.object().shape({
-    // Falta validación mail ya existe
+    // Falta validación email ya existe
     email: Yup.string()
         .email("El mail no es valido.")
         .required("Este campo es requerido."),
@@ -47,7 +47,7 @@ const validationSchema = Yup.object().shape({
             function (value) {
                 return this.parent.password === value;
             }
-        ), 
+        ),
 });
 
 const SignUpForm1 = ({
@@ -97,7 +97,7 @@ const SignUpForm1 = ({
                             </span>
                         </div>
                     )}
-                    {/* mail */}
+                    {/* email */}
                     <div className="flex flex-col my-2">
                         <label
                             htmlFor="email"

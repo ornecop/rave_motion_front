@@ -1,7 +1,7 @@
 /* =======================================================
     VIEW PasswordChange - "/changepassword/2" - Vista para cambiar password
 
-    * Solo se accede desde el enlace del mail 
+    * Solo se accede desde el enlace del email 
 
     styles:
     password y password repeat
@@ -83,7 +83,7 @@ const ChangePassword = () => {
                 >
                     {({ isSubmitting, touched, errors, values }) => (
                         <Form>
-                            {error && !values.mail && (
+                            {error && !values.password && (
                                 <span className="errorMessage">{error}</span>
                             )}
 

@@ -3,7 +3,7 @@ import EventCard from "./EventCard";
 
 const EventContainer = ({ events }) => {
     return (
-        <div className="my-6 md:w-4/5 mx-auto">
+        <div className="my-6 mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {events.map((event) => (
                     <EventCard

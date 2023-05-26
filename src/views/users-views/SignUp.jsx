@@ -3,7 +3,7 @@
 
     styles:
     A un lado el form (form por pasos) y al otro una imagen o mockup del home
-    1er form (mail, password, passwordConfirm || registrarse con Google) 
+    1er form (email, password, passwordConfirm || registrarse con Google) 
     2do form (firstName, lastName, documentType, document)
     3er form (birthDay, address)
 
