@@ -33,6 +33,7 @@ const initialState = {
     allUserEvents: [],
 
     // User tickets states
+    userTickets:{},
 
     // Global states
     globalError: "",

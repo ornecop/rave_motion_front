@@ -97,7 +97,7 @@ const SignIn = ({ signIn, userSignError, isLogin }) => {
                                             : "input"
                                     }
                                     type="text"
-                                    placeholder="Tu mail"
+                                    placeholder="Tu email"
                                     name="email"
                                     autoComplete="false"
                                 />

@@ -113,6 +113,10 @@ const Header = (props) => {
                 <Link to="/" className="navLink">
                     Home
                 </Link>
+                
+                <Link to="/reviews" className="navLink">
+                    Reviews
+                </Link>
 
                 <Link to="/about" className="navLink">
                     Nosotros

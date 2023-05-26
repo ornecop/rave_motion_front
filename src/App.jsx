@@ -17,6 +17,7 @@ import About from "./views/app-views/About";
 import Home from "./views/app-views/Home";
 import SearchResults from "./views/app-views/SearchResults";
 import NotFound from "./views/app-views/NotFound";
+import Reviews from "./views/app-views/Reviews";
 
 // Events views
 import EventCart from "./views/events-tickets-views/EventCart";
@@ -28,7 +29,6 @@ import EventDetail from "./views/events-tickets-views/EventDetail";
 import ChangePassword from "./views/users-views/ChangePassword";
 import EmailPassword from "./views/users-views/EmailPassword";
 import ProducerDashboard from "./views/users-views/ProducerDashboard";
-import ProducerEventDetail from "./views/users-views/ProducerEventDetail";
 import SignIn from "./views/users-views/SignIn";
 import SignUp from "./views/users-views/SignUp";
 import UserTickets from "./views/users-views/UserTickets";
@@ -55,10 +55,14 @@ const App = ({
     // Sign In by JSW
     useEffect(() => {
         const token = localStorage.getItem("token");
+        const tokenGoogle = localStorage.getItem("tokenGoogle");
         if (token && !isLogin) {
             verifyToken(token);
         }
-    }, []);
+        if (tokenGoogle && !isLogin) {
+            verifyToken(tokenGoogle);
+        }
+    }, [verifyToken]);
 
     return (
         <div className="bg-primary text-white antialiased">
@@ -68,6 +72,7 @@ const App = ({
             <Routes>
                 {/* App views */}
                 <Route exact path="/" element={<Home />} />
+                <Route path="/reviews" element={<Reviews />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/search" element={<SearchResults />} />
 
@@ -105,11 +110,11 @@ const App = ({
 
                 <Route path="/changepassword" element={<EmailPassword />} />
                 <Route path="/changepassword/2" element={<ChangePassword />} />
-                <Route path="/dashboard" element={<ProducerDashboard />} />
                 <Route
-                    path="/dashboard/:eventId"
-                    element={<ProducerEventDetail />}
+                    path="/dashboard/:eventId?"
+                    element={<ProducerDashboard />}
                 />
+
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/tickets" element={<UserTickets />} />
