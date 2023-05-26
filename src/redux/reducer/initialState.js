@@ -1,9 +1,10 @@
 const initialState = {
-    // All events
+    // All events y finalized events
     allEvents: [],
-
+    allEventsF: [],
     // Home events
     homeEvents: [],
+    homeEventsF: [],
     homeEventsFilterByProducer: "All",
     homeEventsFilterByDate: {
         startDate: null,

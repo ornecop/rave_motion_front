@@ -1,14 +1,15 @@
-import { useSelector} from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
 import { useState, useEffect } from "react";
 const images = [
   "https://wallpapercave.com/wp/wp1889483.jpg",
   "https://wallpapercave.com/wp/wp1889488.jpg",
 ];
-
+import { getAllEventsFinalized } from "../../redux/actions/eventsActions";
 const Reviews = () => {
-  const Events = useSelector((state) => state.allEvents);
-  const allEvents = useSelector((state) => state.homeEvents);
-  const allEventos = useSelector((state) => state.homeEvents);
+  const dispatch= useDispatch()
+  const Events = useSelector((state) => state.allEventsF);
+  const allEvents = useSelector((state) => state.homeEventsF);
+  const allEventos = useSelector((state) => state.homeEventsF);
 
   // Carousel
   const [currentImage, setCurrentImage] = useState(images[0]);
@@ -35,6 +36,9 @@ const [isLoading, setIsLoading] = useState(true);
         }, 2000);
     }, []);
 
+    useEffect(() => {
+      !Events.length && dispatch(getAllEventsFinalized());
+  }, []);
     return (
       <>
         <div className="w-full min-h-screen">

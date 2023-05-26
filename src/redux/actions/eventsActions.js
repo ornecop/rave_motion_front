@@ -6,6 +6,7 @@ import { GLOBAL_ERROR_SET } from "./appActions";
 
 // ============= Events Actions Types
 export const EVENTS_GET_ALL = "EVENTS_GET_ALL";
+export const EVENTS_FINALIZED_GET_ALL = "EVENTS_FINALIZED_GET_ALL";
 
 export const EVENTS_SEARCH = "EVENTS_SEARCH";
 export const EVENTS_SEARCH_REMOVE = "EVENTS_SEARCH_REMOVE";
@@ -22,6 +23,19 @@ export const getAllEvents = () => {
         try {
             const events = (await axios.get(`${BACKEND_URL}/events`)).data;
             dispatch({ type: EVENTS_GET_ALL, payload: events });
+        } catch (error) {
+            dispatch({
+                type: GLOBAL_ERROR_SET,
+                payload: error.response.data.error,
+            });
+        }
+    };
+};
+export const getAllEventsFinalized = () => {
+    return async function (dispatch) {
+        try {
+            const events = (await axios.get(`${BACKEND_URL}/events/finalized`)).data;
+            dispatch({ type: EVENTS_FINALIZED_GET_ALL, payload: events });
         } catch (error) {
             dispatch({
                 type: GLOBAL_ERROR_SET,

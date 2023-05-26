@@ -15,6 +15,7 @@ import {
     EVENT_DETAIL_REMOVE,
     EVENT_CREATE,
     EVENT_MODIFY,
+    EVENTS_FINALIZED_GET_ALL
 } from "../actions/eventsActions";
 
 // Filters & Orders
@@ -50,6 +51,12 @@ const rootReducer = (state = initialState, action) => {
                 allEvents: action.payload,
                 homeEvents: action.payload,
             };
+            case EVENTS_FINALIZED_GET_ALL:
+                return {
+                    ...state,
+                    allEventsF: action.payload,
+                    homeEventsF: action.payload,
+                };
         case EVENTS_SEARCH:
             return {
                 ...state,
