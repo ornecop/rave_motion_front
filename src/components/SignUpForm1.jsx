@@ -103,7 +103,7 @@ const SignUpForm1 = ({
                             htmlFor="email"
                             className="block my-1 font-semibold"
                         >
-                            Mail:
+                           Email:
                         </label>
                         <Field
                             className={
@@ -115,7 +115,7 @@ const SignUpForm1 = ({
                             }
                             type="text"
                             on
-                            placeholder="Tu mail"
+                            placeholder="Tu email"
                             name="email"
                             autoComplete="false"
                         />

@@ -17,6 +17,7 @@ export const USER_GET_USER_EVENTS_BY_USER_ID = "USER_GET_EVENTS_BY_USER_ID";
 export const USER_SET_USER_EVENTS = "USER_SET_USER_EVENTS";
 export const USER_REMOVE_USER_EVENTS = "USER_REMOVE_USER_EVENTS";
 export const USER_SEARCH_USER_EVENTS = "USER_SEARCH_USER_EVENTS";
+export const FILTER_BY_CURRENT="FILTER_BY_CURRENT"
 
 // ============= Actions Creators
 
@@ -42,7 +43,7 @@ export const signIn = ({ email, password }) => {
         }
     };
 };
-
+  
 export const signInGoogle = (extractedData) => {
     return async (dispatch) => {
         try {
@@ -51,7 +52,7 @@ export const signInGoogle = (extractedData) => {
                 extractedData
             );
             const { user, jwt } = response.data;
-            localStorage.setItem("token", jwt);
+            localStorage.setItem("tokenGoogle", jwt);
             dispatch({
                 type: USER_SIGN_IN,
                 payload: user,
@@ -67,7 +68,7 @@ export const signInGoogle = (extractedData) => {
 
 export const verifyToken = (token) => {
     return async (dispatch) => {
-        try {
+        try { 
             const response = await axios.post(
                 `${BACKEND_URL}/users/signinsession`,
                 {
@@ -154,3 +155,10 @@ export const searchUserEvents = (name) => {
         payload: name,
     };
 };
+
+export const filterEventsByCurrent=(filter)=>{
+    return{
+        type: FILTER_BY_CURRENT,
+        payload: filter
+    }
+}

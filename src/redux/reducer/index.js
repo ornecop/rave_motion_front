@@ -20,6 +20,8 @@ import {
 // Filters & Orders
 import { EVENTS_FILTER } from "../actions/filtersActions";
 import { ALPHABETIC_ORDER, DATE_ORDER } from "../actions/orderActions";
+import {FILTER_EVENTS_BY_DATE}from'../../const'
+const {ACTIVES, PASS, ALL}=FILTER_EVENTS_BY_DATE
 
 // User Actions Types
 import {
@@ -32,6 +34,7 @@ import {
     USER_SET_USER_EVENTS,
     USER_REMOVE_USER_EVENTS,
     USER_SEARCH_USER_EVENTS,
+    FILTER_BY_CURRENT,
 } from "../actions/usersActions";
 import { FILL_CART, USER_TICKETS } from "../actions/usersTicketsActions";
 
@@ -81,6 +84,7 @@ const rootReducer = (state = initialState, action) => {
         case EVENTS_FILTER:
             return { ...state, homeEvents: action.payload, currentPage: 1 };
 
+        
         // * Order
 
         case ALPHABETIC_ORDER:
@@ -165,6 +169,20 @@ const rootReducer = (state = initialState, action) => {
                         .includes(action.payload.toLowerCase())
                 ),
             };
+
+        case FILTER_BY_CURRENT:
+            switch(action.payload){
+                case ACTIVES:
+                    return{...state, userEvents:state.allUserEvents.filter((event)=>{
+                        return event.current===true;
+                    })}
+                case PASS:
+                    return{...state, userEvents:state.allUserEvents.filter((event)=>{
+                        return event.current===false}
+                        )}
+                case ALL:
+                    return{...state, userEvents:state.allUserEvents}
+            }
 
         // Fill Cart
         case FILL_CART:
