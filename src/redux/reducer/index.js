@@ -33,7 +33,7 @@ import {
     USER_REMOVE_USER_EVENTS,
     USER_SEARCH_USER_EVENTS,
 } from "../actions/usersActions";
-import { FILL_CART } from "../actions/usersTicketsActions";
+import { FILL_CART, USER_TICKETS } from "../actions/usersTicketsActions";
 
 // Initial State
 import initialState from "./initialState";
@@ -169,6 +169,10 @@ const rootReducer = (state = initialState, action) => {
         // Fill Cart
         case FILL_CART:
             return { ...state, selectedTickets: action.payload };
+
+        //UserTickets
+        case USER_TICKETS:
+            return {...state, userTickets:action.payload}    
 
         // Global
         case GLOBAL_ERROR_SET:
