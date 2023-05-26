@@ -7,17 +7,16 @@ import {
     StyleSheet,
     Image,
 } from "@react-pdf/renderer";
+import { LinearGradient } from "@react-pdf/renderer";
 
-// Create styles
 const styles = StyleSheet.create({
     page: {
-        flexDirection: "row",
-        backgroundColor: "#00000",
+        backgroundColor: "#FFFFFF",
     },
     section: {
-        margin: 10,
+        margin: "auto",
         padding: 10,
-        flexGrow: 1,
+        textAlign: "center",
     },
     eventName: {
         fontSize: 30,
@@ -25,28 +24,40 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     user: {
-        fontSize: 12,
+        fontSize: 15,
+        marginBottom: 10,
+    },
+    imageContainer: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
         marginBottom: 10,
     },
     image: {
         height: 250,
         width: 250,
-        marginBottom: 10,
     },
     ticketInfo: {
-        fontSize: 10,
+        fontSize: 15,
     },
 });
 
 // Create Document Component
 const TicketPdf = ({ ticket }) => (
     <Document>
-        <Page size="A4" style={styles.page} wrap>
-            <View style={styles.section}>
-                <Text style={styles.eventName}>{ticket.Event.name}</Text>
-                <Text style={styles.user}>{ticket.email}</Text>
-                <Image style={styles.image} src={ticket.qrImage} />
-                <Text style={styles.ticketInfo}>ID: {ticket.id}</Text>
+        <Page size="A4" style={styles.page} wrap="false">
+            <View style={{ flexGrow: 1 }}>
+                <View style={styles.section}>
+                    <Text style={styles.eventName}>{ticket.Event.name}</Text>
+                    <Text style={styles.user}>{ticket.email}</Text>
+                    <View style={styles.imageContainer}>
+                        <Image style={styles.image} src={ticket.qrImage} />
+                    </View>
+                    <Text style={styles.accessType}>
+                        {ticket.Ticket.accessType}
+                    </Text>
+                    <Text style={styles.ticketInfo}>{ticket.id}</Text>
+                </View>
             </View>
         </Page>
     </Document>
