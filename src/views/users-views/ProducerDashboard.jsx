@@ -88,7 +88,6 @@ const ProducerDashboard = (props) => {
     const handleSignOutClick = () => {
         isLogin && signOut();
         navigate("/");
-        console.log("ok");
     };
 
     return (
