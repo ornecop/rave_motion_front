@@ -19,6 +19,7 @@ import {
     signOut,
     getUserEventsByUserId,
     searchUserEvents,
+    filterEventsByCurrent,
 } from "../../redux/actions/usersActions";
 
 // React Router Dom
@@ -50,12 +51,12 @@ import ProducerEventDetail from "./ProducerEventDetail";
 
 // Const
 import { FILTER_EVENTS_BY_DATE } from "../../const";
-const { ACTIVE, PASS, ALL } = FILTER_EVENTS_BY_DATE;
+const { ACTIVES, PASS, ALL } = FILTER_EVENTS_BY_DATE;
 
 const ProducerDashboard = (props) => {
     // Props
     const { isLogin, userData, signOut, userEvents } = props;
-    const { getUserEventsByUserId, searchUserEvents } = props;
+    const { getUserEventsByUserId, searchUserEvents,filterEventsByCurrent } = props;
 
     const [view, setView] = useState("dashboard");
     const location = useLocation().pathname;
@@ -77,10 +78,12 @@ const ProducerDashboard = (props) => {
     };
 
     // Filter events
-    const [filterByDate, setFilterByDate] = useState(ACTIVE);
+    const [filterByDate, setFilterByDate] = useState(ACTIVES);
 
     const handleFilter = (event) => {
         setFilterByDate(event.target.value);
+        console.log(event.target.value);
+        filterEventsByCurrent(event.target.value)
     };
 
     // SignOut
@@ -217,9 +220,7 @@ const ProducerDashboard = (props) => {
                                 onChange={handleFilter}
                                 value={filterByDate}
                             >
-                                <option value={ACTIVE} selected>
-                                    Eventos activos
-                                </option>
+                                <option value={ACTIVES}>Eventos activos</option>
                                 <option value={PASS}>Eventos pasados</option>
                                 <option value={ALL}>Todos los eventos</option>
                             </select>
@@ -361,6 +362,7 @@ const mapDispatchToProps = (dispatch) => {
         getUserEventsByUserId: (userId) =>
             dispatch(getUserEventsByUserId(userId)),
         searchUserEvents: (name) => dispatch(searchUserEvents(name)),
+        filterEventsByCurrent:(filter)=>dispatch(filterEventsByCurrent(filter))
     };
 };
 
