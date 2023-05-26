@@ -84,11 +84,8 @@ const EventCart = () => {
         }, 1000);
     }, [ticketsToPay]);
 
-    console.log(ticketsToPay);
-
     const handleTimerEnd = async () => {
         const response = await axios.get(`${BACKEND_URL}/events`);
-        console.log(response);
     };
 
     //* Mercado Pago
@@ -116,13 +113,10 @@ const EventCart = () => {
             price: totalToPay,
             tickets: bodyMPTemplateCreator(selectedTickets, eventId, userData),
         };
-        console.log("MP", MPbody);
         if (totalToPay > 0) {
-            console.log(MPbody);
             axios
                 .post(`${BACKEND_URL}/payments`, MPbody)
                 .then((response) => {
-                    console.log(response.data.preference_id);
                     setPreferenceId(response.data.preference_id);
                 })
                 .catch((error) => console.log({ MPerror: error }));

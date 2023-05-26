@@ -28,12 +28,9 @@ import TicketPdf from "../../components/React-PDF/TicketPdf";
 import { BsDownload } from "react-icons/bs";
 
 const UserTickets = ({ userData, userTickets, getUserTickets }) => {
-    console.log("tickets", userTickets);
-
     useEffect(() => {
-        console.log(userData);
         userData.id && getUserTickets(userData.id);
-    }, [userData]);
+    }, [userData, getUserTickets]);
 
     // Filter events
     const [filterByDate, setFilterByDate] = useState("active_events");
