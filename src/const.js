@@ -9,7 +9,8 @@ export const FILTER_EVENTS_BY_DATE = {
 };
 
 // Views types for dashboard
-export const DASHBOARD_VIEW = {
+export const DASHBOARD_VIEWS = {
     DASHBOARD: "DASHBOARD",
     EVENT_DETAIL: "EVENT_DETAIL",
+    EVENT_NOT_FOUND: "EVENT_NOT_FOUND",
 };
