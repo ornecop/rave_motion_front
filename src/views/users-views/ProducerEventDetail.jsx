@@ -9,9 +9,16 @@ import React from "react";
 */
 
 const ProducerEventDetail = () => {
-    return  (
-        <div> detail user! aqui sera el detalle del evento del producer, tikects y graficos</div>
-    )
+    return (
+        <section className="flex flex-col w-5/6 px-8 py-4 ">
+            {/* NavBar */}
+            <nav className="grid grid-cols-3 w-full h-16 ">
+                <div className="flex justify-self-start items-center">
+                    <span className="text-4xl font-semibold">Overview</span>
+                </div>
+            </nav>
+        </section>
+    );
 };
 
 export default ProducerEventDetail;

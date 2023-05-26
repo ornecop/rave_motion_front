@@ -41,7 +41,7 @@ const UserTickets = ({ userData, userTickets, getUserTickets }) => {
     };
 
     return (
-        <div className="w-screen h-[calc(100vh_-_3rem)]">
+        <div className="w-screen min-h-[calc(100vh_-_3rem)]">
             <div className="h-16 w-screen block"></div>
             <section className="flex flex-col px-8 py-4 ">
                 {/* NavBar */}
