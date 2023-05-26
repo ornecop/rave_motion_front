@@ -11,7 +11,7 @@ export const filteredEvents = ({ startDate, endDate, producer }) => {
         try {
             let filteredEvents;
 
-            if (producer === null && startDate && endDate === null) {
+            if (producer === null && startDate && !endDate.length) {
                 const response = await axios.get(
                     `${BACKEND_URL}/events/filter?startDate=${startDate}`
                 );
@@ -21,7 +21,7 @@ export const filteredEvents = ({ startDate, endDate, producer }) => {
                     `${BACKEND_URL}/events/filter?producer=${producer}&startDate=${startDate}&endDate=${endDate}`
                 );
                 filteredEvents = response.data;
-            } else if (startDate && endDate === null && producer) {
+            } else if (startDate && !endDate.length && producer) {
                 const response = await axios.get(
                     `${BACKEND_URL}/events/filter?producer=${producer}&startDate=${startDate}`
                 );
