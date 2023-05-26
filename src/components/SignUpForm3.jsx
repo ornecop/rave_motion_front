@@ -68,7 +68,7 @@ const SignUpForm3 = ({
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         const user = {
             ...userData,
-            mail: userData.mail,
+            email: userData.email,
             birthDay: values.birthDay,
             address: {
                 street: values.street,

@@ -87,7 +87,7 @@ const Home = () => {
     // Filtros
     const [filterEvents, setFilterEvents] = useState({
         startDate: getCurrentDate(),
-        endDate: null,
+        endDate: "",
         producer:null,
     });
 
@@ -104,7 +104,7 @@ const Home = () => {
     function resetFilters() {
         setFilterEvents({
           startDate: getCurrentDate(),
-          endDate: null,
+          endDate: "",
           producer: null,
         });
         
