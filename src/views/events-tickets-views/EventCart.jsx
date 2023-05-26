@@ -16,7 +16,7 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // Mercado Pago
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
-initMercadoPago("TEST-2c22f2ae-6e1a-4d97-8e31-35aaa4167837");
+initMercadoPago("APP_USR-b57d9ae5-1007-4156-a282-4763ddd6afd1");
 
 // Hooks
 import { useParams } from "react-router-dom";
@@ -37,9 +37,9 @@ import { SECONDS_TO_PAY } from "../../const";
 
 const EventCart = () => {
     // Global state
+    const userData = useSelector((state) => state.userData);
     const selectedTickets = useSelector((state) => state.selectedTickets);
     const dispatch = useDispatch();
-
     // Get event
     const { eventId } = useParams();
     const event = useSelector((state) => state.eventDetail);
@@ -50,7 +50,7 @@ const EventCart = () => {
         return () => {
             dispatch(removeEventDetail());
         };
-    }, []);
+    }, [eventId]);
 
     const [ticketsToPay, setTicketsToPay] = useState([]);
 
@@ -80,7 +80,7 @@ const EventCart = () => {
         }
         setTimeout(() => {
             setServiceFee(totalTickets * 0.15);
-            setTotalToPay(totalTickets + serviceFee);
+            setTotalToPay(totalTickets + totalTickets * 0.15);
         }, 1000);
     }, [ticketsToPay]);
 
@@ -92,12 +92,35 @@ const EventCart = () => {
     };
 
     //* Mercado Pago
+
     const [preferenceId, setPreferenceId] = useState(null);
     useEffect(() => {
-        let MPbody = { name: event.name, price: totalToPay };
+        const bodyMPTemplateCreator = (selectedTickets, eventId, userData) => {
+            let bodyMP = [];
+
+            for (const key in selectedTickets) {
+                for (let i = 1; i <= selectedTickets[key].quantity; i++) {
+                    bodyMP.push({
+                        eventId: eventId,
+                        ticketId: key,
+                        userId: userData.id,
+                        email: userData.email,
+                    });
+                }
+            }
+
+            return bodyMP;
+        };
+        let MPbody = {
+            name: event.name,
+            price: totalToPay,
+            tickets: bodyMPTemplateCreator(selectedTickets, eventId, userData),
+        };
+        console.log("MP", MPbody);
         if (totalToPay > 0) {
+            console.log(MPbody);
             axios
-                .post("http://localhost:3001/payments", MPbody)
+                .post(`${BACKEND_URL}/payments`, MPbody)
                 .then((response) => {
                     console.log(response.data.preference_id);
                     setPreferenceId(response.data.preference_id);
@@ -221,11 +244,18 @@ const EventCart = () => {
                     />
                 </div>
                 <div className="floatBox md:w-2/3 h-fit mx-auto overflow-hidden font-sans bg-secondary">
-                    {preferenceId && (
+                    {preferenceId ? (
                         <Wallet
                             className="px-6"
-                            initialization={{ preferenceId: preferenceId }}
+                            initialization={{
+                                preferenceId: preferenceId,
+                                redirectMode: "blank",
+                            }}
                         />
+                    ) : (
+                        <div className="flex w-full h-full items-center justify-center my-6">
+                            <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-fuchsia-600"></div>
+                        </div>
                     )}
                 </div>
             </div>

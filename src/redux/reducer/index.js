@@ -28,7 +28,10 @@ import {
     USERS_REMOVE_SIGN_ERROR,
     USERS_SIGN_UP_STEP_SET,
     USER_SIGN_OUT,
-    USER_CHANGE_PASSWORD,
+    USER_GET_USER_EVENTS_BY_USER_ID,
+    USER_SET_USER_EVENTS,
+    USER_REMOVE_USER_EVENTS,
+    USER_SEARCH_USER_EVENTS,
 } from "../actions/usersActions";
 import { FILL_CART } from "../actions/usersTicketsActions";
 
@@ -37,7 +40,7 @@ import initialState from "./initialState";
 
 // Root reducer
 const rootReducer = (state = initialState, action) => {
-   switch (action.type) {
+    switch (action.type) {
         case EVENTS_GET_ALL:
             return {
                 ...state,
@@ -127,7 +130,41 @@ const rootReducer = (state = initialState, action) => {
             return { ...state, signUpStep: action.payload };
 
         case USER_SIGN_OUT:
-            return { ...state, isLogin: false, userData: {} };
+            return {
+                ...state,
+                isLogin: false,
+                userData: {},
+                allUserEvents: [],
+                userEvents: [],
+                selectedTickets: [],
+            };
+
+        case USER_GET_USER_EVENTS_BY_USER_ID:
+            return {
+                ...state,
+                allUserEvents: action.payload,
+                userEvents: action.payload.sort(
+                    (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+                ),
+            };
+        case USER_SET_USER_EVENTS:
+            return {
+                ...state,
+                userEvents: state.allUserEvents.sort(
+                    (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+                ),
+            };
+        case USER_REMOVE_USER_EVENTS:
+            return { ...state, userEvents: [] };
+        case USER_SEARCH_USER_EVENTS:
+            return {
+                ...state,
+                userEvents: state.allUserEvents.filter((event) =>
+                    event.name
+                        .toLowerCase()
+                        .includes(action.payload.toLowerCase())
+                ),
+            };
 
         // Fill Cart
         case FILL_CART:

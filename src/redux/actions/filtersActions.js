@@ -6,22 +6,22 @@ import { GLOBAL_ERROR_SET } from "./appActions";
 
 // ============= Filter Actions Types
 export const EVENTS_FILTER = "EVENTS_FILTER";
-
 export const filteredEvents = ({ startDate, endDate, producer }) => {
     return async (dispatch) => {
         try {
             let filteredEvents;
 
-            if (producer === null && startDate && endDate === null) {
+            if (producer === null && startDate && !endDate.length) {
                 const response = await axios.get(
                     `${BACKEND_URL}/events/filter?startDate=${startDate}`
                 );
+                filteredEvents = response.data;
             } else if (startDate && endDate && producer) {
                 const response = await axios.get(
                     `${BACKEND_URL}/events/filter?producer=${producer}&startDate=${startDate}&endDate=${endDate}`
                 );
                 filteredEvents = response.data;
-            } else if (startDate && endDate === null && producer) {
+            } else if (startDate && !endDate.length && producer) {
                 const response = await axios.get(
                     `${BACKEND_URL}/events/filter?producer=${producer}&startDate=${startDate}`
                 );

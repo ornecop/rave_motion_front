@@ -12,13 +12,19 @@ export const USERS_REMOVE_SIGN_ERROR = "USERS_REMOVE_SIGN_ERROR";
 export const USERS_SIGN_UP_STEP_SET = "USERS_SIGN_UP_STEP_SET";
 export const USER_CHANGE_PASSWORD = "USER_CHANGE_PASSWORD";
 
+// ============= User events Actions Types
+export const USER_GET_USER_EVENTS_BY_USER_ID = "USER_GET_EVENTS_BY_USER_ID";
+export const USER_SET_USER_EVENTS = "USER_SET_USER_EVENTS";
+export const USER_REMOVE_USER_EVENTS = "USER_REMOVE_USER_EVENTS";
+export const USER_SEARCH_USER_EVENTS = "USER_SEARCH_USER_EVENTS";
+
 // ============= Actions Creators
 
-export const signIn = ({ mail, password }) => {
+export const signIn = ({ email, password }) => {
     return async (dispatch) => {
         try {
             const response = await axios.post(`${BACKEND_URL}/users/signin`, {
-                mail: mail,
+                email: email,
                 password: password,
             });
             const { user, jwt } = response.data;
@@ -107,5 +113,44 @@ export const signOut = () => {
     localStorage.removeItem("token");
     return {
         type: USER_SIGN_OUT,
+    };
+};
+
+export const getUserEventsByUserId = (userId) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.get(
+                `${BACKEND_URL}/events/eventbyuserid/${userId}`
+            );
+            const userEvents = response.data;
+            dispatch({
+                type: USER_GET_USER_EVENTS_BY_USER_ID,
+                payload: userEvents,
+            });
+        } catch (error) {
+            dispatch({
+                type: GLOBAL_ERROR_SET,
+                payload: error.response.data.error,
+            });
+        }
+    };
+};
+
+export const setUserEvents = () => {
+    return {
+        type: USER_SET_USER_EVENTS,
+    };
+};
+
+export const removeUserEvents = () => {
+    return {
+        type: USER_REMOVE_USER_EVENTS,
+    };
+};
+
+export const searchUserEvents = (name) => {
+    return {
+        type: USER_SEARCH_USER_EVENTS,
+        payload: name,
     };
 };
