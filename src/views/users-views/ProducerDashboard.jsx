@@ -283,7 +283,7 @@ const ProducerDashboard = (props) => {
                                         scope="col"
                                         className="px-2 py-3 text-center"
                                     >
-                                        Tickets disponibles
+                                        Tickets vendidos
                                     </th>
                                     <th
                                         scope="col"
