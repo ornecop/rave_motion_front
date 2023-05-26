@@ -7,3 +7,9 @@ export const FILTER_EVENTS_BY_DATE = {
     PASS: "pass_events",
     ALL: "all_eventos",
 };
+
+// Views types for dashboard
+export const DASHBOARD_VIEW = {
+    DASHBOARD: "DASHBOARD",
+    EVENT_DETAIL: "EVENT_DETAIL",
+};

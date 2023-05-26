@@ -50,7 +50,7 @@ import ProducerKeys from "../../components/ProducerKeys";
 import ProducerEventDetail from "./ProducerEventDetail";
 
 // Const
-import { FILTER_EVENTS_BY_DATE } from "../../const";
+import { FILTER_EVENTS_BY_DATE, DASHBOARD_VIEW } from "../../const";
 const { ACTIVES, PASS, ALL } = FILTER_EVENTS_BY_DATE;
 
 const ProducerDashboard = (props) => {
@@ -59,9 +59,11 @@ const ProducerDashboard = (props) => {
     const { getUserEventsByUserId, searchUserEvents, filterEventsByCurrent } =
         props;
 
-    const [view, setView] = useState("dashboard");
+    const [view, setView] = useState(DASHBOARD_VIEW.DASHBOARD);
     const location = useLocation().pathname;
-    useEffect(() => {}, [location]);
+    useEffect(() => {
+        if (location === "/dashboard") setView(DASHBOARD_VIEW.DASHBOARD);
+    }, [location]);
 
     // Events by UserId
     useEffect(() => {
@@ -130,7 +132,7 @@ const ProducerDashboard = (props) => {
 
                 {/* Section Producer */}
                 <div className="dropDownItem mt-8">
-                    <Link className="navLinkDropdown" to="/">
+                    <Link className="navLinkDropdown">
                         <div className="flex flex-row items-center gap-2">
                             <MdInsertChartOutlined size="1.5rem" />
                             Ventas
@@ -177,7 +179,7 @@ const ProducerDashboard = (props) => {
             </aside>
 
             {/* Content */}
-            {view === "dashboard" ? (
+            {view === DASHBOARD_VIEW.DASHBOARD ? (
                 <section className="flex flex-col w-5/6 px-8 py-4 ">
                     {/* NavBar */}
                     <nav className="grid grid-cols-3 w-full h-16 ">
