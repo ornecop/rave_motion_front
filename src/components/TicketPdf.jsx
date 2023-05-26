@@ -9,9 +9,9 @@ import {
 } from "@react-pdf/renderer";
 
 // Fonts
-import MontserratRegular from "../../assets/fonts/Montserrat-Regular.ttf";
-import MontserratBold from "../../assets/fonts/Montserrat-Bold.ttf";
-import MontserratSemiBold from "../../assets/fonts/Montserrat-SemiBold.ttf";
+import MontserratRegular from "../assets/fonts/Montserrat-Regular.ttf";
+import MontserratBold from "../assets/fonts/Montserrat-Bold.ttf";
+import MontserratSemiBold from "../assets/fonts/Montserrat-SemiBold.ttf";
 
 Font.register({
     family: "Montserrat",

@@ -18,11 +18,11 @@ import { getUserTickets } from "../../redux/actions/usersTicketsActions";
 import { useEffect, useState } from "react";
 
 // PDF
-import { PDFDownloadLink, Document, Page } from "@react-pdf/renderer";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 // Components
 import EventDate from "../../components/EventDate";
-import TicketPdf from "../../components/React-PDF/TicketPdf";
+import TicketPdf from "../../components/TicketPdf";
 
 // Assets
 import { BsDownload } from "react-icons/bs";
