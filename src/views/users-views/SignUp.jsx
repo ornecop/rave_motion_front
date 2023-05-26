@@ -3,7 +3,7 @@
 
     styles:
     A un lado el form (form por pasos) y al otro una imagen o mockup del home
-    1er form (mail, password, passwordConfirm || registrarse con Google) 
+    1er form (email, password, passwordConfirm || registrarse con Google) 
     2do form (firstName, lastName, documentType, document)
     3er form (birthDay, address)
 
@@ -38,7 +38,7 @@ import SignUpForm3 from "../../components/SignUpForm3";
 const SignUp = ({ signUpStep, setSignUpStep }) => {
     // User data
     const [userData, setUserData] = useState({
-        mail: "",
+        email: "",
         password: "",
         firstName: "",
         lastName: "",
@@ -47,8 +47,8 @@ const SignUp = ({ signUpStep, setSignUpStep }) => {
     });
 
     // Step 1 =====================================
-    const setFormData1 = ({ mail, password }) => {
-        setUserData({ ...userData, mail: mail, password: password });
+    const setFormData1 = ({ email, password }) => {
+        setUserData({ ...userData, email: email, password: password });
         setSignUpStep(2);
     };
 
