@@ -56,7 +56,8 @@ const { ACTIVES, PASS, ALL } = FILTER_EVENTS_BY_DATE;
 const ProducerDashboard = (props) => {
     // Props
     const { isLogin, userData, signOut, userEvents } = props;
-    const { getUserEventsByUserId, searchUserEvents,filterEventsByCurrent } = props;
+    const { getUserEventsByUserId, searchUserEvents, filterEventsByCurrent } =
+        props;
 
     const [view, setView] = useState("dashboard");
     const location = useLocation().pathname;
@@ -83,7 +84,7 @@ const ProducerDashboard = (props) => {
     const handleFilter = (event) => {
         setFilterByDate(event.target.value);
         console.log(event.target.value);
-        filterEventsByCurrent(event.target.value)
+        filterEventsByCurrent(event.target.value);
     };
 
     // SignOut
@@ -202,7 +203,7 @@ const ProducerDashboard = (props) => {
                     </nav>
 
                     {/* Indicadores */}
-                    <ProducerKeys />
+                    <ProducerKeys userId={userData.id} />
 
                     {/* Eventos */}
                     {/* Navbar eventos */}
@@ -361,7 +362,8 @@ const mapDispatchToProps = (dispatch) => {
         getUserEventsByUserId: (userId) =>
             dispatch(getUserEventsByUserId(userId)),
         searchUserEvents: (name) => dispatch(searchUserEvents(name)),
-        filterEventsByCurrent:(filter)=>dispatch(filterEventsByCurrent(filter))
+        filterEventsByCurrent: (filter) =>
+            dispatch(filterEventsByCurrent(filter)),
     };
 };
 
