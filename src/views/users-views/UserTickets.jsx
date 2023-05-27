@@ -42,7 +42,6 @@ const UserTickets = (props) => {
     // Get User Tickets by UserId
     useEffect(() => {
         userData.id && getUserTickets(userData.id);
-        filterUserTicketsByCurrent(filterByDate);
     }, [userData, getUserTickets]);
 
     // Filter events
