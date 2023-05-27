@@ -1,7 +1,6 @@
 /* =======================================================
 VIEW EventDetail - "/event/:eventName" - Vista a la que redirección al tocar un evento
 */
-import React from "react";
 
 // Hooks
 import { useEffect, useState } from "react";
@@ -23,58 +22,9 @@ import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { Link as ScrollLink } from "react-scroll";
 import { fillCart } from "../../redux/actions/usersTicketsActions";
 
-// React router dom
-
-// Comp buy
-
-const SelectTickets = ({ ticket, handleTicketSelect, selectedTickets }) => {
-    const availableQ = ticket.maxQuantity - ticket.sells;
-
-    if (availableQ && availableQ > 4) {
-        return (
-            <form>
-                <select
-                    className="inputSelect w-fit text-normal"
-                    onChange={handleTicketSelect}
-                    id={ticket.id}
-                    value={selectedTickets[ticket.id]?.quantity || 0}
-                >
-                    <>
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                    </>
-                </select>
-            </form>
-        );
-    } else if (availableQ && availableQ < 4) {
-        let arr = [];
-        for (let i = 1; i <= availableQ; i++) {
-            arr.push(i);
-        }
-        return (
-            <form>
-                <select
-                    className="inputSelect w-fit text-normal"
-                    onChange={handleTicketSelect}
-                    id={ticket.id}
-                    value={selectedTickets[ticket.id]?.quantity || 0}
-                >
-                    <option value="0">0</option>
-                    {arr.map((index) => (
-                        <option key={index} value={index}>
-                            {index}
-                        </option>
-                    ))}
-                </select>
-            </form>
-        );
-    } else {
-        return <span className="font-semibold text-red-400">SOLD OUT</span>;
-    }
-};
+// Components
+import Loading from "../../components/Loading";
+import { SelectTickets } from "../../components/SelectTickets";
 
 const EventDetail = () => {
     const { id } = useParams();
@@ -245,9 +195,7 @@ const EventDetail = () => {
                                 </div>
                             </div>
                         ) : (
-                            <div className="flex w-full h-full items-center justify-center">
-                                <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-fuchsia-600"></div>
-                            </div>
+                            <Loading />
                         )}
                     </div>
 
