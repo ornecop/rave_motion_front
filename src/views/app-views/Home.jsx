@@ -115,7 +115,7 @@ const Home = () => {
     }
 
     // Filtro por productora
-    const [filterByProducer, setFilterByProducer] = useState("Todas");
+    const [filterByProducer, setFilterByProducer] = useState("All");
 
     const handleFilterByProducer = (event) => {
         setFilterByProducer(event.target.value);
@@ -224,7 +224,7 @@ const Home = () => {
                         <option value="All">Todas las productoras</option>
                         {setProducer(Events).map((c) => {
                             return (
-                                <option id={c} value={c}>
+                                <option id={c} value={c} key={c}>
                                     {c}
                                 </option>
                             );
