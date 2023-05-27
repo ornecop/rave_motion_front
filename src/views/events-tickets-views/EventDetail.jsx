@@ -24,7 +24,7 @@ import { fillCart } from "../../redux/actions/usersTicketsActions";
 
 // Components
 import Loading from "../../components/Loading";
-import { SelectTickets } from "../../components/SelectTickets";
+import SelectTickets from "../../components/SelectTickets";
 
 const EventDetail = () => {
     const { id } = useParams();

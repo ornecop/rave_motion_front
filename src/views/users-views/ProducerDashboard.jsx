@@ -123,6 +123,8 @@ const ProducerDashboard = (props) => {
         filterEventsByCurrent(event.target.value);
     };
 
+    // Delete event
+
     // SignOut
     const navigate = useNavigate();
     const handleSignOutClick = () => {
