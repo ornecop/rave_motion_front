@@ -31,6 +31,7 @@ import {
 
 // Components
 import Timer from "../../components/Timer";
+import Loading from "../../components/Loading";
 
 // Consts
 import { SECONDS_TO_PAY } from "../../const";
@@ -226,9 +227,7 @@ const EventCart = () => {
                             </div>
                         </>
                     ) : (
-                        <div className="flex w-full h-full items-center justify-center my-6">
-                            <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-fuchsia-600"></div>
-                        </div>
+                        <Loading />
                     )}
                 </div>
                 <div className="floatBox md:w-2/3 h-fit mx-auto overflow-hidden font-sans bg-secondary">
@@ -247,9 +246,7 @@ const EventCart = () => {
                             }}
                         />
                     ) : (
-                        <div className="flex w-full h-full items-center justify-center my-6">
-                            <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-fuchsia-600"></div>
-                        </div>
+                        <Loading />
                     )}
                 </div>
             </div>
