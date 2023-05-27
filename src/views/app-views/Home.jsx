@@ -9,11 +9,8 @@ info de la pagina con link a about
 preguntas frecuentes
 */
 
-// Assets
-const images = [
-    "https://wallpapercave.com/wp/wp1889483.jpg",
-    "https://wallpapercave.com/wp/wp1889488.jpg",
-];
+// Images
+import { images } from "../../const";
 
 // Components
 import EventContainer from "../../components/EventContainer";
