@@ -17,12 +17,14 @@ const images = [
 
 // Components
 import EventContainer from "../../components/EventContainer";
+import Paginado from "../../components/Paginado";
+import Loading from "../../components/Loading";
 
 // Hooks
 import { useState, useEffect } from "react";
 
 //Reset
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSync } from "@fortawesome/free-solid-svg-icons";
 
 // React Redux
@@ -34,9 +36,6 @@ import getCurrentDate from "../../functions/getCurrentDate";
 
 // Functions
 import setProducer from "../../functions/setProducer";
-
-// Paginado
-import Paginado from "../../components/Paginado";
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -59,9 +58,9 @@ const Home = () => {
 
     //orders
     const [ordersinput, setordersInput] = useState({
-        orderDate:'',
-        orderAlpha:''
-    })
+        orderDate: "",
+        orderAlpha: "",
+    });
 
     const paginado = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -88,7 +87,7 @@ const Home = () => {
     const [filterEvents, setFilterEvents] = useState({
         startDate: getCurrentDate(),
         endDate: "",
-        producer:null,
+        producer: null,
     });
 
     const handleFilterEventsChange = (event) => {
@@ -103,22 +102,20 @@ const Home = () => {
     //resetFiltros
     function resetFilters() {
         setFilterEvents({
-          startDate: getCurrentDate(),
-          endDate: "",
-          producer: null,
+            startDate: getCurrentDate(),
+            endDate: "",
+            producer: null,
         });
-        
+
         setFilterByProducer("Todas");
-        setordersInput(
-            {orderDate:'',
-             orderAlpha:''})
+        setordersInput({ orderDate: "", orderAlpha: "" });
         setCurrentPage(1);
-      }
-      
-      function handleResetFilters() {
+    }
+
+    function handleResetFilters() {
         resetFilters();
         dispatch(getAllEvents());
-      }
+    }
 
     // Filtro por productora
     const [filterByProducer, setFilterByProducer] = useState("Todas");
@@ -146,13 +143,13 @@ const Home = () => {
 
     //ORDENAMIENTOS
     const handleSortAbc = (event) => {
-        setordersInput({...ordersinput, orderAlpha: event.target.value})
+        setordersInput({ ...ordersinput, orderAlpha: event.target.value });
         dispatch(alphabeticOrder(event.target.value));
         setCurrentPage(1);
     };
 
     const handleSortDate = (event) => {
-        setordersInput({...ordersinput,orderDate:event.target.value})
+        setordersInput({ ...ordersinput, orderDate: event.target.value });
         dispatch(dateOrder(event.target.value));
         setCurrentPage(1);
     };
@@ -263,9 +260,9 @@ const Home = () => {
                         <option value="First">Próximos</option>
                         <option value="Last">Ultimos</option>
                     </select>
-                    <div className=" flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 btnPrimary rounded-full border border-secondaryBorder mr-4" >
+                    <div className=" flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 btnPrimary rounded-full border border-secondaryBorder mr-4">
                         <button className="" onClick={handleResetFilters}>
-                            <FontAwesomeIcon icon={faSync} /> 
+                            <FontAwesomeIcon icon={faSync} />
                         </button>
                     </div>
                 </div>
@@ -279,9 +276,7 @@ const Home = () => {
 
             <div className="min-h-[50vh] flex items-center justify-center">
                 {isLoading ? (
-                    <div className="flex flex-col w-full h-full items-center justify-center">
-                        <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-fuchsia-600"></div>
-                    </div>
+                    <Loading />
                 ) : currentEvents.length === 0 ? (
                     <div className="flex flex-col w-full h-full items-center justify-center">
                         <h2 className="font-bold text-center text-5xl">
