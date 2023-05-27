@@ -18,16 +18,17 @@ import { getUserTickets } from "../../redux/actions/usersTicketsActions";
 import { useEffect, useState } from "react";
 
 // PDF
-import { PDFDownloadLink, Document, Page } from "@react-pdf/renderer";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 // Components
 import EventDate from "../../components/EventDate";
-import TicketPdf from "../../components/React-PDF/TicketPdf";
+import TicketPdf from "../../components/TicketPdf";
 
 // Assets
 import { BsDownload } from "react-icons/bs";
 
 const UserTickets = ({ userData, userTickets, getUserTickets }) => {
+    // Get User Tickets
     useEffect(() => {
         userData.id && getUserTickets(userData.id);
     }, [userData, getUserTickets]);
@@ -40,7 +41,7 @@ const UserTickets = ({ userData, userTickets, getUserTickets }) => {
     };
 
     return (
-        <div className="w-screen h-[calc(100vh_-_3rem)]">
+        <div className="w-screen min-h-[calc(100vh_-_3rem)]">
             <div className="h-16 w-screen block"></div>
             <section className="flex flex-col px-8 py-4 ">
                 {/* NavBar */}
