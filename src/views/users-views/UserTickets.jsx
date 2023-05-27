@@ -43,7 +43,7 @@ const UserTickets = ({ userData, userTickets, getUserTickets }) => {
     return (
         <div className="w-screen min-h-[calc(100vh_-_3rem)]">
             <div className="h-16 w-screen block"></div>
-            <section className="flex flex-col px-8 py-4 ">
+            <section className="flex flex-col px-8 py-4 mt-4">
                 {/* NavBar */}
                 <nav className="grid grid-cols-2 w-full h-16 ">
                     <div className="flex justify-self-start items-center">
