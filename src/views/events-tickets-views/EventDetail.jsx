@@ -7,11 +7,12 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 // Redux
-import { useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import {
     getEventById,
     removeEventDetail,
 } from "../../redux/actions/eventsActions";
+import { fillCart } from "../../redux/actions/usersTicketsActions";
 
 // Assets
 import { AiOutlineCalendar } from "react-icons/ai";
@@ -20,42 +21,41 @@ import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 // Scroll
 import { Link as ScrollLink } from "react-scroll";
-import { fillCart } from "../../redux/actions/usersTicketsActions";
 
 // Components
 import Loading from "../../components/Loading";
 import SelectTickets from "../../components/SelectTickets";
 
-const EventDetail = () => {
+const EventDetail = (props) => {
+    const { eventDetail, getEventById, fillCart, removeEventDetail, userData } =
+        props;
     const { id } = useParams();
-    const dispatch = useDispatch();
-    const event = useSelector((state) => state.eventDetail);
 
     const navigate = useNavigate();
     useEffect(() => {
-        dispatch(getEventById(id));
+        getEventById(id);
 
         // PENDIENTE SI NO ENCUENTRA EVENTO
         //setTimeout(() => !event.name && navigate("/notfound"), 2000);
 
         return () => {
-            dispatch(removeEventDetail());
+            removeEventDetail();
         };
-    }, []);
+    }, [getEventById, id, removeEventDetail]);
 
     // Formateo de fecha y hour
-    const date = new Date(event.date);
+    const date = new Date(eventDetail.date);
     const day = date.getDate().toString().padStart(2, "0");
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const year = date.getFullYear().toString();
 
     const formatDate = `${day}-${month}-${year}`;
 
-    const formatHour = event.hour ? event.hour.slice(0, 5) : "-";
+    const formatHour = eventDetail.hour ? eventDetail.hour.slice(0, 5) : "-";
 
     // Disponibilidad y valor minimo
     const availability = () => {
-        const tickets = event.Tickets;
+        const tickets = eventDetail.Tickets;
 
         const ticketsSells = tickets?.filter((t) => t.sells < t.maxQuantity);
 
@@ -66,7 +66,7 @@ const EventDetail = () => {
         }
     };
 
-    const tickets = event.Tickets;
+    const tickets = eventDetail.Tickets;
     const ticketsMinPrice = () => {
         const ticketsSells = tickets
             ?.filter((t) => t.sells < t.maxQuantity)
@@ -97,8 +97,8 @@ const EventDetail = () => {
     };
 
     const buyTickets = () => {
-        dispatch(fillCart(selectedTickets));
-        navigate(`/cart/${event.id}`);
+        fillCart(selectedTickets);
+        navigate(`/cart/${eventDetail.id}`);
     };
 
     // Calculo de totales
@@ -129,12 +129,12 @@ const EventDetail = () => {
                 <div className="my-auto min-h-[calc(100vh_-_4rem)] flex flex-col justify-center ">
                     {/* Detalle */}
                     <div className="floatBox md:w-2/3 h-fit mx-auto overflow-hidden font-sans bg-secondary">
-                        {event.name ? (
+                        {eventDetail.name ? (
                             <div className="h-full w-full flex flex-col">
                                 {/* Name */}
                                 <div className="flex flex-row w-full items-center justify-center pb-4 border-b border-secondaryBorder">
                                     <h2 className="text-4xl align-center font-semibold">
-                                        {event.name}
+                                        {eventDetail.name}
                                     </h2>
                                 </div>
 
@@ -145,7 +145,7 @@ const EventDetail = () => {
                                         <div
                                             className="h-full w-full rounded-xl bg-cover bg-bottom bg-no-repeat"
                                             style={{
-                                                backgroundImage: `url(${event.image})`,
+                                                backgroundImage: `url(${eventDetail.image})`,
                                             }}
                                             loading="lazy"
                                         ></div>
@@ -162,9 +162,9 @@ const EventDetail = () => {
                                             <ImLocation2 size="1.3rem" />
                                             <span>
                                                 <span className="font-semibold">
-                                                    {event.producer}
+                                                    {eventDetail.producer}
                                                 </span>{" "}
-                                                - {event.venue}
+                                                - {eventDetail.venue}
                                             </span>
                                         </div>
                                         <div className="flex flex-col items-center justify-start py-4 gap-2  border-b border-secondaryBorder">
@@ -172,7 +172,7 @@ const EventDetail = () => {
                                                 DESCRIPCIÓN
                                             </span>
                                             <span className="w-full ">
-                                                {event.description}
+                                                {eventDetail.description}
                                             </span>
                                         </div>
                                         <div className="flex flex-row items-center justify-start py-4 gap-2  border-b border-secondaryBorder">
@@ -261,12 +261,17 @@ const EventDetail = () => {
                                                 >
                                                     Precio
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    className="px-2 py-3 text-center"
-                                                >
-                                                    Cantidad
-                                                </th>
+                                                {userData.id ===
+                                                eventDetail.userId ? (
+                                                    <></>
+                                                ) : (
+                                                    <th
+                                                        scope="col"
+                                                        className="px-2 py-3 text-center"
+                                                    >
+                                                        Cantidad
+                                                    </th>
+                                                )}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -288,17 +293,22 @@ const EventDetail = () => {
                                                             "es"
                                                         )}
                                                     </td>
-                                                    <td className="px-2 py-4 text-center">
-                                                        <SelectTickets
-                                                            ticket={ticket}
-                                                            handleTicketSelect={
-                                                                handleTicketSelect
-                                                            }
-                                                            selectedTickets={
-                                                                selectedTickets
-                                                            }
-                                                        />
-                                                    </td>
+                                                    {userData.id ===
+                                                    eventDetail.userId ? (
+                                                        <></>
+                                                    ) : (
+                                                        <td className="px-2 py-4 text-center">
+                                                            <SelectTickets
+                                                                ticket={ticket}
+                                                                handleTicketSelect={
+                                                                    handleTicketSelect
+                                                                }
+                                                                selectedTickets={
+                                                                    selectedTickets
+                                                                }
+                                                            />
+                                                        </td>
+                                                    )}
                                                 </tr>
                                             ))}
                                             <tr
@@ -338,4 +348,19 @@ const EventDetail = () => {
     );
 };
 
-export default EventDetail;
+const mapStateToProps = (state) => {
+    return {
+        userData: state.userData,
+        eventDetail: state.eventDetail,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getEventById: (eventId) => dispatch(getEventById(eventId)),
+        removeEventDetail: () => dispatch(removeEventDetail()),
+        fillCart: (tickets) => dispatch(fillCart(tickets)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventDetail);
