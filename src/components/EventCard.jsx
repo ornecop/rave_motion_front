@@ -5,17 +5,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { ImLocation2 } from "react-icons/im";
 import { AiOutlineCalendar } from "react-icons/ai";
 
+// Components
+import EventDate from "./EventDate";
+
 export const EventCard = ({ id, name, image, date, venue, hour }) => {
-    // Format date
-    const dateNew = new Date(date);
-    const day = dateNew.getDate().toString().padStart(2, "0");
-    const month = (dateNew.getMonth() + 1).toString().padStart(2, "0");
-    const year = dateNew.getFullYear().toString();
-
-    const formatDate = `${day}-${month}-${year}`;
-
-    const formatHour = hour ? hour.slice(0, 5) : "-";
-
     // Buy click
     const navigate = useNavigate();
     const handleBuyClick = () => {
@@ -45,7 +38,7 @@ export const EventCard = ({ id, name, image, date, venue, hour }) => {
                 <div className="flex flex-row items-center justify-start py-2 gap-2 border-b border-secondaryBorder">
                     <AiOutlineCalendar size="1.3rem" />
                     <span className="">
-                        {formatDate} - {formatHour}
+                        <EventDate date={date} hour={hour} />
                     </span>
                 </div>
                 <div className="flex flex-row items-center justify-start py-2 gap-2 border-b border-secondaryBorder">
