@@ -45,6 +45,8 @@ import {
 // Initial State
 import initialState from "./initialState";
 
+const currentDate = new Date();
+
 // Root reducer
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -150,9 +152,13 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 allUserEvents: action.payload,
-                userEvents: action.payload.sort(
-                    (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-                ),
+                userEvents: action.payload
+                    .sort(
+                        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+                    )
+                    .filter((event) => {
+                        return event.current === true;
+                    }),
             };
         case USER_SET_USER_EVENTS:
             return {
@@ -203,12 +209,15 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 allUserTickets: action.payload,
-                userTickets: action.payload,
+                userTickets: action.payload.filter((ticket) => {
+                    const eventDate = new Date(ticket.Event.date);
+                    return eventDate >= currentDate;
+                }),
             };
 
         case USER_TICKETS_FILTER_BY_CURRENT:
             let filteredUserTickets = state.allUserTickets;
-            const currentDate = new Date();
+
             switch (action.payload) {
                 case ACTIVES:
                     filteredUserTickets = filteredUserTickets.filter(
