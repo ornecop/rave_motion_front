@@ -12,7 +12,10 @@
 */
 // Redux
 import { connect } from "react-redux";
-import { getUserTickets } from "../../redux/actions/usersTicketsActions";
+import {
+    getUserTickets,
+    filterUserTicketsByCurrent,
+} from "../../redux/actions/usersTicketsActions";
 
 // Hooks
 import { useEffect, useState } from "react";
@@ -27,23 +30,33 @@ import TicketPdf from "../../components/TicketPdf";
 // Assets
 import { BsDownload } from "react-icons/bs";
 
-const UserTickets = ({ userData, userTickets, getUserTickets }) => {
-    // Get User Tickets
+// Const
+import { FILTER_EVENTS_BY_DATE } from "../../const";
+const { ACTIVES, PASS, ALL } = FILTER_EVENTS_BY_DATE;
+
+const UserTickets = (props) => {
+    // Props
+    const { userData, userTickets } = props;
+    const { getUserTickets, filterUserTicketsByCurrent } = props;
+
+    // Get User Tickets by UserId
     useEffect(() => {
         userData.id && getUserTickets(userData.id);
+        filterUserTicketsByCurrent(filterByDate);
     }, [userData, getUserTickets]);
 
     // Filter events
-    const [filterByDate, setFilterByDate] = useState("active_events");
+    const [filterByDate, setFilterByDate] = useState(ACTIVES);
 
     const handleFilter = (event) => {
         setFilterByDate(event.target.value);
+        filterUserTicketsByCurrent(event.target.value);
     };
 
     return (
         <div className="w-screen min-h-[calc(100vh_-_3rem)]">
             <div className="h-16 w-screen block"></div>
-            <section className="flex flex-col px-8 py-4 ">
+            <section className="flex flex-col px-8 py-4 mt-4">
                 {/* NavBar */}
                 <nav className="grid grid-cols-2 w-full h-16 ">
                     <div className="flex justify-self-start items-center">
@@ -58,13 +71,9 @@ const UserTickets = ({ userData, userTickets, getUserTickets }) => {
                             onChange={handleFilter}
                             value={filterByDate}
                         >
-                            <option value="active_events" selected>
-                                Eventos activos
-                            </option>
-                            <option value="pass_events">Eventos pasados</option>
-                            <option value="all_eventos">
-                                Todos los eventos
-                            </option>
+                            <option value={ACTIVES}>Eventos activos</option>
+                            <option value={PASS}>Eventos pasados</option>
+                            <option value={ALL}>Todos los eventos</option>
                         </select>
                         <div className="bg-slate-500 rounded-full w-12 h-12 flex justify-center items-center text-2xl font-semibold">
                             <span>
@@ -178,6 +187,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getUserTickets: (userId) => dispatch(getUserTickets(userId)),
+        filterUserTicketsByCurrent: (filter) =>
+            dispatch(filterUserTicketsByCurrent(filter)),
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UserTickets);

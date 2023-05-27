@@ -14,3 +14,9 @@ export const DASHBOARD_VIEWS = {
     EVENT_DETAIL: "EVENT_DETAIL",
     EVENT_NOT_FOUND: "EVENT_NOT_FOUND",
 };
+
+// Carrousel Images
+export const images = [
+    "https://wallpapercave.com/wp/wp1889483.jpg",
+    "https://wallpapercave.com/wp/wp1889488.jpg",
+];

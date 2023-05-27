@@ -11,7 +11,7 @@ listado de events con acciones (edit, remove, detail)
 
 // Hooks
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // Redux
 import { connect } from "react-redux";
@@ -122,6 +122,8 @@ const ProducerDashboard = (props) => {
         setFilterByDate(event.target.value);
         filterEventsByCurrent(event.target.value);
     };
+
+    // Delete event
 
     // SignOut
     const navigate = useNavigate();

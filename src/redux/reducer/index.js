@@ -20,8 +20,8 @@ import {
 // Filters & Orders
 import { EVENTS_FILTER } from "../actions/filtersActions";
 import { ALPHABETIC_ORDER, DATE_ORDER } from "../actions/orderActions";
-import {FILTER_EVENTS_BY_DATE}from'../../const'
-const {ACTIVES, PASS, ALL}=FILTER_EVENTS_BY_DATE
+import { FILTER_EVENTS_BY_DATE } from "../../const";
+const { ACTIVES, PASS, ALL } = FILTER_EVENTS_BY_DATE;
 
 // User Actions Types
 import {
@@ -36,7 +36,11 @@ import {
     USER_SEARCH_USER_EVENTS,
     FILTER_BY_CURRENT,
 } from "../actions/usersActions";
-import { FILL_CART, USER_TICKETS } from "../actions/usersTicketsActions";
+import {
+    FILL_CART,
+    USER_TICKETS_GET,
+    USER_TICKETS_FILTER_BY_CURRENT,
+} from "../actions/usersTicketsActions";
 
 // Initial State
 import initialState from "./initialState";
@@ -84,7 +88,6 @@ const rootReducer = (state = initialState, action) => {
         case EVENTS_FILTER:
             return { ...state, homeEvents: action.payload, currentPage: 1 };
 
-        
         // * Order
 
         case ALPHABETIC_ORDER:
@@ -171,26 +174,65 @@ const rootReducer = (state = initialState, action) => {
             };
 
         case FILTER_BY_CURRENT:
-            switch(action.payload){
+            switch (action.payload) {
                 case ACTIVES:
-                    return{...state, userEvents:state.allUserEvents.filter((event)=>{
-                        return event.current===true;
-                    })}
+                    return {
+                        ...state,
+                        userEvents: state.allUserEvents.filter((event) => {
+                            return event.current === true;
+                        }),
+                    };
                 case PASS:
-                    return{...state, userEvents:state.allUserEvents.filter((event)=>{
-                        return event.current===false}
-                        )}
+                    return {
+                        ...state,
+                        userEvents: state.allUserEvents.filter((event) => {
+                            return event.current === false;
+                        }),
+                    };
                 case ALL:
-                    return{...state, userEvents:state.allUserEvents}
+                    return { ...state, userEvents: state.allUserEvents };
             }
+            break;
 
         // Fill Cart
         case FILL_CART:
             return { ...state, selectedTickets: action.payload };
 
         //UserTickets
-        case USER_TICKETS:
-            return {...state, userTickets:action.payload}    
+        case USER_TICKETS_GET:
+            return {
+                ...state,
+                allUserTickets: action.payload,
+                userTickets: action.payload,
+            };
+
+        case USER_TICKETS_FILTER_BY_CURRENT:
+            let filteredUserTickets = state.allUserTickets;
+            const currentDate = new Date();
+            switch (action.payload) {
+                case ACTIVES:
+                    filteredUserTickets = filteredUserTickets.filter(
+                        (ticket) => {
+                            const eventDate = new Date(ticket.Event.date);
+                            return eventDate >= currentDate;
+                        }
+                    );
+                    break;
+                case PASS:
+                    filteredUserTickets = filteredUserTickets.filter(
+                        (ticket) => {
+                            const eventDate = new Date(ticket.Event.date);
+                            return eventDate < currentDate;
+                        }
+                    );
+                    break;
+                case ALL:
+                    break;
+            }
+            return {
+                ...state,
+                userTickets: filteredUserTickets,
+            };
 
         // Global
         case GLOBAL_ERROR_SET:
