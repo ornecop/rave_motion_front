@@ -6,9 +6,9 @@ import { GLOBAL_ERROR_SET } from "./appActions";
 
 // ============= Events Actions Types
 export const EVENTS_GET_ALL = "EVENTS_GET_ALL";
+export const EVENTS_SET_HOME_EVENTS = "EVENTS_SET_HOME_EVENTS";
 
 export const EVENTS_SEARCH = "EVENTS_SEARCH";
-export const EVENTS_SEARCH_REMOVE = "EVENTS_SEARCH_REMOVE";
 
 export const EVENT_DETAIL_GET = "EVENT_DETAIL_GET";
 export const EVENT_DETAIL_REMOVE = "EVENT_DETAIL_REMOVE";
@@ -29,28 +29,15 @@ export const getAllEvents = () => {
     };
 };
 
-// Search
-export const getEventsByName = (name) => {
-    return async function (dispatch) {
-        try {
-            const response = await axios.get(
-                `${BACKEND_URL}/events/name?name=${name}`
-            );
-            const eventsByName = response.data;
-            dispatch({ type: EVENTS_SEARCH, payload: eventsByName });
-        } catch (error) {
-            dispatch({
-                type: GLOBAL_ERROR_SET,
-                payload: error.response.data.error,
-            });
-        }
+export const setAllEventsOnHomeEvents = () => {
+    return {
+        type: EVENTS_SET_HOME_EVENTS,
     };
 };
 
-export const removeEventByName = () => {
-    return {
-        type: EVENTS_SEARCH_REMOVE,
-    };
+// Search
+export const searchEvents = (name) => {
+    return { type: EVENTS_SEARCH, payload: name };
 };
 
 // Detail

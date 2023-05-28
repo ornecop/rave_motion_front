@@ -9,7 +9,7 @@ import {
 // Events Actions Types
 import {
     EVENTS_SEARCH,
-    EVENTS_SEARCH_REMOVE,
+    EVENTS_SET_HOME_EVENTS,
     EVENTS_GET_ALL,
     EVENT_DETAIL_GET,
     EVENT_DETAIL_REMOVE,
@@ -50,26 +50,30 @@ const currentDate = new Date();
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         // Events Actions =============================
-        // Get all
+        // Get all / SetAll
         case EVENTS_GET_ALL:
             return {
                 ...state,
                 allEvents: action.payload,
                 homeEvents: action.payload,
             };
+        case EVENTS_SET_HOME_EVENTS:
+            return {
+                ...state,
+                homeEvents: state.allEvents,
+            };
         // Search
         case EVENTS_SEARCH:
             return {
                 ...state,
-                searchResult: action.payload,
+                homeEvents: state.allEvents.filter((event) =>
+                    event.name
+                        .toLowerCase()
+                        .includes(action.payload.toLowerCase())
+                ),
                 currentPage: 1,
             };
-        case EVENTS_SEARCH_REMOVE:
-            return {
-                ...state,
-                searchResult: [],
-                currentPage: 1,
-            };
+
         // Detail
         case EVENT_DETAIL_GET:
             return {
