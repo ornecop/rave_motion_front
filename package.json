@@ -15,6 +15,7 @@
         "@react-pdf/renderer": "^3.1.9",
         "axios": "^1.4.0",
         "downshift": "^7.6.0",
+        "eos-icons-react": "^2.4.0",
         "formik": "^2.2.9",
         "icons": "^1.0.0",
         "jwt-decode": "^3.1.2",
