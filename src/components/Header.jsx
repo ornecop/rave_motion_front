@@ -11,6 +11,7 @@ import { signOut } from "../redux/actions/usersActions";
 
 // Assets
 import rave from "../assets/logo3.png";
+import { GrMenu } from "react-icons/gr";
 
 const Header = (props) => {
     const { isLogin, userData, signOut } = props;
@@ -86,18 +87,25 @@ const Header = (props) => {
 
     return (
         <div
-            className="grid grid-cols-3 w-screen h-16 fixed top-0 z-10 font-medium"
+            className="grid grid-cols-2 lg:grid-cols-3 w-screen h-16 fixed top-0 z-10 font-medium"
             style={headerStyle}
         >
+            {/* Logo left */}
             <div className="flex justify-self-start items-center ml-4">
                 <Link to="/">
-                    <img className="w-48" src={rave} alt="Rave Motion Logo" />
+                    <img
+                        className="w-40 lg:w-48"
+                        src={rave}
+                        alt="Rave Motion Logo"
+                    />
                 </Link>
             </div>
-            <div className="flex justify-self-center items-center">
+
+            {/* Search center */}
+            <div className="hidden lg:flex justify-self-center items-center">
                 <form onSubmit={handleSearchsubmit}>
                     <input
-                        className="w-96 input"
+                        className="w-64 xl:w-80  input"
                         type="text"
                         placeholder="Buscar evento"
                         onChange={handleInputChange}
@@ -106,21 +114,17 @@ const Header = (props) => {
                     />
                 </form>
             </div>
-            <div className="flex w-fit justify-self-end justify-center my-2 items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder">
-                {/* <Link to="/" className="navLink">
-                    Home
-                </Link> */}
+
+            {/* NavMenu right */}
+            <div className="hidden lg:flex w-fit justify-self-end justify-center my-2 items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder">
                 <Link to="/" className="navLink">
                     Home
                 </Link>
-                
+
                 <Link to="/reviews" className="navLink">
                     Reviews
                 </Link>
 
-                <Link to="/about" className="navLink">
-                    Nosotros
-                </Link>
                 {isLogin ? (
                     <>
                         {/* Dropdown user  */}
@@ -134,6 +138,7 @@ const Header = (props) => {
                             >
                                 Tu cuenta
                             </button>
+
                             <div
                                 className={`"z-20 bg-secondary rounded-md w-40 left-[-2rem] top-[2rem] text-center" ${
                                     showDropdown ? "block" : "hidden"
@@ -190,6 +195,100 @@ const Header = (props) => {
                         </Link>
                     </>
                 )}
+            </div>
+
+            {/* Dropdown responsive right */}
+            <div className="lg:hidden flex w-fit justify-self-end justify-center items-center mr-4">
+                <div className="inline-block relative" ref={dropdownRef}>
+                    <button
+                        onClick={handlDropdownClick}
+                        className="btnPrimary py-2 px-4 w-fit border-none"
+                    >
+                        <GrMenu size="2rem" />
+                    </button>
+
+                    <div
+                        className={`"z-20 bg-secondary border border-secondaryBorder rounded-md w-40 left-[-6rem] top-[3rem] text-center" ${
+                            showDropdown ? "block" : "hidden"
+                        }`}
+                        style={{ position: "absolute" }}
+                    >
+                        <div className="dropDownItem ">
+                            <Link to="/" className="navLinkDropdown">
+                                Home
+                            </Link>
+                        </div>
+                        <div className="dropDownItem">
+                            <Link to="/reviews" className="navLink">
+                                Reviews
+                            </Link>
+                        </div>
+                        <div className="dropDownItem">
+                            <Link to="/about" className="navLink">
+                                Nosotros
+                            </Link>
+                        </div>
+                        {isLogin ? (
+                            <>
+                                <div className="dropDownItem border-t-2 border-secondaryBorder">
+                                    <Link
+                                        className="navLinkDropdown"
+                                        to="/tickets"
+                                    >
+                                        Mis tickets
+                                    </Link>
+                                </div>
+                                {userData.accessType === "producer" && (
+                                    <>
+                                        <div className="dropDownItem">
+                                            <Link
+                                                className="navLinkDropdown"
+                                                to="/create"
+                                            >
+                                                Crear evento
+                                            </Link>
+                                        </div>
+                                        <div className="dropDownItem border-b-2 border-secondaryBorder">
+                                            <Link
+                                                className="navLinkDropdown"
+                                                to="/dashboard"
+                                            >
+                                                Dashboard
+                                            </Link>
+                                        </div>
+                                        <div className="dropDownItem">
+                                            <div
+                                                onClick={handleSignOut}
+                                                className="navLinkDropdown"
+                                            >
+                                                Cerrar Sesión
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
+                            </>
+                        ) : (
+                            <>
+                                <div className="dropDownItem border-t-2 border-secondaryBorder">
+                                    <Link
+                                        to="/signin"
+                                        className="navLinkDropdown "
+                                    >
+                                        Iniciar Sesión
+                                    </Link>
+                                </div>
+                                <div className="dropDownItem">
+                                    <Link
+                                        to="/signup"
+                                        className="navLinkDropdown"
+                                    >
+                                        Registrarse
+                                    </Link>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </div>
             </div>
         </div>
     );
