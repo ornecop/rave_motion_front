@@ -17,6 +17,7 @@ import {
     EVENTS_FILTER_BY_DATE,
     EVENTS_FILTER_BY_PRODUCER,
     EVENTS_SET_CURRENT_PAGE,
+
 } from "../actions/eventsActions";
 
 // User Actions Types
@@ -89,6 +90,35 @@ const applySort = (events, sort) => {
     return sortedEvents;
 };
 
+const applyFilter = (events, filterDate , Producer) => {
+
+        let filterEvents = [...events];
+
+        let {startDate,endDate} = filterDate;
+       
+        startDate = new Date(startDate);
+        endDate = new Date(endDate);
+        startDate.setHours(startDate.getHours() + 3);
+        endDate.setHours(endDate.getHours() + 3);
+    
+        filterEvents = events.map((event) => {
+          const eventDate = new Date(event.date);
+          const eventHour = event.hour.split(':');
+            eventDate.setHours(parseInt(eventHour[0], 10));
+            eventDate.setMinutes(parseInt(eventHour[1], 10));
+            eventDate.setSeconds(parseInt(eventHour[2], 10));
+
+          return { ...event, date: eventDate };
+        }).filter((event) => event.date >= startDate && event.date <= endDate);
+      
+        if(Producer != 'All'){
+        filterEvents.filter(e =>{
+        e.producer === Producer
+        })}
+
+    return filterEvents;
+};
+
 // Root reducer ===========================================
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -140,12 +170,13 @@ const rootReducer = (state = initialState, action) => {
 
         // Filter
         case EVENTS_FILTER_BY_DATE:
-            var filteredEventsByDate = applyFilters(state.allEvents);
+
+            let filterEvents = applyFilter(state.allEvents, action.payload , state.homeFilterByProducer);
 
             // Funcion de filtros
 
-            var filteredAndSortedEvents = applySort(
-                filteredEventsByDate,
+            const filteredAndSortedEvents = applySort(
+                filterEvents,
                 state.homeSort
             );
 
