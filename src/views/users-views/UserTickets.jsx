@@ -29,6 +29,7 @@ import TicketPdf from "../../components/TicketPdf";
 
 // Assets
 import { BsDownload } from "react-icons/bs";
+import { EOS_BUBBLE_LOADING_ANIMATED } from "eos-icons-react";
 
 // Const
 import { FILTER_EVENTS_BY_DATE } from "../../const";
@@ -55,7 +56,7 @@ const UserTickets = (props) => {
     return (
         <div className="w-screen min-h-[calc(100vh_-_3rem)]">
             <div className="h-16 w-screen block"></div>
-            <section className="flex flex-col px-4 lg:px-8 py-4 mt-4">
+            <section className="flex flex-col px-4 lg:px-8 py-4 my-4">
                 {/* NavBar */}
                 <nav className="grid grid-cols-2 w-full h-16 ">
                     <div className="flex justify-self-start items-center">
@@ -154,7 +155,7 @@ const UserTickets = (props) => {
                                                             error,
                                                         }) =>
                                                             loading ? (
-                                                                "Cargando..."
+                                                                <EOS_BUBBLE_LOADING_ANIMATED color="white" />
                                                             ) : (
                                                                 <BsDownload />
                                                             )
