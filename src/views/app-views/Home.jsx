@@ -1,16 +1,16 @@
-import React from "react";
 /* =======================================================
-VIEW Home - "/" - Vista principal de la página
+    VIEW Home - "/" - Vista principal de la página
 
-styles:
-carrousel con imagenes de fiestas
-sección eventos destacados: filtros (por provincia, por productora) + orden (por fecha) + lista de eventos destacados 
-info de la pagina con link a about
-preguntas frecuentes
+    styles:
+    carrousel con imagenes de fiestas
+    sección eventos destacados: filtros (por provincia, por productora) + orden (por fecha) + lista de eventos destacados 
+    info de la pagina con link a about
+    preguntas frecuentes
 */
 
-// Images
+// Assets
 import { images } from "../../const";
+import { FaSync } from "react-icons/fa";
 
 // Components
 import EventContainer from "../../components/EventContainer";
@@ -20,53 +20,31 @@ import Loading from "../../components/Loading";
 // Hooks
 import { useState, useEffect } from "react";
 
-//Reset
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSync } from "@fortawesome/free-solid-svg-icons";
-
 // React Redux
-import { connect, useDispatch, useSelector } from "react-redux";
-import { filteredEvents } from "../../redux/actions/filtersActions";
+import { useDispatch, useSelector } from "react-redux";
+
+// Actions
 import { getAllEvents } from "../../redux/actions/eventsActions";
+import { filterEventsByDateOrProducer } from "../../redux/actions/filtersActions";
 import { alphabeticOrder, dateOrder } from "../../redux/actions/orderActions";
-import getCurrentDate from "../../functions/getCurrentDate";
 
 // Functions
+import getCurrentDate from "../../functions/getCurrentDate";
 import setProducer from "../../functions/setProducer";
 
 const Home = () => {
     const dispatch = useDispatch();
-    const Events = useSelector((state) => state.allEvents);
-    const allEvents = useSelector((state) => state.homeEvents);
-    const allEventos = useSelector((state) => state.homeEvents);
+
+    // Get events
+    const allEvents = useSelector((state) => state.allEvents);
+    const homeEvents = useSelector((state) => state.homeEvents);
+
+    useEffect(() => {
+        !allEvents.length && dispatch(getAllEvents());
+    }, [dispatch]);
 
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
-
-    // Paginado
-    const [currentPage, setCurrentPage] = useState(1);
-    const [eventsPerPage, setEventsPerPage] = useState(9);
-    const indexOfLastEvent = currentPage * eventsPerPage;
-    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
-    const currentEvents = allEvents.slice(indexOfFirstEvent, indexOfLastEvent);
-
-    const totalEvents = allEvents.length;
-    const totalPages = Math.ceil(totalEvents / eventsPerPage);
-
-    //orders
-    const [ordersinput, setordersInput] = useState({
-        orderDate: "",
-        orderAlpha: "",
-    });
-
-    const paginado = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
-    useEffect(() => {
-        !Events.length && dispatch(getAllEvents());
-    }, []);
-
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentImage((prevImage) => {
@@ -79,6 +57,26 @@ const Home = () => {
         }, 5000);
         return () => clearInterval(interval);
     }, []);
+
+    // Paginado
+    const [currentPage, setCurrentPage] = useState(1);
+    const [eventsPerPage, setEventsPerPage] = useState(9);
+    const indexOfLastEvent = currentPage * eventsPerPage;
+    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
+    const currentEvents = homeEvents.slice(indexOfFirstEvent, indexOfLastEvent);
+
+    const totalEvents = homeEvents.length;
+    const totalPages = Math.ceil(totalEvents / eventsPerPage);
+
+    // Orders
+    const [ordersinput, setordersInput] = useState({
+        orderDate: "",
+        orderAlpha: "",
+    });
+
+    const paginado = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     // Filtros
     const [filterEvents, setFilterEvents] = useState({
@@ -122,19 +120,27 @@ const Home = () => {
 
         if (event.target.value === "All") {
             setFilterEvents({ ...filterEvents, producer: null });
-            dispatch(filteredEvents({ ...filterEvents, producer: null }));
+            dispatch(
+                filterEventsByDateOrProducer({
+                    ...filterEvents,
+                    producer: null,
+                })
+            );
             setCurrentPage(1);
             return;
         }
         setFilterEvents({ ...filterEvents, producer: event.target.value });
         dispatch(
-            filteredEvents({ ...filterEvents, producer: event.target.value })
+            filterEventsByDateOrProducer({
+                ...filterEvents,
+                producer: event.target.value,
+            })
         );
         setCurrentPage(1);
     };
 
     const submitFilterEvents = () => {
-        dispatch(filteredEvents(filterEvents));
+        dispatch(filterEventsByDateOrProducer(filterEvents));
         setCurrentPage(1);
     };
 
@@ -222,7 +228,7 @@ const Home = () => {
                             Busqueda por productora
                         </option>
                         <option value="All">Todas las productoras</option>
-                        {setProducer(Events).map((c) => {
+                        {setProducer(allEvents).map((c) => {
                             return (
                                 <option id={c} value={c} key={c}>
                                     {c}
@@ -259,14 +265,14 @@ const Home = () => {
                     </select>
                     <div className=" flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 btnPrimary rounded-full border border-secondaryBorder mr-4">
                         <button className="" onClick={handleResetFilters}>
-                            <FontAwesomeIcon icon={faSync} />
+                            <FaSync />
                         </button>
                     </div>
                 </div>
 
                 {/* Info paginado */}
                 <div className="flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 bg-secondary rounded-full border border-secondaryBorder mr-4">
-                    <>{allEvents.length} Resultados</> | Página{" "}
+                    {homeEvents.length} Resultados | Página{" "}
                     {totalPages ? currentPage : "0"} / {totalPages}
                 </div>
             </div>
@@ -289,7 +295,7 @@ const Home = () => {
                         {isLoading ? null : (
                             <Paginado
                                 eventsPerPage={eventsPerPage}
-                                allEventos={allEventos.length}
+                                allEventos={homeEvents.length}
                                 paginado={paginado}
                                 currentPage={currentPage}
                             />
@@ -301,11 +307,4 @@ const Home = () => {
     );
 };
 
-const mapStateToProps = (state) => {
-    return {};
-};
-const mapDispatchToProps = (dispatch) => {
-    return {};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;
