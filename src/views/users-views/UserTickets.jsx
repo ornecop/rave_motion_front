@@ -59,7 +59,7 @@ const UserTickets = (props) => {
                 {/* NavBar */}
                 <nav className="grid grid-cols-2 w-full h-16 ">
                     <div className="flex justify-self-start items-center">
-                        <span className="text-4xl font-semibold">
+                        <span className="text-2xl lg:text-4xl font-semibold">
                             Tus tickets
                         </span>
                     </div>

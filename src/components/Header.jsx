@@ -36,7 +36,7 @@ const Header = (props) => {
         backgroundColor: `rgba(2, 6, 23, ${opacity})`,
     };
 
-    // Dropdown
+    // Dropdown User
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -62,6 +62,37 @@ const Header = (props) => {
         document.addEventListener("mousedown", handleOutsideClick);
         return () => {
             document.removeEventListener("mousedown", handleOutsideClick);
+        };
+    }, []);
+
+    // Dropdown responsive
+    const [showDropdownResponsive, setShowDropdownResponsive] = useState(false);
+    const dropdownRefResponsive = useRef(null);
+
+    const handlDropdownResponsiveClick = () => {
+        setShowDropdownResponsive((prev) => !prev);
+    };
+
+    useEffect(() => {
+        showDropdownResponsive && setShowDropdownResponsive(false);
+    }, [location]);
+
+    const handleOutsideClickResponsive = (event) => {
+        if (
+            dropdownRefResponsive.current &&
+            !dropdownRefResponsive.current.contains(event.target)
+        ) {
+            setShowDropdownResponsive(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handleOutsideClickResponsive);
+        return () => {
+            document.removeEventListener(
+                "mousedown",
+                handleOutsideClickResponsive
+            );
         };
     }, []);
 
@@ -199,9 +230,12 @@ const Header = (props) => {
 
             {/* Dropdown responsive right */}
             <div className="lg:hidden flex w-fit justify-self-end justify-center items-center mr-4">
-                <div className="inline-block relative" ref={dropdownRef}>
+                <div
+                    className="inline-block relative"
+                    ref={dropdownRefResponsive}
+                >
                     <button
-                        onClick={handlDropdownClick}
+                        onClick={handlDropdownResponsiveClick}
                         className="btnPrimary py-2 px-4 w-fit border-none"
                     >
                         <GrMenu size="2rem" />
@@ -209,7 +243,7 @@ const Header = (props) => {
 
                     <div
                         className={`"z-20 bg-secondary border border-secondaryBorder rounded-md w-40 left-[-6rem] top-[3rem] text-center" ${
-                            showDropdown ? "block" : "hidden"
+                            showDropdownResponsive ? "block" : "hidden"
                         }`}
                         style={{ position: "absolute" }}
                     >
