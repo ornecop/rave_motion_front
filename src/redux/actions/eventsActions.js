@@ -13,6 +13,8 @@ export const EVENTS_SEARCH = "EVENTS_SEARCH";
 export const EVENT_DETAIL_GET = "EVENT_DETAIL_GET";
 export const EVENT_DETAIL_REMOVE = "EVENT_DETAIL_REMOVE";
 
+export const EVENTS_SORT = "EVENTS_SORT";
+
 // ============= Events Actions Creators
 // Get all events
 export const getAllEvents = () => {
@@ -62,5 +64,12 @@ export const getEventById = (id) => {
 export const removeEventDetail = () => {
     return {
         type: EVENT_DETAIL_REMOVE,
+    };
+};
+
+export const sortEvents = (sort) => {
+    return {
+        type: EVENTS_SORT,
+        payload: sort,
     };
 };
