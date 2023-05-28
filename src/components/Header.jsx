@@ -4,6 +4,10 @@ import { useState, useEffect, useRef } from "react";
 // React Router Dom
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
+
+
+
+
 // Redux
 import { connect } from "react-redux";
 import { getEventsByName } from "../redux/actions/eventsActions";
@@ -11,7 +15,9 @@ import { signOut } from "../redux/actions/usersActions";
 
 // Assets
 import rave from "../assets/logo3.png";
+
 import { GrMenu } from "react-icons/gr";
+import SearchResults from "../views/app-views/SearchResults";
 
 const Header = (props) => {
     const { isLogin, userData, signOut } = props;
@@ -38,32 +44,32 @@ const Header = (props) => {
 
     // Dropdown User
     const [showDropdown, setShowDropdown] = useState(false);
+
+
     const dropdownRef = useRef(null);
-
-    const handlDropdownClick = () => {
-        setShowDropdown((prev) => !prev);
+    let hideTimeout; 
+    
+    const handleOptionClick = () => {
+      setShowDropdown(false);
     };
-
-    const location = useLocation().pathname;
-    useEffect(() => {
-        showDropdown && setShowDropdown(false);
-    }, [location]);
-
+    
     const handleOutsideClick = (event) => {
-        if (
-            dropdownRef.current &&
-            !dropdownRef.current.contains(event.target)
-        ) {
-            setShowDropdown(false);
-        }
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        !event.target.classList.contains("navLinkDropdown")
+      ) {
+        setShowDropdown(false);
+      }
     };
-
+    
     useEffect(() => {
-        document.addEventListener("mousedown", handleOutsideClick);
-        return () => {
-            document.removeEventListener("mousedown", handleOutsideClick);
-        };
+      document.addEventListener('mousedown', handleOutsideClick);
+      return () => {
+        document.removeEventListener('mousedown', handleOutsideClick);
+      };
     }, []);
+
 
     // Dropdown responsive
     const [showDropdownResponsive, setShowDropdownResponsive] = useState(false);
@@ -96,25 +102,53 @@ const Header = (props) => {
         };
     }, []);
 
-    // Search
-    const [name, setName] = useState("");
-    const handleInputChange = (event) => {
-        setName(event.target.value);
+      
+    const handleMouseEnter = () => {
+      clearTimeout(hideTimeout); 
+      setShowDropdown(true);
+
+    };
+    
+    const handleMouseLeave = () => {
+      hideTimeout = setTimeout(() => {
+        setShowDropdown(false);
+      }, 100); 
     };
 
-    const navigate = useNavigate();
-    const handleSearchsubmit = (event) => {
-        event.preventDefault();
-        navigate("/search");
-        getEventsByName(name.trim());
-        setName("");
-    };
+  // Search
+  const [name, setName] = useState("");
+  const [searchResults, setSearchResults] = useState([]); // Estado para almacenar los resultados de búsqueda
 
-    // Sign Out
-    const handleSignOut = () => {
-        isLogin && signOut();
-        navigate("/");
-    };
+  const handleInputChange = (event) => {
+    const searchValue = event.target.value;
+    setName(searchValue);
+
+    if (searchValue.trim() !== "") {
+      getEventsByName(searchValue.trim())
+        .then((response) => {
+          setSearchResults(response); 
+        })
+        .catch((error) => {
+        });
+    } else {
+      setSearchResults([]); 
+    }
+  };
+
+  const navigate = useNavigate();
+  const handleSearchsubmit = (event) => {
+    event.preventDefault();
+    navigate("/search");
+    getEventsByName(name.trim());
+    setName("");
+    
+  };
+
+  // Sign Out
+  const handleSignOut = () => {
+    isLogin && signOut();
+    navigate("/");
+  };
 
     return (
         <div
@@ -132,18 +166,26 @@ const Header = (props) => {
                 </Link>
             </div>
 
-            {/* Search center */}
             <div className="hidden lg:flex justify-self-center items-center">
-                <form onSubmit={handleSearchsubmit}>
-                    <input
-                        className="w-64 xl:w-80  input"
-                        type="text"
-                        placeholder="Buscar evento"
-                        onChange={handleInputChange}
-                        onSubmit={handleSearchsubmit}
-                        value={name}
-                    />
-                </form>
+   
+            <form onSubmit={handleSearchsubmit}>
+          <input
+            className="w-64 xl:w-80 input"
+            type="text"
+            placeholder="Buscar evento"
+            onChange={handleInputChange}
+            onSubmit={handleSearchsubmit}
+            value={name}
+          />
+          {searchResults && searchResults.length > 0 && ( // Mostrar los resultados de búsqueda si existen
+            <ul>
+              {searchResults.map((allEvents) => (
+                <li key={allEvents.id}>{allEvents.name}</li>
+              ))}
+            </ul>
+          )}
+        </form>
+
             </div>
 
             {/* NavMenu right */}
@@ -158,14 +200,14 @@ const Header = (props) => {
 
                 {isLogin ? (
                     <>
-                        {/* Dropdown user  */}
-                        <div
-                            className="inline-block relative"
-                            ref={dropdownRef}
-                        >
+                          {/* Dropdown user  */}
+                          <div className="inline-block relative" ref={dropdownRef}>
                             <button
+
                                 onClick={handlDropdownClick}
                                 className="btnPrimary py-0 px-4 w-fit border-none"
+                  onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
                             >
                                 Tu cuenta
                             </button>
@@ -175,13 +217,23 @@ const Header = (props) => {
                                     showDropdown ? "block" : "hidden"
                                 }`}
                                 style={{ position: "absolute" }}
+
                             >
-                                <div className="dropDownItem border-b-2 border-secondaryBorder">
-                                    <Link
-                                        className="navLinkDropdown"
-                                        to="/tickets"
-                                    >
-                                        Mis tickets
+                            Tu cuenta
+                             </button>
+                        <div
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
+                            className={`"z-20 bg-secondary rounded-md w-40 left-[-2rem] top-[2rem] text-center" ${
+                            showDropdown ? "block" : "hidden"
+                            }`}
+                            style={{ position: "absolute" }}
+                        >
+                        <div className="dropDownItem border-b-2 border-secondaryBorder">
+                            <Link className="navLinkDropdown" 
+                                to="/tickets" 
+                                onClick={handleOptionClick}>
+                                Mis tickets
                                     </Link>
                                 </div>
                                 {userData.accessType === "producer" && (
