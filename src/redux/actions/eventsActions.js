@@ -14,6 +14,10 @@ export const EVENT_DETAIL_GET = "EVENT_DETAIL_GET";
 export const EVENT_DETAIL_REMOVE = "EVENT_DETAIL_REMOVE";
 
 export const EVENTS_SORT = "EVENTS_SORT";
+export const EVENTS_FILTER_BY_DATE = "EVENTS_FILTER_BY_DATE";
+export const EVENTS_FILTER_BY_PRODUCER = "EVENTS_FILTER_BY_PRODUCER";
+
+export const EVENTS_SET_CURRENT_PAGE = "EVENTS_SET_CURRENT_PAGE";
 
 // ============= Events Actions Creators
 // Get all events
@@ -67,9 +71,18 @@ export const removeEventDetail = () => {
     };
 };
 
+// Filters & Sort
 export const sortEvents = (sort) => {
     return {
         type: EVENTS_SORT,
         payload: sort,
+    };
+};
+
+// Pagination
+export const setCurrentPage = (page) => {
+    return {
+        type: EVENTS_SET_CURRENT_PAGE,
+        payload: page,
     };
 };
