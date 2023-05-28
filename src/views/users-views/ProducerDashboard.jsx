@@ -99,7 +99,7 @@ const ProducerDashboard = (props) => {
     // Search on dashboard
     const [search, setSeach] = useState("");
 
-    // Busca eventos y los despliega en un dropdown a medida que busca
+    // Busca eventos
     const handleInputChange = (event) => {
         setSeach(event.target.value);
         searchUserEvents(event.target.value);
