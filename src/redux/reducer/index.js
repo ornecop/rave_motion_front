@@ -13,15 +13,12 @@ import {
     EVENTS_GET_ALL,
     EVENT_DETAIL_GET,
     EVENT_DETAIL_REMOVE,
-    EVENT_CREATE,
-    EVENT_MODIFY,
 } from "../actions/eventsActions";
 
 // Filters & Orders
 import { EVENTS_FILTER } from "../actions/filtersActions";
 import { ALPHABETIC_ORDER, DATE_ORDER } from "../actions/orderActions";
 import { FILTER_EVENTS_BY_DATE } from "../../const";
-const { ACTIVES, PASS, ALL } = FILTER_EVENTS_BY_DATE;
 
 // User Actions Types
 import {
@@ -45,17 +42,22 @@ import {
 // Initial State
 import initialState from "./initialState";
 
+// Consts
+const { ACTIVES, PASS, ALL } = FILTER_EVENTS_BY_DATE;
 const currentDate = new Date();
 
 // Root reducer
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
+        // Events Actions =============================
+        // Get all
         case EVENTS_GET_ALL:
             return {
                 ...state,
                 allEvents: action.payload,
                 homeEvents: action.payload,
             };
+        // Search
         case EVENTS_SEARCH:
             return {
                 ...state,
@@ -66,7 +68,9 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 searchResult: [],
+                currentPage: 1,
             };
+        // Detail
         case EVENT_DETAIL_GET:
             return {
                 ...state,
@@ -77,20 +81,12 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 eventDetail: {},
             };
-        case EVENT_CREATE:
-            return {
-                ...state,
-            };
-        case EVENT_MODIFY:
-            return {
-                ...state,
-            };
-        //* Filtros
 
+        // Filtros
         case EVENTS_FILTER:
             return { ...state, homeEvents: action.payload, currentPage: 1 };
 
-        // * Order
+        // Order
 
         case ALPHABETIC_ORDER:
             let order = [...state.homeEvents];

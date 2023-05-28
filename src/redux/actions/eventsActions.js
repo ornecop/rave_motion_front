@@ -13,10 +13,8 @@ export const EVENTS_SEARCH_REMOVE = "EVENTS_SEARCH_REMOVE";
 export const EVENT_DETAIL_GET = "EVENT_DETAIL_GET";
 export const EVENT_DETAIL_REMOVE = "EVENT_DETAIL_REMOVE";
 
-export const EVENT_CREATE = "EVENT_CREATE";
-export const EVENT_MODIFY = "EVENT_MODIFY";
-
 // ============= Events Actions Creators
+// Get all events
 export const getAllEvents = () => {
     return async function (dispatch) {
         try {
@@ -31,6 +29,7 @@ export const getAllEvents = () => {
     };
 };
 
+// Search
 export const getEventsByName = (name) => {
     return async function (dispatch) {
         try {
@@ -54,6 +53,7 @@ export const removeEventByName = () => {
     };
 };
 
+// Detail
 export const getEventById = (id) => {
     return async function (dispatch) {
         try {
