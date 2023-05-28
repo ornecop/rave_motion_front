@@ -13,11 +13,11 @@ import {
     EVENTS_GET_ALL,
     EVENT_DETAIL_GET,
     EVENT_DETAIL_REMOVE,
-    EVENTS_SORT,
+    EVENTS_SET_DATE_FILTER_BY_DATE,
     EVENTS_FILTER_BY_DATE,
     EVENTS_FILTER_BY_PRODUCER,
+    EVENTS_SORT,
     EVENTS_SET_CURRENT_PAGE,
-
 } from "../actions/eventsActions";
 
 // User Actions Types
@@ -43,7 +43,7 @@ import {
 import initialState from "./initialState";
 
 // Consts
-import { FILTER_EVENTS_BY_DATE } from "../../const";
+import { FILTER_EVENTS_BY_DATE, FILTER_TYPES } from "../../const";
 import { SORT_TYPES } from "../../const";
 const { ACTIVES, PASS, ALL } = FILTER_EVENTS_BY_DATE;
 
@@ -90,31 +90,31 @@ const applySort = (events, sort) => {
     return sortedEvents;
 };
 
-const applyFilter = (events, filterDate , Producer) => {
+const applyFilters = (events, filterDate, filterProducer) => {
+    let filterEvents = [...events];
 
-        let filterEvents = [...events];
+    let { startDate, endDate } = filterDate;
 
-        let {startDate,endDate} = filterDate;
-       
-        startDate = new Date(startDate);
-        endDate = new Date(endDate);
-        startDate.setHours(startDate.getHours() + 3);
-        endDate.setHours(endDate.getHours() + 3);
-    
-        filterEvents = events.map((event) => {
-          const eventDate = new Date(event.date);
-          const eventHour = event.hour.split(':');
+    startDate = new Date(startDate);
+    endDate = new Date(endDate);
+
+    filterEvents = events
+        .map((event) => {
+            const eventDate = new Date(event.date);
+            const eventHour = event.hour.split(":");
             eventDate.setHours(parseInt(eventHour[0], 10));
             eventDate.setMinutes(parseInt(eventHour[1], 10));
             eventDate.setSeconds(parseInt(eventHour[2], 10));
 
-          return { ...event, date: eventDate };
-        }).filter((event) => event.date >= startDate && event.date <= endDate);
-      
-        if(Producer != 'All'){
-        filterEvents.filter(e =>{
-        e.producer === Producer
-        })}
+            return { ...event, date: eventDate };
+        })
+        .filter((event) => event.date >= startDate && event.date <= endDate);
+
+    if (filterProducer != FILTER_TYPES.BY_PRODUCER.ALL) {
+        filterEvents.filter((e) => {
+            e.producer === filterProducer;
+        });
+    }
 
     return filterEvents;
 };
@@ -169,43 +169,66 @@ const rootReducer = (state = initialState, action) => {
             };
 
         // Filter
+        case EVENTS_SET_DATE_FILTER_BY_DATE:
+            return {
+                ...state,
+                homeFilterByDate: action.payload,
+            };
+
         case EVENTS_FILTER_BY_DATE:
+            const filteredEvents1 = applyFilters(
+                state.allEvents,
+                state.homeFilterByDate,
+                state.homeFilterByProducer
+            );
 
-            let filterEvents = applyFilter(state.allEvents, action.payload , state.homeFilterByProducer);
-
-            // Funcion de filtros
-
-            const filteredAndSortedEvents = applySort(
-                filterEvents,
+            const filteredAndSortedEvents1 = applySort(
+                filteredEvents1,
                 state.homeSort
             );
 
             return {
                 ...state,
-                homeEvents: filteredAndSortedEvents,
-                homeFilterByDate: action.payload,
+                homeEvents: filteredAndSortedEvents1,
                 currentPage: 1,
             };
 
         case EVENTS_FILTER_BY_PRODUCER:
-            var filteredEventsByProducer = applyFilters(state.allEvents);
+            const filteredEvents2 = applyFilters(
+                state.allEvents,
+                state.homeFilterByDate,
+                action.payload
+            );
+
+            const filteredAndSortedEvents2 = applySort(
+                filteredEvents2,
+                state.homeSort
+            );
+
             return {
                 ...state,
-                homeEvents: filteredEventsByProducer,
+                homeEvents: filteredAndSortedEvents2,
+                homeFilterByProducer: action.payload,
                 currentPage: 1,
-                filter: action.payload,
             };
 
         // Sort
         case EVENTS_SORT:
-            let sortedEvents = applySort(state.allEvents, action.payload);
+            let filteredEvents3 = applyFilters(
+                state.allEvents,
+                state.homeFilterByDate,
+                state.homeFilterByProducer
+            );
 
-            // const sortedAndFilteredEvents = applyFilters(sortedEvents, ... )
+            let sortedAndFilteredEvents3 = applySort(
+                filteredEvents3,
+                action.payload
+            );
 
             return {
                 ...state,
+                homeEvents: sortedAndFilteredEvents3,
                 homeSort: action.payload,
-                homeEvents: sortedAndFilteredEvents,
                 currentPage: 1,
             };
 
