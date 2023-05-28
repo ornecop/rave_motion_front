@@ -3,7 +3,8 @@
 
     styles:
     carrousel con imagenes de fiestas
-    sección eventos destacados: filtros (por provincia, por productora) + orden (por fecha) + lista de eventos destacados 
+    sección eventos destacados: filtros (por provincia, por productora) +
+     orden (por fecha) + lista de eventos destacados 
     info de la pagina con link a about
     preguntas frecuentes
 */
@@ -21,27 +22,25 @@ import Loading from "../../components/Loading";
 import { useState, useEffect } from "react";
 
 // React Redux
-import { useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
 
 // Actions
-import { getAllEvents } from "../../redux/actions/eventsActions";
-import { filterEventsByDateOrProducer } from "../../redux/actions/filtersActions";
-
-// BORRAR!!!
-
-const alphabeticOrder = () => {};
-const dateOrder = () => {};
+import {
+    getAllEvents,
+    setAllEventsOnHomeEvents,
+} from "../../redux/actions/eventsActions";
 
 // Functions
 import getCurrentDate from "../../functions/getCurrentDate";
 import setProducer from "../../functions/setProducer";
 
 // Const
-import { FILTER_TYPES } from "../..";
+import { FILTER_TYPES, SORT_TYPES } from "../../const";
 
 const Home = (props) => {
     // Global State
     const {
+        allEvents,
         homeEvents,
         homeFilterByProducer,
         homeFilterByDate,
@@ -51,15 +50,11 @@ const Home = (props) => {
     } = props;
 
     // Actions
-
-    const dispatch = useDispatch();
-
-    // Get events
-    const allEvents = useSelector((state) => state.allEvents);
+    const { getAllEvents, setAllEventsOnHomeEvents } = props;
 
     useEffect(() => {
-        !allEvents.length && dispatch(getAllEvents());
-    }, [dispatch]);
+        !allEvents.length && getAllEvents();
+    }, [getAllEvents]);
 
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
@@ -77,8 +72,6 @@ const Home = (props) => {
     }, []);
 
     // Paginado
-    const [currentPage, setCurrentPage] = useState(1);
-    const [eventsPerPage, setEventsPerPage] = useState(9);
     const indexOfLastEvent = currentPage * eventsPerPage;
     const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
     const currentEvents = homeEvents.slice(indexOfFirstEvent, indexOfLastEvent);
@@ -86,102 +79,37 @@ const Home = (props) => {
     const totalEvents = homeEvents.length;
     const totalPages = Math.ceil(totalEvents / eventsPerPage);
 
-    // Orders
-    const [ordersinput, setordersInput] = useState({
-        orderDate: "",
-        orderAlpha: "",
-    });
-
-    const paginado = (pageNumber) => {
-        setCurrentPage(pageNumber);
+    // Filter by Date
+    const handleFilterByDateChange = (event) => {
+        // PENDIENTE EN REDUX!!
     };
 
-    // Filtros
-    const [filterEvents, setFilterEvents] = useState({
-        startDate: getCurrentDate(),
-        endDate: "",
-        producer: null,
-    });
-
-    const handleFilterEventsChange = (event) => {
-        if (event.target.name === "startDate") {
-            setFilterEvents({ ...filterEvents, startDate: event.target.value });
-        }
-        if (event.target.name === "endDate") {
-            setFilterEvents({ ...filterEvents, endDate: event.target.value });
-        }
+    const handleSubmitFilterEvents = (event) => {
+        // PENDIENTE EN REDUX!!
     };
 
-    //resetFiltros
-    function resetFilters() {
-        setFilterEvents({
-            startDate: getCurrentDate(),
-            endDate: "",
-            producer: null,
-        });
-
-        setFilterByProducer("Todas");
-        setordersInput({ orderDate: "", orderAlpha: "" });
-        setCurrentPage(1);
-    }
-
-    function handleResetFilters() {
-        resetFilters();
-        dispatch(getAllEvents());
-    }
-
-    // Filtro por productora
-    const [filterByProducer, setFilterByProducer] = useState("All");
-
+    // Filter by Producer
     const handleFilterByProducer = (event) => {
-        setFilterByProducer(event.target.value);
-
-        if (event.target.value === "All") {
-            setFilterEvents({ ...filterEvents, producer: null });
-            dispatch(
-                filterEventsByDateOrProducer({
-                    ...filterEvents,
-                    producer: null,
-                })
-            );
-            setCurrentPage(1);
-            return;
-        }
-        setFilterEvents({ ...filterEvents, producer: event.target.value });
-        dispatch(
-            filterEventsByDateOrProducer({
-                ...filterEvents,
-                producer: event.target.value,
-            })
-        );
-        setCurrentPage(1);
+        // PENDIENTE EN REDUX!!
     };
 
-    const submitFilterEvents = () => {
-        dispatch(filterEventsByDateOrProducer(filterEvents));
-        setCurrentPage(1);
+    // Sort
+    const handleSortEvents = (event) => {
+        // PENDIENTE EN REDUX!!
     };
 
-    //ORDENAMIENTOS
-    const handleSortAbc = (event) => {
-        setordersInput({ ...ordersinput, orderAlpha: event.target.value });
-        dispatch(alphabeticOrder(event.target.value));
-        setCurrentPage(1);
-    };
+    // Reset
+    function handleResetFilters() {
+        setAllEventsOnHomeEvents();
+    }
 
-    const handleSortDate = (event) => {
-        setordersInput({ ...ordersinput, orderDate: event.target.value });
-        dispatch(dateOrder(event.target.value));
-        setCurrentPage(1);
-    };
-
-    //loading
+    // Loading
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         setTimeout(() => {
             setIsLoading(false);
-        }, 2000);
+        }, 1000);
     }, []);
 
     return (
@@ -209,13 +137,35 @@ const Home = (props) => {
             {/* NavBar (Filters - Orders - info resultados) */}
             <div className="grid grid-cols-2 w-screen h-16 mt-4">
                 <div className="flex w-fit justify-self-start my-2 items-center gap-6 py-1 px-4 bg-secondary rounded-full border border-secondaryBorder ml-4">
+                    {/* Filter by producer */}
+                    <div className="flex flex-row gap-2 items-center">
+                        <select
+                            className="inputSelect w-fit"
+                            onChange={handleFilterByProducer}
+                            value={homeFilterByProducer}
+                        >
+                            {" "}
+                            <option value={FILTER_TYPES.BY_PRODUCER.ALL}>
+                                Todas las productoras
+                            </option>
+                            {setProducer(allEvents).map((c) => {
+                                return (
+                                    <option id={c} value={c} key={c}>
+                                        {c}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                    </div>
+
+                    {/* Filter by Date */}
                     <div className="flex flex-row gap-2 items-center">
                         <label htmlFor="startDate">Desde:</label>
                         <input
                             type="date"
                             className="input"
                             name="startDate"
-                            onChange={handleFilterEventsChange}
+                            onChange={handleFilterByDateChange}
                             value={homeFilterByDate.startDate}
                             min={getCurrentDate()}
                         />
@@ -224,68 +174,50 @@ const Home = (props) => {
                             type="date"
                             className="input"
                             name="endDate"
-                            onChange={handleFilterEventsChange}
+                            onChange={handleFilterByDateChange}
                             value={homeFilterByDate.endDate}
                             min={homeFilterByDate.startDate}
                         />
                         <button
                             className="btnPrimary h-8 py-0 px-4 w-fit"
-                            onClick={submitFilterEvents}
+                            onClick={handleSubmitFilterEvents}
                         >
                             Filtrar
                         </button>
                     </div>
-                    <label htmlFor="startDate"></label>
-                    {/*SELECT PRODUCTORAS*/}
-                    <select
-                        className="inputSelect w-fit"
-                        onChange={handleFilterByProducer}
-                        value={homeFilterByProducer}
-                    >
-                        <option value="" disabled selected hidden>
-                            Busqueda por productora
-                        </option>
-                        <option value="All">Todas las productoras</option>
-                        {setProducer(allEvents).map((c) => {
-                            return (
-                                <option id={c} value={c} key={c}>
-                                    {c}
-                                </option>
-                            );
-                        })}
-                    </select>
-                    {/*odenamientos*/}
-                    <select
-                        value={ordersinput.orderAlpha}
-                        onChange={(event) => {
-                            handleSortAbc(event);
-                        }}
-                        className="inputSelect w-fit"
-                    >
-                        <option value="" disabled selected hidden>
-                            ABC
-                        </option>
-                        <option value="Asc">A-Z</option>
-                        <option value="Desc">Z-A</option>
-                    </select>
-                    <select
-                        value={ordersinput.orderDate}
-                        onChange={(event) => {
-                            handleSortDate(event);
-                        }}
-                        className="inputSelect w-fit"
-                    >
-                        <option value="" disabled selected hidden>
-                            Fechas
-                        </option>
-                        <option value="First">Próximos</option>
-                        <option value="Last">Ultimos</option>
-                    </select>
-                    <div className=" flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 btnPrimary rounded-full border border-secondaryBorder mr-4">
-                        <button className="" onClick={handleResetFilters}>
-                            <FaSync />
-                        </button>
+
+                    {/* Sort */}
+                    <div className="flex flex-row gap-2 items-center">
+                        <label htmlFor="sort">Ordenar:</label>
+
+                        <select
+                            value={homeSort}
+                            onChange={handleSortEvents}
+                            className="inputSelect w-fit"
+                            name="sort"
+                        >
+                            <option value={SORT_TYPES.DEFAULT}>Default</option>
+                            <option value={SORT_TYPES.BY_ALPHABETIC.ASC}>
+                                A-Z
+                            </option>
+                            <option value={SORT_TYPES.BY_ALPHABETIC.DESC}>
+                                Z-A
+                            </option>
+                            <option value={SORT_TYPES.BY_DATE.FIRST}>
+                                Próximos
+                            </option>
+                            <option value={SORT_TYPES.BY_DATE.LAST}>
+                                Últimos
+                            </option>
+                        </select>
                     </div>
+
+                    <button
+                        className="btnPrimary px-2"
+                        onClick={handleResetFilters}
+                    >
+                        <FaSync />
+                    </button>
                 </div>
 
                 {/* Info paginado */}
@@ -310,14 +242,7 @@ const Home = (props) => {
                 ) : (
                     <div>
                         <EventContainer events={currentEvents} />
-                        {isLoading ? null : (
-                            <Paginado
-                                eventsPerPage={eventsPerPage}
-                                allEventos={homeEvents.length}
-                                paginado={paginado}
-                                currentPage={currentPage}
-                            />
-                        )}
+                        {isLoading ? null : <Paginado />}
                     </div>
                 )}
             </div>
@@ -327,6 +252,7 @@ const Home = (props) => {
 
 const mapStateToProps = (state) => {
     return {
+        allEvents: state.allEvents,
         homeEvents: state.homeEvents,
         homeFilterByProducer: state.homeFilterByProducer,
         homeFilterByDate: state.homeFilterByDate,
@@ -337,7 +263,10 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        getAllEvents: () => dispatch(getAllEvents()),
+        setAllEventsOnHomeEvents: () => dispatch(setAllEventsOnHomeEvents()),
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
