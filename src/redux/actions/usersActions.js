@@ -12,16 +12,20 @@ export const USERS_REMOVE_SIGN_ERROR = "USERS_REMOVE_SIGN_ERROR";
 export const USERS_SIGN_UP_STEP_SET = "USERS_SIGN_UP_STEP_SET";
 export const USER_CHANGE_PASSWORD = "USER_CHANGE_PASSWORD";
 
+// ============= User events Actions Types
 export const USER_GET_USER_EVENTS_BY_USER_ID = "USER_GET_EVENTS_BY_USER_ID";
+export const USER_SET_USER_EVENTS = "USER_SET_USER_EVENTS";
 export const USER_REMOVE_USER_EVENTS = "USER_REMOVE_USER_EVENTS";
+export const USER_SEARCH_USER_EVENTS = "USER_SEARCH_USER_EVENTS";
+export const FILTER_BY_CURRENT = "FILTER_BY_CURRENT";
 
 // ============= Actions Creators
 
-export const signIn = ({ mail, password }) => {
+export const signIn = ({ email, password }) => {
     return async (dispatch) => {
         try {
             const response = await axios.post(`${BACKEND_URL}/users/signin`, {
-                mail: mail,
+                email: email,
                 password: password,
             });
             const { user, jwt } = response.data;
@@ -48,7 +52,7 @@ export const signInGoogle = (extractedData) => {
                 extractedData
             );
             const { user, jwt } = response.data;
-            localStorage.setItem("token", jwt);
+            localStorage.setItem("tokenGoogle", jwt);
             dispatch({
                 type: USER_SIGN_IN,
                 payload: user,
@@ -133,8 +137,28 @@ export const getUserEventsByUserId = (userId) => {
     };
 };
 
+export const setUserEvents = () => {
+    return {
+        type: USER_SET_USER_EVENTS,
+    };
+};
+
 export const removeUserEvents = () => {
     return {
         type: USER_REMOVE_USER_EVENTS,
+    };
+};
+
+export const searchUserEvents = (name) => {
+    return {
+        type: USER_SEARCH_USER_EVENTS,
+        payload: name,
+    };
+};
+
+export const filterEventsByCurrent = (filter) => {
+    return {
+        type: FILTER_BY_CURRENT,
+        payload: filter,
     };
 };

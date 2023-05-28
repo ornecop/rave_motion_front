@@ -9,17 +9,20 @@ info de la pagina con link a about
 preguntas frecuentes
 */
 
-// Assets
-const images = [
-    "https://wallpapercave.com/wp/wp1889483.jpg",
-    "https://wallpapercave.com/wp/wp1889488.jpg",
-];
+// Images
+import { images } from "../../const";
 
 // Components
 import EventContainer from "../../components/EventContainer";
+import Paginado from "../../components/Paginado";
+import Loading from "../../components/Loading";
 
 // Hooks
 import { useState, useEffect } from "react";
+
+//Reset
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSync } from "@fortawesome/free-solid-svg-icons";
 
 // React Redux
 import { connect, useDispatch, useSelector } from "react-redux";
@@ -30,11 +33,6 @@ import getCurrentDate from "../../functions/getCurrentDate";
 
 // Functions
 import setProducer from "../../functions/setProducer";
-
-// Paginado
-import Paginado from "../../components/Paginado";
-// icon
-import { GrRefresh } from "react-icons/gr";
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -54,6 +52,12 @@ const Home = () => {
 
     const totalEvents = allEvents.length;
     const totalPages = Math.ceil(totalEvents / eventsPerPage);
+
+    //orders
+    const [ordersinput, setordersInput] = useState({
+        orderDate: "",
+        orderAlpha: "",
+    });
 
     const paginado = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -79,7 +83,7 @@ const Home = () => {
     // Filtros
     const [filterEvents, setFilterEvents] = useState({
         startDate: getCurrentDate(),
-        endDate: null,
+        endDate: "",
         producer: null,
     });
 
@@ -91,6 +95,24 @@ const Home = () => {
             setFilterEvents({ ...filterEvents, endDate: event.target.value });
         }
     };
+
+    //resetFiltros
+    function resetFilters() {
+        setFilterEvents({
+            startDate: getCurrentDate(),
+            endDate: "",
+            producer: null,
+        });
+
+        setFilterByProducer("Todas");
+        setordersInput({ orderDate: "", orderAlpha: "" });
+        setCurrentPage(1);
+    }
+
+    function handleResetFilters() {
+        resetFilters();
+        dispatch(getAllEvents());
+    }
 
     // Filtro por productora
     const [filterByProducer, setFilterByProducer] = useState("Todas");
@@ -104,7 +126,6 @@ const Home = () => {
             setCurrentPage(1);
             return;
         }
-
         setFilterEvents({ ...filterEvents, producer: event.target.value });
         dispatch(
             filteredEvents({ ...filterEvents, producer: event.target.value })
@@ -119,11 +140,13 @@ const Home = () => {
 
     //ORDENAMIENTOS
     const handleSortAbc = (event) => {
+        setordersInput({ ...ordersinput, orderAlpha: event.target.value });
         dispatch(alphabeticOrder(event.target.value));
         setCurrentPage(1);
     };
 
     const handleSortDate = (event) => {
+        setordersInput({ ...ordersinput, orderDate: event.target.value });
         dispatch(dateOrder(event.target.value));
         setCurrentPage(1);
     };
@@ -203,7 +226,7 @@ const Home = () => {
                             Filtrar
                         </button>
                     </div>
-                    <label htmlFor="startDate">Filtrar:</label>
+                    <label htmlFor="startDate"></label>
                     {/*SELECT PRODUCTORAS*/}
                     <select
                         className="inputSelect w-fit"
@@ -224,6 +247,7 @@ const Home = () => {
                     </select>
                     {/*odenamientos*/}
                     <select
+                        value={ordersinput.orderAlpha}
                         onChange={(event) => {
                             handleSortAbc(event);
                         }}
@@ -236,6 +260,7 @@ const Home = () => {
                         <option value="Desc">Z-A</option>
                     </select>
                     <select
+                        value={ordersinput.orderDate}
                         onChange={(event) => {
                             handleSortDate(event);
                         }}
@@ -247,11 +272,9 @@ const Home = () => {
                         <option value="First">Próximos</option>
                         <option value="Last">Ultimos</option>
                     </select>
-
-                    <div >
-                        <button className=" flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-2 btnPrimary rounded-full border border-secondaryBorder"
-                        onClick={handleResetFilters}>
-                            <GrRefresh className=" text-gray-50"/> 
+                    <div className=" flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 btnPrimary rounded-full border border-secondaryBorder mr-4">
+                        <button className="" onClick={handleResetFilters}>
+                            <FontAwesomeIcon icon={faSync} />
                         </button>
                     </div>
                 </div>
@@ -265,9 +288,7 @@ const Home = () => {
 
             <div className="min-h-[50vh] flex items-center justify-center">
                 {isLoading ? (
-                    <div className="flex flex-col w-full h-full items-center justify-center">
-                        <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-fuchsia-600"></div>
-                    </div>
+                    <Loading />
                 ) : currentEvents.length === 0 ? (
                     <div className="flex flex-col w-full h-full items-center justify-center">
                         <h2 className="font-bold text-center text-5xl">

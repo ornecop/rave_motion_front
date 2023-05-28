@@ -10,27 +10,53 @@
     * Las acciones hacen que aparezcan alerts con el detalle de la accion
     
 */
-
 // Redux
 import { connect } from "react-redux";
+import {
+    getUserTickets,
+    filterUserTicketsByCurrent,
+} from "../../redux/actions/usersTicketsActions";
 
 // Hooks
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const UserTickets = ({ userData }) => {
-    const userTickets = [];
+// PDF
+import { PDFDownloadLink } from "@react-pdf/renderer";
+
+// Components
+import EventDate from "../../components/EventDate";
+import TicketPdf from "../../components/TicketPdf";
+
+// Assets
+import { BsDownload } from "react-icons/bs";
+
+// Const
+import { FILTER_EVENTS_BY_DATE } from "../../const";
+const { ACTIVES, PASS, ALL } = FILTER_EVENTS_BY_DATE;
+
+const UserTickets = (props) => {
+    // Props
+    const { userData, userTickets } = props;
+    const { getUserTickets, filterUserTicketsByCurrent } = props;
+
+    // Get User Tickets by UserId
+    useEffect(() => {
+        userData.id && getUserTickets(userData.id);
+        filterUserTicketsByCurrent(filterByDate);
+    }, [userData, getUserTickets]);
 
     // Filter events
-    const [filterByDate, setFilterByDate] = useState("active_events");
+    const [filterByDate, setFilterByDate] = useState(ACTIVES);
 
     const handleFilter = (event) => {
         setFilterByDate(event.target.value);
+        filterUserTicketsByCurrent(event.target.value);
     };
 
     return (
-        <div className="w-screen h-[calc(100vh_-_3rem)]">
+        <div className="w-screen min-h-[calc(100vh_-_3rem)]">
             <div className="h-16 w-screen block"></div>
-            <section className="flex flex-col px-8 py-4 ">
+            <section className="flex flex-col px-8 py-4 mt-4">
                 {/* NavBar */}
                 <nav className="grid grid-cols-2 w-full h-16 ">
                     <div className="flex justify-self-start items-center">
@@ -45,13 +71,9 @@ const UserTickets = ({ userData }) => {
                             onChange={handleFilter}
                             value={filterByDate}
                         >
-                            <option value="active_events" selected>
-                                Eventos activos
-                            </option>
-                            <option value="pass_events">Eventos pasados</option>
-                            <option value="all_eventos">
-                                Todos los eventos
-                            </option>
+                            <option value={ACTIVES}>Eventos activos</option>
+                            <option value={PASS}>Eventos pasados</option>
+                            <option value={ALL}>Todos los eventos</option>
                         </select>
                         <div className="bg-slate-500 rounded-full w-12 h-12 flex justify-center items-center text-2xl font-semibold">
                             <span>
@@ -91,26 +113,56 @@ const UserTickets = ({ userData }) => {
                                     scope="col"
                                     className="px-2 py-3 text-center"
                                 >
-                                    Opciones tickets
+                                    Descargar QR
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            {userTickets ? (
+                            {userTickets?.length ? (
                                 userTickets.map((ticket) => (
                                     <tr className="border-b" key={ticket.id}>
                                         <td
                                             scope="row"
                                             className="px-2 py-4 font-semibold whitespace-nowrap"
                                         >
-                                            {ticket.name}
+                                            {ticket.Event.name}
                                         </td>
-                                        <td className="px-2 py-4"></td>
-
-                                        <td className="px-2 py-4 text-center"></td>
-
+                                        <td className="px-2 py-4">
+                                            <EventDate
+                                                date={ticket.Event.date}
+                                                hour={"23:59:00"}
+                                            />
+                                        </td>
+                                        <td className="px-2 py-4 text-center">
+                                            {ticket.Ticket.name} -{" "}
+                                            {ticket.Ticket.accessType}
+                                        </td>
                                         <td className="px-2 py-4 justify-center">
-                                            <div className="flex flex-row gap-6 items-center justify-center"></div>
+                                            <div className="flex flex-row gap-6 items-center justify-center">
+                                                <button className="btnPrimary px-2 w-fit">
+                                                    <PDFDownloadLink
+                                                        document={
+                                                            <TicketPdf
+                                                                ticket={ticket}
+                                                            />
+                                                        }
+                                                        fileName={ticket.id}
+                                                    >
+                                                        {({
+                                                            blob,
+                                                            url,
+                                                            loading,
+                                                            error,
+                                                        }) =>
+                                                            loading ? (
+                                                                "Cargando..."
+                                                            ) : (
+                                                                <BsDownload />
+                                                            )
+                                                        }
+                                                    </PDFDownloadLink>
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))
@@ -128,10 +180,15 @@ const UserTickets = ({ userData }) => {
 const mapStateToProps = (state) => {
     return {
         userData: state.userData,
+        userTickets: state.userTickets,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        getUserTickets: (userId) => dispatch(getUserTickets(userId)),
+        filterUserTicketsByCurrent: (filter) =>
+            dispatch(filterUserTicketsByCurrent(filter)),
+    };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UserTickets);

@@ -15,9 +15,9 @@ const GoogleAuthComponent = () => {
         const {
             given_name: name,
             family_name: lastname,
-            email: mail,
+            email: email,
         } = userObject;
-        const extractedData = { name, lastname, mail };
+        const extractedData = { name, lastname, email };
         dispatch(signInGoogle(extractedData));
     }
 

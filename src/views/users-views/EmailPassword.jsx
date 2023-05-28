@@ -23,7 +23,7 @@ import * as Yup from "yup";
 
 // Validation schemas
 const validationSchema = Yup.object().shape({
-    mail: Yup.string()
+    email: Yup.string()
         .email("El mail no es valido.")
         .required("Este campo es requerido."),
 });
@@ -40,7 +40,7 @@ const EmailPassword = () => {
         try {
             const response = await axios.post(
                 `http://localhost:3001/users/resetpassword`,
-                { mail: values.mail }
+                { email: values.email }
             );
             const passwordToken = response.data.resetPasswordToken;
             localStorage.setItem("passwordtoken", passwordToken);
@@ -87,36 +87,36 @@ const EmailPassword = () => {
                             Solicitar cambio de contraseña
                         </h2>
                         <Formik
-                            initialValues={{ mail: "" }}
+                            initialValues={{ email: "" }}
                             onSubmit={handleSubmit}
                             validationSchema={validationSchema}
                         >
                             {({ isSubmitting, touched, errors, values }) => (
                                 <Form>
-                                    {/* mail */}
+                                    {/* email */}
                                     <div className="flex flex-col my-2">
                                         <label
-                                            htmlFor="mail"
+                                            htmlFor="email"
                                             className="block my-1 font-semibold"
                                         >
                                             Mail:
                                         </label>
                                         <Field
                                             className={
-                                                touched.mail && errors.mail
+                                                touched.email && errors.email
                                                     ? "inputError"
-                                                    : touched.mail &&
-                                                      !errors.mail
+                                                    : touched.email &&
+                                                      !errors.email
                                                     ? "inputSuccess"
                                                     : "input"
                                             }
                                             type="text"
                                             placeholder="Tu mail"
-                                            name="mail"
+                                            name="email"
                                             autoComplete="false"
                                         />
                                         <ErrorMessage
-                                            name="mail"
+                                            name="email"
                                             component="span"
                                             className="errorMessage"
                                         />
