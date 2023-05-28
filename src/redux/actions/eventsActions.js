@@ -4,6 +4,7 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 // ============= Global Action Types
 import { GLOBAL_ERROR_SET } from "./appActions";
 
+
 // ============= Events Actions Types
 export const EVENTS_GET_ALL = "EVENTS_GET_ALL";
 export const EVENTS_SET_HOME_EVENTS = "EVENTS_SET_HOME_EVENTS";
@@ -14,6 +15,7 @@ export const EVENT_DETAIL_GET = "EVENT_DETAIL_GET";
 export const EVENT_DETAIL_REMOVE = "EVENT_DETAIL_REMOVE";
 
 export const EVENTS_SORT = "EVENTS_SORT";
+export const EVENTS_FILTER = "EVENTS_FILTER";
 
 // ============= Events Actions Creators
 // Get all events
@@ -73,3 +75,11 @@ export const sortEvents = (sort) => {
         payload: sort,
     };
 };
+
+export const filterByDateEvents = (objectDate) => {
+    return {
+        type: EVENTS_FILTER_BY_DATE,
+        payload: objectDate,
+    };
+};
+
