@@ -6,7 +6,13 @@ import { useState, useEffect } from "react";
 
 // React Redux
 import { connect } from "react-redux";
-import { setAllEventsOnHomeEvents } from "../redux/actions/eventsActions";
+import {
+    setAllEventsOnHomeEvents,
+    setDateToFilter,
+    filterEventsByDate,
+    filterEventsByProducer,
+    sortEvents,
+} from "../redux/actions/eventsActions";
 
 // Functions
 import setProducer from "../functions/setProducer";
@@ -29,25 +35,41 @@ const HomeNavBar = (props) => {
     } = props;
 
     // Actions
-    const { setAllEventsOnHomeEvents } = props;
+    const {
+        setAllEventsOnHomeEvents,
+        setDateToFilter,
+        filterEventsByDate,
+        filterEventsByProducer,
+        sortEvents,
+    } = props;
 
     // Filter by Date
     const handleFilterByDateChange = (event) => {
-        // PENDIENTE EN REDUX!!
+        //
+        if (event.target.name === "startDate")
+            setDateToFilter({
+                startDate: event.target.value,
+                endDate: homeFilterByDate.endDate,
+            });
+        if (event.target.name === "endDate")
+            setDateToFilter({
+                endDate: event.target.value,
+                startDate: homeFilterByDate.startDate,
+            });
     };
 
-    const handleSubmitFilterEvents = (event) => {
-        // PENDIENTE EN REDUX!!
+    const handleSubmitFilterEvents = () => {
+        filterEventsByDate();
     };
 
     // Filter by Producer
     const handleFilterByProducer = (event) => {
-        // PENDIENTE EN REDUX!!
+        filterEventsByProducer(event.target.value);
     };
 
     // Sort
     const handleSortEvents = (event) => {
-        // PENDIENTE EN REDUX!!
+        sortEvents(event.target.value);
     };
 
     // Reset
@@ -161,6 +183,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setAllEventsOnHomeEvents: () => dispatch(setAllEventsOnHomeEvents()),
+        setDateToFilter: (objectDate) => dispatch(setDateToFilter(objectDate)),
+        filterEventsByDate: () => dispatch(filterEventsByDate()),
+        filterEventsByProducer: (producer) =>
+            dispatch(filterEventsByProducer(producer)),
+        sortEvents: (sort) => dispatch(sortEvents(sort)),
     };
 };
 
