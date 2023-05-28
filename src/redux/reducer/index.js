@@ -9,16 +9,16 @@ import {
 // Events Actions Types
 import {
     EVENTS_SEARCH,
-    EVENTS_SEARCH_REMOVE,
+    EVENTS_SET_HOME_EVENTS,
     EVENTS_GET_ALL,
     EVENT_DETAIL_GET,
     EVENT_DETAIL_REMOVE,
+    EVENTS_SORT,
+    sortEvents,
 } from "../actions/eventsActions";
 
 // Filters & Orders
 import { EVENTS_FILTER } from "../actions/filtersActions";
-import { ALPHABETIC_ORDER, DATE_ORDER } from "../actions/orderActions";
-import { FILTER_EVENTS_BY_DATE } from "../../const";
 
 // User Actions Types
 import {
@@ -43,33 +43,90 @@ import {
 import initialState from "./initialState";
 
 // Consts
+import { FILTER_EVENTS_BY_DATE } from "../../const";
+import { SORT_TYPES } from "../../const";
 const { ACTIVES, PASS, ALL } = FILTER_EVENTS_BY_DATE;
+
+// Current Date
 const currentDate = new Date();
 
-// Root reducer
+// Functions ==============================================
+
+const applySort = (events, sort) => {
+    let sortedEvents = [...events];
+
+    switch (sort) {
+        case SORT_TYPES.BY_ALPHABETIC.ASC:
+            sortedEvents.sort((a, b) => a.name.localeCompare(b.name));
+            break;
+        case SORT_TYPES.BY_ALPHABETIC.DESC:
+            sortedEvents.sort((a, b) => b.name.localeCompare(a.name));
+            break;
+        case SORT_TYPES.BY_DATE.FIRST:
+            sortedEvents.sort((a, b) => {
+                let aDate = new Date(a.date.slice(0, 10));
+                aDate.setHours(aDate.getHours() + 3);
+
+                let bDate = new Date(b.date.slice(0, 10));
+                bDate.setHours(bDate.getHours() + 3);
+
+                return bDate - aDate;
+            });
+            break;
+        case SORT_TYPES.BY_DATE.LAST:
+            sortedEvents.sort((a, b) => {
+                let aDate = new Date(a.date.slice(0, 10));
+                aDate.setHours(aDate.getHours() + 3);
+
+                let bDate = new Date(b.date.slice(0, 10));
+                bDate.setHours(bDate.getHours() + 3);
+
+                return aDate - bDate;
+            });
+            break;
+        default:
+            break;
+    }
+    return sortedEvents;
+};
+
+// Root reducer ===========================================
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
-        // Events Actions =============================
-        // Get all
+        // Events Actions =================================
+
+        // Get all / SetAll
         case EVENTS_GET_ALL:
             return {
                 ...state,
                 allEvents: action.payload,
                 homeEvents: action.payload,
             };
+        case EVENTS_SET_HOME_EVENTS:
+            return {
+                ...state,
+                homeEvents: state.allEvents,
+                currentPage: 1,
+                homeFilterByProducer: FILTER_TYPES.BY_PRODUCER.ALL,
+                homeFilterByDate: {
+                    startDate: new Date(),
+                    endDate: "",
+                },
+                homeSort: SORT_TYPES.DEFAULT,
+            };
+
         // Search
         case EVENTS_SEARCH:
             return {
                 ...state,
-                searchResult: action.payload,
+                homeEvents: state.allEvents.filter((event) =>
+                    event.name
+                        .toLowerCase()
+                        .includes(action.payload.toLowerCase())
+                ),
                 currentPage: 1,
             };
-        case EVENTS_SEARCH_REMOVE:
-            return {
-                ...state,
-                searchResult: [],
-                currentPage: 1,
-            };
+
         // Detail
         case EVENT_DETAIL_GET:
             return {
@@ -82,42 +139,47 @@ const rootReducer = (state = initialState, action) => {
                 eventDetail: {},
             };
 
-        // Filtros
-        case EVENTS_FILTER:
-            return { ...state, homeEvents: action.payload, currentPage: 1 };
+        // Filter
+        case EVENTS_FILTER_BY_DATE:
+            let filteredEvents = applyFilters(state.allEvents);
 
-        // Order
+            // Funcion de filtros
 
-        case ALPHABETIC_ORDER:
-            let order = [...state.homeEvents];
+            const filteredAndSortedEvents = applySort(
+                filteredEvents,
+                state.homeSort
+            );
 
-            if (action.payload === "Asc") {
-                order.sort((a, b) => a.name.localeCompare(b.name));
-            }
-            if (action.payload === "Desc") {
-                order.sort((a, b) => b.name.localeCompare(a.name));
-            }
             return {
                 ...state,
-                homeEvents: order,
+                homeEvents: filteredAndSortedEvents,
+                homeFilterByDate: action.payload,
                 currentPage: 1,
             };
 
-        case DATE_ORDER:
-            const dateOrder = [...state.homeEvents];
-            if (action.payload === "Last") {
-                dateOrder.sort((a, b) => new Date(b.date) - new Date(a.date));
-            }
-            if (action.payload === "First") {
-                dateOrder.sort((a, b) => new Date(a.date) - new Date(b.date));
-            }
+        case EVENTS_FILTER_BY_PRODUCER:
+            let filteredEvents = applyFilters(state.allEvents);
             return {
                 ...state,
-                homeEvents: dateOrder,
+                homeEvents: action.payload,
+                currentPage: 1,
+                filter: action.payload,
+            };
+
+        // Sort
+        case EVENTS_SORT:
+            let sortedEvents = applySort(state.allEvents, action.payload);
+
+            // const sortedAndFilteredEvents = applyFilters(sortedEvents, ... )
+
+            return {
+                ...state,
+                homeSort: action.payload,
+                homeEvents: sortedAndFilteredEvents,
                 currentPage: 1,
             };
 
-        // Users
+        // Users ==========================================
         case USER_SIGN_IN:
             return {
                 ...state,

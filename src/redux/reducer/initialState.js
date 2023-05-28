@@ -1,20 +1,21 @@
+import { FILTER_TYPES, SORT_TYPES } from "../../const";
+
 const initialState = {
     // All events
     allEvents: [],
 
     // Home events
     homeEvents: [],
-    homeEventsFilterByProducer: "All",
-    homeEventsFilterByDate: {
-        startDate: null,
-        endDate: null,
-    },
-    homeEventsOrder: "Default",
-    eventsPerPage: 10,
-    currentPage: 1,
 
-    // Search events
-    searchResult: [],
+    homeFilterByProducer: FILTER_TYPES.BY_PRODUCER.ALL,
+    homeFilterByDate: {
+        startDate: new Date(),
+        endDate: "",
+    },
+    homeSort: SORT_TYPES.DEFAULT,
+
+    currentPage: 1,
+    eventsPerPage: 10,
 
     // Detail event
     eventDetail: {},
@@ -29,10 +30,11 @@ const initialState = {
     userSignError: "",
     signUpStep: 1,
 
+    // Producer Events
     userEvents: [],
     allUserEvents: [],
 
-    // User tickets states
+    // User tickets
     userTickets: [],
     allUserTickets: [],
 
@@ -40,7 +42,7 @@ const initialState = {
     globalError: "",
     globalSuccess: "",
 
-    //Cart
+    // Cart
     selectedTickets: {},
 };
 
