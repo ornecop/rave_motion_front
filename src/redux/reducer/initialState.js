@@ -10,7 +10,7 @@ const initialState = {
     homeFilterByProducer: FILTER_TYPES.BY_PRODUCER.ALL,
     homeFilterByDate: {
         startDate: new Date(),
-        endDate: null,
+        endDate: "",
     },
     homeSort: SORT_TYPES.DEFAULT,
 

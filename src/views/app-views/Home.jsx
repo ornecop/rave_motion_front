@@ -36,12 +36,26 @@ const dateOrder = () => {};
 import getCurrentDate from "../../functions/getCurrentDate";
 import setProducer from "../../functions/setProducer";
 
-const Home = () => {
+// Const
+import { FILTER_TYPES } from "../..";
+
+const Home = (props) => {
+    // Global State
+    const {
+        homeEvents,
+        homeFilterByProducer,
+        homeFilterByDate,
+        homeSort,
+        currentPage,
+        eventsPerPage,
+    } = props;
+
+    // Actions
+
     const dispatch = useDispatch();
 
     // Get events
     const allEvents = useSelector((state) => state.allEvents);
-    const homeEvents = useSelector((state) => state.homeEvents);
 
     useEffect(() => {
         !allEvents.length && dispatch(getAllEvents());
@@ -202,7 +216,7 @@ const Home = () => {
                             className="input"
                             name="startDate"
                             onChange={handleFilterEventsChange}
-                            value={filterEvents.startDate}
+                            value={homeFilterByDate.startDate}
                             min={getCurrentDate()}
                         />
                         <label htmlFor="endDate">Hasta:</label>
@@ -211,8 +225,8 @@ const Home = () => {
                             className="input"
                             name="endDate"
                             onChange={handleFilterEventsChange}
-                            value={filterEvents.endDate}
-                            min={filterEvents.startDate}
+                            value={homeFilterByDate.endDate}
+                            min={homeFilterByDate.startDate}
                         />
                         <button
                             className="btnPrimary h-8 py-0 px-4 w-fit"
@@ -226,7 +240,7 @@ const Home = () => {
                     <select
                         className="inputSelect w-fit"
                         onChange={handleFilterByProducer}
-                        value={filterByProducer}
+                        value={homeFilterByProducer}
                     >
                         <option value="" disabled selected hidden>
                             Busqueda por productora
@@ -311,4 +325,19 @@ const Home = () => {
     );
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+    return {
+        homeEvents: state.homeEvents,
+        homeFilterByProducer: state.homeFilterByProducer,
+        homeFilterByDate: state.homeFilterByDate,
+        homeSort: state.homeSort,
+        currentPage: state.currentPage,
+        eventsPerPage: state.eventsPerPage,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

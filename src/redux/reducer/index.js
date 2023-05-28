@@ -106,6 +106,13 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 homeEvents: state.allEvents,
+                currentPage: 1,
+                homeFilterByProducer: FILTER_TYPES.BY_PRODUCER.ALL,
+                homeFilterByDate: {
+                    startDate: new Date(),
+                    endDate: "",
+                },
+                homeSort: SORT_TYPES.DEFAULT,
             };
 
         // Search
