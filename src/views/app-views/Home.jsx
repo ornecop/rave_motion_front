@@ -26,7 +26,11 @@ import { useDispatch, useSelector } from "react-redux";
 // Actions
 import { getAllEvents } from "../../redux/actions/eventsActions";
 import { filterEventsByDateOrProducer } from "../../redux/actions/filtersActions";
-import { alphabeticOrder, dateOrder } from "../../redux/actions/orderActions";
+
+// BORRAR!!!
+
+const alphabeticOrder = () => {};
+const dateOrder = () => {};
 
 // Functions
 import getCurrentDate from "../../functions/getCurrentDate";
