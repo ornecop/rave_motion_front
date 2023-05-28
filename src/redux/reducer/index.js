@@ -15,11 +15,10 @@ import {
     EVENT_DETAIL_REMOVE,
     EVENTS_SORT,
     EVENTS_FILTER_BY_DATE,
-    sortEvents,
-} from "../actions/eventsActions";
+    EVENTS_FILTER_BY_PRODUCER,
+    EVENTS_SET_CURRENT_PAGE,
 
-// Filters & Orders
-import { EVENTS_FILTER } from "../actions/filtersActions";
+} from "../actions/eventsActions";
 
 // User Actions Types
 import {
@@ -171,6 +170,7 @@ const rootReducer = (state = initialState, action) => {
 
         // Filter
         case EVENTS_FILTER_BY_DATE:
+
             let filterEvents = applyFilter(state.allEvents, action.payload , state.homeFilterByProducer);
 
             // Funcion de filtros
@@ -188,10 +188,10 @@ const rootReducer = (state = initialState, action) => {
             };
 
         case EVENTS_FILTER_BY_PRODUCER:
-            let filteredEvents = applyFilters(state.allEvents);
+            var filteredEventsByProducer = applyFilters(state.allEvents);
             return {
                 ...state,
-                homeEvents: action.payload,
+                homeEvents: filteredEventsByProducer,
                 currentPage: 1,
                 filter: action.payload,
             };
@@ -287,6 +287,9 @@ const rootReducer = (state = initialState, action) => {
                     return { ...state, userEvents: state.allUserEvents };
             }
             break;
+
+        case EVENTS_SET_CURRENT_PAGE:
+            return { ...state, currentPage: action.payload };
 
         // Fill Cart
         case FILL_CART:
