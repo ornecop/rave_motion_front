@@ -33,6 +33,9 @@ import setProducer from "../../functions/setProducer";
 
 // Paginado
 import Paginado from "../../components/Paginado";
+// icon
+import { GrRefresh } from "react-icons/gr";
+
 const Home = () => {
     const dispatch = useDispatch();
     const Events = useSelector((state) => state.allEvents);
@@ -134,6 +137,21 @@ const Home = () => {
         }, 2000);
     }, []);
 
+    // reset filter
+    function resetFilters() {
+        setFilterEvents({
+          startDate: getCurrentDate(),
+          endDate: null,
+          producer: null,
+        });
+        setFilterByProducer("Todas");
+      }
+      
+      function handleResetFilters() {
+        resetFilters();
+        dispatch(getAllEvents());
+      }
+
     return (
         <div className="w-full min-h-screen">
             {/* Carrousel */}
@@ -229,6 +247,13 @@ const Home = () => {
                         <option value="First">Próximos</option>
                         <option value="Last">Ultimos</option>
                     </select>
+
+                    <div >
+                        <button className=" flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-2 btnPrimary rounded-full border border-secondaryBorder"
+                        onClick={handleResetFilters}>
+                            <GrRefresh className=" text-gray-50"/> 
+                        </button>
+                    </div>
                 </div>
 
                 {/* Info paginado */}

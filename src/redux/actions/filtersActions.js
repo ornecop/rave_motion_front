@@ -11,11 +11,12 @@ export const filteredEvents = ({ startDate, endDate, producer }) => {
     return async (dispatch) => {
         try {
             let filteredEvents;
-
+            
             if (producer === null && startDate && endDate === null) {
                 const response = await axios.get(
                     `${BACKEND_URL}/events/filter?startDate=${startDate}`
                 );
+                filteredEvents = response.data;
             } else if (startDate && endDate && producer) {
                 const response = await axios.get(
                     `${BACKEND_URL}/events/filter?producer=${producer}&startDate=${startDate}&endDate=${endDate}`
