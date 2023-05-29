@@ -23,6 +23,7 @@ import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { Link as ScrollLink } from "react-scroll";
 
 // Components
+import EventDate from "../../components/EventDate";
 import Loading from "../../components/Loading";
 import SelectTickets from "../../components/SelectTickets";
 
@@ -42,16 +43,6 @@ const EventDetail = (props) => {
             removeEventDetail();
         };
     }, [getEventById, id, removeEventDetail]);
-
-    // Formateo de fecha y hour
-    const date = new Date(eventDetail.date);
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear().toString();
-
-    const formatDate = `${day}-${month}-${year}`;
-
-    const formatHour = eventDetail.hour ? eventDetail.hour.slice(0, 5) : "-";
 
     // Disponibilidad y valor minimo
     const availability = () => {
@@ -155,7 +146,11 @@ const EventDetail = (props) => {
                                         <div className="flex flex-row items-center justify-start pb-4 gap-2 border-b border-secondaryBorder text-fuchsia-600 font-semibold text-xl">
                                             <AiOutlineCalendar size="1.75rem" />
                                             <span className="">
-                                                {formatDate} - {formatHour}
+                                                <EventDate
+                                                    date={eventDetail.date}
+                                                    hour={eventDetail.hour}
+                                                    hyphen="true"
+                                                />
                                             </span>
                                         </div>
                                         <div className="flex flex-row items-center justify-start py-4 gap-2 border-b border-secondaryBorder">
