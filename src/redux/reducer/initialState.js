@@ -1,4 +1,5 @@
 import { FILTER_TYPES, SORT_TYPES } from "../../const";
+import getCurrentDate from"../../functions/getCurrentDate"
 
 const initialState = {
     // All events y finalized events
@@ -18,7 +19,7 @@ const initialState = {
 
     homeFilterByProducer: FILTER_TYPES.BY_PRODUCER.ALL,
     homeFilterByDate: {
-        startDate: new Date(),
+        startDate: getCurrentDate(),
         endDate: "",
     },
     homeSort: SORT_TYPES.DEFAULT,

@@ -14,7 +14,13 @@ export const EVENTS_SEARCH = "EVENTS_SEARCH";
 export const EVENT_DETAIL_GET = "EVENT_DETAIL_GET";
 export const EVENT_DETAIL_REMOVE = "EVENT_DETAIL_REMOVE";
 
+export const EVENTS_SET_DATE_FILTER_BY_DATE = "EVENTS_SET_DATE_FILTER_BY_DATE";
+export const EVENTS_FILTER_BY_DATE = "EVENTS_FILTER_BY_DATE";
+
+export const EVENTS_FILTER_BY_PRODUCER = "EVENTS_FILTER_BY_PRODUCER";
 export const EVENTS_SORT = "EVENTS_SORT";
+
+export const EVENTS_SET_CURRENT_PAGE = "EVENTS_SET_CURRENT_PAGE";
 
 // ============= Events Actions Creators
 // Get all events
@@ -81,9 +87,38 @@ export const removeEventDetail = () => {
     };
 };
 
+// Filters & Sort
+export const setDateToFilter = (objectDate) => {
+    return {
+        type: EVENTS_SET_DATE_FILTER_BY_DATE,
+        payload: objectDate,
+    };
+};
+
+export const filterEventsByDate = () => {
+    return {
+        type: EVENTS_FILTER_BY_DATE,
+    };
+};
+
+export const filterEventsByProducer = (producer) => {
+    return {
+        type: EVENTS_FILTER_BY_PRODUCER,
+        payload: producer,
+    };
+};
+
 export const sortEvents = (sort) => {
     return {
         type: EVENTS_SORT,
         payload: sort,
+    };
+};
+
+// Pagination
+export const setCurrentPage = (page) => {
+    return {
+        type: EVENTS_SET_CURRENT_PAGE,
+        payload: page,
     };
 };

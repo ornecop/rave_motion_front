@@ -65,24 +65,18 @@ const ProducerDashboard = (props) => {
                     const response = await axios.get(
                         `${BACKEND_URL}/events/${eventId}`
                     );
-                    console.log(response);
                     const eventExist =
                         response.data.name &&
                         response.data.userId === userData.id;
-                    console.log("event exits: ", eventExist);
                     if (eventExist) {
-                        console.log(1);
                         setView(DASHBOARD_VIEWS.EVENT_DETAIL);
                     } else {
-                        console.log(2);
                         setView(DASHBOARD_VIEWS.EVENT_NOT_FOUND);
                     }
                 } catch (error) {
-                    console.log(3);
                     setView(DASHBOARD_VIEWS.EVENT_NOT_FOUND);
                 }
             } else {
-                console.log(4);
                 setView(DASHBOARD_VIEWS.DASHBOARD);
             }
         };
@@ -287,9 +281,24 @@ const ProducerDashboard = (props) => {
                     </div>
                 </section>
             ) : view === DASHBOARD_VIEWS.EVENT_DETAIL ? (
-                <ProducerEventDetail />
+                <ProducerEventDetail eventId={eventId} />
             ) : (
-                <div>Not Found Event</div>
+                <div className="flex flex-col w-5/6 px-8 py-4">
+                    <div className="flex flex-col w-full h-full items-center justify-center">
+                        <h2 className="font-bold text-center text-6xl">
+                            LO SENTIMOS
+                        </h2>
+                        <h3 className="text-white text-2xl text-center ">
+                            No se a encontrado el evento.
+                        </h3>
+                        <div className="text-center flex-row text-2xl mt-4 ">
+                            Volver al{" "}
+                            <Link className="link" to="/dashboard">
+                                dashboard.
+                            </Link>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );

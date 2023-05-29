@@ -12,12 +12,13 @@ import {
     EVENTS_GET_ALL,
     EVENT_DETAIL_GET,
     EVENT_DETAIL_REMOVE,
-    EVENTS_FINALIZED_GET_ALL,
+    EVENTS_SET_DATE_FILTER_BY_DATE,
+    EVENTS_FILTER_BY_DATE,
+    EVENTS_FILTER_BY_PRODUCER,
     EVENTS_SORT,
+    EVENTS_SET_CURRENT_PAGE,
+    EVENTS_FINALIZED_GET_ALL
 } from "../actions/eventsActions";
-
-// Filters & Orders
-import { EVENTS_FILTER } from "../actions/filtersActions";
 
 // User Actions Types
 import {
@@ -42,7 +43,7 @@ import {
 import initialState from "./initialState";
 
 // Consts
-import { FILTER_EVENTS_BY_DATE } from "../../const";
+import { FILTER_EVENTS_BY_DATE, FILTER_TYPES } from "../../const";
 import { SORT_TYPES } from "../../const";
 const { ACTIVES, PASS, ALL } = FILTER_EVENTS_BY_DATE;
 
@@ -54,6 +55,10 @@ const currentDate = new Date();
 const applySort = (events, sort) => {
     let sortedEvents = [...events];
 
+    function getTimeFromString(timeString) {
+        const [hours, minutes, seconds] = timeString.split(":");
+        return hours * 3600 + minutes * 60 + seconds;
+    }
     switch (sort) {
         case SORT_TYPES.BY_ALPHABETIC.ASC:
             sortedEvents.sort((a, b) => a.name.localeCompare(b.name));
@@ -61,32 +66,52 @@ const applySort = (events, sort) => {
         case SORT_TYPES.BY_ALPHABETIC.DESC:
             sortedEvents.sort((a, b) => b.name.localeCompare(a.name));
             break;
+        
         case SORT_TYPES.BY_DATE.FIRST:
-            sortedEvents.sort((a, b) => {
-                let aDate = new Date(a.date.slice(0, 10));
-                aDate.setHours(aDate.getHours() + 3);
-
-                let bDate = new Date(b.date.slice(0, 10));
-                bDate.setHours(bDate.getHours() + 3);
-
-                return bDate - aDate;
-            });
-            break;
+                sortedEvents.sort((a, b) => {
+                    const dateA = new Date(a.date);
+                    const dateB = new Date(b.date);
+            
+                    if (dateA.getTime() !== dateB.getTime()) {
+                        return dateA - dateB;
+                    }
+                    const timeA = getTimeFromString(a.hour);
+                    const timeB = getTimeFromString(b.hour);
+            
+                    return timeA - timeB;
+                });
+                break;
         case SORT_TYPES.BY_DATE.LAST:
-            sortedEvents.sort((a, b) => {
-                let aDate = new Date(a.date.slice(0, 10));
-                aDate.setHours(aDate.getHours() + 3);
-
-                let bDate = new Date(b.date.slice(0, 10));
-                bDate.setHours(bDate.getHours() + 3);
-
-                return aDate - bDate;
-            });
-            break;
-        default:
-            break;
+                sortedEvents.sort((a, b) => {
+                    const dateA = new Date(a.date);
+                    const dateB = new Date(b.date);
+            
+                    if (dateA.getTime() !== dateB.getTime()) {
+                        return dateB - dateA;
+                    }
+                    const timeA = getTimeFromString(a.hour);
+                    const timeB = getTimeFromString(b.hour);
+                    return timeB - timeA;
+                });
+                break;
     }
     return sortedEvents;
+};
+
+const applyFilters = (events, filterDate, filterProducer) => {
+    let filterEvents = [...events];
+    let { startDate, endDate } = filterDate;
+    if(startDate.length){ startDate = new Date(startDate);
+    filterEvents = filterEvents.filter((event) => {
+        const eventDate = new Date(event.date);
+        return eventDate >= startDate && (!endDate || eventDate <= new Date(endDate));
+    });
+    }
+    if (filterProducer != FILTER_TYPES.BY_PRODUCER.ALL) {
+        filterEvents = filterEvents.filter((e) => e.producer === filterProducer);     
+    }
+    console.log(filterEvents)
+    return filterEvents;
 };
 
 // Root reducer ===========================================
@@ -101,14 +126,12 @@ const rootReducer = (state = initialState, action) => {
                 allEvents: action.payload,
                 homeEvents: action.payload,
             };
-<<<<<<< HEAD
             case EVENTS_FINALIZED_GET_ALL:
                 return {
                     ...state,
                     allEventsF: action.payload,
                     homeEventsF: action.payload,
                 };
-=======
         case EVENTS_SET_HOME_EVENTS:
             return {
                 ...state,
@@ -123,7 +146,6 @@ const rootReducer = (state = initialState, action) => {
             };
 
         // Search
->>>>>>> cb2c9222f8586416debffcd9181ad7e891546d41
         case EVENTS_SEARCH:
             return {
                 ...state,
@@ -148,42 +170,66 @@ const rootReducer = (state = initialState, action) => {
             };
 
         // Filter
+        case EVENTS_SET_DATE_FILTER_BY_DATE:
+            return {
+                ...state,
+                homeFilterByDate: action.payload,
+            };
+
         case EVENTS_FILTER_BY_DATE:
-            let filteredEvents = applyFilters(state.allEvents);
+            const filteredEvents1 = applyFilters(
+                state.allEvents,
+                state.homeFilterByDate,
+                state.homeFilterByProducer
+            );
 
-            // Funcion de filtros
-
-            const filteredAndSortedEvents = applySort(
-                filteredEvents,
+            const filteredAndSortedEvents1 = applySort(
+                filteredEvents1,
                 state.homeSort
             );
 
             return {
                 ...state,
-                homeEvents: filteredAndSortedEvents,
-                homeFilterByDate: action.payload,
+                homeEvents: filteredAndSortedEvents1,
                 currentPage: 1,
             };
 
         case EVENTS_FILTER_BY_PRODUCER:
-            let filteredEvents = applyFilters(state.allEvents);
+            const filteredEvents2 = applyFilters(
+                state.allEvents,
+                state.homeFilterByDate,
+                action.payload
+            );
+
+            const filteredAndSortedEvents2 = applySort(
+                filteredEvents2,
+                state.homeSort
+            );
+
             return {
                 ...state,
-                homeEvents: action.payload,
+                homeEvents: filteredAndSortedEvents2,
+                homeFilterByProducer: action.payload,
                 currentPage: 1,
-                filter: action.payload,
             };
 
         // Sort
         case EVENTS_SORT:
-            let sortedEvents = applySort(state.allEvents, action.payload);
+            let filteredEvents3 = applyFilters(
+                state.allEvents,
+                state.homeFilterByDate,
+                state.homeFilterByProducer
+            );
 
-            // const sortedAndFilteredEvents = applyFilters(sortedEvents, ... )
+            let sortedAndFilteredEvents3 = applySort(
+                filteredEvents3,
+                action.payload
+            );
 
             return {
                 ...state,
+                homeEvents: sortedAndFilteredEvents3,
                 homeSort: action.payload,
-                homeEvents: sortedAndFilteredEvents,
                 currentPage: 1,
             };
 
@@ -265,6 +311,9 @@ const rootReducer = (state = initialState, action) => {
                     return { ...state, userEvents: state.allUserEvents };
             }
             break;
+
+        case EVENTS_SET_CURRENT_PAGE:
+            return { ...state, currentPage: action.payload };
 
         // Fill Cart
         case FILL_CART:
