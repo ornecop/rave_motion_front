@@ -27,7 +27,6 @@ const ProducerKeys = ({ userId }) => {
             );
             setProducerData(response.data[0].events);
         };
-        console.log(producerData);
 
         userId && getProducerData();
     }, [userId]);
