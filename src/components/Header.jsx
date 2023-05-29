@@ -91,6 +91,7 @@ const Header = (props) => {
     const navigate = useNavigate();
     const handleSignOut = () => {
         isLogin && signOut();
+        
         navigate("/");
     };
 
