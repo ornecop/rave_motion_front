@@ -47,9 +47,6 @@ import { FILTER_EVENTS_BY_DATE, FILTER_TYPES } from "../../const";
 import { SORT_TYPES } from "../../const";
 const { ACTIVES, PASS, ALL } = FILTER_EVENTS_BY_DATE;
 
-// Current Date
-const currentDate = new Date();
-
 // Functions ==============================================
 
 const applySort = (events, sort) => {
