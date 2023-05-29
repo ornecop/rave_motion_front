@@ -6,7 +6,13 @@ import { GLOBAL_ERROR_SET } from "./appActions";
 
 // ============= Filter Actions Types
 export const EVENTS_FILTER = "EVENTS_FILTER";
-export const filteredEvents = ({ startDate, endDate, producer }) => {
+
+// ============= Filter Actions Creators
+export const filterEventsByDateOrProducer = ({
+    startDate,
+    endDate,
+    producer,
+}) => {
     return async (dispatch) => {
         try {
             let filteredEvents;

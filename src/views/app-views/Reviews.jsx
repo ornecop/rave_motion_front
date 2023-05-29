@@ -1,33 +1,35 @@
-import { useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-const images = [
-  "https://wallpapercave.com/wp/wp1889483.jpg",
-  "https://wallpapercave.com/wp/wp1889488.jpg",
-];
+
+// Components
+import Loading from "../../components/Loading";
+import EventContainer from "../../components/EventContainer";
+
+// Images
+import { images } from "../../const";
 
 const Reviews = () => {
-  const Events = useSelector((state) => state.allEvents);
-  const allEvents = useSelector((state) => state.homeEvents);
-  const allEventos = useSelector((state) => state.homeEvents);
+    const Events = useSelector((state) => state.allEvents);
+    const allEvents = useSelector((state) => state.homeEvents);
+    const allEventos = useSelector((state) => state.homeEvents);
 
-  // Carousel
-  const [currentImage, setCurrentImage] = useState(images[0]);
+    // Carousel
+    const [currentImage, setCurrentImage] = useState(images[0]);
 
-  // Paginado
-  const [currentPage, setCurrentPage] = useState(1);
-  const [eventsPerPage, setEventsPerPage] = useState(9);
-  const indexOfLastEvent = currentPage * eventsPerPage;
-  const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
-  const currentEvents = allEvents.slice(indexOfFirstEvent, indexOfLastEvent);
+    // Paginado
+    const [currentPage, setCurrentPage] = useState(1);
+    const [eventsPerPage, setEventsPerPage] = useState(9);
+    const indexOfLastEvent = currentPage * eventsPerPage;
+    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
+    const currentEvents = allEvents.slice(indexOfFirstEvent, indexOfLastEvent);
 
-  const totalEvents = allEvents.length;
-  const totalPages = Math.ceil(totalEvents / eventsPerPage);
-  
-  
-  const paginado = (pageNumber) => {
-    setCurrentPage(pageNumber);
-};
-const [isLoading, setIsLoading] = useState(true);
+    const totalEvents = allEvents.length;
+    const totalPages = Math.ceil(totalEvents / eventsPerPage);
+
+    const paginado = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         setTimeout(() => {
@@ -36,28 +38,30 @@ const [isLoading, setIsLoading] = useState(true);
     }, []);
 
     return (
-      <>
-        <div className="w-full min-h-screen">
-            {/* Carrousel */}
-            <div className="h-96 overflow-hidden relative">
-                <div
-                    className="h-full w-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 transform"
-                    style={{
-                        backgroundImage: `url(${currentImage})`,
-                        transform: "translateX(0%)",
-                    }}
-                ></div>
-                <div
-                    className="h-full w-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 transform"
-                    style={{
-                        backgroundImage: `url(${
-                            currentImage === images[0] ? images[1] : images[0]
-                        })`,
-                        transform: "translateX(100%)",
-                    }}
-                ></div>
-            </div>
-            <div className="flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 bg-secondary rounded-full border border-secondaryBorder mr-4">
+        <>
+            <div className="w-full min-h-screen">
+                {/* Carrousel */}
+                <div className="h-96 overflow-hidden relative">
+                    <div
+                        className="h-full w-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 transform"
+                        style={{
+                            backgroundImage: `url(${currentImage})`,
+                            transform: "translateX(0%)",
+                        }}
+                    ></div>
+                    <div
+                        className="h-full w-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 transform"
+                        style={{
+                            backgroundImage: `url(${
+                                currentImage === images[0]
+                                    ? images[1]
+                                    : images[0]
+                            })`,
+                            transform: "translateX(100%)",
+                        }}
+                    ></div>
+                </div>
+                <div className="flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 bg-secondary rounded-full border border-secondaryBorder mr-4">
                     <>{allEvents.length} Resultados</> | Página{" "}
                     {totalPages ? currentPage : "0"} / {totalPages}
                 </div>
@@ -65,9 +69,7 @@ const [isLoading, setIsLoading] = useState(true);
 
             <div className="min-h-[50vh] flex items-center justify-center">
                 {isLoading ? (
-                    <div className="flex flex-col w-full h-full items-center justify-center">
-                        <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-fuchsia-600"></div>
-                    </div>
+                    <Loading />
                 ) : currentEvents.length === 0 ? (
                     <div className="flex flex-col w-full h-full items-center justify-center">
                         <h2 className="font-bold text-center text-5xl">
@@ -91,7 +93,7 @@ const [isLoading, setIsLoading] = useState(true);
                     </div>
                 )}
             </div>
-            </>
+        </>
     );
- }
- export default Reviews;
+};
+export default Reviews;

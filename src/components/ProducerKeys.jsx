@@ -18,21 +18,34 @@ const ProducerKeys = ({ userId }) => {
     // Show keys indicator for producer on dashboard
 
     // Data del back
-    const [producerData, setProducerData] = useState({});
+    const [producerData, setProducerData] = useState([]);
 
     useEffect(() => {
         const getProducerData = async () => {
             const response = await axios.get(
                 `${BACKEND_URL}/tickets/sellstickets/${userId}`
             );
-            setProducerData(response.data);
+            setProducerData(response.data[0].events);
         };
-        console.log(producerData);
 
         userId && getProducerData();
     }, [userId]);
 
     // Indicador de ventas del producer
+    const [totalSells, setTotalSells] = useState(0);
+    const [ticketSells, setTicketsSells] = useState(0);
+    useEffect(() => {
+        if (producerData.length) {
+            let sum = 0;
+            let ticketsSum = 0;
+            for (let i = 0; i < producerData.length; i++) {
+                sum += producerData[i].totalAmount;
+                ticketsSum += producerData[i].totalTicketSells;
+            }
+            setTotalSells(sum);
+            setTicketsSells(ticketsSum);
+        }
+    }, [producerData]);
 
     // Indicador de eventos activos del producer
     const activeEvents = useSelector((state) => state.allUserEvents).filter(
@@ -47,7 +60,7 @@ const ProducerKeys = ({ userId }) => {
                 </Tooltip>
                 <div className="w-full flex flex-col text-green-600">
                     <span className="text-4xl font-bold ">
-                        ${producerData?.totalAmount?.toLocaleString("es")}
+                        ${totalSells.toLocaleString("es")}
                     </span>
                     <h3 className="text-l block font-semibold">VENTAS</h3>
                 </div>
@@ -61,9 +74,7 @@ const ProducerKeys = ({ userId }) => {
                     />
                 </Tooltip>
                 <div className="w-full flex flex-col text-orange-600">
-                    <span className="text-4xl font-bold ">
-                        {producerData?.totalSells}
-                    </span>
+                    <span className="text-4xl font-bold ">{ticketSells}</span>
                     <h3 className="text-l block font-semibold">
                         TICKETS VENDIDOS
                     </h3>

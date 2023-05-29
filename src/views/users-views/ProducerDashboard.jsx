@@ -11,7 +11,7 @@ listado de events con acciones (edit, remove, detail)
 
 // Hooks
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 // Redux
 import { connect } from "react-redux";
@@ -26,25 +26,16 @@ import {
 import { Link } from "react-router-dom";
 
 // Assets
-import { TiHomeOutline } from "react-icons/ti";
-import { BsCalendarPlus } from "react-icons/bs";
-import { IoTicketOutline } from "react-icons/io5";
-import { VscSignOut } from "react-icons/vsc";
-import { GoLock } from "react-icons/go";
 
 import { FaExchangeAlt, FaRegEye } from "react-icons/fa";
-import {
-    MdOutlineDashboardCustomize,
-    MdInsertChartOutlined,
-    MdOutlineNotificationsNone,
-    MdDeleteOutline,
-} from "react-icons/md";
+import { MdOutlineNotificationsNone, MdDeleteOutline } from "react-icons/md";
 
 // Components
+import DashboardAside from "../../components/DashboardAside";
 import EventDate from "../../components/EventDate";
 import EventTickets from "../../components/EventTickets";
-import Tooltip from "../../components/Tooltip";
 import ProducerKeys from "../../components/ProducerKeys";
+import Tooltip from "../../components/Tooltip";
 
 // Views
 import ProducerEventDetail from "./ProducerEventDetail";
@@ -59,7 +50,7 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const ProducerDashboard = (props) => {
     // Props
-    const { isLogin, userData, signOut, userEvents } = props;
+    const { userData, userEvents } = props;
     const { getUserEventsByUserId, searchUserEvents, filterEventsByCurrent } =
         props;
 
@@ -74,24 +65,18 @@ const ProducerDashboard = (props) => {
                     const response = await axios.get(
                         `${BACKEND_URL}/events/${eventId}`
                     );
-                    console.log(response);
                     const eventExist =
                         response.data.name &&
                         response.data.userId === userData.id;
-                    console.log("event exits: ", eventExist);
                     if (eventExist) {
-                        console.log(1);
                         setView(DASHBOARD_VIEWS.EVENT_DETAIL);
                     } else {
-                        console.log(2);
                         setView(DASHBOARD_VIEWS.EVENT_NOT_FOUND);
                     }
                 } catch (error) {
-                    console.log(3);
                     setView(DASHBOARD_VIEWS.EVENT_NOT_FOUND);
                 }
             } else {
-                console.log(4);
                 setView(DASHBOARD_VIEWS.DASHBOARD);
             }
         };
@@ -108,7 +93,7 @@ const ProducerDashboard = (props) => {
     // Search on dashboard
     const [search, setSeach] = useState("");
 
-    // Busca eventos y los despliega en un dropdown a medida que busca
+    // Busca eventos
     const handleInputChange = (event) => {
         setSeach(event.target.value);
         searchUserEvents(event.target.value);
@@ -123,94 +108,12 @@ const ProducerDashboard = (props) => {
         filterEventsByCurrent(event.target.value);
     };
 
-    // SignOut
-    const navigate = useNavigate();
-    const handleSignOutClick = () => {
-        isLogin && signOut();
-        navigate("/");
-    };
+    // Delete event
 
     return (
         <div className="w-screen h-screen flex overflow-scrol">
-            <aside className="w-1/6 bg-secondary py-4">
-                {/* Section logo */}
-                <div className="flex w-full px-4 py-2 items-center h-16 gap-2">
-                    <div className="bg-slate-500 rounded-full w-12 h-12 flex justify-center items-center text-2xl font-semibold">
-                        <span>
-                            {userData?.firstName &&
-                                userData.firstName[0].toUpperCase()}
-                        </span>
-                    </div>
-                    <div className="flex justify-center items-center text-2xl font-semibold">
-                        <span>Ravemotion</span>
-                    </div>
-                </div>
-
-                {/* Section App */}
-                <div className="dropDownItem mt-8">
-                    <Link className="navLinkDropdown" to="/dashboard">
-                        <div className="flex flex-row items-center gap-2">
-                            <MdOutlineDashboardCustomize size="1.5rem" />
-                            Dashboard
-                        </div>
-                    </Link>
-                </div>
-                <div className="dropDownItem ">
-                    <Link className="navLinkDropdown" to="/">
-                        <div className="flex flex-row items-center gap-2">
-                            <TiHomeOutline size="1.5rem" />
-                            Home
-                        </div>
-                    </Link>
-                </div>
-
-                {/* Section Producer */}
-                <div className="dropDownItem mt-8">
-                    <Link className="navLinkDropdown">
-                        <div className="flex flex-row items-center gap-2">
-                            <MdInsertChartOutlined size="1.5rem" />
-                            Ventas
-                        </div>
-                    </Link>
-                </div>
-                <div className="dropDownItem ">
-                    <Link className="navLinkDropdown" to="/create">
-                        <div className="flex flex-row items-center gap-2">
-                            <BsCalendarPlus size="1.5rem" />
-                            Nuevo evento
-                        </div>
-                    </Link>
-                </div>
-
-                {/* Section User */}
-                <div className="dropDownItem mt-8">
-                    <Link className="navLinkDropdown" to="/tickets">
-                        <div className="flex flex-row items-center gap-2">
-                            <IoTicketOutline size="1.5rem" />
-                            Tus tickets
-                        </div>
-                    </Link>
-                </div>
-                <div className="dropDownItem ">
-                    <Link className="navLinkDropdown" to="/changepassword">
-                        <div className="flex flex-row items-center gap-2">
-                            <GoLock size="1.5rem" />
-                            Cambiar contraseña
-                        </div>
-                    </Link>
-                </div>
-                <div className="dropDownItem ">
-                    <Link
-                        className="navLinkDropdown"
-                        onClick={handleSignOutClick}
-                    >
-                        <div className="flex flex-row items-center gap-2">
-                            <VscSignOut size="1.5rem" />
-                            Cerrar sesión
-                        </div>
-                    </Link>
-                </div>
-            </aside>
+            {/* Aside Menu */}
+            <DashboardAside />
 
             {/* Content */}
             {view === DASHBOARD_VIEWS.DASHBOARD ? (
@@ -378,9 +281,24 @@ const ProducerDashboard = (props) => {
                     </div>
                 </section>
             ) : view === DASHBOARD_VIEWS.EVENT_DETAIL ? (
-                <ProducerEventDetail />
+                <ProducerEventDetail eventId={eventId} />
             ) : (
-                <div>Not Found Event</div>
+                <div className="flex flex-col w-5/6 px-8 py-4">
+                    <div className="flex flex-col w-full h-full items-center justify-center">
+                        <h2 className="font-bold text-center text-6xl">
+                            LO SENTIMOS
+                        </h2>
+                        <h3 className="text-white text-2xl text-center ">
+                            No se a encontrado el evento.
+                        </h3>
+                        <div className="text-center flex-row text-2xl mt-4 ">
+                            Volver al{" "}
+                            <Link className="link" to="/dashboard">
+                                dashboard.
+                            </Link>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );
@@ -388,7 +306,6 @@ const ProducerDashboard = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        isLogin: state.isLogin,
         userData: state.userData,
         userEvents: state.userEvents,
     };
@@ -396,7 +313,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        signOut: () => dispatch(signOut()),
         getUserEventsByUserId: (userId) =>
             dispatch(getUserEventsByUserId(userId)),
         searchUserEvents: (name) => dispatch(searchUserEvents(name)),
