@@ -55,6 +55,10 @@ const currentDate = new Date();
 const applySort = (events, sort) => {
     let sortedEvents = [...events];
 
+    function getTimeFromString(timeString) {
+        const [hours, minutes, seconds] = timeString.split(":");
+        return hours * 3600 + minutes * 60 + seconds;
+    }
     switch (sort) {
         case SORT_TYPES.BY_ALPHABETIC.ASC:
             sortedEvents.sort((a, b) => a.name.localeCompare(b.name));
@@ -62,60 +66,51 @@ const applySort = (events, sort) => {
         case SORT_TYPES.BY_ALPHABETIC.DESC:
             sortedEvents.sort((a, b) => b.name.localeCompare(a.name));
             break;
+        
         case SORT_TYPES.BY_DATE.FIRST:
-            sortedEvents.sort((a, b) => {
-                let aDate = new Date(a.date.slice(0, 10));
-                aDate.setHours(aDate.getHours() + 3);
-
-                let bDate = new Date(b.date.slice(0, 10));
-                bDate.setHours(bDate.getHours() + 3);
-
-                return bDate - aDate;
-            });
-            break;
+                sortedEvents.sort((a, b) => {
+                    const dateA = new Date(a.date);
+                    const dateB = new Date(b.date);
+            
+                    if (dateA.getTime() !== dateB.getTime()) {
+                        return dateA - dateB;
+                    }
+                    const timeA = getTimeFromString(a.hour);
+                    const timeB = getTimeFromString(b.hour);
+            
+                    return timeA - timeB;
+                });
+                break;
         case SORT_TYPES.BY_DATE.LAST:
-            sortedEvents.sort((a, b) => {
-                let aDate = new Date(a.date.slice(0, 10));
-                aDate.setHours(aDate.getHours() + 3);
-
-                let bDate = new Date(b.date.slice(0, 10));
-                bDate.setHours(bDate.getHours() + 3);
-
-                return aDate - bDate;
-            });
-            break;
-        default:
-            break;
+                sortedEvents.sort((a, b) => {
+                    const dateA = new Date(a.date);
+                    const dateB = new Date(b.date);
+            
+                    if (dateA.getTime() !== dateB.getTime()) {
+                        return dateB - dateA;
+                    }
+                    const timeA = getTimeFromString(a.hour);
+                    const timeB = getTimeFromString(b.hour);
+                    return timeB - timeA;
+                });
+                break;
     }
     return sortedEvents;
 };
 
 const applyFilters = (events, filterDate, filterProducer) => {
     let filterEvents = [...events];
-
     let { startDate, endDate } = filterDate;
-
-    startDate = new Date(startDate);
-    endDate = new Date(endDate);
-
-    filterEvents = events
-        .map((event) => {
-            const eventDate = new Date(event.date);
-            const eventHour = event.hour.split(":");
-            eventDate.setHours(parseInt(eventHour[0], 10));
-            eventDate.setMinutes(parseInt(eventHour[1], 10));
-            eventDate.setSeconds(parseInt(eventHour[2], 10));
-
-            return { ...event, date: eventDate };
-        })
-        .filter((event) => event.date >= startDate && event.date <= endDate);
-
-    if (filterProducer != FILTER_TYPES.BY_PRODUCER.ALL) {
-        filterEvents.filter((e) => {
-            e.producer === filterProducer;
-        });
+    if(startDate.length){ startDate = new Date(startDate);
+    filterEvents = filterEvents.filter((event) => {
+        const eventDate = new Date(event.date);
+        return eventDate >= startDate && (!endDate || eventDate <= new Date(endDate));
+    });
     }
-
+    if (filterProducer != FILTER_TYPES.BY_PRODUCER.ALL) {
+        filterEvents = filterEvents.filter((e) => e.producer === filterProducer);     
+    }
+    console.log(filterEvents)
     return filterEvents;
 };
 
