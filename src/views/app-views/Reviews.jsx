@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { useSelector, useDispatch} from "react-redux";
 import { useState, useEffect } from "react";
 const images = [
@@ -11,22 +10,6 @@ const Reviews = () => {
   const Events = useSelector((state) => state.allEventsF);
   const allEvents = useSelector((state) => state.homeEventsF);
   const allEventos = useSelector((state) => state.homeEventsF);
-=======
-import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
-
-// Components
-import Loading from "../../components/Loading";
-import EventContainer from "../../components/EventContainer";
-
-// Images
-import { images } from "../../const";
-
-const Reviews = () => {
-    const Events = useSelector((state) => state.allEvents);
-    const allEvents = useSelector((state) => state.homeEvents);
-    const allEventos = useSelector((state) => state.homeEvents);
->>>>>>> cb2c9222f8586416debffcd9181ad7e891546d41
 
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);

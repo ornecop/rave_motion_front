@@ -6,7 +6,6 @@ const initialState = {
     allEventsF: [],
     // Home events
     homeEvents: [],
-<<<<<<< HEAD
     homeEventsF: [],
     homeEventsFilterByProducer: "All",
     homeEventsFilterByDate: {
@@ -16,8 +15,6 @@ const initialState = {
     homeEventsOrder: "Default",
     eventsPerPage: 10,
     currentPage: 1,
-=======
->>>>>>> cb2c9222f8586416debffcd9181ad7e891546d41
 
     homeFilterByProducer: FILTER_TYPES.BY_PRODUCER.ALL,
     homeFilterByDate: {
