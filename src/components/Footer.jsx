@@ -9,12 +9,7 @@ const Footer = () => {
     return (
         <div className="grid grid-cols-2 w-full h-12 content-center">
             <div className="flex justify-self-start items-center ml-4">
-                <Link
-                    to="https://github.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="link text-white"
-                >
+                <Link to="/about" className="link text-white">
                     RaveMotion
                 </Link>
                 {"  "} © {date.getFullYear()}
