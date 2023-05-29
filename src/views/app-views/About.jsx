@@ -8,12 +8,11 @@ import { useState } from "react";
 
 // Assets
 import { FaLinkedin, FaGithub } from "react-icons/fa";
-
-// Paginado va¿?
-import Paginado from "../../components/Paginado";
+import about from '../../assets/about.png'
+import fondoabout from '../../assets/fondoabout.jpg'
 
 const About = () => {
-    const allEventos = [
+    const nosotros = [
         {
             id: 1,
             nombre: "Denis Roldan",
@@ -78,22 +77,68 @@ const About = () => {
             linkedin: "https://www.linkedin.com/in/juanperez/",
         },
     ];
-    // const [order, setOrder] = useState(1);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [eventsPerPage] = useState(3);
-    const indexOfLastEvent = currentPage * eventsPerPage;
-    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
-    const currentEvents = allEventos.slice(indexOfFirstEvent, indexOfLastEvent);
-
-    const paginado = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
+    
 
     return (
         <div className="w-full min-h-screen">
+           <div className="h-96 overflow-hidden relative">
+      <img className="" src={fondoabout} alt="background" />
+    </div>
+
+    {/* RAVE MOTION */}
+    <div className="ml-16 mt-16">
+      <img className="w-96" src={about} alt="logo" />
+
+      <div className="">
+        <p className="text-3xl font-extralight">
+          Somos apasionados de la música electrónica, queremos brindarte una experiencia única
+          <br /> para que disfrutes al máximo de los eventos más emocionantes del país
+        </p>
+      </div>
+
+      <div className="hidden">
+        <p>Nos enfocamos en que disfrutes al máximo de los mejores eventos del país</p>
+      </div>
+    </div>
+
+    <div>
+      <h1 className="flex justify-center text-4xl text-pink-500 font-semibold mt-20 mb-9">
+        ¿QUÉ OFRECEMOS?
+      </h1>
+      <div className="grid place-items-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
+        <div className="p-8 flex flex-col justify-center w-96 h-80 rounded-md bg-slate-900 card group">
+          <h3 className="font-bold text-4xl text-center leading-36 relative top-10 block group-hover:invisible leading-snug">
+            Amplia selección de Eventos
+          </h3>
+          <p className="text-xl text-center leading-24 tracking-0 font-normal w-fit block mt-4 sm:mt-8 opacity-0 group-hover:opacity-100 relative -top-24 sm:bottom-16">
+            Trabajamos en colaboración con las principales productoras de eventos para ofrecerte una amplia selección de eventos
+          </p>
+        </div>
+
+        <div className="p-8 flex flex-col justify-center w-96 h-80 rounded-md bg-slate-900 card group">
+          <h3 className="font-bold text-4xl text-center leading-36 relative top-24 block group-hover:invisible leading-snug">
+            Compra <br /> segura y fácil
+          </h3>
+          <p className="text-xl text-center leading-24 tracking-0 font-normal w-fit block mt-4 sm:mt-8 opacity-0 group-hover:opacity-100 relative bottom-6 sm:bottom-14">
+            Puedes explorar los eventos, verificar la disponibilidad de tickets en tiempo real y realizar tu compra de manera rápida y sencilla. Garantizamos transacciones seguras para brindarte tranquilidad durante todo el proceso
+          </p>
+        </div>
+
+        <div className="p-8 flex flex-col justify-center w-96 h-80 rounded-md bg-slate-900 card group">
+          <h3 className="font-bold text-4xl text-center leading-36 relative top-16 block group-hover:invisible leading-snug">
+            Experiencia premium
+          </h3>
+          <p className="text-xl text-center leading-24 tracking-0 font-normal w-fit block mt-4 sm:mt-8 opacity-0 group-hover:opacity-100 relative bottom-6 sm:bottom-14">
+            Queremos que tu experiencia sea inolvidable desde el momento en que compras tu ticket hasta que vives el evento. Trabajamos para ofrecerte un servicio excepcional
+          </p>
+        </div>
+      </div>
+    </div>
+
+            {/* nosotros */}
             <div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-16">
-                    {currentEvents.map((compañero) => (
+                    {nosotros.map((compañero) => (
                         <div
                             className="m-8 w-4/5 bg-secondary border border-secondaryBorder shadow-md rounded-2xl "
                             key={compañero.id}
@@ -136,11 +181,7 @@ const About = () => {
                 </div>
             </div>
 
-            <Paginado
-                eventsPerPage={eventsPerPage}
-                allEventos={allEventos.length}
-                paginado={paginado}
-            />
+         
         </div>
     );
 };
