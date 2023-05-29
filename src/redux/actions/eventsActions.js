@@ -88,7 +88,6 @@ export const filterEventsByDate = () => {
 };
 
 export const filterEventsByProducer = (producer) => {
-    console.log(producer);
     return {
         type: EVENTS_FILTER_BY_PRODUCER,
         payload: producer,
