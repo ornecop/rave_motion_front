@@ -16,7 +16,7 @@ import {
 
 // Functions
 import setProducer from "../functions/setProducer";
-
+import getCurrentDate from "../functions/getCurrentDate";
 // Const
 import { FILTER_TYPES, SORT_TYPES } from "../const";
 
@@ -109,7 +109,7 @@ const HomeNavBar = (props) => {
                         name="startDate"
                         onChange={handleFilterByDateChange}
                         value={homeFilterByDate.startDate}
-                        min={new Date()}
+                        min={getCurrentDate()}
                     />
                     <label htmlFor="endDate">Hasta:</label>
                     <input
