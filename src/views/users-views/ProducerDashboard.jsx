@@ -16,7 +16,6 @@ import { useParams } from "react-router-dom";
 // Redux
 import { connect } from "react-redux";
 import {
-    signOut,
     getUserEventsByUserId,
     searchUserEvents,
     filterEventsByCurrent,
@@ -117,7 +116,7 @@ const ProducerDashboard = (props) => {
 
             {/* Content */}
             {view === DASHBOARD_VIEWS.DASHBOARD ? (
-                <section className="flex flex-col w-5/6 px-8 py-4 ">
+                <section className="flex flex-col w-5/6 px-8 py-4">
                     {/* NavBar */}
                     <nav className="grid grid-cols-3 w-full h-16 ">
                         <div className="flex justify-self-start items-center">
@@ -165,6 +164,7 @@ const ProducerDashboard = (props) => {
                             </select>
                         </div>
                     </nav>
+                    {/* Events */}
                     <div className="overflow-auto mt-4 scrollbar:!w-1.5 scrollbar:!h-1.5 scrollbar:bg-transparent scrollbar-track:!bg-slate-100 scrollbar-thumb:!rounded scrollbar-thumb:!bg-slate-300 scrollbar-track:!rounded">
                         <table className="w-full text-start bg-secondary border border-secondaryBorder mx-2 my-4 mb-8">
                             <thead className="font-semibold border-b-4 border-fuchsia-600">
