@@ -9,7 +9,7 @@ form
 */
 
 // Hooks
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 // Redux
@@ -32,7 +32,7 @@ import axios from "axios";
 
 // Assets
 import { FaExchangeAlt } from "react-icons/fa";
-import { MdDeleteOutline } from "react-icons/md";
+import { MdOutlineDashboardCustomize, MdArrowBackIos } from "react-icons/md";
 
 // Components
 import Modal from "../app-views/Modal";
@@ -200,13 +200,20 @@ const TicketsCreate = (props) => {
                         <div className="flex flex-col place-content-center h-full">
                             <Form className="floatBox my-6 mx-6 flex flex-col h-full justify-center">
                                 <div className="flex flex-col items-center justify-center ">
+                                    <div className="mb-4 w-full">
+                                        <Tooltip tooltip="Ir al dashboard">
+                                            <Link
+                                                to="/dashboard"
+                                                className="flex flex-row gap-2 btnPrimary items-center px-4 py-1 w-fit"
+                                            >
+                                                <MdArrowBackIos size="1.2rem" />
+                                                <MdOutlineDashboardCustomize size="1.2rem" />
+                                            </Link>
+                                        </Tooltip>
+                                    </div>
                                     <h2 className="block text-2xl text-center align-center font-semibold">
                                         Evento: {eventDetail.name}
                                     </h2>
-                                    <h5 className="block text-xl text-center my-4">
-                                        Tandas existentes:{" "}
-                                        {ticketsArray?.length}
-                                    </h5>
                                 </div>
 
                                 {/* Divider */}
