@@ -66,34 +66,34 @@ const applySort = (events, sort) => {
         case SORT_TYPES.BY_ALPHABETIC.DESC:
             sortedEvents.sort((a, b) => b.name.localeCompare(a.name));
             break;
-        
+
         case SORT_TYPES.BY_DATE.FIRST:
-                sortedEvents.sort((a, b) => {
-                    const dateA = new Date(a.date);
-                    const dateB = new Date(b.date);
-            
-                    if (dateA.getTime() !== dateB.getTime()) {
-                        return dateA - dateB;
-                    }
-                    const timeA = getTimeFromString(a.hour);
-                    const timeB = getTimeFromString(b.hour);
-            
-                    return timeA - timeB;
-                });
-                break;
+            sortedEvents.sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+
+                if (dateA.getTime() !== dateB.getTime()) {
+                    return dateA - dateB;
+                }
+                const timeA = getTimeFromString(a.hour);
+                const timeB = getTimeFromString(b.hour);
+
+                return timeA - timeB;
+            });
+            break;
         case SORT_TYPES.BY_DATE.LAST:
-                sortedEvents.sort((a, b) => {
-                    const dateA = new Date(a.date);
-                    const dateB = new Date(b.date);
-            
-                    if (dateA.getTime() !== dateB.getTime()) {
-                        return dateB - dateA;
-                    }
-                    const timeA = getTimeFromString(a.hour);
-                    const timeB = getTimeFromString(b.hour);
-                    return timeB - timeA;
-                });
-                break;
+            sortedEvents.sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+
+                if (dateA.getTime() !== dateB.getTime()) {
+                    return dateB - dateA;
+                }
+                const timeA = getTimeFromString(a.hour);
+                const timeB = getTimeFromString(b.hour);
+                return timeB - timeA;
+            });
+            break;
     }
     return sortedEvents;
 };
@@ -101,16 +101,22 @@ const applySort = (events, sort) => {
 const applyFilters = (events, filterDate, filterProducer) => {
     let filterEvents = [...events];
     let { startDate, endDate } = filterDate;
-    if(startDate.length){ startDate = new Date(startDate);
-    filterEvents = filterEvents.filter((event) => {
-        const eventDate = new Date(event.date);
-        return eventDate >= startDate && (!endDate || eventDate <= new Date(endDate));
-    });
+    if (startDate.length) {
+        startDate = new Date(startDate);
+        filterEvents = filterEvents.filter((event) => {
+            const eventDate = new Date(event.date);
+            return (
+                eventDate >= startDate &&
+                (!endDate || eventDate <= new Date(endDate))
+            );
+        });
     }
     if (filterProducer != FILTER_TYPES.BY_PRODUCER.ALL) {
-        filterEvents = filterEvents.filter((e) => e.producer === filterProducer);     
+        filterEvents = filterEvents.filter(
+            (e) => e.producer === filterProducer
+        );
     }
-    console.log(filterEvents)
+    console.log(filterEvents);
     return filterEvents;
 };
 
@@ -332,6 +338,7 @@ const rootReducer = (state = initialState, action) => {
                     filteredUserTickets = filteredUserTickets.filter(
                         (ticket) => {
                             const eventDate = new Date(ticket.Event.date);
+                            eventDate.setHours(eventDate.getHours() + 3);
                             return eventDate >= currentDate;
                         }
                     );
@@ -340,6 +347,7 @@ const rootReducer = (state = initialState, action) => {
                     filteredUserTickets = filteredUserTickets.filter(
                         (ticket) => {
                             const eventDate = new Date(ticket.Event.date);
+                            eventDate.setHours(eventDate.getHours() + 3);
                             return eventDate < currentDate;
                         }
                     );
