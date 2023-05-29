@@ -9,15 +9,11 @@ import {
 // Events Actions Types
 import {
     EVENTS_SEARCH,
-    EVENTS_SET_HOME_EVENTS,
     EVENTS_GET_ALL,
     EVENT_DETAIL_GET,
     EVENT_DETAIL_REMOVE,
-    EVENT_CREATE,
-    EVENT_MODIFY,
     EVENTS_FINALIZED_GET_ALL,
     EVENTS_SORT,
-    sortEvents,
 } from "../actions/eventsActions";
 
 // Filters & Orders
@@ -105,12 +101,14 @@ const rootReducer = (state = initialState, action) => {
                 allEvents: action.payload,
                 homeEvents: action.payload,
             };
+<<<<<<< HEAD
             case EVENTS_FINALIZED_GET_ALL:
                 return {
                     ...state,
                     allEventsF: action.payload,
                     homeEventsF: action.payload,
                 };
+=======
         case EVENTS_SET_HOME_EVENTS:
             return {
                 ...state,
@@ -125,6 +123,7 @@ const rootReducer = (state = initialState, action) => {
             };
 
         // Search
+>>>>>>> cb2c9222f8586416debffcd9181ad7e891546d41
         case EVENTS_SEARCH:
             return {
                 ...state,
@@ -150,7 +149,7 @@ const rootReducer = (state = initialState, action) => {
 
         // Filter
         case EVENTS_FILTER_BY_DATE:
-            var filteredEvents = applyFilters(state.allEvents);
+            let filteredEvents = applyFilters(state.allEvents);
 
             // Funcion de filtros
 
@@ -167,7 +166,7 @@ const rootReducer = (state = initialState, action) => {
             };
 
         case EVENTS_FILTER_BY_PRODUCER:
-            var filteredEvents = applyFilters(state.allEvents);
+            let filteredEvents = applyFilters(state.allEvents);
             return {
                 ...state,
                 homeEvents: action.payload,
