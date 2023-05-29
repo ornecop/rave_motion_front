@@ -17,6 +17,7 @@ import {
     EVENTS_FILTER_BY_PRODUCER,
     EVENTS_SORT,
     EVENTS_SET_CURRENT_PAGE,
+    EVENTS_SET_HOME_EVENTS,
     EVENTS_FINALIZED_GET_ALL
 } from "../actions/eventsActions";
 

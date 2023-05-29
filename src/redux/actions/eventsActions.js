@@ -41,6 +41,7 @@ export const getAllEventsFinalized = () => {
     return async function (dispatch) {
         try {
             const events = (await axios.get(`${BACKEND_URL}/events/finalized`)).data;
+            console.log(events)
             dispatch({ type: EVENTS_FINALIZED_GET_ALL, payload: events });
         } catch (error) {
             dispatch({
@@ -48,7 +49,7 @@ export const getAllEventsFinalized = () => {
                 payload: error.response.data.error,
             });
         }
-    };
+    }; 
 };
 
 export const setAllEventsOnHomeEvents = () => {

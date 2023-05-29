@@ -1,5 +1,8 @@
 import { useSelector, useDispatch} from "react-redux";
 import { useState, useEffect } from "react";
+import Loading from "../../components/Loading";
+import EventContainer from "../../components/EventContainer"
+import Paginado from "../../components/Paginado"
 const images = [
   "https://wallpapercave.com/wp/wp1889483.jpg",
   "https://wallpapercave.com/wp/wp1889488.jpg",
