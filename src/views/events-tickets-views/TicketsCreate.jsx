@@ -36,6 +36,7 @@ import { MdDeleteOutline } from "react-icons/md";
 
 // Components
 import Modal from "../app-views/Modal";
+import Tooltip from "../../components/Tooltip";
 
 const createImage = "https://wallpapercave.com/wp/wp12143405.jpg";
 
@@ -447,21 +448,11 @@ const TicketsCreate = (props) => {
                                                             </td>
                                                             <td className="px-2 py-4">
                                                                 <div className="flex flex-row justify-center gap-6">
-                                                                    <button>
-                                                                        <FaExchangeAlt />
-                                                                    </button>
-                                                                    <button
-                                                                        onClick={
-                                                                            handleDeleteTicket
-                                                                        }
-                                                                    >
-                                                                        <MdDeleteOutline
-                                                                            className="text-red-600"
-                                                                            id={
-                                                                                tanda.name
-                                                                            }
-                                                                        />
-                                                                    </button>
+                                                                    <Tooltip tooltip="Modificar tanda">
+                                                                        <button>
+                                                                            <FaExchangeAlt />
+                                                                        </button>
+                                                                    </Tooltip>
                                                                 </div>
                                                             </td>
                                                         </tr>
