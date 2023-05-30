@@ -1,8 +1,5 @@
 // React Router Dom
-import { Link } from "react-router-dom";
-
-// Hooks
-import { useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 
 // Redux
 import { connect } from "react-redux";
@@ -21,6 +18,7 @@ import {
 
 const DashboardAside = ({ userData, isLogin, signOut }) => {
     // SignOut
+
     const navigate = useNavigate();
     const handleSignOutClick = () => {
         isLogin && signOut();
@@ -96,12 +94,15 @@ const DashboardAside = ({ userData, isLogin, signOut }) => {
                 </Link>
             </div>
             <div className="dropDownItem ">
-                <Link className="navLinkDropdown" onClick={handleSignOutClick}>
-                    <div className="flex flex-row items-center gap-2">
+                <div className="navLinkDropdown">
+                    <div
+                        className="flex flex-row items-center gap-2"
+                        onClick={handleSignOutClick}
+                    >
                         <VscSignOut size="1.5rem" />
                         Cerrar sesión
                     </div>
-                </Link>
+                </div>
             </div>
         </aside>
     );

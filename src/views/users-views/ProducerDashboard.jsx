@@ -66,6 +66,7 @@ const ProducerDashboard = (props) => {
                     const response = await axios.get(
                         `${BACKEND_URL}/events/${eventId}`
                     );
+
                     const eventExist =
                         response.data.name &&
                         response.data.userId === userData.id;
@@ -81,9 +82,8 @@ const ProducerDashboard = (props) => {
                 setView(DASHBOARD_VIEWS.DASHBOARD);
             }
         };
-
         getParamAndSearchEvent();
-    }, [eventId]);
+    }, [eventId, userData]);
 
     // Events by UserId
     useEffect(() => {
@@ -184,7 +184,7 @@ const ProducerDashboard = (props) => {
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-6 text-start"
+                                        className="px-2 py-6 text-center"
                                     >
                                         Fecha
                                     </th>
@@ -215,7 +215,7 @@ const ProducerDashboard = (props) => {
                                         <tr className="border-b" key={event.id}>
                                             <td
                                                 scope="row"
-                                                className="px-2 py-4 font-semibold whitespace-nowrap"
+                                                className="px-2 py-4 font-semibold whitespace-nowrap text-start"
                                             >
                                                 <Link
                                                     to={`/dashboard/${event.id}`}
@@ -226,7 +226,7 @@ const ProducerDashboard = (props) => {
                                                     </Tooltip>
                                                 </Link>
                                             </td>
-                                            <td className="px-2 py-4">
+                                            <td className="px-2 py-4 text-center">
                                                 <EventDate
                                                     date={event.date}
                                                     hour={event.hour}

@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import { setGlobalError, setGlobalSuccess } from "../redux/actions/appActions";
 import { getUserEventsByUserId } from "../redux/actions/usersActions";
 
-const EventDelete = (props) => {
+const TicketDelete = (props) => {
     // Props
     const {
         tickets,
@@ -58,7 +58,7 @@ const EventDelete = (props) => {
     // 2
     const [confirmText, setConfirmText] = useState("");
     const [textToConfirm, setTextToConfirm] = useState(
-        `Eliminar mi evento ${eventName.slice(0, 10)}`
+        `Eliminar mi ticket ${eventName.slice(0, 10)}`
     );
 
     const handleConfirmTextChange = (event) => {
@@ -204,4 +204,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventDelete);
+export default connect(mapStateToProps, mapDispatchToProps)(TicketDelete);
