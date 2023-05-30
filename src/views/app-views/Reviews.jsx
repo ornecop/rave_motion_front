@@ -1,7 +1,7 @@
 import { useSelector, useDispatch} from "react-redux";
 import { useState, useEffect } from "react";
 import Loading from "../../components/Loading";
-import EventContainer from "../../components/EventContainer"
+import EventCardF from "../../components/EventCardF";
 import Paginado from "../../components/Paginado"
 const images = [
   "https://wallpapercave.com/wp/wp1889483.jpg",
@@ -10,7 +10,7 @@ const images = [
 import { getAllEventsFinalized } from "../../redux/actions/eventsActions";
 const Reviews = () => {
   const dispatch= useDispatch()
-  const Events = useSelector((state) => state.allEventsF);
+  const events = useSelector((state) => state.allEventsF);
   const allEvents = useSelector((state) => state.homeEventsF);
   const allEventos = useSelector((state) => state.homeEventsF);
 
@@ -39,13 +39,13 @@ const Reviews = () => {
     }, []);
 
     useEffect(() => {
-      !Events.length && dispatch(getAllEventsFinalized());
+      !events.length && dispatch(getAllEventsFinalized());
   }, []);
     return (
         <>
             <div className="w-full min-h-screen">
                 {/* Carrousel */}
-                <div className="h-96 overflow-hidden relative">
+                <div className="h-60 overflow-hidden relative">
                     <div
                         className="h-full w-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 transform"
                         style={{
@@ -70,7 +70,22 @@ const Reviews = () => {
                     {totalPages ? currentPage : "0"} / {totalPages}
                 </div>
             </div>
-
+            <div className="my-6 mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {events.map((event) => (
+                    <EventCardF
+                        key={event.id}
+                        id={event.id}
+                        name={event.name}
+                        producer={event.producer}
+                        image={event.image}
+                        hour={event.hour}
+                        venue={event.venue}
+                        date={event.date}
+                    />
+                ))}
+            </div>
+        </div>
             <div className="min-h-[50vh] flex items-center justify-center">
                 {isLoading ? (
                     <Loading />
@@ -85,7 +100,7 @@ const Reviews = () => {
                     </div>
                 ) : (
                     <div>
-                        <EventContainer events={currentEvents} />
+   
                         {isLoading ? null : (
                             <Paginado
                                 eventsPerPage={eventsPerPage}
