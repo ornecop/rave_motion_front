@@ -1,5 +1,6 @@
 // Assets
 import { FaSync } from "react-icons/fa";
+import { MdArrowBackIos } from "react-icons/md";
 
 // Hooks
 import { useState, useEffect } from "react";
@@ -8,17 +9,24 @@ import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import {
     setAllEventsOnHomeEvents,
-    setDateToFilter,
     filterEventsByDate,
     filterEventsByProducer,
     sortEvents,
+    setStartDateToFilter,
+    setEndDateToFilter,
 } from "../redux/actions/eventsActions";
 
 // Functions
 import setProducer from "../functions/setProducer";
-import getCurrentDate from "../functions/getCurrentDate";
+import getSixMonthDate from "../functions/getSixMonthDate";
+
 // Const
 import { FILTER_TYPES, SORT_TYPES } from "../const";
+
+// Components
+import Tooltip from "../components/Tooltip";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const HomeNavBar = (props) => {
     // Props
@@ -37,26 +45,12 @@ const HomeNavBar = (props) => {
     // Actions
     const {
         setAllEventsOnHomeEvents,
-        setDateToFilter,
+        setStartDateToFilter,
+        setEndDateToFilter,
         filterEventsByDate,
         filterEventsByProducer,
         sortEvents,
     } = props;
-
-    // Filter by Date
-    const handleFilterByDateChange = (event) => {
-        //
-        if (event.target.name === "startDate")
-            setDateToFilter({
-                startDate: event.target.value,
-                endDate: homeFilterByDate.endDate,
-            });
-        if (event.target.name === "endDate")
-            setDateToFilter({
-                endDate: event.target.value,
-                startDate: homeFilterByDate.startDate,
-            });
-    };
 
     const handleSubmitFilterEvents = () => {
         filterEventsByDate();
@@ -76,96 +70,200 @@ const HomeNavBar = (props) => {
     function handleResetFilters() {
         setAllEventsOnHomeEvents();
     }
+
+    // Responsive
+    const [showNavBar, setShowNavBar] = useState(false);
+
+    useEffect(() => {
+        if (showNavBar) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+    }, [showNavBar]);
+
     return (
-        <div className="grid grid-cols-2 w-screen h-16 mt-4">
-            <div className="flex w-fit justify-self-start my-2 items-center gap-6 py-1 px-4 bg-secondary rounded-full border border-secondaryBorder ml-4">
-                {/* Filter by producer */}
-                <div className="flex flex-row gap-2 items-center">
-                    <select
-                        className="inputSelect w-fit"
-                        onChange={handleFilterByProducer}
-                        value={homeFilterByProducer}
-                    >
-                        {" "}
-                        <option value={FILTER_TYPES.BY_PRODUCER.ALL}>
-                            Todas las productoras
-                        </option>
-                        {setProducer(allEvents).map((c) => {
-                            return (
-                                <option id={c} value={c} key={c}>
-                                    {c}
-                                </option>
-                            );
-                        })}
-                    </select>
+        <>
+            {/* NavBar lg */}
+            <div className="hidden lg:flex flex-row place-content-between w-screen h-16 mt-4">
+                <div className="flex w-fit justify-self-start my-2 items-center gap-6 py-1 px-4 bg-secondary rounded-full border border-secondaryBorder ml-4">
+                    {/* Filter by producer */}
+                    <div className="flex flex-row gap-2 items-center">
+                        <select
+                            className="inputSelect w-fit"
+                            onChange={handleFilterByProducer}
+                            value={homeFilterByProducer}
+                        >
+                            {" "}
+                            <option value={FILTER_TYPES.BY_PRODUCER.ALL}>
+                                Todas las productoras
+                            </option>
+                            {setProducer(allEvents).map((c) => {
+                                return (
+                                    <option id={c} value={c} key={c}>
+                                        {c}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                    </div>
+
+                    {/* Filter by Date */}
+                    <div className="flex flex-row gap-2 items-center">
+                        <label htmlFor="startDate">Desde:</label>
+                        <DatePicker
+                            className="input"
+                            selected={homeFilterByDate.startDate}
+                            onSelect={(date) => setStartDateToFilter(date)}
+                            onChange={filterEventsByDate}
+                            minDate={new Date()}
+                            dateFormat="dd/MM/yyyy"
+                        />
+
+                        <label htmlFor="endDate">Hasta:</label>
+                        <DatePicker
+                            className="input"
+                            selected={homeFilterByDate.endDate}
+                            onSelect={(date) => setEndDateToFilter(date)}
+                            onChange={filterEventsByDate}
+                            minDate={new Date()}
+                            maxDate={getSixMonthDate()}
+                            dateFormat="dd/MM/yyyy"
+                        />
+
+                        <button
+                            className="btnPrimary items-center px-2 w-fit py-0"
+                            onClick={handleSubmitFilterEvents}
+                        >
+                            Filtrar
+                        </button>
+                    </div>
+
+                    {/* Sort */}
+                    <div className="flex flex-row gap-2 items-center">
+                        <label htmlFor="sort">Ordenar:</label>
+
+                        <select
+                            value={homeSort}
+                            onChange={handleSortEvents}
+                            className="inputSelect w-fit"
+                            name="sort"
+                        >
+                            <option value={SORT_TYPES.DEFAULT}>Default</option>
+                            <option value={SORT_TYPES.BY_ALPHABETIC.ASC}>
+                                A-Z
+                            </option>
+                            <option value={SORT_TYPES.BY_ALPHABETIC.DESC}>
+                                Z-A
+                            </option>
+                            <option value={SORT_TYPES.BY_DATE.FIRST}>
+                                Próximos
+                            </option>
+                            <option value={SORT_TYPES.BY_DATE.LAST}>
+                                Últimos
+                            </option>
+                        </select>
+                    </div>
+
+                    {/* Reset All */}
+                    <Tooltip tooltip="Limpiar filtros y ordenamientos">
+                        <button
+                            className="btnPrimary items-center px-4 py-1"
+                            onClick={handleResetFilters}
+                        >
+                            <FaSync />
+                        </button>
+                    </Tooltip>
                 </div>
 
-                {/* Filter by Date */}
-                <div className="flex flex-row gap-2 items-center">
-                    <label htmlFor="startDate">Desde:</label>
-                    <input
-                        type="date"
-                        className="input"
-                        name="startDate"
-                        onChange={handleFilterByDateChange}
-                        value={homeFilterByDate.startDate}
-                        min={getCurrentDate()}
-                    />
-                    <label htmlFor="endDate">Hasta:</label>
-                    <input
-                        type="date"
-                        className="input"
-                        name="endDate"
-                        onChange={handleFilterByDateChange}
-                        value={homeFilterByDate.endDate}
-                        min={homeFilterByDate.startDate}
-                    />
+                {/* Info paginado */}
+                <div className="flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 bg-secondary rounded-full border border-secondaryBorder mr-4">
+                    {homeEvents.length} Resultados | Página{" "}
+                    {totalPages ? currentPage : "0"} / {totalPages}
+                </div>
+            </div>
+
+            {/* NavBar Responsive */}
+            <div className="lg:hidden flex flex-row place-content-between w-screen h-16 mt-4">
+                <div className="flex w-fit justify-self-start my-2 items-center ml-4">
                     <button
-                        className="btnPrimary h-8 py-0 px-4 w-fit"
-                        onClick={handleSubmitFilterEvents}
+                        className="btnPrimary px-4 py-2"
+                        onClick={() => setShowNavBar(true)}
                     >
-                        Filtrar
+                        Filtrar eventos
                     </button>
                 </div>
 
-                {/* Sort */}
-                <div className="flex flex-row gap-2 items-center">
-                    <label htmlFor="sort">Ordenar:</label>
-
-                    <select
-                        value={homeSort}
-                        onChange={handleSortEvents}
-                        className="inputSelect w-fit"
-                        name="sort"
-                    >
-                        <option value={SORT_TYPES.DEFAULT}>Default</option>
-                        <option value={SORT_TYPES.BY_ALPHABETIC.ASC}>
-                            A-Z
-                        </option>
-                        <option value={SORT_TYPES.BY_ALPHABETIC.DESC}>
-                            Z-A
-                        </option>
-                        <option value={SORT_TYPES.BY_DATE.FIRST}>
-                            Próximos
-                        </option>
-                        <option value={SORT_TYPES.BY_DATE.LAST}>Últimos</option>
-                    </select>
+                {/* Info paginado */}
+                <div className="flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 bg-secondary rounded-full border border-secondaryBorder mr-4">
+                    {homeEvents.length} Resultados | Página{" "}
+                    {totalPages ? currentPage : "0"} / {totalPages}
                 </div>
-
-                <button
-                    className="btnPrimary px-2"
-                    onClick={handleResetFilters}
-                >
-                    <FaSync />
-                </button>
             </div>
 
-            {/* Info paginado */}
-            <div className="flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 bg-secondary rounded-full border border-secondaryBorder mr-4">
-                {homeEvents.length} Resultados | Página{" "}
-                {totalPages ? currentPage : "0"} / {totalPages}
-            </div>
-        </div>
+            {showNavBar && (
+                <div className="lg:hidden fixed inset-0 z-50 flex bg-secondary bg-opacity-95">
+                    <button
+                        className="absolute left-4 top-4 flex flex-row btnPrimary items-center px-4 py-1 w-fit"
+                        onClick={() => setShowNavBar(false)}
+                    >
+                        <MdArrowBackIos size="1.3rem" />
+                        Volver
+                    </button>
+
+                    <button
+                        className="absolute right-4 top-4 flex flex-row btnPrimary items-center px-4 w-fit"
+                        onClick={handleResetFilters}
+                    >
+                        <FaSync />
+                    </button>
+                    <div className="w-full flex flex-col mt-16 px-4 py-8">
+                        <div className="flex flex-col gap-2 mb-6">
+                            <span className="font-medium text-xl ml-1">
+                                Filtro por productora:
+                            </span>
+                            <select
+                                className="inputSelect w-full"
+                                onChange={handleFilterByProducer}
+                                value={homeFilterByProducer}
+                            >
+                                <option value={FILTER_TYPES.BY_PRODUCER.ALL}>
+                                    Todas las productoras
+                                </option>
+                                {setProducer(allEvents).map((c) => {
+                                    return (
+                                        <option id={c} value={c} key={c}>
+                                            {c}
+                                        </option>
+                                    );
+                                })}
+                            </select>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <span className="font-medium text-xl ml-1">
+                                Filtro por fecha:
+                            </span>
+                            <div className="flex flex-row w-full gap-2">
+                                <label htmlFor="startDate" className="text-lg">
+                                    Desde:
+                                </label>
+                            </div>
+                            <div className="flex flex-row w-full gap-2">
+                                <label htmlFor="startDate" className="text-lg">
+                                    Hasta:
+                                </label>
+                            </div>
+                            <button
+                                className="btnPrimary items-center px-2 w-fit py-0"
+                                onClick={handleSubmitFilterEvents}
+                            >
+                                Filtrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 
@@ -183,7 +281,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setAllEventsOnHomeEvents: () => dispatch(setAllEventsOnHomeEvents()),
-        setDateToFilter: (objectDate) => dispatch(setDateToFilter(objectDate)),
+        setStartDateToFilter: (startDate) =>
+            dispatch(setStartDateToFilter(startDate)),
+        setEndDateToFilter: (endDate) => dispatch(setEndDateToFilter(endDate)),
         filterEventsByDate: () => dispatch(filterEventsByDate()),
         filterEventsByProducer: (producer) =>
             dispatch(filterEventsByProducer(producer)),
