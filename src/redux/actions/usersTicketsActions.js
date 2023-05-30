@@ -22,6 +22,7 @@ export const getUserTickets = (userId) => {
             const response = await axios.get(
                 `${BACKEND_URL}/userTickets/ticketsByUser/${userId}`
             );
+            console.log(response);
             dispatch({
                 type: USER_TICKETS_GET,
                 payload: response.data,

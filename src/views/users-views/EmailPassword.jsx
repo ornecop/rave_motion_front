@@ -7,6 +7,7 @@
 */
 // Axios
 import axios from "axios";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // React Router Dom
 import { Link, useNavigate } from "react-router-dom";
@@ -36,7 +37,7 @@ const EmailPassword = () => {
         setError("");
         try {
             const response = await axios.post(
-                `http://localhost:3001/users/resetpassword`,
+                `${BACKEND_URL}/users/resetpassword`,
                 { email: values.email }
             );
             const passwordToken = response.data.resetPasswordToken;

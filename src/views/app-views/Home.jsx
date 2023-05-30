@@ -69,7 +69,7 @@ const Home = (props) => {
         setTimeout(() => {
             setIsLoading(false);
         }, 1000);
-    }, []);
+    }, []);  
 
     return (
         <div className="w-full min-h-screen">

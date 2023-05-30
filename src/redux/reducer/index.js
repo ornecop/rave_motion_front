@@ -9,7 +9,6 @@ import {
 // Events Actions Types
 import {
     EVENTS_SEARCH,
-    EVENTS_SET_HOME_EVENTS,
     EVENTS_GET_ALL,
     EVENT_DETAIL_GET,
     EVENT_DETAIL_REMOVE,
@@ -18,6 +17,8 @@ import {
     EVENTS_FILTER_BY_PRODUCER,
     EVENTS_SORT,
     EVENTS_SET_CURRENT_PAGE,
+    EVENTS_SET_HOME_EVENTS,
+    EVENTS_FINALIZED_GET_ALL
 } from "../actions/eventsActions";
 
 // User Actions Types
@@ -39,6 +40,8 @@ import {
     USER_TICKETS_FILTER_BY_CURRENT,
 } from "../actions/usersTicketsActions";
 
+import getCurrentDate from"../../functions/getCurrentDate"
+
 // Initial State
 import initialState from "./initialState";
 
@@ -50,69 +53,9 @@ const { ACTIVES, PASS, ALL } = FILTER_EVENTS_BY_DATE;
 // Current Date
 const currentDate = new Date();
 
-// Functions ==============================================
-
-const applySort = (events, sort) => {
-    let sortedEvents = [...events];
-
-    function getTimeFromString(timeString) {
-        const [hours, minutes, seconds] = timeString.split(":");
-        return hours * 3600 + minutes * 60 + seconds;
-    }
-    switch (sort) {
-        case SORT_TYPES.BY_ALPHABETIC.ASC:
-            sortedEvents.sort((a, b) => a.name.localeCompare(b.name));
-            break;
-        case SORT_TYPES.BY_ALPHABETIC.DESC:
-            sortedEvents.sort((a, b) => b.name.localeCompare(a.name));
-            break;
-        
-        case SORT_TYPES.BY_DATE.FIRST:
-                sortedEvents.sort((a, b) => {
-                    const dateA = new Date(a.date);
-                    const dateB = new Date(b.date);
-            
-                    if (dateA.getTime() !== dateB.getTime()) {
-                        return dateA - dateB;
-                    }
-                    const timeA = getTimeFromString(a.hour);
-                    const timeB = getTimeFromString(b.hour);
-            
-                    return timeA - timeB;
-                });
-                break;
-        case SORT_TYPES.BY_DATE.LAST:
-                sortedEvents.sort((a, b) => {
-                    const dateA = new Date(a.date);
-                    const dateB = new Date(b.date);
-            
-                    if (dateA.getTime() !== dateB.getTime()) {
-                        return dateB - dateA;
-                    }
-                    const timeA = getTimeFromString(a.hour);
-                    const timeB = getTimeFromString(b.hour);
-                    return timeB - timeA;
-                });
-                break;
-    }
-    return sortedEvents;
-};
-
-const applyFilters = (events, filterDate, filterProducer) => {
-    let filterEvents = [...events];
-    let { startDate, endDate } = filterDate;
-    if(startDate.length){ startDate = new Date(startDate);
-    filterEvents = filterEvents.filter((event) => {
-        const eventDate = new Date(event.date);
-        return eventDate >= startDate && (!endDate || eventDate <= new Date(endDate));
-    });
-    }
-    if (filterProducer != FILTER_TYPES.BY_PRODUCER.ALL) {
-        filterEvents = filterEvents.filter((e) => e.producer === filterProducer);     
-    }
-    console.log(filterEvents)
-    return filterEvents;
-};
+// Funcions
+import { applyFilters } from "../../functions/applyFilters";
+import { applySort } from "../../functions/applySort";
 
 // Root reducer ===========================================
 const rootReducer = (state = initialState, action) => {
@@ -126,6 +69,12 @@ const rootReducer = (state = initialState, action) => {
                 allEvents: action.payload,
                 homeEvents: action.payload,
             };
+            case EVENTS_FINALIZED_GET_ALL:
+                return {
+                    ...state,
+                    allEventsF: action.payload,
+                    homeEventsF: action.payload,
+                };
         case EVENTS_SET_HOME_EVENTS:
             return {
                 ...state,
@@ -133,7 +82,7 @@ const rootReducer = (state = initialState, action) => {
                 currentPage: 1,
                 homeFilterByProducer: FILTER_TYPES.BY_PRODUCER.ALL,
                 homeFilterByDate: {
-                    startDate: new Date(),
+                    startDate: getCurrentDate(),
                     endDate: "",
                 },
                 homeSort: SORT_TYPES.DEFAULT,
@@ -227,6 +176,9 @@ const rootReducer = (state = initialState, action) => {
                 currentPage: 1,
             };
 
+        case EVENTS_SET_CURRENT_PAGE:
+            return { ...state, currentPage: action.payload };
+
         // Users ==========================================
         case USER_SIGN_IN:
             return {
@@ -254,6 +206,7 @@ const rootReducer = (state = initialState, action) => {
                 selectedTickets: [],
             };
 
+        // Producer Events
         case USER_GET_USER_EVENTS_BY_USER_ID:
             return {
                 ...state,
@@ -306,40 +259,44 @@ const rootReducer = (state = initialState, action) => {
             }
             break;
 
-        case EVENTS_SET_CURRENT_PAGE:
-            return { ...state, currentPage: action.payload };
-
         // Fill Cart
         case FILL_CART:
             return { ...state, selectedTickets: action.payload };
 
         //UserTickets
         case USER_TICKETS_GET:
+            let filteredUserTickets4 = [...action.payload];
+
+            filteredUserTickets4 = filteredUserTickets4.filter((ticket) => {
+                const eventDate = new Date(ticket.Event.date);
+                eventDate.setHours(eventDate.getHours() + 3);
+                return eventDate >= currentDate;
+            });
+
             return {
                 ...state,
                 allUserTickets: action.payload,
-                userTickets: action.payload.filter((ticket) => {
-                    const eventDate = new Date(ticket.Event.date);
-                    return eventDate >= currentDate;
-                }),
+                userTickets: filteredUserTickets4,
             };
 
         case USER_TICKETS_FILTER_BY_CURRENT:
-            let filteredUserTickets = state.allUserTickets;
+            let filteredUserTickets5 = [...state.allUserTickets];
 
             switch (action.payload) {
                 case ACTIVES:
-                    filteredUserTickets = filteredUserTickets.filter(
+                    filteredUserTickets5 = filteredUserTickets5.filter(
                         (ticket) => {
                             const eventDate = new Date(ticket.Event.date);
+                            eventDate.setHours(eventDate.getHours() + 3);
                             return eventDate >= currentDate;
                         }
                     );
                     break;
                 case PASS:
-                    filteredUserTickets = filteredUserTickets.filter(
+                    filteredUserTickets5 = filteredUserTickets5.filter(
                         (ticket) => {
                             const eventDate = new Date(ticket.Event.date);
+                            eventDate.setHours(eventDate.getHours() + 3);
                             return eventDate < currentDate;
                         }
                     );
@@ -349,7 +306,7 @@ const rootReducer = (state = initialState, action) => {
             }
             return {
                 ...state,
-                userTickets: filteredUserTickets,
+                userTickets: filteredUserTickets5,
             };
 
         // Global

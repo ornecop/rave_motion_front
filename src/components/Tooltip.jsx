@@ -1,8 +1,10 @@
 import { ReactNode, useRef } from "react";
 
-const Tooltip = ({ children, tooltip }) => {
+const Tooltip = ({ children, tooltip, x }) => {
     const tooltipRef = useRef(null);
     const container = useRef(null);
+
+    const position = Number(x) || 30;
 
     return (
         <div
@@ -11,7 +13,8 @@ const Tooltip = ({ children, tooltip }) => {
                 if (!tooltipRef.current || !container.current) return;
                 const { left } = container.current.getBoundingClientRect();
 
-                tooltipRef.current.style.left = clientX - left - 30 + "px";
+                tooltipRef.current.style.left =
+                    clientX - left - position + "px";
             }}
             className="group relative inline-block"
         >

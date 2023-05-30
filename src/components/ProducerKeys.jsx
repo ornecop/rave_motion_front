@@ -25,7 +25,7 @@ const ProducerKeys = ({ userId }) => {
             const response = await axios.get(
                 `${BACKEND_URL}/tickets/sellstickets/${userId}`
             );
-            setProducerData(response.data[0].events);
+            setProducerData(response.data);
         };
 
         userId && getProducerData();
