@@ -5,7 +5,27 @@ import Tooltip from "./Tooltip";
 // Assets
 import { MdDeleteOutline } from "react-icons/md";
 
-const EventDelete = ({ tickets, eventId, eventName }) => {
+// Axios
+import axios from "axios";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+// Redux
+import { connect } from "react-redux";
+import { setGlobalError, setGlobalSuccess } from "../redux/actions/appActions";
+import { getUserEventsByUserId } from "../redux/actions/usersActions";
+
+const EventDelete = (props) => {
+    // Props
+    const {
+        tickets,
+        eventId,
+        eventName,
+        setGlobalError,
+        setGlobalSuccess,
+        getUserEventsByUserId,
+        userData,
+    } = props;
+
     // Can Delete
     const [canDelete, setCanDelete] = useState(true);
 
@@ -16,33 +36,59 @@ const EventDelete = ({ tickets, eventId, eventName }) => {
             (accumulator, currentValue) => accumulator + currentValue,
             0
         );
-        console.log(ticketsSolds);
         if (ticketsSolds) setCanDelete(false);
     }, [tickets]);
 
     // Delete proccess
-    const [deleteWasClicked, setDeleteWasClicked] = useState(false);
-    const [deleteWasConfirmed, setDeleteWasConfirmed] = useState(false);
+    const [deleteStep, setDeleteStep] = useState(0);
 
     // 1
     const handleDeleteClick = () => {
-        setDeleteWasClicked(true);
+        setDeleteStep(1);
     };
 
-    const handleModalCancel = () => {
-        setDeleteWasClicked(false);
-        setDeleteWasConfirmed(false);
+    const handleCancelClick = () => {
+        setDeleteStep(0);
     };
 
-    const handleEventDelete = () => {
-        setDeleteWasConfirmed(true);
+    const handleAllowDelete = () => {
+        setDeleteStep(2);
     };
+
     // 2
-    const deleteEvent = () => {};
+    const [confirmText, setConfirmText] = useState("");
+    const [textToConfirm, setTextToConfirm] = useState(
+        `Eliminar mi evento ${eventName.slice(0, 10)}`
+    );
+
+    const handleConfirmTextChange = (event) => {
+        setConfirmText(event.target.value);
+    };
+
+    const deleteEvent = () => {
+        setConfirmText("");
+        const asyncDeleteEvent = async (id) => {
+            console.log(id, "id");
+            try {
+                const response = await axios.delete(
+                    `${BACKEND_URL}/events/eventsdelete/${id}`
+                );
+                setGlobalSuccess("El evento ha sido eliminado exitoxamente.");
+                getUserEventsByUserId(userData.id);
+                console.log(response, "res");
+            } catch (error) {
+                console.log(error, "err");
+                setGlobalError(error.response.data.error);
+            }
+            setDeleteStep(0);
+        };
+
+        asyncDeleteEvent(eventId);
+    };
 
     return (
         <>
-            {deleteWasClicked && !deleteWasConfirmed ? (
+            {deleteStep === 1 ? (
                 <>
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
                         <div className="floatBox p-8 w-2/6">
@@ -56,13 +102,13 @@ const EventDelete = ({ tickets, eventId, eventName }) => {
                             <div className="flex flex-row gap-6 justify-end">
                                 <div className="flex flex-row gap-6 justify-end">
                                     <button
-                                        onClick={handleModalCancel}
+                                        onClick={handleCancelClick}
                                         className="w-32 px-4 text-lg py-2 rounded-xl bg-primary hover:bg-slate-800 focus:outline-none transition-colors duration-300"
                                     >
                                         Cancelar
                                     </button>
                                     <button
-                                        onClick={handleEventDelete}
+                                        onClick={handleAllowDelete}
                                         className="w-32 px-4 text-lg py-2 rounded-xl bg-red-600 hover:bg-red-500 focus:outline-none transition-colors duration-300"
                                     >
                                         Eliminar
@@ -72,30 +118,46 @@ const EventDelete = ({ tickets, eventId, eventName }) => {
                         </div>
                     </div>
                 </>
-            ) : deleteWasConfirmed && !deleteWasClicked ? (
+            ) : deleteStep === 2 ? (
                 <>
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
                         <div className="floatBox p-8 w-2/6">
-                            <div className="mb-4 text-2xl font-semibold">
+                            <div className="mb-4 text-2xl font-semibold w-full">
                                 Eliminar evento
                             </div>
-                            <div className="text-normal mb-6">
-                                Para confirmar tipea "{eventName}" en la caja de
-                                abajo
+                            <div className="text-normal mb-6 w-full">
+                                Para confirmar tipea "
+                                <span className="font-semibold">
+                                    {textToConfirm}
+                                </span>
+                                " en la caja de abajo
+                            </div>
+                            <div className="mb-6 w-full">
+                                <input
+                                    type="text"
+                                    className={`${
+                                        confirmText !== textToConfirm
+                                            ? "input"
+                                            : "inputSuccess"
+                                    }`}
+                                    value={confirmText}
+                                    onChange={handleConfirmTextChange}
+                                />
                             </div>
                             <div className="flex flex-row gap-6 justify-end">
                                 <div className="flex flex-row gap-6 justify-end">
                                     <button
-                                        onClick={handleModalCancel}
+                                        onClick={handleCancelClick}
                                         className="w-32 px-4 text-lg py-2 rounded-xl bg-primary hover:bg-slate-800 focus:outline-none transition-colors duration-300"
                                     >
                                         Cancelar
                                     </button>
                                     <button
                                         onClick={deleteEvent}
-                                        className="w-32 px-4 text-lg py-2 rounded-xl bg-red-600 hover:bg-red-500 focus:outline-none transition-colors duration-300"
+                                        disabled={confirmText !== textToConfirm}
+                                        className="w-32 px-4 text-lg py-2 rounded-xl bg-red-600 hover:bg-red-500 focus:outline-none transition-colors duration-300 disabled:cursor-not-allowed disabled:bg-red-600 disabled:opacity-50"
                                     >
-                                        Confirmar y eliminar
+                                        Eliminar
                                     </button>
                                 </div>
                             </div>
@@ -127,4 +189,19 @@ const EventDelete = ({ tickets, eventId, eventName }) => {
     );
 };
 
-export default EventDelete;
+const mapStateToProps = (state) => {
+    return {
+        userData: state.userData,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setGlobalError: (error) => dispatch(setGlobalError(error)),
+        setGlobalSuccess: (message) => dispatch(setGlobalSuccess(message)),
+        getUserEventsByUserId: (userId) =>
+            dispatch(getUserEventsByUserId(userId)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventDelete);
