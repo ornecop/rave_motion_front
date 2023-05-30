@@ -6,11 +6,9 @@
     styles:
     password y password repeat
 */
-
-import React from "react";
-
 // Axios
 import axios from "axios";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // Hooks
 import { useToggle } from "../../functions/customHooks";
@@ -56,7 +54,7 @@ const ChangePassword = () => {
         setError("");
         const resetPasswordToken1 = localStorage.getItem("passwordtoken");
         axios
-            .post(`http://localhost:3001/users/resetpassword/2`, {
+            .post(`${BACKEND_URL}/users/resetpassword/2`, {
                 newPassword: values.password,
                 resetPasswordToken1,
             })

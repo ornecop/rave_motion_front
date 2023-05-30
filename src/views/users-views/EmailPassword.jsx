@@ -4,10 +4,7 @@
     styles:
     email 
     boton confirmar    
-    */
-
-import React from "react";
-
+*/
 // Axios
 import axios from "axios";
 

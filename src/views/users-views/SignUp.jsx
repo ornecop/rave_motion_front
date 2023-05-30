@@ -26,7 +26,8 @@ import {
     removeSignUserError,
     setSignUpStep,
 } from "../../redux/actions/usersActions";
-
+// Google button
+import GoogleLogin from "./GoogleLogin"
 // React icons
 import { FcGoogle } from "react-icons/fc";
 
@@ -100,14 +101,8 @@ const SignUp = ({ signUpStep, setSignUpStep }) => {
                             </p>
                         </div>
 
-                        <button type="button" className="grid btnPrimary">
-                            <div className="flex flex-row justify-self-center items-center gap-2">
-                                <FcGoogle size="1.5rem" />
-                                <span className="text-lg">
-                                    Registrate con Google
-                                </span>
-                            </div>
-                        </button>
+                     
+              <GoogleLogin/>
                     </>
                 )}
 
