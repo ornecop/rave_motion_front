@@ -21,7 +21,7 @@ const EventDelete = ({ tickets }) => {
 
     return (
         <Tooltip
-            tooltip={!canDelete ? "El ticket ya tiene ventas" : "Borrar ticket"}
+            tooltip={!canDelete ? "El evento ya tiene ventas" : "Borrar evento"}
             x={!canDelete ? "150" : "70"}
         >
             <button
