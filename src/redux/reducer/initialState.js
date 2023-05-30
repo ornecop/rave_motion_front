@@ -1,5 +1,5 @@
 import { FILTER_TYPES, SORT_TYPES } from "../../const";
-import getCurrentDate from"../../functions/getCurrentDate"
+import getSixMonthDate from "../../functions/getSixMonthDate";
 
 const initialState = {
     // All events y finalized events
@@ -8,24 +8,16 @@ const initialState = {
     // Home events
     homeEvents: [],
     homeEventsF: [],
-    homeEventsFilterByProducer: "All",
-    homeEventsFilterByDate: {
-        startDate: null,
-        endDate: null,
-    },
-    homeEventsOrder: "Default",
+
     eventsPerPage: 10,
     currentPage: 1,
 
     homeFilterByProducer: FILTER_TYPES.BY_PRODUCER.ALL,
     homeFilterByDate: {
-        startDate: getCurrentDate(),
+        startDate: new Date().setHours(0, 0, 0, 0),
         endDate: "",
     },
     homeSort: SORT_TYPES.DEFAULT,
-
-    currentPage: 1,
-    eventsPerPage: 10,
 
     // Detail event
     eventDetail: {},
