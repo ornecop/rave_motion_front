@@ -20,7 +20,7 @@
 @layer components {
     /* Buttons */
     .btnPrimary {
-        @apply block w-full text-lg py-2 rounded-full bg-gradient-to-r from-fuchsia-800 to-pink-500 border border-fuchsia-600 hover:bg-gradient-to-r hover:from-fuchsia-600 hover:to-pink-400  focus:outline-none transition-colors duration-300 disabled:opacity-50;
+        @apply block w-full text-lg py-2 rounded-full bg-gradient-to-r from-fuchsia-800 to-pink-500 border border-fuchsia-600 hover:bg-gradient-to-r hover:from-fuchsia-600 hover:to-pink-400  focus:outline-none transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed;
     }
 
     /* Inputs */
