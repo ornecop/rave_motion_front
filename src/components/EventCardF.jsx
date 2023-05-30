@@ -1,19 +1,53 @@
-// React Router Dom
+import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-
-// Assets
 import { ImLocation2 } from "react-icons/im";
 import { AiOutlineCalendar } from "react-icons/ai";
-
-// Components
 import EventDate from "./EventDate";
+import StarRating from "./StarRating";
+import Modal from 'react-modal';
+import axios from "axios";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+Modal.setAppElement('#root')
 
-export const EventCardF = ({ id, name, image, date, venue, hour }) => {
-    // Buy click
-    const navigate = useNavigate();
-    const handleBuyClick = () => {
-        navigate(`/event/${id}`);
-    };
+const customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)',
+    backgroundColor       : '#f5f5f5',
+    borderRadius          : '10px',
+    width                 : '400px',
+    padding               : '20px'
+  }
+};
+
+export const EventCardF = ({ id, name, image, date, venue, hour,userData }) => {
+  const [rating, setRating] = useState(0);
+  const [modalIsOpen,setIsOpen] = useState(false);
+
+  const handleRateClick = () => {
+    setIsOpen(true);
+  };
+
+  const onStarClick = (nextValue, prevValue, name) => {
+    setRating(nextValue);
+  };
+  const updateRating = async (id, rating, idUser) => {
+    try {
+      await axios.post(`${BACKEND_URL}/events/rating`, { id, rating, idUser });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const closeModal = () => {
+    setIsOpen(false); 
+    const idUser = userData.id
+    updateRating(id, rating,idUser);
+  };
 
     return (
         <div className="h-[15rem] w-[35rem] mx-auto flex flex-row bg-slate-900 rounded-xl border border-secondaryBorder">
@@ -50,10 +84,27 @@ export const EventCardF = ({ id, name, image, date, venue, hour }) => {
         FINALIZADO
     </h2>
 </div>
-
-
-            </div>
-        </div>
-    );
+<div>
+      <button className="bg-blue-500 text-white px-4 py-2 mt-4 rounded w-full text-center" onClick={handleRateClick}>
+          Calificar
+      </button>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Rate Modal"
+        style={customStyles}
+      >
+        <StarRating rating={rating} onStarClick={onStarClick} />
+        <button onClick={closeModal}>Cerrar</button>
+      </Modal>
+    </div>
+    </div>
+    </div>
+  );
+};
+const mapStateToProps = (state) => {
+    return {
+        userData: state.userData
+    };
 };
 export default EventCardF;
