@@ -66,6 +66,7 @@ const ProducerDashboard = (props) => {
                     const response = await axios.get(
                         `${BACKEND_URL}/events/${eventId}`
                     );
+
                     const eventExist =
                         response.data.name &&
                         response.data.userId === userData.id;
@@ -81,9 +82,8 @@ const ProducerDashboard = (props) => {
                 setView(DASHBOARD_VIEWS.DASHBOARD);
             }
         };
-
         getParamAndSearchEvent();
-    }, [eventId]);
+    }, [eventId, userData]);
 
     // Events by UserId
     useEffect(() => {

@@ -293,7 +293,7 @@ const TicketsCreate = (props) => {
                                                 : "input"
                                         }
                                         type="text"
-                                        placeholder="Descripción de tu evento"
+                                        placeholder="Descripción"
                                         name="description"
                                         autoComplete="false"
                                     />
