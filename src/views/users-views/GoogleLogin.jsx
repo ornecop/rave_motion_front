@@ -34,7 +34,7 @@ const GoogleAuthComponent = () => {
     }, []);
 
     return (
-        <div>
+        <div className="w-full">
             <div id="signInDiv"></div>
         </div>
     );
