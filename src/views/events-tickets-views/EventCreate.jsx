@@ -82,6 +82,40 @@ const EventCreate = (props) => {
 
     const [loading, setLoading] = useState(true);
     const [initialValues, setInitialValues] = useState(null);
+    
+    const [imageDataUrl, setImageDataUrl] = useState("");
+    const [imageError, setImageError] = useState({ status: "", disabled: "y" });
+    const [imageName, setImageName] = useState({ name: "" });
+    
+    //input image
+    const inputImage = (file)=>{ 
+        if (file) {
+        const fileName = file.name;
+        const fileExtension = fileName.split(".").pop().toLowerCase();
+        if (
+            fileExtension === "jpg" ||
+            fileExtension === "jpeg" ||
+            fileExtension === "png"
+        ) {
+            setImageError({ status: "", disabled: "" });
+            setImageName({ name: fileName });
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        const dataURL = e.target.result;
+        setImageDataUrl(dataURL);
+    };
+    reader.readAsDataURL(file); 
+} else {
+        setImageName({ name: "" });
+        setImageDataUrl("");
+        setImageError({
+            disabled: "y",
+            status: "Debe seleccionar una imagen valida. (.jpg .png .jpeg)",
+        });
+    }}}
+//finish input events 
+
     useEffect(() => {
         const getEventIfEventId = async () => {
             let initialValues = {
@@ -98,7 +132,26 @@ const EventCreate = (props) => {
                 const response = await axios.get(
                     `${BACKEND_URL}/events/${eventId}`
                 );
-                setInitialValues(response.data);
+                response.data.date = response.data.date.split("T")[0];
+                response.data.hour = response.data.hour.slice(0, response.data.hour.length - 3)
+               
+                setInitialValues({
+                    name: response.data.name,
+                    image: "",
+                    date: response.data.date,
+                    hour: response.data.hour,
+                    venue: response.data.venue,
+                    producer: response.data.producer,
+                    description: response.data.description,
+                });
+
+                const imageUrl = response.data.image;
+                const imageResponse = await fetch(imageUrl);
+                const imageBlob = await imageResponse.blob();
+                const file = new File([imageBlob], 'image.jpg', { type: 'image/jpeg' });
+                
+                inputImage(file);
+            
                 setLoading(false);
             } else {
                 setInitialValues({
@@ -123,38 +176,10 @@ const EventCreate = (props) => {
     // Handle Submit
     const navigate = useNavigate();
 
-    const [imageDataUrl, setImageDataUrl] = useState("");
-    const [imageError, setImageError] = useState({ status: "", disabled: "y" });
-    const [imageName, setImageName] = useState({ name: "" });
-
     // Image field handle & error
     const handleImageChange = (event) => {
         const file = event.target.files[0];
-        if (file) {
-            const fileName = file.name;
-            const fileExtension = fileName.split(".").pop().toLowerCase();
-            if (
-                fileExtension === "jpg" ||
-                fileExtension === "jpeg" ||
-                fileExtension === "png"
-            ) {
-                setImageError({ status: "", disabled: "" });
-                setImageName({ name: fileName });
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const dataURL = e.target.result;
-                    setImageDataUrl(dataURL);
-                };
-                reader.readAsDataURL(file);
-            } else {
-                setImageName({ name: "" });
-                setImageDataUrl("");
-                setImageError({
-                    disabled: "y",
-                    status: "Debe seleccionar una imagen valida. (.jpg .png .jpeg)",
-                });
-            }
-        }
+        inputImage(file);
     };
 
     const errorImageHandler = () => {
