@@ -12,6 +12,7 @@
 import defaultImage from "../../assets/picture.png";
 import { AiOutlineCalendar } from "react-icons/ai";
 import { ImLocation2 } from "react-icons/im";
+import { MdOutlineDashboardCustomize, MdArrowBackIos } from "react-icons/md";
 
 // Formik, Yup
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -31,12 +32,16 @@ import {
 import { setGlobalError } from "../../redux/actions/appActions";
 import { setGlobalSuccess } from "../../redux/actions/appActions";
 
-// axios
+// Axios
 import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
+// React Router
+import { Link } from "react-router-dom";
+
 // Components
 import Loading from "../../components/Loading";
+import Tooltip from "../../components/Tooltip";
 
 // Validation schemas
 const validationSchema = Yup.object().shape({
@@ -208,7 +213,18 @@ const EventCreate = (props) => {
                             <div className="flex flex-col place-content-center h-full">
                                 <Form className="floatBox my-6 mx-6 flex flex-col h-full justify-center">
                                     <div>
-                                        <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+                                        <div className="mb-4 w-full">
+                                            <Tooltip tooltip="Ir al dashboard">
+                                                <Link
+                                                    to="/dashboard"
+                                                    className="flex flex-row gap-2 btnPrimary items-center px-4 py-1 w-fit"
+                                                >
+                                                    <MdArrowBackIos size="1.2rem" />
+                                                    <MdOutlineDashboardCustomize size="1.2rem" />
+                                                </Link>
+                                            </Tooltip>
+                                        </div>
+                                        <div className="my-4 flex flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
                                             <p className="mx-4 mb-0 text-center font-semibold">
                                                 Crear o modificar evento:
                                             </p>
