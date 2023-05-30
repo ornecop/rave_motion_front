@@ -13,7 +13,7 @@ const RequireLogOut= ({ children }) => {
         if(isLogin){
             navigate("/")
         }
-    },[])
+    },[isLogin, navigate])
     return(
         !isLogin?children:<Home/>)
     
