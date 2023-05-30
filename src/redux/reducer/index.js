@@ -39,6 +39,8 @@ import {
     USER_TICKETS_FILTER_BY_CURRENT,
 } from "../actions/usersTicketsActions";
 
+import getCurrentDate from"../../functions/getCurrentDate"
+
 // Initial State
 import initialState from "./initialState";
 
@@ -73,7 +75,7 @@ const rootReducer = (state = initialState, action) => {
                 currentPage: 1,
                 homeFilterByProducer: FILTER_TYPES.BY_PRODUCER.ALL,
                 homeFilterByDate: {
-                    startDate: new Date(),
+                    startDate: getCurrentDate(),
                     endDate: "",
                 },
                 homeSort: SORT_TYPES.DEFAULT,
