@@ -56,14 +56,29 @@ const HomeNavBar = (props) => {
         filterEventsByDate();
     };
 
+    const handleSubmitFilterEventsResponsive = () => {
+        filterEventsByDate();
+        setShowNavBar(false);
+    };
+
     // Filter by Producer
     const handleFilterByProducer = (event) => {
         filterEventsByProducer(event.target.value);
     };
 
+    const handleFilterByProducerResponsive = (event) => {
+        filterEventsByProducer(event.target.value);
+        setShowNavBar(false);
+    };
+
     // Sort
     const handleSortEvents = (event) => {
         sortEvents(event.target.value);
+    };
+
+    const handleSortEventsResponsive = (event) => {
+        sortEvents(event.target.value);
+        setShowNavBar(false);
     };
 
     // Reset
@@ -218,13 +233,13 @@ const HomeNavBar = (props) => {
                         <FaSync />
                     </button>
                     <div className="w-full flex flex-col mt-16 px-4 py-8">
-                        <div className="flex flex-col gap-2 mb-6">
+                        <div className="flex flex-col gap-2 mb-12">
                             <span className="font-medium text-xl ml-1">
                                 Filtro por productora:
                             </span>
                             <select
                                 className="inputSelect w-full"
-                                onChange={handleFilterByProducer}
+                                onChange={handleFilterByProducerResponsive}
                                 value={homeFilterByProducer}
                             >
                                 <option value={FILTER_TYPES.BY_PRODUCER.ALL}>
@@ -239,26 +254,71 @@ const HomeNavBar = (props) => {
                                 })}
                             </select>
                         </div>
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-2 mb-12">
                             <span className="font-medium text-xl ml-1">
                                 Filtro por fecha:
                             </span>
-                            <div className="flex flex-row w-full gap-2">
-                                <label htmlFor="startDate" className="text-lg">
-                                    Desde:
-                                </label>
-                            </div>
-                            <div className="flex flex-row w-full gap-2">
-                                <label htmlFor="startDate" className="text-lg">
-                                    Hasta:
-                                </label>
-                            </div>
+                            <label htmlFor="startDate" className="font-medium">
+                                Desde:
+                            </label>
+                            <DatePicker
+                                className="input"
+                                selected={homeFilterByDate.startDate}
+                                onSelect={(date) => setStartDateToFilter(date)}
+                                onChange={filterEventsByDate}
+                                minDate={new Date()}
+                                dateFormat="dd/MM/yyyy"
+                            />
+
+                            <label htmlFor="endDate" className="font-medium">
+                                Hasta:
+                            </label>
+                            <DatePicker
+                                className="input"
+                                selected={homeFilterByDate.endDate}
+                                onSelect={(date) => setEndDateToFilter(date)}
+                                onChange={filterEventsByDate}
+                                minDate={new Date()}
+                                maxDate={getSixMonthDate()}
+                                dateFormat="dd/MM/yyyy"
+                            />
                             <button
-                                className="btnPrimary items-center px-2 w-fit py-0"
-                                onClick={handleSubmitFilterEvents}
+                                className="btnPrimary items-center px-2 w-full mt-2 py-0"
+                                onClick={handleSubmitFilterEventsResponsive}
                             >
-                                Filtrar
+                                Filtrar por fecha
                             </button>
+                        </div>
+                        <div className="flex flex-col gap-2 mb-12">
+                            <label
+                                htmlFor="sort"
+                                className="font-medium text-xl ml-1"
+                            >
+                                Ordenar:
+                            </label>
+
+                            <select
+                                value={homeSort}
+                                onChange={handleSortEventsResponsive}
+                                className="inputSelect w-full"
+                                name="sort"
+                            >
+                                <option value={SORT_TYPES.DEFAULT}>
+                                    Default
+                                </option>
+                                <option value={SORT_TYPES.BY_ALPHABETIC.ASC}>
+                                    A-Z
+                                </option>
+                                <option value={SORT_TYPES.BY_ALPHABETIC.DESC}>
+                                    Z-A
+                                </option>
+                                <option value={SORT_TYPES.BY_DATE.FIRST}>
+                                    Próximos
+                                </option>
+                                <option value={SORT_TYPES.BY_DATE.LAST}>
+                                    Últimos
+                                </option>
+                            </select>
                         </div>
                     </div>
                 </div>
