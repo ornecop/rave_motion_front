@@ -134,6 +134,8 @@ const EventDetail = () => {
     // Carrito de compra del evento
     const [selectedTickets, setSelectedTickets] = useState({});
 
+    console.log(selectedTickets)
+
     const handleTicketSelect = (event) => {
         const { id, value } = event.target;
 

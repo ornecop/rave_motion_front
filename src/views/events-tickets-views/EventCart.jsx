@@ -129,6 +129,9 @@ const EventCart = () => {
         }
     }, [totalToPay]);
 
+
+    console.log(selectedTickets)
+
     return (
         <div className="w-full">
             <div className="h-16"></div>
