@@ -26,12 +26,14 @@ import { Link } from "react-router-dom";
 
 // Assets
 
-import { FaExchangeAlt, FaRegEye } from "react-icons/fa";
-import { MdOutlineNotificationsNone, MdDeleteOutline } from "react-icons/md";
+import { FaRegEye } from "react-icons/fa";
+import { FiSettings } from "react-icons/fi";
+import { MdOutlineNotificationsNone } from "react-icons/md";
 
 // Components
 import DashboardAside from "../../components/DashboardAside";
 import EventDate from "../../components/EventDate";
+import EventDelete from "../../components/EventDelete";
 import EventTickets from "../../components/EventTickets";
 import ProducerKeys from "../../components/ProducerKeys";
 import Tooltip from "../../components/Tooltip";
@@ -134,9 +136,14 @@ const ProducerDashboard = (props) => {
                             />
                         </div>
                         <div className="flex justify-self-end items-center">
-                            <button>
-                                <MdOutlineNotificationsNone size="2rem" />
-                            </button>
+                            <Tooltip tooltip="Proximamente" x="90">
+                                <button
+                                    disabled={true}
+                                    className="disabled:cursor-not-allowed"
+                                >
+                                    <MdOutlineNotificationsNone size="2rem" />
+                                </button>
+                            </Tooltip>
                         </div>
                     </nav>
 
@@ -171,32 +178,32 @@ const ProducerDashboard = (props) => {
                                 <tr className="">
                                     <th
                                         scope="col"
-                                        className="px-2 py-3 text-start"
+                                        className="px-2 py-6 text-start"
                                     >
                                         Nombre
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-3 text-start"
+                                        className="px-2 py-6 text-start"
                                     >
                                         Fecha
                                     </th>
 
                                     <th
                                         scope="col"
-                                        className="px-2 py-3 text-center"
+                                        className="px-2 py-6 text-center"
                                     >
                                         Tickets vendidos
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-3 text-center"
+                                        className="px-2 py-6 text-center"
                                     >
                                         Opciones tickets
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-3 text-center"
+                                        className="px-2 py-6 text-center"
                                     >
                                         Opciones evento
                                     </th>
@@ -234,12 +241,11 @@ const ProducerDashboard = (props) => {
 
                                             <td className="px-2 py-4 justify-center">
                                                 <div className="flex flex-row gap-6 items-center justify-center">
-                                                    <Link
-                                                        to={`/create/tickets/${event.id}`}
-                                                        className="link"
-                                                    >
-                                                        Modificar tickets
-                                                    </Link>
+                                                    <Tooltip tooltip="Proximamente">
+                                                        <span className="link cursor-not-allowed">
+                                                            Modificar tickets
+                                                        </span>
+                                                    </Tooltip>
                                                 </div>
                                             </td>
 
@@ -250,7 +256,7 @@ const ProducerDashboard = (props) => {
                                                         className="link"
                                                     >
                                                         <Tooltip tooltip="Modificar evento">
-                                                            <FaExchangeAlt size="1.3rem" />
+                                                            <FiSettings size="1.5rem" />
                                                         </Tooltip>
                                                     </Link>
                                                     <Link
@@ -258,17 +264,14 @@ const ProducerDashboard = (props) => {
                                                         className="link"
                                                     >
                                                         <Tooltip tooltip="Ver evento">
-                                                            <FaRegEye size="1.3rem" />
+                                                            <FaRegEye size="1.5rem" />
                                                         </Tooltip>
                                                     </Link>
-                                                    <Link>
-                                                        <Tooltip tooltip="Borrar evento">
-                                                            <MdDeleteOutline
-                                                                size="1.3rem"
-                                                                className="text-red-600"
-                                                            />
-                                                        </Tooltip>
-                                                    </Link>
+                                                    <EventDelete
+                                                        tickets={event.Tickets}
+                                                        eventId={event.id}
+                                                        eventName={event.name}
+                                                    />
                                                 </div>
                                             </td>
                                         </tr>

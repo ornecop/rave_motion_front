@@ -24,7 +24,11 @@ import Tooltip from "../../components/Tooltip";
 
 // Assets
 import { AiOutlineCalendar } from "react-icons/ai";
-import { MdDeleteOutline } from "react-icons/md";
+import {
+    MdDeleteOutline,
+    MdArrowBackIos,
+    MdOutlineDashboardCustomize,
+} from "react-icons/md";
 
 // Axios
 import axios from "axios";
@@ -120,11 +124,25 @@ const ProducerEventDetail = ({ eventId, userData }) => {
                 <>
                     {/* Seccion nombre y fecha */}
                     <>
-                        <div className="flex flex-row w-full h-16 justify-self-start items-center">
-                            <span className="text-4xl font-semibold">
-                                {event.events}
-                            </span>
-                        </div>
+                        <nav className="flex flex-row place-content-between w-full h-16 ">
+                            <div className="flex justify-self-start items-center">
+                                <span className="text-4xl font-semibold">
+                                    {event.events}
+                                </span>
+                            </div>
+
+                            <div className="flex justify-self-end items-center">
+                                <Tooltip tooltip="Ir al dashboard">
+                                    <Link
+                                        to="/dashboard"
+                                        className="flex flex-row btnPrimary items-center px-4 py-1 w-fit"
+                                    >
+                                        <MdArrowBackIos size="1.8rem" />
+                                        <MdOutlineDashboardCustomize size="2rem" />
+                                    </Link>
+                                </Tooltip>
+                            </div>
+                        </nav>
 
                         <div className="flex flex-row w-full items-center justify-start gap-2 text-fuchsia-400 font-semibold text-xl">
                             <AiOutlineCalendar size="1.75rem" />
@@ -147,18 +165,25 @@ const ProducerEventDetail = ({ eventId, userData }) => {
                     />
 
                     {/* NavBar tickets */}
-                    <nav className="grid grid-cols-2 w-full h-16 mt-8">
+                    <nav className="flex flex-row place-content-between w-full h-16 mt-8 items-center">
                         <div className="flex justify-self-start items-center">
                             <span className="text-4xl font-semibold">
                                 Tickets de tu evento
                             </span>
                         </div>
 
-                        <div className="flex justify-self-end items-center gap-6">
+                        <div className="flex justify-self-end items-center gap-2">
+                            <label
+                                htmlFor="sort"
+                                className="font-semibold text-lg"
+                            >
+                                Ordenar por:
+                            </label>
                             <select
                                 className="inputSelect bg-secondary border-secondaryBorder text-white w-fit"
                                 onChange={handleTicketsSort}
                                 value={sort}
+                                name="sort"
                             >
                                 <option value="priceLower">Menor precio</option>
                                 <option value="priceHigher">
@@ -177,13 +202,6 @@ const ProducerEventDetail = ({ eventId, userData }) => {
                                     Nombre Z-A
                                 </option>
                             </select>
-
-                            <Link
-                                to={`/create/tickets/${event.eventId}`}
-                                className="btnPrimary py-0 px-2 text-xm font-medium"
-                            >
-                                Modificar
-                            </Link>
                         </div>
                     </nav>
 
@@ -194,38 +212,38 @@ const ProducerEventDetail = ({ eventId, userData }) => {
                                 <tr className="relative">
                                     <th
                                         scope="col"
-                                        className="px-2 py-3 text-start"
+                                        className="px-2 py-6 text-start"
                                     >
                                         Nombre
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-3 text-start"
+                                        className="px-2 py-6 text-start"
                                     >
                                         Precio
                                     </th>
 
                                     <th
                                         scope="col"
-                                        className="px-2 py-3 text-center"
+                                        className="px-2 py-6 text-center"
                                     >
                                         Ventas
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-3 text-center"
+                                        className="px-2 py-6 text-center"
                                     >
                                         Facturación
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-3 text-center"
+                                        className="px-2 py-6 text-center"
                                     >
                                         Tickets disponibles
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-3 text-center"
+                                        className="px-2 py-6 text-center"
                                     >
                                         Opciones
                                     </th>
