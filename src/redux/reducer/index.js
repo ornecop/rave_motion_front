@@ -99,6 +99,12 @@ const rootReducer = (state = initialState, action) => {
                         .includes(action.payload.toLowerCase())
                 ),
                 currentPage: 1,
+                homeFilterByProducer: FILTER_TYPES.BY_PRODUCER.ALL,
+                homeFilterByDate: {
+                    startDate: new Date().setHours(0, 0, 0, 0),
+                    endDate: "",
+                },
+                homeSort: SORT_TYPES.DEFAULT,
             };
 
         // Detail
