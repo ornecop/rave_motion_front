@@ -258,7 +258,8 @@ const EventDetail = (props) => {
                                                     Precio
                                                 </th>
                                                 {userData.id ===
-                                                eventDetail.userId ? (
+                                                    eventDetail.userId ||
+                                                !eventDetail.current ? (
                                                     <></>
                                                 ) : (
                                                     <th
@@ -290,7 +291,8 @@ const EventDetail = (props) => {
                                                         )}
                                                     </td>
                                                     {userData.id ===
-                                                    eventDetail.userId ? (
+                                                        eventDetail.userId ||
+                                                    !eventDetail.current ? (
                                                         <></>
                                                     ) : (
                                                         <td className="px-2 py-4 text-center">
