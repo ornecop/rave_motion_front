@@ -129,6 +129,7 @@ export const sortEvents = (sort) => {
 
 // Pagination
 export const setCurrentPage = (page) => {
+    console.log("action", page);
     return {
         type: EVENTS_SET_CURRENT_PAGE,
         payload: page,
