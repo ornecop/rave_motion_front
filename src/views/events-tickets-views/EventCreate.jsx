@@ -86,10 +86,7 @@ const EventCreate = (props) => {
     const [imageDataUrl, setImageDataUrl] = useState("");
     const [imageError, setImageError] = useState({ status: "", disabled: "y" });
     const [imageName, setImageName] = useState({ name: "" });
-
-    //input image
-
-    //finish input events
+    const [modify, setModify] =useState("")
 
     useEffect(() => {
         const getEventIfEventId = async () => {
@@ -107,12 +104,12 @@ const EventCreate = (props) => {
                 const response = await axios.get(
                     `${BACKEND_URL}/events/${eventId}`
                 );
+                setModify("mod")
                 response.data.date = response.data.date.split("T")[0];
                 response.data.hour = response.data.hour.slice(
                     0,
                     response.data.hour.length - 3
                 );
-
                 setInitialValues({
                     name: response.data.name,
                     image: "",
@@ -176,21 +173,40 @@ const EventCreate = (props) => {
         { setSubmitting, resetForm }
     ) => {
         const event = { ...values, userId: userData.id, image: imageDataUrl };
-        try {
-            const response = await axios.post(
-                `${import.meta.env.VITE_BACKEND_URL}/events/eventcreate`,
-                event
-            );
-            const newEvent = response.data;
-            setGlobalSuccess(
-                `El evento "${newEvent.name}" se ha creado correctamente.`
-            );
-            navigate(`/create/tickets/${newEvent.id}`);
-        } catch (error) {
-            setGlobalError(error.response.data.error);
-        }
-        setSubmitting(false);
-        resetForm();
+        if(!modify.length){
+            try {
+                const response = await axios.post(
+                    `${import.meta.env.VITE_BACKEND_URL}/events/eventcreate`,
+                    event
+                );
+                const newEvent = response.data;
+                
+                setGlobalSuccess(
+                    `El evento "${newEvent.name}" se ha creado correctamente.`
+                );
+                navigate(`/create/tickets/${newEvent.id}`);
+            } catch (error) {
+                setGlobalError(error.response.data.error);
+            }
+            setSubmitting(false);
+            resetForm();}
+            else{
+                try {
+                    const putEvent = event;
+                    const response = await axios.put(
+                        `${import.meta.env.VITE_BACKEND_URL}/events/putevent/${eventId}`,
+                        putEvent);
+                        navigate(`/dashboard`);
+                        setGlobalSuccess(
+                            `El evento ${event.name} se ha Modificado correctamente.`
+                        );
+
+                } catch (error) {
+                    console.log(error)
+                }
+                setSubmitting(false);
+                resetForm();
+            }
     };
 
     return (
