@@ -102,7 +102,11 @@ const App = ({
     }, []);
 
     return (
-        loading?<Loading/>:
+        loading?
+        <div className="w-screen h-screen bg-primary">
+            <Loading/>
+        </div>
+        :
         <div className="bg-primary text-white antialiased overflow-hidden">
             {showHeader && <Header />}
             {globalError && <Alert />}
