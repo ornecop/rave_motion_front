@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 // React Router Dom
 import { Routes, Route, useLocation } from "react-router-dom";
 
@@ -37,6 +37,7 @@ import UserTickets from "./views/users-views/UserTickets";
 import RequireAuth from "./auth/RequireAuth";
 import RequireLogin from "./auth/RequireLogin";
 import RequireLogOut from "./auth/RequireLogOut";
+import Loading from "./components/Loading";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -56,33 +57,52 @@ const App = ({
     const showFooter = location.slice(0, 10) !== "/dashboard";
 
     // Sign In by JSW
+    const[loading, setLoading]=useState(true)
     useEffect(() => {
         const loginJWT=async()=>{
             const token = localStorage.getItem("token");
             const tokenGoogle = localStorage.getItem("tokenGoogle");
-            if (token && !isLogin) {
-                const response = await axios.post(
-                    `${BACKEND_URL}/users/signinsession`,
-                    {
-                        token: token,
+            if((token||tokenGoogle)&&!isLogin){
+                setLoading(true)
+                try {
+                    if (token && !isLogin) {
+                    const response = await axios.post(
+                        `${BACKEND_URL}/users/signinsession`,
+                        {
+                            token: token,
+                        }
+                    );
+                    verifyToken(response.data);
                     }
-                );
-                verifyToken(response.data);
+                    if (tokenGoogle && !isLogin) {
+                        const response = await axios.post(
+                            `${BACKEND_URL}/users/signinsession`,
+                            {
+                                token: tokenGoogle,
+                            }
+                        );
+                        verifyToken(response.data);
+                    }
+                    
+                } catch (error) {
+                    console.log(error.message)
+                } finally{
+                    setLoading(false)
+                }
             }
-            if (tokenGoogle && !isLogin) {
-                const response = await axios.post(
-                    `${BACKEND_URL}/users/signinsession`,
-                    {
-                        token: tokenGoogle,
-                    }
-                );
-                verifyToken(response.data);
-            }  
+            if(isLogin){
+                setLoading(false)
+            }
+            if(!isLogin&&!token&&!tokenGoogle){
+                setLoading(false)
+                navigate("/signin")
+            }
         }
         loginJWT();
     }, []);
 
     return (
+        loading?<Loading/>:
         <div className="bg-primary text-white antialiased overflow-hidden">
             {showHeader && <Header />}
             {globalError && <Alert />}
