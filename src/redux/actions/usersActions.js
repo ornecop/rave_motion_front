@@ -66,28 +66,31 @@ export const signInGoogle = (extractedData) => {
     };
 };
 
-export const verifyToken = (token) => {
-    return async (dispatch) => {
-        try {
-            const response = await axios.post(
-                `${BACKEND_URL}/users/signinsession`,
-                {
-                    token: token,
-                }
-            );
-
-            const user = response.data;
-            dispatch({
+export const verifyToken = (user) => {
+    return  {
                 type: USER_SIGN_IN,
                 payload: user,
-            });
-        } catch (error) {
-            dispatch({
-                type: GLOBAL_ERROR_SET,
-                payload: error.response.data.error,
-            });
-        }
-    };
+            }
+    //async (dispatch) => {
+        //try {
+            // const response = await axios.post(
+            //     `${BACKEND_URL}/users/signinsession`,
+            //     {
+            //         token: token,
+            //     }
+            // );
+
+            // const user = response.data;
+            //dispatch(
+               
+            //)
+        // } catch (error) {
+        //     dispatch({
+        //         type: GLOBAL_ERROR_SET,
+        //         payload: error.response.data.error,
+        //     });
+        // }
+    //};
 };
 
 export const setSignUserError = (error) => {
@@ -111,7 +114,7 @@ export const setSignUpStep = (step) => {
 };
 
 export const signOut = () => {
-    localStorage.removeItem("token");
+    localStorage.clear();
     return {
         type: USER_SIGN_OUT,
     };

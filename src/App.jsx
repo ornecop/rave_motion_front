@@ -1,11 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 // React Router Dom
 import { Routes, Route, useLocation } from "react-router-dom";
 
 // Redux
 import { connect } from "react-redux";
 import { verifyToken } from "./redux/actions/usersActions";
-
+import axios from "axios";
 // Components
 import Alert from "./components/Alert";
 import Header from "./components/Header";
@@ -36,6 +36,10 @@ import UserTickets from "./views/users-views/UserTickets";
 // Secure Routes
 import RequireAuth from "./auth/RequireAuth";
 import RequireLogin from "./auth/RequireLogin";
+import RequireLogOut from "./auth/RequireLogOut";
+import Loading from "./components/Loading";
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const App = ({
     verifyToken,
@@ -53,19 +57,53 @@ const App = ({
     const showFooter = location.slice(0, 10) !== "/dashboard";
 
     // Sign In by JSW
+    const[loading, setLoading]=useState(true)
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        const tokenGoogle = localStorage.getItem("tokenGoogle");
-        if (token && !isLogin) {
-            verifyToken(token);
+        const loginJWT=async()=>{
+            const token = localStorage.getItem("token");
+            const tokenGoogle = localStorage.getItem("tokenGoogle");
+            if((token||tokenGoogle)&&!isLogin){
+                setLoading(true)
+                try {
+                    if (token && !isLogin) {
+                    const response = await axios.post(
+                        `${BACKEND_URL}/users/signinsession`,
+                        {
+                            token: token,
+                        }
+                    );
+                    verifyToken(response.data);
+                    }
+                    if (tokenGoogle && !isLogin) {
+                        const response = await axios.post(
+                            `${BACKEND_URL}/users/signinsession`,
+                            {
+                                token: tokenGoogle,
+                            }
+                        );
+                        verifyToken(response.data);
+                    }
+                    
+                } catch (error) {
+                    console.log(error.message)
+                } finally{
+                    setLoading(false)
+                }
+            }
+            if(isLogin){
+                setLoading(false)
+            }
+            if(!isLogin&&!token&&!tokenGoogle){
+                setLoading(false)
+                navigate("/signin")
+            }
         }
-        if (tokenGoogle && !isLogin) {
-            verifyToken(tokenGoogle);
-        }
-    }, [verifyToken]);
+        loginJWT();
+    }, []);
 
     return (
-        <div className="bg-primary text-white antialiased">
+        loading?<Loading/>:
+        <div className="bg-primary text-white antialiased overflow-hidden">
             {showHeader && <Header />}
             {globalError && <Alert />}
             {globalSuccess && <Success />}
@@ -108,16 +146,55 @@ const App = ({
 
                 {/* User views */}
 
-                <Route path="/changepassword" element={<EmailPassword />} />
-                <Route path="/changepassword/2" element={<ChangePassword />} />
+                <Route
+                    path="/changepassword"
+                    element={
+                        <RequireLogOut>
+                            <EmailPassword />
+                        </RequireLogOut>
+                    }
+                />
+                <Route
+                    path="/changepassword/2"
+                    element={
+                        <RequireLogOut>
+                            <ChangePassword />
+                        </RequireLogOut>
+                    }
+                />
                 <Route
                     path="/dashboard/:eventId?"
-                    element={<ProducerDashboard />}
+                    element={
+                        <RequireAuth>
+                            <ProducerDashboard />
+                        </RequireAuth>
+                    }
                 />
 
-                <Route path="/signin" element={<SignIn />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/tickets" element={<UserTickets />} />
+                <Route
+                    path="/signin"
+                    element={
+                        <RequireLogOut>
+                            <SignIn />
+                        </RequireLogOut>
+                    }
+                />
+                <Route
+                    path="/signup"
+                    element={
+                        <RequireLogOut>
+                            <SignUp />
+                        </RequireLogOut>
+                    }
+                />
+                <Route
+                    path="/tickets"
+                    element={
+                        <RequireLogin>
+                            <UserTickets />
+                        </RequireLogin>
+                    }
+                />
 
                 {/* Not found Page */}
                 <Route path="*" element={<NotFound />} />

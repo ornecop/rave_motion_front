@@ -9,7 +9,7 @@ form
 */
 
 // Hooks
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 // Redux
@@ -31,11 +31,10 @@ import * as Yup from "yup";
 import axios from "axios";
 
 // Assets
-import { FaExchangeAlt } from "react-icons/fa";
-import { MdDeleteOutline } from "react-icons/md";
+import { MdOutlineDashboardCustomize, MdArrowBackIos } from "react-icons/md";
 
 // Components
-import Modal from "../app-views/Modal";
+import Tooltip from "../../components/Tooltip";
 
 const createImage = "https://wallpapercave.com/wp/wp12143405.jpg";
 
@@ -114,7 +113,7 @@ const TicketsCreate = (props) => {
         resetForm();
     };
 
-    // Create or modify tickets on Event
+    // Create tickets on Event
     const navigate = useNavigate();
     const handleSubmitTicketsSyncToDB = async () => {
         const eventTickets = { tickets: [...ticketsArray] };
@@ -132,54 +131,8 @@ const TicketsCreate = (props) => {
         }
     };
 
-    // Modificar tanda ================
-    /*
-    1. Recuperación de la tanda por name.
-    */
-
-    // Delete tanda
-    const handleDeleteTicket = (event) => {
-        const ticketName = event.target.id;
-    };
-
-    // Modal ==========================
-    const modalThings = {
-        title: "Borrar ticket",
-        description:
-            "Estas seguro que queres eliminar la tanda de tickets seleccionada? Esta acción es permanente.",
-        action: "Borrar",
-    };
-
-    const [showModal, setShowModal] = useState(false);
-
-    useEffect(() => {
-        if (showModal) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "auto";
-        }
-    }, [showModal]);
-
-    const handleModalCancel = () => {
-        setShowModal(false);
-    };
-
-    const handleModalAction = () => {
-        setShowModal(false);
-    };
-
-    // Tooltips =======================
-
     return (
         <div className="w-screen">
-            {/* Modal */}
-            {showModal && (
-                <Modal
-                    modalThings={modalThings}
-                    handleModalCancel={handleModalCancel}
-                    handleModalAction={handleModalAction}
-                />
-            )}
             {/* Background image top */}
             <div className="h-60 relative overflow-hidden">
                 <div
@@ -195,17 +148,24 @@ const TicketsCreate = (props) => {
                 validationSchema={validationSchema}
             >
                 {({ isSubmitting, touched, errors }) => (
-                    <div className="grid grid-cols-2 h-fit">
+                    <div className="flex flex-col lg:grid lg:grid-cols-2  h-fit">
                         <div className="flex flex-col place-content-center h-full">
                             <Form className="floatBox my-6 mx-6 flex flex-col h-full justify-center">
                                 <div className="flex flex-col items-center justify-center ">
+                                    <div className="mb-4 w-full">
+                                        <Tooltip tooltip="Ir al dashboard">
+                                            <Link
+                                                to="/dashboard"
+                                                className="flex flex-row gap-2 btnPrimary items-center px-4 py-1 w-fit"
+                                            >
+                                                <MdArrowBackIos size="1.2rem" />
+                                                <MdOutlineDashboardCustomize size="1.2rem" />
+                                            </Link>
+                                        </Tooltip>
+                                    </div>
                                     <h2 className="block text-2xl text-center align-center font-semibold">
                                         Evento: {eventDetail.name}
                                     </h2>
-                                    <h5 className="block text-xl text-center my-4">
-                                        Tandas existentes:{" "}
-                                        {ticketsArray?.length}
-                                    </h5>
                                 </div>
 
                                 {/* Divider */}
@@ -285,7 +245,7 @@ const TicketsCreate = (props) => {
                                                 : "input"
                                         }
                                         type="text"
-                                        placeholder="Descripción de tu evento"
+                                        placeholder="Descripción"
                                         name="description"
                                         autoComplete="false"
                                     />
@@ -392,6 +352,12 @@ const TicketsCreate = (props) => {
                                                     >
                                                         Nombre
                                                     </th>
+                                                    <th
+                                                        scope="col"
+                                                        className="px-2 py-3"
+                                                    >
+                                                        Tipo de acceso
+                                                    </th>
 
                                                     <th
                                                         scope="col"
@@ -404,12 +370,6 @@ const TicketsCreate = (props) => {
                                                         className="px-2 py-3"
                                                     >
                                                         Cantidad
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        className="px-2 py-3"
-                                                    >
-                                                        Acciones
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -433,6 +393,11 @@ const TicketsCreate = (props) => {
                                                             <td className="px-2 py-4">
                                                                 {tanda.name}
                                                             </td>
+                                                            <td className="px-2 py-4">
+                                                                {
+                                                                    tanda.accessType
+                                                                }
+                                                            </td>
 
                                                             <td className="px-2 py-4">
                                                                 ${" "}
@@ -444,25 +409,6 @@ const TicketsCreate = (props) => {
                                                                 {
                                                                     tanda.maxQuantity
                                                                 }
-                                                            </td>
-                                                            <td className="px-2 py-4">
-                                                                <div className="flex flex-row justify-center gap-6">
-                                                                    <button>
-                                                                        <FaExchangeAlt />
-                                                                    </button>
-                                                                    <button
-                                                                        onClick={
-                                                                            handleDeleteTicket
-                                                                        }
-                                                                    >
-                                                                        <MdDeleteOutline
-                                                                            className="text-red-600"
-                                                                            id={
-                                                                                tanda.name
-                                                                            }
-                                                                        />
-                                                                    </button>
-                                                                </div>
                                                             </td>
                                                         </tr>
                                                     )
@@ -477,8 +423,9 @@ const TicketsCreate = (props) => {
                                     type="submit"
                                     className="btnPrimary"
                                     onClick={handleSubmitTicketsSyncToDB}
+                                    disabled={!ticketsArray?.length}
                                 >
-                                    Actualizar tandas del evento
+                                    Crear tickets
                                 </button>
                             </div>
                         </div>

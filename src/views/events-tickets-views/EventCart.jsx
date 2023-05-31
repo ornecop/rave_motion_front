@@ -244,8 +244,7 @@ const EventCart = () => {
                         <Wallet
                             className="px-6"
                             initialization={{
-                                preferenceId: preferenceId,
-                                redirectMode: "blank",
+                                preferenceId: preferenceId
                             }}
                         />
                     ) : (
