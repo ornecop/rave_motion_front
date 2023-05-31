@@ -15,12 +15,15 @@ const ProducerEventKeys = ({
     // Show keys indicator for event on dashboard
 
     return (
-        <section className="grid grid-cols-3 w-full place-content-between my-4 gap-16">
+        <section className="flex flex-col lg:grid lg:grid-cols-3 w-full place-content-between my-4 gap-6 lg:gap-16">
             <div className="p-4 rounded-xl bg-green-200 flex flex-row gap-6 items-center">
                 <Tooltip tooltip="Facturación total del evento">
-                    <RiLineChartLine size="4rem" className="text-green-600" />
+                    <RiLineChartLine
+                        size="4rem"
+                        className="text-green-600 hidden lg-flex"
+                    />
                 </Tooltip>
-                <div className="w-full flex flex-col text-green-600">
+                <div className="w-full flex flex-row items-center place-content-between gap-6 lg:flex-col lg:items-start lg:gap-0 text-green-600">
                     <span className="text-4xl font-bold ">
                         ${totalSeLLs.toLocaleString("es")}
                     </span>
@@ -34,10 +37,10 @@ const ProducerEventKeys = ({
                 <Tooltip tooltip="Tickets vendidos del evento">
                     <HiOutlineUserGroup
                         size="4rem"
-                        className="text-orange-600"
+                        className="text-orange-600 hidden lg:flex"
                     />
                 </Tooltip>
-                <div className="w-full flex flex-col text-orange-600">
+                <div className="w-full flex flex-row items-center place-content-between gap-6 lg:flex-col lg:items-start lg:gap-0 text-orange-600">
                     <span className="text-4xl font-bold ">
                         {totalTicketsSells} / {maxTickets}
                     </span>
@@ -51,10 +54,10 @@ const ProducerEventKeys = ({
                 <Tooltip tooltip="Eventos activos de la productora.">
                     <MdEventAvailable
                         size="4rem"
-                        className="text-fuchsia-600"
+                        className="text-fuchsia-600 hidden lg:flex"
                     />
                 </Tooltip>
-                <div className="w-full flex flex-col text-fuchsia-600">
+                <div className="w-full flex flex-row items-center place-content-between gap-6 lg:flex-col lg:items-start lg:gap-0 text-fuchsia-600">
                     <span className="text-4xl font-bold ">{daysToDate}</span>
                     <h3 className="text-l block font-semibold">
                         DÍAS PARA EL EVENTO
