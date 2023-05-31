@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from "react-router-dom";
 import { ImLocation2 } from "react-icons/im";
-import { AiOutlineCalendar } from "react-icons/ai";
-import EventDate from "./EventDate";
 import StarRating from "./StarRating";
 import Modal from 'react-modal';
 import axios from "axios";
@@ -28,14 +25,35 @@ const customStyles = {
 export const EventCardF = ({ id, name, image, date, venue, hour,userData }) => {
   const [rating, setRating] = useState(0);
   const [modalIsOpen,setIsOpen] = useState(false);
+  const [averageRating, setAverageRating] = useState(null);
+  const [totalCritics, setTotalCritics] = useState(null);
+  useEffect(() => {
+    axios.get(`/events/rating/${id}`) 
+      .then(response => {
+        setAverageRating(response.data.averageRating);
+        setTotalCritics(response.data.critics)
+      })
+      .catch(error => {
+        console.error('Failed to fetch event rating:', error);
+      });
+  }, [eventId]);  
 
-  const handleRateClick = () => {
+
+
+const handleRateClick = () => {
+  // Verificar en el almacenamiento local si el usuario ya ha calificado
+  const ratedEvents = JSON.parse(localStorage.getItem('ratedEvents')) || {};
+  if (!ratedEvents[id]) {
     setIsOpen(true);
-  };
+  } else {
+    alert('Ya has calificado este evento.');
+  }
+};
 
   const updateRating = async (id, rating, userId) => {
     try {
-      await axios.put(`${BACKEND_URL}/events/rating`, { id, rating, userId });
+      const response = await axios.put(`${BACKEND_URL}/events/rating`, { id, rating, userId });
+      return response.data;
     } catch (err) {
       console.error(err);
     }
@@ -47,7 +65,11 @@ export const EventCardF = ({ id, name, image, date, venue, hour,userData }) => {
     setIsOpen(false); 
     const userId = userData.id;
     try {
-      await updateRating(id, rating, userId);
+     const ratingP = await updateRating(id, rating, userId);
+     // Almacenar en el almacenamiento local que el usuario ha calificado este evento
+     const ratedEvents = JSON.parse(localStorage.getItem('ratedEvents')) || {};
+     ratedEvents[id] = true;
+     localStorage.setItem('ratedEvents', JSON.stringify(ratedEvents));
     } catch (error) {
       console.error('Failed to update rating:', error);
     }
@@ -71,12 +93,6 @@ export const EventCardF = ({ id, name, image, date, venue, hour,userData }) => {
                     </h2>
                 </div>
                 <div className="flex flex-row items-center justify-start py-2 gap-2 border-b border-secondaryBorder">
-                    <AiOutlineCalendar size="1.3rem" />
-                    <span className="">
-                        <EventDate date={date} hour={hour} />
-                    </span>
-                </div>
-                <div className="flex flex-row items-center justify-start py-2 gap-2 border-b border-secondaryBorder">
                     <ImLocation2 size="1.3rem" />
                     <span>{venue}</span>
                 </div>
@@ -84,6 +100,7 @@ export const EventCardF = ({ id, name, image, date, venue, hour,userData }) => {
     <h2 className="bg-red-500 text-white px-4 py-2 mt-4 rounded w-full text-center">
         FINALIZADO
     </h2>
+    <p>{averageRating}</p>
 </div>
 <div>
       <button className="bg-blue-500 text-white px-4 py-2 mt-4 rounded w-full text-center" onClick={handleRateClick}>
