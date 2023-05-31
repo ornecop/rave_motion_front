@@ -46,6 +46,9 @@ const initialState = {
 
     // Cart
     selectedTickets: {},
+
+    // Reservaciones
+    reservas: 0,
 };
 
 export default initialState;

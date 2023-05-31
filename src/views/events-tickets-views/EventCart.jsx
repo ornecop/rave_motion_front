@@ -36,6 +36,7 @@ import Loading from "../../components/Loading";
 // Consts
 import { SECONDS_TO_PAY } from "../../const";
 
+
 const EventCart = () => {
     // Global state
     const userData = useSelector((state) => state.userData);

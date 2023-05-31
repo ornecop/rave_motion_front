@@ -1,6 +1,11 @@
 /* =======================================================
 VIEW EventDetail - "/event/:eventName" - Vista a la que redirección al tocar un evento
 */
+// Axios
+import axios from "axios";
+
+// Backend URL
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // Hooks
 import { useEffect, useState } from "react";
@@ -72,8 +77,6 @@ const EventDetail = (props) => {
     // Carrito de compra del evento
     const [selectedTickets, setSelectedTickets] = useState({});
     const [error, setError] = useState("");
-
-    console.log(selectedTickets)
 
     const handleTicketSelect = (event) => {
         const { id, value } = event.target;

@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function Timer({ seconds, handleTimerEnd }) {
+export default function Timer({ seconds}) {
     const [tiempoRestante, setTiempoRestante] = useState(seconds);
+
+const navigate = useNavigate();
+
 
     // Función para actualizar el tiempo restante
     const actualizarTiempoRestante = () => {
@@ -14,13 +18,13 @@ export default function Timer({ seconds, handleTimerEnd }) {
 
         // Cuando el tiempo restante llega a cero, ejecuta la función onFinalizar
         if (tiempoRestante === 0) {
-            handleTimerEnd();
+            navigate('/');
             clearInterval(intervalo);
         }
 
         // Limpia el intervalo cuando el componente se desmonta
         return () => clearInterval(intervalo);
-    }, [tiempoRestante, handleTimerEnd]);
+    }, [tiempoRestante]);
 
     // Convierte el tiempo restante en minutos y segundos
     const minutos = Math.floor(tiempoRestante / 60);
