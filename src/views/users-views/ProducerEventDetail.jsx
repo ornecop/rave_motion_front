@@ -310,19 +310,19 @@ const ProducerEventDetail = ({ eventId, userData }) => {
                                                         tooltip={
                                                             ticket.sells
                                                                 ? "El ticket ya tiene ventas"
-                                                                : "Borrar ticket"
+                                                                : "Borrar ticket (Proximamente)"
                                                         }
                                                         x={
                                                             ticket.sells
                                                                 ? "150"
-                                                                : ""
+                                                                : "150"
                                                         }
                                                     >
                                                         <button
                                                             disabled={
                                                                 ticket.sells
                                                             }
-                                                            className="disabled:cursor-not-allowed"
+                                                            className="cursor-not-allowed"
                                                         >
                                                             <MdDeleteOutline
                                                                 size="1.5rem"
