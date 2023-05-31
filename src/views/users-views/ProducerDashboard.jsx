@@ -16,7 +16,6 @@ import { useParams } from "react-router-dom";
 // Redux
 import { connect } from "react-redux";
 import {
-    signOut,
     getUserEventsByUserId,
     searchUserEvents,
     filterEventsByCurrent,
@@ -27,12 +26,15 @@ import { Link } from "react-router-dom";
 
 // Assets
 
-import { FaExchangeAlt, FaRegEye } from "react-icons/fa";
-import { MdOutlineNotificationsNone, MdDeleteOutline } from "react-icons/md";
+import { FaRegEye } from "react-icons/fa";
+import { FiSettings } from "react-icons/fi";
+import { MdOutlineNotificationsNone } from "react-icons/md";
+import { HiMenu } from "react-icons/hi";
 
 // Components
 import DashboardAside from "../../components/DashboardAside";
 import EventDate from "../../components/EventDate";
+import EventDelete from "../../components/EventDelete";
 import EventTickets from "../../components/EventTickets";
 import ProducerKeys from "../../components/ProducerKeys";
 import Tooltip from "../../components/Tooltip";
@@ -65,6 +67,7 @@ const ProducerDashboard = (props) => {
                     const response = await axios.get(
                         `${BACKEND_URL}/events/${eventId}`
                     );
+
                     const eventExist =
                         response.data.name &&
                         response.data.userId === userData.id;
@@ -80,9 +83,8 @@ const ProducerDashboard = (props) => {
                 setView(DASHBOARD_VIEWS.DASHBOARD);
             }
         };
-
         getParamAndSearchEvent();
-    }, [eventId]);
+    }, [eventId, userData]);
 
     // Events by UserId
     useEffect(() => {
@@ -108,24 +110,43 @@ const ProducerDashboard = (props) => {
         filterEventsByCurrent(event.target.value);
     };
 
-    // Delete event
+    // Responsive
+    // Responsive
+    const [showAside, setShowAside] = useState(false);
+
+    useEffect(() => {
+        if (showAside) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+    }, [showAside]);
 
     return (
-        <div className="w-screen h-screen flex overflow-scrol">
+        <div className="w-screen min-h-screen lg:h-screen flex flex-col lg:flex-row overflow-scroll">
             {/* Aside Menu */}
-            <DashboardAside />
+            <DashboardAside showAside={showAside} setShowAside={setShowAside} />
 
             {/* Content */}
             {view === DASHBOARD_VIEWS.DASHBOARD ? (
-                <section className="flex flex-col w-5/6 px-8 py-4 ">
+                <section className="flex flex-col w-full lg:w-5/6 px-4 lg:px-8 py-4">
                     {/* NavBar */}
-                    <nav className="grid grid-cols-3 w-full h-16 ">
-                        <div className="flex justify-self-start items-center">
+                    <nav className="grid grid-cols-3 w-full h-16 items-center">
+                        <div className="flex lg:hidden justify-self-start items-center">
+                            <button
+                                className="block lg:hidden px-4 py-0 w-fit"
+                                onClick={() => setShowAside(true)}
+                            >
+                                <HiMenu size="3rem" />
+                            </button>
+                        </div>
+
+                        <div className="flex justify-self-center lg:justify-self-start items-center">
                             <span className="text-4xl font-semibold">
                                 Overview
                             </span>
                         </div>
-                        <div className="flex justify-self-center items-center">
+                        <div className="hidden lg:flex justify-self-center items-center">
                             <input
                                 className="input w-96 bg-secondary border-secondaryBorder text-white"
                                 type="text"
@@ -135,11 +156,25 @@ const ProducerDashboard = (props) => {
                             />
                         </div>
                         <div className="flex justify-self-end items-center">
-                            <button>
-                                <MdOutlineNotificationsNone size="2rem" />
+                            <button
+                                disabled={true}
+                                className="disabled:cursor-not-allowed"
+                            >
+                                <MdOutlineNotificationsNone size="2.5rem" />
                             </button>
                         </div>
                     </nav>
+
+                    {/* Search Responsive */}
+                    <div className="flex lg:hidden w-full justify-self-center items-center my-4">
+                        <input
+                            className="input w-full bg-secondary border-secondaryBorder text-white"
+                            type="text"
+                            placeholder="Buscar evento"
+                            onChange={handleInputChange}
+                            value={search}
+                        />
+                    </div>
 
                     {/* Indicadores */}
                     <ProducerKeys userId={userData.id} />
@@ -148,7 +183,7 @@ const ProducerDashboard = (props) => {
                     {/* Navbar eventos */}
                     <nav className="grid grid-cols-2 w-full h-16 mt-8">
                         <div className="flex justify-self-start items-center">
-                            <span className="text-4xl font-semibold">
+                            <span className="text-2xl lg:text-4xl font-semibold">
                                 Tus eventos
                             </span>
                         </div>
@@ -165,38 +200,39 @@ const ProducerDashboard = (props) => {
                             </select>
                         </div>
                     </nav>
-                    <div className="overflow-auto mt-4 scrollbar:!w-1.5 scrollbar:!h-1.5 scrollbar:bg-transparent scrollbar-track:!bg-slate-100 scrollbar-thumb:!rounded scrollbar-thumb:!bg-slate-300 scrollbar-track:!rounded">
-                        <table className="w-full text-start bg-secondary border border-secondaryBorder mx-2 my-4 mb-8">
+                    {/* Events */}
+                    <div className="overflow-hidden overflow-y-auto mt-4">
+                        <table className="w-full mx-0 table-fixed text-start bg-secondary border border-secondaryBorder lg:mx-2 my-4 mb-8">
                             <thead className="font-semibold border-b-4 border-fuchsia-600">
                                 <tr className="">
                                     <th
                                         scope="col"
-                                        className="px-2 py-3 text-start"
+                                        className="px-2 py-6 text-start"
                                     >
                                         Nombre
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-3 text-start"
+                                        className="px-2 py-6 text-center hidden lg:block"
                                     >
                                         Fecha
                                     </th>
 
                                     <th
                                         scope="col"
-                                        className="px-2 py-3 text-center"
+                                        className="px-2 py-6 text-center"
                                     >
                                         Tickets vendidos
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-3 text-center"
+                                        className="px-2 py-6 text-center hidden lg:block"
                                     >
                                         Opciones tickets
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-3 text-center"
+                                        className="px-2 py-6 text-center"
                                     >
                                         Opciones evento
                                     </th>
@@ -208,7 +244,7 @@ const ProducerDashboard = (props) => {
                                         <tr className="border-b" key={event.id}>
                                             <td
                                                 scope="row"
-                                                className="px-2 py-4 font-semibold whitespace-nowrap"
+                                                className="px-2 py-4 font-semibold whitespace-nowrap text-start"
                                             >
                                                 <Link
                                                     to={`/dashboard/${event.id}`}
@@ -219,7 +255,7 @@ const ProducerDashboard = (props) => {
                                                     </Tooltip>
                                                 </Link>
                                             </td>
-                                            <td className="px-2 py-4">
+                                            <td className="px-2 py-4 text-center hidden lg:block">
                                                 <EventDate
                                                     date={event.date}
                                                     hour={event.hour}
@@ -232,14 +268,13 @@ const ProducerDashboard = (props) => {
                                                 />
                                             </td>
 
-                                            <td className="px-2 py-4 justify-center">
+                                            <td className="px-2 py-4 justify-center hidden lg:block">
                                                 <div className="flex flex-row gap-6 items-center justify-center">
-                                                    <Link
-                                                        to={`/create/tickets/${event.id}`}
-                                                        className="link"
-                                                    >
-                                                        Modificar tickets
-                                                    </Link>
+                                                    <Tooltip tooltip="Proximamente">
+                                                        <span className="link cursor-not-allowed">
+                                                            Modificar tickets
+                                                        </span>
+                                                    </Tooltip>
                                                 </div>
                                             </td>
 
@@ -250,7 +285,7 @@ const ProducerDashboard = (props) => {
                                                         className="link"
                                                     >
                                                         <Tooltip tooltip="Modificar evento">
-                                                            <FaExchangeAlt size="1.3rem" />
+                                                            <FiSettings size="1.5rem" />
                                                         </Tooltip>
                                                     </Link>
                                                     <Link
@@ -258,17 +293,14 @@ const ProducerDashboard = (props) => {
                                                         className="link"
                                                     >
                                                         <Tooltip tooltip="Ver evento">
-                                                            <FaRegEye size="1.3rem" />
+                                                            <FaRegEye size="1.5rem" />
                                                         </Tooltip>
                                                     </Link>
-                                                    <Link>
-                                                        <Tooltip tooltip="Borrar evento">
-                                                            <MdDeleteOutline
-                                                                size="1.3rem"
-                                                                className="text-red-600"
-                                                            />
-                                                        </Tooltip>
-                                                    </Link>
+                                                    <EventDelete
+                                                        tickets={event.Tickets}
+                                                        eventId={event.id}
+                                                        eventName={event.name}
+                                                    />
                                                 </div>
                                             </td>
                                         </tr>
@@ -281,9 +313,12 @@ const ProducerDashboard = (props) => {
                     </div>
                 </section>
             ) : view === DASHBOARD_VIEWS.EVENT_DETAIL ? (
-                <ProducerEventDetail eventId={eventId} />
+                <ProducerEventDetail
+                    eventId={eventId}
+                    setShowAside={setShowAside}
+                />
             ) : (
-                <div className="flex flex-col w-5/6 px-8 py-4">
+                <div className="flex flex-col w-full lg:w-5/6 px-4 lg:px-8 lg:py-4">
                     <div className="flex flex-col w-full h-full items-center justify-center">
                         <h2 className="font-bold text-center text-6xl">
                             LO SENTIMOS

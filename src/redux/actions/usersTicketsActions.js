@@ -8,6 +8,7 @@ import { GLOBAL_ERROR_SET } from "./appActions";
 export const FILL_CART = "FILL_CART";
 export const USER_TICKETS_GET = "USER_TICKETS";
 export const USER_TICKETS_FILTER_BY_CURRENT = "USER_TICKETS_FILTER_BY_CURRENT";
+export const RESERVATION = "RESERVATION"
 
 export const fillCart = (selectedTickets) => {
     return {
@@ -41,3 +42,30 @@ export const filterUserTicketsByCurrent = (filter) => {
         payload: filter,
     };
 };
+
+export const reservationNum = async(array) =>{
+
+    let cont = 0 
+    array.forEach(tanda => {
+        tanda.quantity + cont;
+    });
+
+    //futuras actualizaciones...
+
+    // return async (dispatch) =>{
+    //     try {
+    //         const response = await axios.post(`${BACKEND_URL}/tickets/setsumstock`, {aux: array});
+    //         dispatch({
+    //             type: RESERVATION,
+    //             payload: cont 
+    //         })
+    //     } catch (error) {
+    //         dispatch({
+    //             type: GLOBAL_ERROR_SET,
+    //             payload: error.response.data.error,
+    //         });
+    //     }
+    // }
+   
+
+}

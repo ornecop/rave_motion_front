@@ -86,7 +86,7 @@ const UserTickets = (props) => {
 
                 {/* Tickets */}
 
-                <div className="overflow-auto mt-4 scrollbar:!w-1.5 scrollbar:!h-1.5 scrollbar:bg-transparent scrollbar-track:!bg-slate-100 scrollbar-thumb:!rounded scrollbar-thumb:!bg-slate-300 scrollbar-track:!rounded">
+                <div className="overflow-auto mt-4 ">
                     <table className="w-full text-start bg-secondary border border-secondaryBorder mx-2 my-4 mb-8">
                         <thead className="font-semibold border-b-4 border-fuchsia-600">
                             <tr className="">
@@ -123,7 +123,7 @@ const UserTickets = (props) => {
                                     <tr className="border-b" key={ticket.id}>
                                         <td
                                             scope="row"
-                                            className="px-2 py-4 font-semibold whitespace-nowrap"
+                                            className="px-2 py-4 font-semibold"
                                         >
                                             {ticket.Event.name}
                                         </td>
