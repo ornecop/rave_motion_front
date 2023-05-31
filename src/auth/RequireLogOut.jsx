@@ -1,22 +1,22 @@
 import React, { useEffect } from "react";
-import SignIn from "../views/users-views/SignIn";
+import Home from "../views/app-views/Home"
 // Hooks
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 
 // Requiere que el componente children este logeado y redirige a SigniIn si no lo esta
-const RequireLogin = ({ children }) => {
+const RequireLogOut= ({ children }) => {
     const navigate=useNavigate();
     const isLogin = useSelector((state) => state.isLogin);
     useEffect(()=>{
-        if(!isLogin){
-            navigate("/signin")
+        if(isLogin){
+            navigate("/")
         }
-    },[])
+    },[isLogin, navigate])
     return(
-        isLogin?children:<SignIn/>
-    )
+        !isLogin?children:<Home/>)
+    
 };
 
-export default RequireLogin;
+export default RequireLogOut;

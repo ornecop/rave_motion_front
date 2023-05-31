@@ -36,6 +36,7 @@ import UserTickets from "./views/users-views/UserTickets";
 // Secure Routes
 import RequireAuth from "./auth/RequireAuth";
 import RequireLogin from "./auth/RequireLogin";
+import RequireLogOut from "./auth/RequireLogOut";
 
 const App = ({
     verifyToken,
@@ -65,7 +66,7 @@ const App = ({
     }, [verifyToken]);
 
     return (
-        <div className="bg-primary text-white antialiased">
+        <div className="bg-primary text-white antialiased overflow-hidden">
             {showHeader && <Header />}
             {globalError && <Alert />}
             {globalSuccess && <Success />}
@@ -108,16 +109,55 @@ const App = ({
 
                 {/* User views */}
 
-                <Route path="/changepassword" element={<EmailPassword />} />
-                <Route path="/changepassword/2" element={<ChangePassword />} />
+                <Route
+                    path="/changepassword"
+                    element={
+                        <RequireLogOut>
+                            <EmailPassword />
+                        </RequireLogOut>
+                    }
+                />
+                <Route
+                    path="/changepassword/2"
+                    element={
+                        <RequireLogOut>
+                            <ChangePassword />
+                        </RequireLogOut>
+                    }
+                />
                 <Route
                     path="/dashboard/:eventId?"
-                    element={<ProducerDashboard />}
+                    element={
+                        <RequireAuth>
+                            <ProducerDashboard />
+                        </RequireAuth>
+                    }
                 />
 
-                <Route path="/signin" element={<SignIn />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/tickets" element={<UserTickets />} />
+                <Route
+                    path="/signin"
+                    element={
+                        <RequireLogOut>
+                            <SignIn />
+                        </RequireLogOut>
+                    }
+                />
+                <Route
+                    path="/signup"
+                    element={
+                        <RequireLogOut>
+                            <SignUp />
+                        </RequireLogOut>
+                    }
+                />
+                <Route
+                    path="/tickets"
+                    element={
+                        <RequireLogin>
+                            <UserTickets />
+                        </RequireLogin>
+                    }
+                />
 
                 {/* Not found Page */}
                 <Route path="*" element={<NotFound />} />

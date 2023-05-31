@@ -111,7 +111,7 @@ export const setSignUpStep = (step) => {
 };
 
 export const signOut = () => {
-    localStorage.removeItem("token");
+    localStorage.clear();
     return {
         type: USER_SIGN_OUT,
     };
