@@ -43,7 +43,7 @@ const Reviews = () => {
   }, []);
     return (
         <>
-            <div className="w-full min-h-screen">
+            <div className="w-full">
                 {/* Carrousel */}
                 <div className="h-60 overflow-hidden relative">
                     <div
@@ -71,7 +71,7 @@ const Reviews = () => {
                 </div>
             </div>
             <div className="my-6 mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 m-4 min-h-screen justify-items-center">
                 {events.map((event) => (
                     <EventCardF
                         key={event.id}
@@ -86,7 +86,7 @@ const Reviews = () => {
                 ))}
             </div>
         </div>
-            <div className="min-h-[50vh] flex items-center justify-center">
+            <div className="flex items-center justify-center">
                 {isLoading ? (
                     <Loading />
                 ) : currentEvents.length === 0 ? (

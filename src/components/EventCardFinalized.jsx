@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { ImLocation2 } from "react-icons/im";
 import StarRating from "./StarRating";
 import Modal from 'react-modal';
 import axios from "axios";
+import StarRatingStatic from './StarRatingStatic';
 import { connect } from "react-redux";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 Modal.setAppElement('#root')
@@ -28,7 +29,7 @@ export const EventCardF = ({ id, name, image, date, venue, hour,userData }) => {
   const [averageRating, setAverageRating] = useState(null);
   const [totalCritics, setTotalCritics] = useState(null);
   useEffect(() => {
-    axios.get(`/events/rating/${id}`) 
+    axios.get(`${BACKEND_URL}/events/rating/${id}`) 
       .then(response => {
         setAverageRating(response.data.averageRating);
         setTotalCritics(response.data.critics)
@@ -36,7 +37,7 @@ export const EventCardF = ({ id, name, image, date, venue, hour,userData }) => {
       .catch(error => {
         console.error('Failed to fetch event rating:', error);
       });
-  }, [eventId]);  
+  }, [id]);  
 
 
 
@@ -76,6 +77,7 @@ const handleRateClick = () => {
   };
   
     return (
+      
         <div className="h-[15rem] w-[35rem] mx-auto flex flex-row bg-slate-900 rounded-xl border border-secondaryBorder">
             <div className="w-[15rem] rounded-l-xl">    
                     <div
@@ -87,26 +89,30 @@ const handleRateClick = () => {
                     ></div>
             </div>
             <div className="w-[20rem] flex flex-col py-4 px-4 rounded-r-xl">
-                <div className="flex flex-row items-center justify-center py-2 border-b border-secondaryBorder">
+                <div className="flex flex-row items-center justify-center py-0 border-b border-secondaryBorder">
                     <h2 className="text-xl align-center font-semibold">
                         {name}
                     </h2>
                 </div>
-                <div className="flex flex-row items-center justify-start py-2 gap-2 border-b border-secondaryBorder">
+                <div className="flex flex-row items-center justify-start py-2 gap-2 ">
                     <ImLocation2 size="1.3rem" />
                     <span>{venue}</span>
                 </div>
                 <div className="flex justify-center items-center w-full">
-    <h2 className="bg-red-500 text-white px-4 py-2 mt-4 rounded w-full text-center">
-        FINALIZADO
-    </h2>
-    <p>{averageRating}</p>
-    <p>{totalCritics}</p>
+  <h2 className="w-full text-center py-2 rounded-xl bg-red-600 hover:bg-red-500 focus:outline-none transition-colors duration-300">
+    FINALIZADO
+  </h2>
 </div>
-<div>
-      <button className="bg-blue-500 text-white px-4 py-2 mt-4 rounded w-full text-center" onClick={handleRateClick}>
-          Calificar
-      </button>
+
+<div className="flex items-center justify-between">
+    <p className="flex items-center">
+        <StarRatingStatic rating={averageRating} /> ({totalCritics})
+    </p>
+    <button className="bg-blue-600 text-white px-10 py-3 mt-4 rounded text-sm" onClick={handleRateClick}>
+        Calificar
+    </button>
+</div>
+
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -116,7 +122,6 @@ const handleRateClick = () => {
         <StarRating rating={rating} onStarClick={onStarClick} />
         <button onClick={closeModal}>Cerrar</button>
       </Modal>
-    </div>
     </div>
     </div>
   );
