@@ -58,7 +58,6 @@ import { applySort } from "../../functions/applySort";
 
 // Root reducer ===========================================
 const rootReducer = (state = initialState, action) => {
-    console.log(state);
     switch (action.type) {
         // Events Actions =================================
 

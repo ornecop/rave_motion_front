@@ -31,7 +31,6 @@ const EventDelete = (props) => {
 
     useEffect(() => {
         const sells = tickets?.map((t) => t.sells);
-        console.log(sells);
         const ticketsSolds = sells?.reduce(
             (accumulator, currentValue) => accumulator + currentValue,
             0
@@ -68,16 +67,13 @@ const EventDelete = (props) => {
     const deleteEvent = () => {
         setConfirmText("");
         const asyncDeleteEvent = async (id) => {
-            console.log(id, "id");
             try {
                 const response = await axios.delete(
                     `${BACKEND_URL}/events/eventsdelete/${id}`
                 );
                 setGlobalSuccess("El evento ha sido eliminado exitoxamente.");
                 getUserEventsByUserId(userData.id);
-                console.log(response, "res");
             } catch (error) {
-                console.log(error, "err");
                 setGlobalError(error.response.data.error);
             }
             setDeleteStep(0);
