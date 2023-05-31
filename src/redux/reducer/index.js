@@ -266,6 +266,7 @@ const rootReducer = (state = initialState, action) => {
                             return event.current === false;
                         }),
                     };
+                    
                 case ALL:
                     return { ...state, userEvents: state.allUserEvents };
             }
