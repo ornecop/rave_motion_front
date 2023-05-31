@@ -13,7 +13,11 @@ const EventTickets = ({ tickets }) => {
     );
 
     return (
-        <span className={`${ticketsMax === ticketsSolds && "text-green-500"}`}>
+        <span
+            className={`${
+                ticketsMax === ticketsSolds && "text-green-500 font-semibold"
+            }`}
+        >
             <span className="font-semibold">{ticketsSolds}</span> / {ticketsMax}
         </span>
     );

@@ -29,6 +29,7 @@ import TicketPdf from "../../components/TicketPdf";
 
 // Assets
 import { BsDownload } from "react-icons/bs";
+import { EOS_BUBBLE_LOADING_ANIMATED } from "eos-icons-react";
 
 // Const
 import { FILTER_EVENTS_BY_DATE } from "../../const";
@@ -42,7 +43,6 @@ const UserTickets = (props) => {
     // Get User Tickets by UserId
     useEffect(() => {
         userData.id && getUserTickets(userData.id);
-        filterUserTicketsByCurrent(filterByDate);
     }, [userData, getUserTickets]);
 
     // Filter events
@@ -56,11 +56,11 @@ const UserTickets = (props) => {
     return (
         <div className="w-screen min-h-[calc(100vh_-_3rem)]">
             <div className="h-16 w-screen block"></div>
-            <section className="flex flex-col px-8 py-4 mt-4">
+            <section className="flex flex-col px-4 lg:px-8 py-4 my-4">
                 {/* NavBar */}
                 <nav className="grid grid-cols-2 w-full h-16 ">
                     <div className="flex justify-self-start items-center">
-                        <span className="text-4xl font-semibold">
+                        <span className="text-2xl lg:text-4xl font-semibold pl-1">
                             Tus tickets
                         </span>
                     </div>
@@ -86,7 +86,7 @@ const UserTickets = (props) => {
 
                 {/* Tickets */}
 
-                <div className="overflow-auto mt-4 scrollbar:!w-1.5 scrollbar:!h-1.5 scrollbar:bg-transparent scrollbar-track:!bg-slate-100 scrollbar-thumb:!rounded scrollbar-thumb:!bg-slate-300 scrollbar-track:!rounded">
+                <div className="overflow-auto mt-4 ">
                     <table className="w-full text-start bg-secondary border border-secondaryBorder mx-2 my-4 mb-8">
                         <thead className="font-semibold border-b-4 border-fuchsia-600">
                             <tr className="">
@@ -107,7 +107,7 @@ const UserTickets = (props) => {
                                     scope="col"
                                     className="px-2 py-3 text-center"
                                 >
-                                    Tickets comprados
+                                    Tickets
                                 </th>
                                 <th
                                     scope="col"
@@ -123,7 +123,7 @@ const UserTickets = (props) => {
                                     <tr className="border-b" key={ticket.id}>
                                         <td
                                             scope="row"
-                                            className="px-2 py-4 font-semibold whitespace-nowrap"
+                                            className="px-2 py-4 font-semibold"
                                         >
                                             {ticket.Event.name}
                                         </td>
@@ -155,7 +155,7 @@ const UserTickets = (props) => {
                                                             error,
                                                         }) =>
                                                             loading ? (
-                                                                "Cargando..."
+                                                                <EOS_BUBBLE_LOADING_ANIMATED color="white" />
                                                             ) : (
                                                                 <BsDownload />
                                                             )

@@ -1,20 +1,23 @@
-const initialState = {
-    // All events
-    allEvents: [],
+import { FILTER_TYPES, SORT_TYPES } from "../../const";
+import getSixMonthDate from "../../functions/getSixMonthDate";
 
+const initialState = {
+    // All events y finalized events
+    allEvents: [],
+    allEventsF: [],
     // Home events
     homeEvents: [],
-    homeEventsFilterByProducer: "All",
-    homeEventsFilterByDate: {
-        startDate: null,
-        endDate: null,
-    },
-    homeEventsOrder: "Default",
+    homeEventsF: [],
+
     eventsPerPage: 10,
     currentPage: 1,
 
-    // Search events
-    searchResult: [],
+    homeFilterByProducer: FILTER_TYPES.BY_PRODUCER.ALL,
+    homeFilterByDate: {
+        startDate: new Date().setHours(0, 0, 0, 0),
+        endDate: "",
+    },
+    homeSort: SORT_TYPES.DEFAULT,
 
     // Detail event
     eventDetail: {},
@@ -29,10 +32,11 @@ const initialState = {
     userSignError: "",
     signUpStep: 1,
 
+    // Producer Events
     userEvents: [],
     allUserEvents: [],
 
-    // User tickets states
+    // User tickets
     userTickets: [],
     allUserTickets: [],
 
@@ -40,7 +44,7 @@ const initialState = {
     globalError: "",
     globalSuccess: "",
 
-    //Cart
+    // Cart
     selectedTickets: {},
 };
 

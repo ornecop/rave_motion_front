@@ -1,55 +1,93 @@
-import React from 'react'
+// Redux
+import { connect } from "react-redux";
+import { setCurrentPage } from "../redux/actions/eventsActions";
 
-export default function Paginado({ eventsPerPage, allEventos, paginado, currentPage }) {
-    const pageNumber = [];
-    const totalPages = Math.ceil(allEventos / eventsPerPage);
-  
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumber.push(i);
-    }
-  
+// Assets
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
+
+const Paginado = ({ currentPage, totalPages, setCurrentPage }) => {
+    const handlePageChange = (event) => {
+        setCurrentPage(Number(event.target.name));
+    };
+
     return (
-      <div className={pageNumber.length > 1?'flex justify-center mt-5':'display hidden'}>
-        <nav>
-          <ul className="flex space-x-2 w-fit justify-self-end justify-center my-2 items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder ">
-            {pageNumber.length > 1 && (
-              <li className="hover:font-semibold focus:outline-none transition-colors duration-300 disabled:opacity-50 hover:text-fuchsia-600">
+        <div className="flex content-center w-full h-16">
+            <div className="flex self-center items-center gap-6 my-4 mx-auto">
                 <button
-                  className=""
-                  onClick={()=>{paginado(currentPage-1)}}
-                  disabled={currentPage===1}
+                    name={currentPage - 1}
+                    onClick={handlePageChange}
+                    disabled={currentPage === 1}
+                    className="btnPagination"
                 >
-                  &#60;&#60;
+                    Prev
                 </button>
-              </li>
-            )}
-  
-            {pageNumber.length > 0 && pageNumber.map((number) => (
-              <li className="hover:font-semibold focus:outline-none transition-colors duration-300 disabled:opacity-50 hover:text-fuchsia-600" key={number}>
-                <button className="" onClick={() => paginado(number)}>
-                  {number}
-                </button>
-              </li>
-            ))}
-  
-            {pageNumber.length > 1 && (
-              <li className="">
-                
+                {currentPage === totalPages && totalPages > 3 && (
+                    <button
+                        name={currentPage - 2}
+                        onClick={handlePageChange}
+                        className="btnPagination"
+                    >
+                        {currentPage - 2}
+                    </button>
+                )}
+                {currentPage >= 2 && (
+                    <button
+                        name={currentPage - 1}
+                        onClick={handlePageChange}
+                        className="btnPagination"
+                    >
+                        {currentPage - 1}
+                    </button>
+                )}
                 <button
-                  className="hover:font-semibold focus:outline-none transition-colors duration-300 disabled:opacity-50 hover:text-fuchsia-600"
-                  onClick={()=>{paginado(currentPage+1)}}
-                  disabled={currentPage===pageNumber.length}
+                    name={currentPage}
+                    onClick={handlePageChange}
+                    className="btnPaginationSelected"
                 >
-                  &#62;&#62;
+                    {currentPage}
                 </button>
-            
-              </li>
-            )}
-          </ul>
-        </nav>
-        
-      </div>
-      
+
+                {currentPage < totalPages && (
+                    <button
+                        name={currentPage + 1}
+                        onClick={handlePageChange}
+                        className="btnPagination"
+                    >
+                        {currentPage + 1}
+                    </button>
+                )}
+                {currentPage === 1 && totalPages > 3 && (
+                    <button
+                        name={currentPage + 2}
+                        onClick={handlePageChange}
+                        className="btnPagination"
+                    >
+                        {currentPage + 2}
+                    </button>
+                )}
+                <button
+                    name={currentPage + 1}
+                    onClick={handlePageChange}
+                    disabled={currentPage === totalPages}
+                    className="btnPagination"
+                >
+                    Next
+                </button>
+            </div>
+        </div>
     );
-  }
-  
+};
+
+const mapStateToProps = (state) => {
+    return {
+        currentPage: state.currentPage,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setCurrentPage: (page) => dispatch(setCurrentPage(page)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Paginado);

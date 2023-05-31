@@ -10,60 +10,60 @@ import { useState } from "react";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 import about from '../../assets/about.png'
 import fondoabout from '../../assets/fondoabout.jpg'
+import carlitos from '../../assets/team/carlitos.jpg'
+import denis from '../../assets/team/denis.jpg'
+import enma from '../../assets/team/enma.jpg'
+import facut from '../../assets/team/facut.jpg'
+import fran from '../../assets/team/fran.jpg'
+import fsoltero from '../../assets/team/fsoltero.jpg'
 
 const About = () => {
     const nosotros = [
         {
             id: 1,
             nombre: "Denis Roldan",
-            foto: "https://tienda.fotografiamardelplata.com.ar/wp-content/webpc-passthru.php?src=https://tienda.fotografiamardelplata.com.ar/wp-content/uploads/2022/03/Gimena-3-2048.jpg&nocache=1",
-            correo: "mail@gmail.com",
-            telefono: "+54 9 341 712-2685",
-            github: "https://github.com/",
-            linkedin: "https://www.linkedin.com/",
+            foto: denis,
+            cargo: "Backend Developer",
+            github: "https://github.com/denisrold",
+            linkedin: "https://www.linkedin.com/in/denisrold/",
         },
         {
             id: 2,
             nombre: "Carlos Mosquera",
-            foto: "https://tienda.fotografiamardelplata.com.ar/wp-content/webpc-passthru.php?src=https://tienda.fotografiamardelplata.com.ar/wp-content/uploads/2022/03/Gimena-3-2048.jpg&nocache=1",
-            correo: "mail@gmail.com",
-            telefono: "+57 300 6988219",
+            foto: carlitos,
+            cargo: "Backend Developer",
             github: "https://github.com/",
             linkedin: "https://www.linkedin.com/",
         },
         {
             id: 3,
             nombre: "Enmanuel Reyes",
-            foto: "https://tienda.fotografiamardelplata.com.ar/wp-content/webpc-passthru.php?src=https://tienda.fotografiamardelplata.com.ar/wp-content/uploads/2022/03/Gimena-3-2048.jpg&nocache=1",
-            correo: "mail@gmail.com",
-            telefono: "+57 305 7469007",
+            foto: enma,
+            cargo: "Frontend Developer",
             github: "https://github.com/",
             linkedin: "https://www.linkedin.com/",
         },
         {
             id: 4,
             nombre: "Facundo Casado",
-            foto: "https://tienda.fotografiamardelplata.com.ar/wp-content/webpc-passthru.php?src=https://tienda.fotografiamardelplata.com.ar/wp-content/uploads/2022/03/Gimena-3-2048.jpg&nocache=1",
-            correo: "mail@gmail.com",
-            telefono: "+54 9 11 5736-3595",
+            foto: fsoltero,
+            cargo: "Backend Developer",
             github: "https://github.com/",
             linkedin: "https://www.linkedin.com/",
         },
         {
             id: 5,
             nombre: "Facundo Torres",
-            foto: "https://tienda.fotografiamardelplata.com.ar/wp-content/webpc-passthru.php?src=https://tienda.fotografiamardelplata.com.ar/wp-content/uploads/2022/03/Gimena-3-2048.jpg&nocache=1",
-            correo: "mail@gmail.com",
-            telefono: "+54 9 221 303-7321",
+            foto: facut,
+            cargo: "Backend Developer",
             github: "https://github.com/juanperez",
             linkedin: "https://www.linkedin.com/in/juanperez/",
         },
         {
             id: 6,
             nombre: "Francisco Yorlano",
-            foto: "https://tienda.fotografiamardelplata.com.ar/wp-content/webpc-passthru.php?src=https://tienda.fotografiamardelplata.com.ar/wp-content/uploads/2022/03/Gimena-3-2048.jpg&nocache=1",
-            correo: "mail@gmail.com",
-            telefono: "+54 9 221 603-0259",
+            foto: fran,
+            cargo: "Frontend Developer",
             github: "https://github.com/juanperez",
             linkedin: "https://www.linkedin.com/in/juanperez/",
         },
@@ -71,8 +71,7 @@ const About = () => {
             id: 7,
             nombre: "Ornella Copula",
             foto: "https://tienda.fotografiamardelplata.com.ar/wp-content/webpc-passthru.php?src=https://tienda.fotografiamardelplata.com.ar/wp-content/uploads/2022/03/Gimena-3-2048.jpg&nocache=1",
-            correo: "mail@gmail.com",
-            telefono: "+54 9 351 392-8047",
+            cargo: "Frontend Developer",
             github: "https://github.com/juanperez",
             linkedin: "https://www.linkedin.com/in/juanperez/",
         },
@@ -80,34 +79,35 @@ const About = () => {
     
 
     return (
-        <div className="w-full min-h-screen">
-           <div className="h-96 overflow-hidden relative">
-      <img className="" src={fondoabout} alt="background" />
-    </div>
+<div className="w-full min-h-screen">
+  <div className="h-96 overflow-hidden relative">
+    <img className="w-full h-full object-cover" src={fondoabout} alt="background" />
+  </div>
 
-    {/* RAVE MOTION */}
-    <div className="ml-16 mt-16">
-      <img className="w-96" src={about} alt="logo" />
+  {/* RAVE MOTION */}
+  <div className="ml-4 md:ml-16 mt-4 md:mt-16">
+    <img className="w-full md:w-96 sm:w-52 " src={about} alt="logo" />
 
-      <div className="">
-        <p className="text-3xl font-extralight">
-          Somos apasionados de la música electrónica, queremos brindarte una experiencia única
-          <br /> para que disfrutes al máximo de los eventos más emocionantes del país
+
+
+      <div className="hidden md:block">
+        <p className="text-3xl font-extralight mr-52">
+          Somos apasionados de la música electrónica, queremos brindarte una experiencia única para que disfrutes al máximo de los eventos más emocionantes del país
         </p>
       </div>
 
-      <div className="hidden">
-        <p>Nos enfocamos en que disfrutes al máximo de los mejores eventos del país</p>
+      <div className="md:hidden">
+        <p>Nos enfocamos en que disfrutes al máximo<br/> de los mejores eventos del país</p>
       </div>
     </div>
 
-    <div>
-      <h1 className="flex justify-center text-4xl text-pink-500 font-semibold mt-20 mb-9">
+    <div className="container mx-auto ">
+      <h1 className="flex justify-center text-6xl  text-pink-500 font-semibold mt-20 mb-20  ">
         ¿QUÉ OFRECEMOS?
       </h1>
-      <div className="grid place-items-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
-        <div className="p-8 flex flex-col justify-center w-96 h-80 rounded-md bg-slate-900 card group">
-          <h3 className="font-bold text-4xl text-center leading-36 relative top-10 block group-hover:invisible leading-snug">
+      <div className="grid place-items-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-20">
+        <div className="p-8 flex flex-col justify-center w-96 h-80  bg-secondary border border-secondaryBorder shadow-md rounded-md card group">
+          <h3 className="font-bold text-4xl text-center leading-36 relative top-16 block group-hover:invisible leading-snug">
             Amplia selección de Eventos
           </h3>
           <p className="text-xl text-center leading-24 tracking-0 font-normal w-fit block mt-4 sm:mt-8 opacity-0 group-hover:opacity-100 relative -top-24 sm:bottom-16">
@@ -115,8 +115,8 @@ const About = () => {
           </p>
         </div>
 
-        <div className="p-8 flex flex-col justify-center w-96 h-80 rounded-md bg-slate-900 card group">
-          <h3 className="font-bold text-4xl text-center leading-36 relative top-24 block group-hover:invisible leading-snug">
+        <div className="p-8 flex flex-col justify-center w-96 h-80 bg-secondary border border-secondaryBorder shadow-md rounded-md card group">
+          <h3 className="font-bold text-4xl text-center leading-36 relative top-28 block group-hover:invisible leading-snug">
             Compra <br /> segura y fácil
           </h3>
           <p className="text-xl text-center leading-24 tracking-0 font-normal w-fit block mt-4 sm:mt-8 opacity-0 group-hover:opacity-100 relative bottom-6 sm:bottom-14">
@@ -124,8 +124,8 @@ const About = () => {
           </p>
         </div>
 
-        <div className="p-8 flex flex-col justify-center w-96 h-80 rounded-md bg-slate-900 card group">
-          <h3 className="font-bold text-4xl text-center leading-36 relative top-16 block group-hover:invisible leading-snug">
+        <div className="p-8 flex flex-col justify-center w-96 h-80 bg-secondary border border-secondaryBorder shadow-md rounded-md card group">
+          <h3 className="font-bold text-4xl text-center leading-36 relative top-20 block group-hover:invisible leading-snug">
             Experiencia premium
           </h3>
           <p className="text-xl text-center leading-24 tracking-0 font-normal w-fit block mt-4 sm:mt-8 opacity-0 group-hover:opacity-100 relative bottom-6 sm:bottom-14">
@@ -133,55 +133,74 @@ const About = () => {
           </p>
         </div>
       </div>
+
+      <div>
+      <h1 className="flex justify-center text-6xl text-pink-500 font-semibold mt-24 mb-12">
+        ¿QUIENES SOMOS?
+      </h1>
+      </div>
     </div>
 
             {/* nosotros */}
-            <div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-16">
-                    {nosotros.map((compañero) => (
-                        <div
-                            className="m-8 w-4/5 bg-secondary border border-secondaryBorder shadow-md rounded-2xl "
-                            key={compañero.id}
-                        >
-                            <img
-                                className="w-5/6 m-8 rounded-full mx-auto transition-all duration-300 hover:rounded-lg"
-                                src={compañero.foto}
-                                alt={compañero.nombre}
-                            />
-                            <h3 className="text-2xl uppercase text-white font-semibold text-center mb-4">
-                                {compañero.nombre}
-                            </h3>
-                            <p className="text-gray-200 text-center ">
-                                {compañero.correo}
-                            </p>
-                            <p className="text-gray-200 text-center mb-6 ">
-                                {compañero.telefono}
-                            </p>
+            
+            <div className="bg-primary">
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-8 md:gap-12 pt-8 sm:pt-16 mb-8 sm:mb-32">
+    {nosotros.map((compañero) => (
+      <div className="h-auto sm:h-[15rem] max-w-[30rem] m-auto flex flex-wrap bg-slate-900 rounded-xl border border-secondaryBorder">
+        <div className="flex flex-col sm:flex-row bg-slate-900 rounded-xl border border-secondaryBorder rounded-l-xl">
+          <img
+            className="w-full sm:w-[15rem] rounded-l-xl bg-cover bg-bottom bg-no-repeat"
+            src={compañero.foto}
+            alt={compañero.nombre}
+          />
+          <div className="w-full sm:w-[20rem] py-4 px-6 flex flex-col justify-center">
+            <div className="py-2">
+              <h3 className="text-2xl uppercase font-semibold text-center sm:text-left">
+                {compañero.nombre}
+              </h3>
+              <p className="font-extralight uppercase mt-2 mb-4 text-center sm:text-left">
+                {compañero.cargo}
+              </p>
+              <div className="flex justify-center sm:justify-start">
+                <p className="flex items-center">
+                  <a
+                    className="inline-flex items-center text-white hover:text-pink-600"
+                    href={compañero.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaGithub className="mr-2 text-3xl" />
+                  </a>
+                </p>
+                <p className="flex items-center mx-6">
+                  <a
+                    className="inline-flex items-center text-white hover:text-pink-600"
+                    href={compañero.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaLinkedin className="mr-2 text-3xl" />
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+     
 
-                            <div className="flex justify-center mb-8">
-                                <p className="flex items-center mx-6">
-                                    <a
-                                        className="inline-flex items-center text-white hover:text-blue-600"
-                                        href={compañero.github}
-                                    >
-                                        <FaGithub className="mr-2 text-3xl" />
-                                    </a>
-                                </p>
-                                <p className="flex items-center mx-6">
-                                    <a
-                                        className="inline-flex items-center text-white hover:text-blue-600"
-                                        href={compañero.linkedin}
-                                    >
-                                        <FaLinkedin className="mr-2 text-3xl" />
-                                    </a>
-                                </p>
-                            </div>
+
+                      <div>
+                      </div>
+                        
+                 
+
+                    
+                      </div>
+                   
                         </div>
                     ))}
                 </div>
             </div>
 
-         
         </div>
     );
 };

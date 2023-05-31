@@ -128,7 +128,7 @@ const EventCart = () => {
         <div className="w-full">
             <div className="h-16"></div>
 
-            <div className="my-auto min-h-[calc(100vh_-_4rem)] flex flex-col gap-6 justify-center">
+            <div className="my-auto min-h-[calc(100vh_-_4rem)] flex flex-col gap-6 justify-center py-8">
                 <div className="floatBox md:w-2/3 h-fit mx-auto overflow-hidden font-sans bg-secondary">
                     <div className="flex flex-row w-full items-center justify-center pb-4 border-b border-secondaryBorder">
                         <h2 className="text-3xl align-center font-semibold">
@@ -241,8 +241,7 @@ const EventCart = () => {
                         <Wallet
                             className="px-6"
                             initialization={{
-                                preferenceId: preferenceId,
-                                redirectMode: "blank",
+                                preferenceId: preferenceId
                             }}
                         />
                     ) : (

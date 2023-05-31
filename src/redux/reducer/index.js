@@ -9,19 +9,18 @@ import {
 // Events Actions Types
 import {
     EVENTS_SEARCH,
-    EVENTS_SEARCH_REMOVE,
     EVENTS_GET_ALL,
     EVENT_DETAIL_GET,
     EVENT_DETAIL_REMOVE,
-    EVENT_CREATE,
-    EVENT_MODIFY,
+    EVENTS_SET_START_DATE_FILTER_BY_DATE,
+    EVENTS_SET_END_DATE_FILTER_BY_DATE,
+    EVENTS_FILTER_BY_DATE,
+    EVENTS_FILTER_BY_PRODUCER,
+    EVENTS_SORT,
+    EVENTS_SET_CURRENT_PAGE,
+    EVENTS_SET_HOME_EVENTS,
+    EVENTS_FINALIZED_GET_ALL,
 } from "../actions/eventsActions";
-
-// Filters & Orders
-import { EVENTS_FILTER } from "../actions/filtersActions";
-import { ALPHABETIC_ORDER, DATE_ORDER } from "../actions/orderActions";
-import { FILTER_EVENTS_BY_DATE } from "../../const";
-const { ACTIVES, PASS, ALL } = FILTER_EVENTS_BY_DATE;
 
 // User Actions Types
 import {
@@ -45,26 +44,62 @@ import {
 // Initial State
 import initialState from "./initialState";
 
-// Root reducer
+// Consts
+import { FILTER_EVENTS_BY_DATE, FILTER_TYPES } from "../../const";
+import { SORT_TYPES } from "../../const";
+const { ACTIVES, PASS, ALL } = FILTER_EVENTS_BY_DATE;
+
+// Current Date
+const currentDate = new Date();
+
+// Funcions
+import { applyFilters } from "../../functions/applyFilters";
+import { applySort } from "../../functions/applySort";
+
+// Root reducer ===========================================
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
+        // Events Actions =================================
+
+        // Get all / SetAll
         case EVENTS_GET_ALL:
             return {
                 ...state,
                 allEvents: action.payload,
                 homeEvents: action.payload,
             };
+        case EVENTS_FINALIZED_GET_ALL:
+            return {
+                ...state,
+                allEventsF: action.payload,
+                homeEventsF: action.payload,
+            };
+        case EVENTS_SET_HOME_EVENTS:
+            return {
+                ...state,
+                homeEvents: state.allEvents,
+                currentPage: 1,
+                homeFilterByProducer: FILTER_TYPES.BY_PRODUCER.ALL,
+                homeFilterByDate: {
+                    startDate: new Date().setHours(0, 0, 0, 0),
+                    endDate: "",
+                },
+                homeSort: SORT_TYPES.DEFAULT,
+            };
+
+        // Search
         case EVENTS_SEARCH:
             return {
                 ...state,
-                searchResult: action.payload,
+                homeEvents: state.allEvents.filter((event) =>
+                    event.name
+                        .toLowerCase()
+                        .includes(action.payload.toLowerCase())
+                ),
                 currentPage: 1,
             };
-        case EVENTS_SEARCH_REMOVE:
-            return {
-                ...state,
-                searchResult: [],
-            };
+
+        // Detail
         case EVENT_DETAIL_GET:
             return {
                 ...state,
@@ -75,51 +110,88 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 eventDetail: {},
             };
-        case EVENT_CREATE:
+
+        // Filter
+        case EVENTS_SET_START_DATE_FILTER_BY_DATE:
             return {
                 ...state,
+                homeFilterByDate: {
+                    ...state.homeFilterByDate,
+                    startDate: action.payload.setHours(0, 0, 0, 0),
+                },
             };
-        case EVENT_MODIFY:
+
+        case EVENTS_SET_END_DATE_FILTER_BY_DATE:
             return {
                 ...state,
+                homeFilterByDate: {
+                    ...state.homeFilterByDate,
+                    endDate: action.payload.setHours(23, 59, 59, 999),
+                },
             };
-        //* Filtros
 
-        case EVENTS_FILTER:
-            return { ...state, homeEvents: action.payload, currentPage: 1 };
+        case EVENTS_FILTER_BY_DATE:
+            const filteredEvents1 = applyFilters(
+                state.allEvents,
+                state.homeFilterByDate,
+                state.homeFilterByProducer
+            );
 
-        // * Order
+            const filteredAndSortedEvents1 = applySort(
+                filteredEvents1,
+                state.homeSort
+            );
 
-        case ALPHABETIC_ORDER:
-            let order = [...state.homeEvents];
-
-            if (action.payload === "Asc") {
-                order.sort((a, b) => a.name.localeCompare(b.name));
-            }
-            if (action.payload === "Desc") {
-                order.sort((a, b) => b.name.localeCompare(a.name));
-            }
             return {
                 ...state,
-                homeEvents: order,
+                homeEvents: filteredAndSortedEvents1,
                 currentPage: 1,
             };
 
-        case DATE_ORDER:
-            const dateOrder = [...state.homeEvents];
-            if (action.payload === "Last") {
-                dateOrder.sort((a, b) => new Date(b.date) - new Date(a.date));
-            }
-            if (action.payload === "First") {
-                dateOrder.sort((a, b) => new Date(a.date) - new Date(b.date));
-            }
+        case EVENTS_FILTER_BY_PRODUCER:
+            const filteredEvents2 = applyFilters(
+                state.allEvents,
+                state.homeFilterByDate,
+                action.payload
+            );
+
+            const filteredAndSortedEvents2 = applySort(
+                filteredEvents2,
+                state.homeSort
+            );
+
             return {
                 ...state,
-                homeEvents: dateOrder,
+                homeEvents: filteredAndSortedEvents2,
+                homeFilterByProducer: action.payload,
                 currentPage: 1,
             };
 
-        // Users
+        // Sort
+        case EVENTS_SORT:
+            let filteredEvents3 = applyFilters(
+                state.allEvents,
+                state.homeFilterByDate,
+                state.homeFilterByProducer
+            );
+
+            let sortedAndFilteredEvents3 = applySort(
+                filteredEvents3,
+                action.payload
+            );
+
+            return {
+                ...state,
+                homeEvents: sortedAndFilteredEvents3,
+                homeSort: action.payload,
+                currentPage: 1,
+            };
+
+        case EVENTS_SET_CURRENT_PAGE:
+            return { ...state, currentPage: action.payload };
+
+        
+        // Users ==========================================
         case USER_SIGN_IN:
             return {
                 ...state,
@@ -146,13 +218,18 @@ const rootReducer = (state = initialState, action) => {
                 selectedTickets: [],
             };
 
+        // Producer Events
         case USER_GET_USER_EVENTS_BY_USER_ID:
             return {
                 ...state,
                 allUserEvents: action.payload,
-                userEvents: action.payload.sort(
-                    (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-                ),
+                userEvents: action.payload
+                    .sort(
+                        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+                    )
+                    .filter((event) => {
+                        return event.current === true;
+                    }),
             };
         case USER_SET_USER_EVENTS:
             return {
@@ -200,28 +277,38 @@ const rootReducer = (state = initialState, action) => {
 
         //UserTickets
         case USER_TICKETS_GET:
+            let filteredUserTickets4 = [...action.payload];
+
+            filteredUserTickets4 = filteredUserTickets4.filter((ticket) => {
+                const eventDate = new Date(ticket.Event.date);
+                eventDate.setHours(eventDate.getHours() + 3);
+                return eventDate >= currentDate;
+            });
+
             return {
                 ...state,
                 allUserTickets: action.payload,
-                userTickets: action.payload,
+                userTickets: filteredUserTickets4,
             };
 
         case USER_TICKETS_FILTER_BY_CURRENT:
-            let filteredUserTickets = state.allUserTickets;
-            const currentDate = new Date();
+            let filteredUserTickets5 = [...state.allUserTickets];
+
             switch (action.payload) {
                 case ACTIVES:
-                    filteredUserTickets = filteredUserTickets.filter(
+                    filteredUserTickets5 = filteredUserTickets5.filter(
                         (ticket) => {
                             const eventDate = new Date(ticket.Event.date);
+                            eventDate.setHours(eventDate.getHours() + 3);
                             return eventDate >= currentDate;
                         }
                     );
                     break;
                 case PASS:
-                    filteredUserTickets = filteredUserTickets.filter(
+                    filteredUserTickets5 = filteredUserTickets5.filter(
                         (ticket) => {
                             const eventDate = new Date(ticket.Event.date);
+                            eventDate.setHours(eventDate.getHours() + 3);
                             return eventDate < currentDate;
                         }
                     );
@@ -231,7 +318,7 @@ const rootReducer = (state = initialState, action) => {
             }
             return {
                 ...state,
-                userTickets: filteredUserTickets,
+                userTickets: filteredUserTickets5,
             };
 
         // Global

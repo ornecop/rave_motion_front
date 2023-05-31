@@ -1,20 +1,24 @@
 // Hooks
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 // React Router Dom
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Redux
 import { connect } from "react-redux";
-import { getEventsByName } from "../redux/actions/eventsActions";
+import {
+    searchEvents,
+    setAllEventsOnHomeEvents,
+} from "../redux/actions/eventsActions";
 import { signOut } from "../redux/actions/usersActions";
 
 // Assets
 import rave from "../assets/logo3.png";
+import { GrMenu } from "react-icons/gr";
 
 const Header = (props) => {
     const { isLogin, userData, signOut } = props;
-    const { getEventsByName } = props;
+    const { searchEvents, setAllEventsOnHomeEvents } = props;
 
     // Fondo opaco
     const [opacity, setOpacity] = useState(0);
@@ -35,106 +39,113 @@ const Header = (props) => {
         backgroundColor: `rgba(2, 6, 23, ${opacity})`,
     };
 
-    // Dropdown
+    // Dropdown User
     const [showDropdown, setShowDropdown] = useState(false);
-    const dropdownRef = useRef(null);
+    let hideTimeout;
 
-    const handlDropdownClick = () => {
-        setShowDropdown((prev) => !prev);
+    const handleMouseEnter = () => {
+        clearTimeout(hideTimeout);
+        setShowDropdown(true);
     };
 
-    const location = useLocation().pathname;
+    const handleMouseLeave = () => {
+        hideTimeout = setTimeout(() => {
+            setShowDropdown(false);
+        }, 100);
+    };
+
     useEffect(() => {
         showDropdown && setShowDropdown(false);
     }, [location]);
 
-    const handleOutsideClick = (event) => {
-        if (
-            dropdownRef.current &&
-            !dropdownRef.current.contains(event.target)
-        ) {
-            setShowDropdown(false);
-        }
+    // Dropdown responsive
+    const [showDropdownResponsive, setShowDropdownResponsive] = useState(false);
+
+    let hideTimeoutResponsive;
+
+    const handleMouseEnterResponsive = () => {
+        clearTimeout(hideTimeoutResponsive);
+        setShowDropdownResponsive(true);
+    };
+
+    const handleMouseLeaveResponsive = () => {
+        hideTimeoutResponsive = setTimeout(() => {
+            setShowDropdownResponsive(false);
+        }, 100);
     };
 
     useEffect(() => {
-        document.addEventListener("mousedown", handleOutsideClick);
-        return () => {
-            document.removeEventListener("mousedown", handleOutsideClick);
-        };
-    }, []);
+        showDropdown && setShowDropdownResponsive(false);
+    }, [location]);
 
-    // Search
-    const [name, setName] = useState("");
+    // Search events en tiempo real
+    const [search, setSeach] = useState("");
+
     const handleInputChange = (event) => {
-        setName(event.target.value);
-    };
-
-    const navigate = useNavigate();
-    const handleSearchsubmit = (event) => {
-        event.preventDefault();
-        navigate("/search");
-        getEventsByName(name.trim());
-        setName("");
+        setSeach(event.target.value);
+        searchEvents(event.target.value);
+        event.target.value === "" && setAllEventsOnHomeEvents();
     };
 
     // Sign Out
+    const navigate = useNavigate();
     const handleSignOut = () => {
         isLogin && signOut();
+        
         navigate("/");
     };
 
     return (
         <div
-            className="grid grid-cols-3 w-screen h-16 fixed top-0 z-10 font-medium"
+            className="grid grid-cols-2 lg:grid-cols-3 w-screen h-16 fixed top-0 z-10 font-medium"
             style={headerStyle}
         >
+            {/* Logo left */}
             <div className="flex justify-self-start items-center ml-4">
                 <Link to="/">
-                    <img className="w-48" src={rave} alt="Rave Motion Logo" />
+                    <img
+                        className="w-40 lg:w-48"
+                        src={rave}
+                        alt="Rave Motion Logo"
+                    />
                 </Link>
             </div>
-            <div className="flex justify-self-center items-center">
-                <form onSubmit={handleSearchsubmit}>
-                    <input
-                        className="w-96 input"
-                        type="text"
-                        placeholder="Buscar evento"
-                        onChange={handleInputChange}
-                        onSubmit={handleSearchsubmit}
-                        value={name}
-                    />
-                </form>
+
+            <div className="hidden lg:flex justify-self-center items-center">
+                <input
+                    className="w-64 xl:w-80 input"
+                    type="text"
+                    placeholder="Buscar evento"
+                    onChange={handleInputChange}
+                    value={search}
+                />
             </div>
-            <div className="flex w-fit justify-self-end justify-center my-2 items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder">
-                {/* <Link to="/" className="navLink">
-                    Home
-                </Link> */}
+
+            {/* NavMenu right */}
+            <div className="hidden lg:flex w-fit justify-self-end justify-center my-2 items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder">
                 <Link to="/" className="navLink">
                     Home
                 </Link>
-                
+
                 <Link to="/reviews" className="navLink">
                     Reviews
                 </Link>
 
-                <Link to="/about" className="navLink">
-                    Nosotros
-                </Link>
                 {isLogin ? (
                     <>
                         {/* Dropdown user  */}
-                        <div
-                            className="inline-block relative"
-                            ref={dropdownRef}
-                        >
+                        <div className="inline-block relative">
                             <button
-                                onClick={handlDropdownClick}
                                 className="btnPrimary py-0 px-4 w-fit border-none"
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
                             >
                                 Tu cuenta
                             </button>
+
                             <div
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
                                 className={`"z-20 bg-secondary rounded-md w-40 left-[-2rem] top-[2rem] text-center" ${
                                     showDropdown ? "block" : "hidden"
                                 }`}
@@ -191,6 +202,103 @@ const Header = (props) => {
                     </>
                 )}
             </div>
+
+            {/* Dropdown responsive right */}
+            <div className="lg:hidden flex w-fit justify-self-end justify-center items-center mr-4">
+                <div className="inline-block relative">
+                    <button
+                        className="btnPrimary py-2 px-4 w-fit border-none"
+                        onMouseEnter={handleMouseEnterResponsive}
+                        onMouseLeave={handleMouseLeaveResponsive}
+                    >
+                        <GrMenu size="2rem" />
+                    </button>
+
+                    <div
+                        onMouseEnter={handleMouseEnterResponsive}
+                        onMouseLeave={handleMouseLeaveResponsive}
+                        className={`"z-20 bg-secondary border border-secondaryBorder rounded-md w-40 left-[-6rem] top-[3rem] text-center" ${
+                            showDropdownResponsive ? "block" : "hidden"
+                        }`}
+                        style={{ position: "absolute" }}
+                    >
+                        <div className="dropDownItem ">
+                            <Link to="/" className="navLinkDropdown">
+                                Home
+                            </Link>
+                        </div>
+                        <div className="dropDownItem">
+                            <Link to="/reviews" className="navLink">
+                                Reviews
+                            </Link>
+                        </div>
+                        <div className="dropDownItem">
+                            <Link to="/about" className="navLink">
+                                Nosotros
+                            </Link>
+                        </div>
+                        {isLogin ? (
+                            <>
+                                <div className="dropDownItem border-t-2 border-secondaryBorder">
+                                    <Link
+                                        className="navLinkDropdown"
+                                        to="/tickets"
+                                    >
+                                        Mis tickets
+                                    </Link>
+                                </div>
+                                {userData.accessType === "producer" && (
+                                    <>
+                                        <div className="dropDownItem">
+                                            <Link
+                                                className="navLinkDropdown"
+                                                to="/create"
+                                            >
+                                                Crear evento
+                                            </Link>
+                                        </div>
+                                        <div className="dropDownItem border-b-2 border-secondaryBorder">
+                                            <Link
+                                                className="navLinkDropdown"
+                                                to="/dashboard"
+                                            >
+                                                Dashboard
+                                            </Link>
+                                        </div>
+                                        <div className="dropDownItem">
+                                            <div
+                                                onClick={handleSignOut}
+                                                className="navLinkDropdown"
+                                            >
+                                                Cerrar Sesión
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
+                            </>
+                        ) : (
+                            <>
+                                <div className="dropDownItem border-t-2 border-secondaryBorder">
+                                    <Link
+                                        to="/signin"
+                                        className="navLinkDropdown "
+                                    >
+                                        Iniciar Sesión
+                                    </Link>
+                                </div>
+                                <div className="dropDownItem">
+                                    <Link
+                                        to="/signup"
+                                        className="navLinkDropdown"
+                                    >
+                                        Registrarse
+                                    </Link>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
@@ -205,7 +313,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         signOut: () => dispatch(signOut()),
-        getEventsByName: (name) => dispatch(getEventsByName(name)),
+        searchEvents: (name) => dispatch(searchEvents(name)),
+        setAllEventsOnHomeEvents: () => dispatch(setAllEventsOnHomeEvents()),
     };
 };
 

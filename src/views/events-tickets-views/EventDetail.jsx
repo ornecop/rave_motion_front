@@ -23,6 +23,7 @@ import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { Link as ScrollLink } from "react-scroll";
 
 // Components
+import EventDate from "../../components/EventDate";
 import Loading from "../../components/Loading";
 import SelectTickets from "../../components/SelectTickets";
 
@@ -35,23 +36,10 @@ const EventDetail = (props) => {
     useEffect(() => {
         getEventById(id);
 
-        // PENDIENTE SI NO ENCUENTRA EVENTO
-        //setTimeout(() => !event.name && navigate("/notfound"), 2000);
-
         return () => {
             removeEventDetail();
         };
     }, [getEventById, id, removeEventDetail]);
-
-    // Formateo de fecha y hour
-    const date = new Date(eventDetail.date);
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear().toString();
-
-    const formatDate = `${day}-${month}-${year}`;
-
-    const formatHour = eventDetail.hour ? eventDetail.hour.slice(0, 5) : "-";
 
     // Disponibilidad y valor minimo
     const availability = () => {
@@ -83,6 +71,7 @@ const EventDetail = (props) => {
 
     // Carrito de compra del evento
     const [selectedTickets, setSelectedTickets] = useState({});
+    const [error, setError] = useState("");
 
     const handleTicketSelect = (event) => {
         const { id, value } = event.target;
@@ -116,6 +105,9 @@ const EventDetail = (props) => {
         }
         setTotal(total);
         setQuantity(quantity);
+        if (quantity > 4)
+            setError("La cantidad máxima de compra es de 4 tickets.");
+        else setError("");
     }, [selectedTickets]);
 
     return (
@@ -155,7 +147,11 @@ const EventDetail = (props) => {
                                         <div className="flex flex-row items-center justify-start pb-4 gap-2 border-b border-secondaryBorder text-fuchsia-600 font-semibold text-xl">
                                             <AiOutlineCalendar size="1.75rem" />
                                             <span className="">
-                                                {formatDate} - {formatHour}
+                                                <EventDate
+                                                    date={eventDetail.date}
+                                                    hour={eventDetail.hour}
+                                                    hyphen="true"
+                                                />
                                             </span>
                                         </div>
                                         <div className="flex flex-row items-center justify-start py-4 gap-2 border-b border-secondaryBorder">
@@ -238,8 +234,8 @@ const EventDetail = (props) => {
                                     </h2>
                                 </div>
                                 {/* Tabla de tickets */}
-                                <div className="flex flex-row w-full items-center justify-center pb-4 ">
-                                    <table className="w-full text-start ">
+                                <div className="flex flex-col w-full items-center justify-center pb-4 ">
+                                    <table className="w-full text-start">
                                         <thead className="font-semibold border-b-4 border-fuchsia-600">
                                             <tr>
                                                 <th
@@ -262,7 +258,8 @@ const EventDetail = (props) => {
                                                     Precio
                                                 </th>
                                                 {userData.id ===
-                                                eventDetail.userId ? (
+                                                    eventDetail.userId ||
+                                                !eventDetail.current ? (
                                                     <></>
                                                 ) : (
                                                     <th
@@ -288,13 +285,14 @@ const EventDetail = (props) => {
                                                     </td>
 
                                                     <td className="px-2 py-4">
-                                                        ${" "}
+                                                        $
                                                         {ticket.price.toLocaleString(
                                                             "es"
                                                         )}
                                                     </td>
                                                     {userData.id ===
-                                                    eventDetail.userId ? (
+                                                        eventDetail.userId ||
+                                                    !eventDetail.current ? (
                                                         <></>
                                                     ) : (
                                                         <td className="px-2 py-4 text-center">
@@ -319,6 +317,7 @@ const EventDetail = (props) => {
                                                     <button
                                                         className="btnPrimary"
                                                         onClick={buyTickets}
+                                                        disabled={error}
                                                     >
                                                         Comprar tickets
                                                     </button>
@@ -328,7 +327,8 @@ const EventDetail = (props) => {
                                                 </td>
 
                                                 <td className="px-2 py-4 text-start">
-                                                    $ {total}
+                                                    ${" "}
+                                                    {total.toLocaleString("es")}
                                                 </td>
                                                 <td className="px-2 py-4 text-center">
                                                     {quantity}
@@ -336,6 +336,13 @@ const EventDetail = (props) => {
                                             </tr>
                                         </tbody>
                                     </table>
+                                    {error && (
+                                        <div className="block text-center">
+                                            <span className="errorMessage text-lg">
+                                                {error}
+                                            </span>
+                                        </div>
+                                    )}
                                 </div>
                             </>
                         ) : (

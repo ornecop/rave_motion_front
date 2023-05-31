@@ -1,17 +1,18 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
 import { useState, useEffect } from "react";
-
-// Components
 import Loading from "../../components/Loading";
-import EventContainer from "../../components/EventContainer";
-
-// Images
-import { images } from "../../const";
-
+import EventCardF from "../../components/EventCardFinalized";
+import Paginado from "../../components/Paginado"
+const images = [
+  "https://wallpapercave.com/wp/wp1889483.jpg",
+  "https://wallpapercave.com/wp/wp1889488.jpg",
+];
+import { getAllEventsFinalized } from "../../redux/actions/eventsActions";
 const Reviews = () => {
-    const Events = useSelector((state) => state.allEvents);
-    const allEvents = useSelector((state) => state.homeEvents);
-    const allEventos = useSelector((state) => state.homeEvents);
+  const dispatch= useDispatch()
+  const events = useSelector((state) => state.allEventsF);
+  const allEvents = useSelector((state) => state.homeEventsF);
+  const allEventos = useSelector((state) => state.homeEventsF);
 
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
@@ -37,11 +38,14 @@ const Reviews = () => {
         }, 2000);
     }, []);
 
+    useEffect(() => {
+      !events.length && dispatch(getAllEventsFinalized());
+  }, []);
     return (
         <>
-            <div className="w-full min-h-screen">
+            <div className="w-full">
                 {/* Carrousel */}
-                <div className="h-96 overflow-hidden relative">
+                <div className="h-60 overflow-hidden relative">
                     <div
                         className="h-full w-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 transform"
                         style={{
@@ -66,8 +70,23 @@ const Reviews = () => {
                     {totalPages ? currentPage : "0"} / {totalPages}
                 </div>
             </div>
-
-            <div className="min-h-[50vh] flex items-center justify-center">
+            <div className="my-6 mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 m-4 min-h-screen justify-items-center">
+                {events.map((event) => (
+                    <EventCardF
+                        key={event.id}
+                        id={event.id}
+                        name={event.name}
+                        producer={event.producer}
+                        image={event.image}
+                        hour={event.hour}
+                        venue={event.venue}
+                        date={event.date}
+                    />
+                ))}
+            </div>
+        </div>
+            <div className="flex items-center justify-center">
                 {isLoading ? (
                     <Loading />
                 ) : currentEvents.length === 0 ? (
@@ -81,7 +100,7 @@ const Reviews = () => {
                     </div>
                 ) : (
                     <div>
-                        <EventContainer events={currentEvents} />
+   
                         {isLoading ? null : (
                             <Paginado
                                 eventsPerPage={eventsPerPage}
