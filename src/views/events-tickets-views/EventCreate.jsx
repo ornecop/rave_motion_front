@@ -82,14 +82,14 @@ const EventCreate = (props) => {
 
     const [loading, setLoading] = useState(true);
     const [initialValues, setInitialValues] = useState(null);
-    
+
     const [imageDataUrl, setImageDataUrl] = useState("");
     const [imageError, setImageError] = useState({ status: "", disabled: "y" });
     const [imageName, setImageName] = useState({ name: "" });
-    
+
     //input image
-    
-//finish input events 
+
+    //finish input events
 
     useEffect(() => {
         const getEventIfEventId = async () => {
@@ -108,8 +108,11 @@ const EventCreate = (props) => {
                     `${BACKEND_URL}/events/${eventId}`
                 );
                 response.data.date = response.data.date.split("T")[0];
-                response.data.hour = response.data.hour.slice(0, response.data.hour.length - 3)
-               
+                response.data.hour = response.data.hour.slice(
+                    0,
+                    response.data.hour.length - 3
+                );
+
                 setInitialValues({
                     name: response.data.name,
                     image: "",
@@ -123,10 +126,12 @@ const EventCreate = (props) => {
                 const imageUrl = response.data.image;
                 const imageResponse = await fetch(imageUrl);
                 const imageBlob = await imageResponse.blob();
-                const file = new File([imageBlob], 'image.jpg', { type: 'image/jpeg' });
-                
-                inputImage(file,setImageError,setImageName,setImageDataUrl);
-            
+                const file = new File([imageBlob], "image.jpg", {
+                    type: "image/jpeg",
+                });
+
+                inputImage(file, setImageError, setImageName, setImageDataUrl);
+
                 setLoading(false);
             } else {
                 setInitialValues({
@@ -154,7 +159,7 @@ const EventCreate = (props) => {
     // Image field handle & error
     const handleImageChange = (event) => {
         const file = event.target.files[0];
-        inputImage(file,setImageError,setImageName,setImageDataUrl);
+        inputImage(file, setImageError, setImageName, setImageDataUrl);
     };
 
     const errorImageHandler = () => {
@@ -209,7 +214,7 @@ const EventCreate = (props) => {
                     validationSchema={validationSchema}
                 >
                     {({ isSubmitting, touched, errors, values }) => (
-                        <div className="grid grid-cols-2 h-fit">
+                        <div className="flex flex-col lg:grid lg:grid-cols-2 h-fit">
                             <div className="flex flex-col place-content-center h-full">
                                 <Form className="floatBox my-6 mx-6 flex flex-col h-full justify-center">
                                     <div>
@@ -475,7 +480,7 @@ const EventCreate = (props) => {
                                         </h2>
                                     </div>
                                     <div className="flex flex-col items-center mt-4">
-                                        <div className="h-96 w-96 bg-gradient-to-r from-fuchsia-800 to-pink-500 rounded-xl border border-secondaryBorder">
+                                        <div className="h-60 w-60 lg:h-96 lg:w-96 bg-gradient-to-r from-fuchsia-800 to-pink-500 rounded-xl border border-secondaryBorder">
                                             <div
                                                 className="h-full w-full bg-cover bg-bottom bg-no-repeat place-content-center rounded-xl "
                                                 style={{
@@ -488,30 +493,34 @@ const EventCreate = (props) => {
                                             ></div>
                                         </div>
                                     </div>
-                                    <div className="flex flex-row justify-center items-center gap-2 mt-4">
-                                        <ImLocation2 size="1.3rem" />
-                                        <span>
-                                            <span className="font-semibold">
-                                                {values.producer
-                                                    ? values.producer
-                                                    : "Productor del evento"}
-                                            </span>{" "}
-                                            -{" "}
-                                            {values.venue
-                                                ? values.venue
-                                                : "Lugar del evento"}
-                                        </span>
+                                    <div className="flex flex-col lg:flex-row justify-center items-center gap-2 mt-4">
+                                        <div className="flex flex-row  gap-2">
+                                            <ImLocation2 size="1.3rem" />
+                                            <span>
+                                                <span className="font-semibold">
+                                                    {values.producer
+                                                        ? values.producer
+                                                        : "Productor del evento"}
+                                                </span>{" "}
+                                                -{" "}
+                                                {values.venue
+                                                    ? values.venue
+                                                    : "Lugar del evento"}
+                                            </span>
+                                        </div>
                                         <div className="w-4 font-semibold"></div>
-                                        <AiOutlineCalendar size="1.3rem" />
-                                        <span className="">
-                                            {values.date
-                                                ? values.date
-                                                : "24/10/2023"}{" "}
-                                            -{" "}
-                                            {values.hour
-                                                ? values.hour
-                                                : "23:00"}
-                                        </span>
+                                        <div className="flex flex-row gap-2">
+                                            <AiOutlineCalendar size="1.3rem" />
+                                            <span className="">
+                                                {values.date
+                                                    ? values.date
+                                                    : "24/10/2023"}{" "}
+                                                -{" "}
+                                                {values.hour
+                                                    ? values.hour
+                                                    : "23:00"}
+                                            </span>
+                                        </div>
                                     </div>
                                     <div className="flex flex-row justify-center items-center gap-2 mt-4 w-full min-h-fit overflow-y-scroll">
                                         {values.description
