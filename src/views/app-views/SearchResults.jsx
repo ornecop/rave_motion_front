@@ -44,7 +44,7 @@ const SearchResults = ({ events }) => {
 
 const mapStateToProps = (state) => {
     return {
-        events: state.searchResult,
+        events: state.homeEvents,
     };
 };
 
