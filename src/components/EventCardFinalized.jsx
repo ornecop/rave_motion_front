@@ -39,6 +39,7 @@ export const EventCardF = ({ id, name, image, date, venue, hour,userData }) => {
   const [averageRating, setAverageRating] = useState(null);
   const [totalCritics, setTotalCritics] = useState(null);
   useEffect(() => {
+    
     axios.get(`${BACKEND_URL}/events/rating/${id}`) 
       .then(response => {
         setAverageRating(response.data.averageRating);
@@ -85,7 +86,7 @@ const handleRateClick = () => {
       console.error('Failed to update rating:', error);
     }
   };
-  
+  console.log({averageRating})
     return (
       
         <div className="h-[15rem] w-[35rem] mx-auto flex flex-row bg-slate-900 rounded-xl border border-secondaryBorder">
