@@ -36,6 +36,7 @@ import Loading from "../../components/Loading";
 // Consts
 import { SECONDS_TO_PAY } from "../../const";
 
+
 const EventCart = () => {
     // Global state
     const userData = useSelector((state) => state.userData);
@@ -123,6 +124,9 @@ const EventCart = () => {
                 .catch((error) => console.log({ MPerror: error }));
         }
     }, [totalToPay]);
+
+
+    console.log(selectedTickets)
 
     return (
         <div className="w-full">
