@@ -129,14 +129,14 @@ const EventCart = () => {
             <div className="h-16"></div>
 
             <div className="my-auto min-h-[calc(100vh_-_4rem)] flex flex-col gap-6 justify-center py-8">
-                <div className="floatBox md:w-2/3 h-fit mx-auto overflow-hidden font-sans bg-secondary">
+                <div className="floatBox w-full md:w-2/3 h-fit mx-auto overflow-hidden font-sans bg-secondary">
                     <div className="flex flex-row w-full items-center justify-center pb-4 border-b border-secondaryBorder">
-                        <h2 className="text-3xl align-center font-semibold">
+                        <h2 className="text-2xl lg:text-3xl align-center font-semibold">
                             {event.name}
                         </h2>
                     </div>
                     <div className="flex flex-row w-full items-center justify-center pb-4 border-b border-secondaryBorder">
-                        <h2 className="text-3xl align-center font-semibold">
+                        <h2 className="lg:text-2xl align-center font-semibold">
                             Estas a punto de comprar los siguientes tickets:
                         </h2>
                     </div>
@@ -230,18 +230,19 @@ const EventCart = () => {
                         <Loading />
                     )}
                 </div>
-                <div className="floatBox md:w-2/3 h-fit mx-auto overflow-hidden font-sans bg-secondary">
+
+                <div className="floatBox w-full md:w-2/3 h-fit mx-auto overflow-hidden font-sans bg-secondary">
                     <Timer
                         seconds={SECONDS_TO_PAY}
                         handleTimerEnd={handleTimerEnd}
                     />
                 </div>
-                <div className="floatBox md:w-2/3 h-fit mx-auto overflow-hidden font-sans bg-secondary">
+                <div className="floatBox w-full md:w-2/3 h-fit mx-auto overflow-hidden font-sans bg-secondary">
                     {preferenceId ? (
                         <Wallet
                             className="px-6"
                             initialization={{
-                                preferenceId: preferenceId
+                                preferenceId: preferenceId,
                             }}
                         />
                     ) : (

@@ -313,9 +313,12 @@ const ProducerDashboard = (props) => {
                     </div>
                 </section>
             ) : view === DASHBOARD_VIEWS.EVENT_DETAIL ? (
-                <ProducerEventDetail eventId={eventId} />
+                <ProducerEventDetail
+                    eventId={eventId}
+                    setShowAside={setShowAside}
+                />
             ) : (
-                <div className="flex flex-col w-5/6 px-8 py-4">
+                <div className="flex flex-col w-full lg:w-5/6 px-4 lg:px-8 lg:py-4">
                     <div className="flex flex-col w-full h-full items-center justify-center">
                         <h2 className="font-bold text-center text-6xl">
                             LO SENTIMOS

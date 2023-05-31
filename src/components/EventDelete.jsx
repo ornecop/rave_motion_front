@@ -87,7 +87,7 @@ const EventDelete = (props) => {
             {deleteStep === 1 ? (
                 <>
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
-                        <div className="floatBox p-8 w-2/6">
+                        <div className="floatBox p-8 w-full lg:w-2/6">
                             <div className="mb-4 text-2xl font-semibold">
                                 Eliminar evento
                             </div>
@@ -117,7 +117,7 @@ const EventDelete = (props) => {
             ) : deleteStep === 2 ? (
                 <>
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
-                        <div className="floatBox p-8 w-2/6">
+                        <div className="floatBox p-8 w-full lg:w-2/6">
                             <div className="mb-4 text-2xl font-semibold w-full">
                                 Eliminar evento
                             </div>
