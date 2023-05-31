@@ -83,7 +83,7 @@ const App = ({
     }, []);
 
     return (
-        <div className="bg-primary text-white antialiased">
+        <div className="bg-primary text-white antialiased overflow-hidden">
             {showHeader && <Header />}
             {globalError && <Alert />}
             {globalSuccess && <Success />}
@@ -126,16 +126,55 @@ const App = ({
 
                 {/* User views */}
 
-                <Route path="/changepassword" element={<RequireLogOut><EmailPassword /></RequireLogOut>} />
-                <Route path="/changepassword/2" element={<RequireLogOut><ChangePassword /></RequireLogOut>} />
+                <Route
+                    path="/changepassword"
+                    element={
+                        <RequireLogOut>
+                            <EmailPassword />
+                        </RequireLogOut>
+                    }
+                />
+                <Route
+                    path="/changepassword/2"
+                    element={
+                        <RequireLogOut>
+                            <ChangePassword />
+                        </RequireLogOut>
+                    }
+                />
                 <Route
                     path="/dashboard/:eventId?"
-                    element={<RequireAuth><ProducerDashboard /></RequireAuth>}
+                    element={
+                        <RequireAuth>
+                            <ProducerDashboard />
+                        </RequireAuth>
+                    }
                 />
 
-                <Route path="/signin" element={<RequireLogOut><SignIn /></RequireLogOut>} />
-                <Route path="/signup" element={<RequireLogOut><SignUp /></RequireLogOut>} />
-                <Route path="/tickets" element={<RequireLogin><UserTickets /></RequireLogin>} />
+                <Route
+                    path="/signin"
+                    element={
+                        <RequireLogOut>
+                            <SignIn />
+                        </RequireLogOut>
+                    }
+                />
+                <Route
+                    path="/signup"
+                    element={
+                        <RequireLogOut>
+                            <SignUp />
+                        </RequireLogOut>
+                    }
+                />
+                <Route
+                    path="/tickets"
+                    element={
+                        <RequireLogin>
+                            <UserTickets />
+                        </RequireLogin>
+                    }
+                />
 
                 {/* Not found Page */}
                 <Route path="*" element={<NotFound />} />
