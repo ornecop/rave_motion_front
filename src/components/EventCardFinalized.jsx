@@ -9,19 +9,29 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 Modal.setAppElement('#root')
 
 const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)',
-    backgroundColor       : '#f5f5f5',
-    borderRadius          : '10px',
-    width                 : '400px',
-    padding               : '20px'
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    backgroundColor: '#1F2937',
+    borderRadius: '10px',
+    width: '33.33%', 
+    padding: '20px',
+    color: '#F5F5F5', 
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.5rem', 
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center', 
+    zIndex: '50', 
+    position: 'fixed',
   }
 };
+
 
 export const EventCardF = ({ id, name, image, date, venue, hour,userData }) => {
   const [rating, setRating] = useState(0);
@@ -105,23 +115,35 @@ const handleRateClick = () => {
 </div>
 
 <div className="flex items-center justify-between">
-    <p className="flex items-center">
+    <div className="flex items-center">
         <StarRatingStatic rating={averageRating} /> ({totalCritics})
-    </p>
+    </div>
     <button className="bg-blue-600 text-white px-10 py-3 mt-4 rounded text-sm" onClick={handleRateClick}>
         Calificar
     </button>
 </div>
 
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="Rate Modal"
-        style={customStyles}
-      >
-        <StarRating rating={rating} onStarClick={onStarClick} />
-        <button onClick={closeModal}>Cerrar</button>
-      </Modal>
+<Modal
+  isOpen={modalIsOpen}
+  onRequestClose={closeModal}
+  contentLabel="Rate Modal"
+  style={customStyles}
+>
+  <div className="text-center text-xl font-semibold mb-4">
+    Por favor, selecciona la cantidad de estrellas para calificar.
+  </div>
+  <StarRating rating={rating} onStarClick={onStarClick} />
+  <div className="text-center text-md mt-4">
+    Tu valoración nos ayuda a mejorar nuestro servicio. ¡Gracias por tu tiempo!
+  </div>
+  <button 
+    onClick={closeModal} 
+    className="mt-4 px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none transition-colors duration-300"
+  >
+    Cerrar
+  </button>
+</Modal>
+
     </div>
     </div>
   );
