@@ -53,12 +53,15 @@ const ProducerKeys = ({ userId }) => {
     );
 
     return (
-        <section className="grid grid-cols-3 w-full place-content-between my-4 gap-16">
+        <section className="flex flex-col lg:grid lg:grid-cols-3 w-full place-content-between my-4 gap-6 lg:gap-16">
             <div className="p-4 rounded-xl bg-green-200 flex flex-row gap-6 items-center">
                 <Tooltip tooltip="Facturación semanal total">
-                    <RiLineChartLine size="4rem" className="text-green-600" />
+                    <RiLineChartLine
+                        size="4rem"
+                        className="text-green-600 hidden lg:flex"
+                    />
                 </Tooltip>
-                <div className="w-full flex flex-col text-green-600">
+                <div className="w-full flex flex-row items-center place-content-between gap-6 lg:flex-col lg:items-start lg:gap-0 text-green-600">
                     <span className="text-4xl font-bold ">
                         ${totalSells.toLocaleString("es")}
                     </span>
@@ -70,10 +73,10 @@ const ProducerKeys = ({ userId }) => {
                 <Tooltip tooltip="Tickets vendidos última semana">
                     <HiOutlineUserGroup
                         size="4rem"
-                        className="text-orange-600"
+                        className="text-orange-600  hidden lg:flex"
                     />
                 </Tooltip>
-                <div className="w-full flex flex-col text-orange-600">
+                <div className="w-full flex flex-row items-center place-content-between gap-6 lg:flex-col lg:items-start lg:gap-0 text-orange-600">
                     <span className="text-4xl font-bold ">{ticketSells}</span>
                     <h3 className="text-l block font-semibold">
                         TICKETS VENDIDOS
@@ -85,10 +88,10 @@ const ProducerKeys = ({ userId }) => {
                 <Tooltip tooltip="Eventos activos de la productora.">
                     <MdEventAvailable
                         size="4rem"
-                        className="text-fuchsia-600"
+                        className="text-fuchsia-600  hidden lg:flex"
                     />
                 </Tooltip>
-                <div className="w-full flex flex-col text-fuchsia-600">
+                <div className="w-full flex flex-row items-center place-content-between  gap-6 lg:flex-col lg:items-start lg:gap-0 text-fuchsia-600">
                     <span className="text-4xl font-bold ">
                         {activeEvents.length}
                     </span>
