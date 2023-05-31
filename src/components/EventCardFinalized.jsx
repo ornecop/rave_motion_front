@@ -100,13 +100,9 @@ const handleRateClick = () => {
     const userId = userData.id;
     try {
      const ratingP = await updateRating(id, rating, userId);
-     if(ratingP.response.status===400){
-        alert(ratingP.response.data)
-     }else{
         const ratedEvents = JSON.parse(localStorage.getItem('ratedEvents')) || {};
         ratedEvents[id] = true;
         localStorage.setItem('ratedEvents', JSON.stringify(ratedEvents));
-     }
      // Almacenar en el almacenamiento local que el usuario ha calificado este evento
      
     } catch (error) {
