@@ -21,6 +21,8 @@ const initialState = {
     },
     homeSort: SORT_TYPES.DEFAULT,
 
+    searchBar:"",
+
     // Detail event
     eventDetail: {},
 
