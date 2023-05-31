@@ -148,7 +148,7 @@ const TicketsCreate = (props) => {
                 validationSchema={validationSchema}
             >
                 {({ isSubmitting, touched, errors }) => (
-                    <div className="grid grid-cols-2 h-fit">
+                    <div className="flex flex-col lg:grid lg:grid-cols-2  h-fit">
                         <div className="flex flex-col place-content-center h-full">
                             <Form className="floatBox my-6 mx-6 flex flex-col h-full justify-center">
                                 <div className="flex flex-col items-center justify-center ">

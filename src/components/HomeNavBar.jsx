@@ -142,8 +142,8 @@ const HomeNavBar = (props) => {
                             onSelect={(date) => setEndDateToFilter(date)}
                             onChange={filterEventsByDate}
                             minDate={new Date()}
-                            maxDate={getSixMonthDate()}
                             dateFormat="dd/MM/yyyy"
+                            placeholderText="dd/mm/yyyy"
                         />
 
                         <button
