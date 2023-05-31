@@ -18,7 +18,7 @@ import { GrMenu } from "react-icons/gr";
 
 const Header = (props) => {
     const { isLogin, userData, signOut } = props;
-    const { searchEvents, setAllEventsOnHomeEvents } = props;
+    const { searchEvents} = props;
 
     // Fondo opaco
     const [opacity, setOpacity] = useState(0);
@@ -84,7 +84,7 @@ const Header = (props) => {
     const handleInputChange = (event) => {
         setSeach(event.target.value);
         searchEvents(event.target.value);
-        event.target.value === "" && setAllEventsOnHomeEvents();
+
     };
 
     // Sign Out
