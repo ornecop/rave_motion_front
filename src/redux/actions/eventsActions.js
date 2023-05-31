@@ -24,7 +24,7 @@ export const EVENTS_FILTER_BY_PRODUCER = "EVENTS_FILTER_BY_PRODUCER";
 export const EVENTS_SORT = "EVENTS_SORT";
 
 export const EVENTS_SET_CURRENT_PAGE = "EVENTS_SET_CURRENT_PAGE";
-
+export const EVENTS_FINALIZED_SET_CURRENT_PAGE = "EVENTS_FINALIZED_SET_CURRENT_PAGE";
 // ============= Events Actions Creators
 // Get all events
 export const getAllEvents = () => {
@@ -130,6 +130,13 @@ export const sortEvents = (sort) => {
 export const setCurrentPage = (page) => {
     return {
         type: EVENTS_SET_CURRENT_PAGE,
+        payload: page,
+    };
+};
+
+export const setCurrentPageF = (page) => {
+    return {
+        type: EVENTS_FINALIZED_SET_CURRENT_PAGE,
         payload: page,
     };
 };

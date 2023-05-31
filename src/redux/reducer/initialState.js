@@ -11,6 +11,8 @@ const initialState = {
 
     eventsPerPage: 10,
     currentPage: 1,
+    currentPageF: 1,
+    eventsPerPageF: 10,
 
     homeFilterByProducer: FILTER_TYPES.BY_PRODUCER.ALL,
     homeFilterByDate: {
