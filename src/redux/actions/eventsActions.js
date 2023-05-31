@@ -14,7 +14,10 @@ export const EVENTS_SEARCH = "EVENTS_SEARCH";
 export const EVENT_DETAIL_GET = "EVENT_DETAIL_GET";
 export const EVENT_DETAIL_REMOVE = "EVENT_DETAIL_REMOVE";
 
-export const EVENTS_SET_DATE_FILTER_BY_DATE = "EVENTS_SET_DATE_FILTER_BY_DATE";
+export const EVENTS_SET_START_DATE_FILTER_BY_DATE =
+    "EVENTS_SET_START_DATE_FILTER_BY_DATE";
+export const EVENTS_SET_END_DATE_FILTER_BY_DATE =
+    "EVENTS_SET_END_DATE_FILTER_BY_DATE";
 export const EVENTS_FILTER_BY_DATE = "EVENTS_FILTER_BY_DATE";
 
 export const EVENTS_FILTER_BY_PRODUCER = "EVENTS_FILTER_BY_PRODUCER";
@@ -40,8 +43,8 @@ export const getAllEvents = () => {
 export const getAllEventsFinalized = () => {
     return async function (dispatch) {
         try {
-            const events = (await axios.get(`${BACKEND_URL}/events/finalized`)).data;
-            console.log(events)
+            const events = (await axios.get(`${BACKEND_URL}/events/finalized`))
+                .data;
             dispatch({ type: EVENTS_FINALIZED_GET_ALL, payload: events });
         } catch (error) {
             dispatch({
@@ -49,7 +52,7 @@ export const getAllEventsFinalized = () => {
                 payload: error.response.data.error,
             });
         }
-    }; 
+    };
 };
 
 export const setAllEventsOnHomeEvents = () => {
@@ -89,10 +92,17 @@ export const removeEventDetail = () => {
 };
 
 // Filters & Sort
-export const setDateToFilter = (objectDate) => {
+export const setStartDateToFilter = (startDate) => {
     return {
-        type: EVENTS_SET_DATE_FILTER_BY_DATE,
-        payload: objectDate,
+        type: EVENTS_SET_START_DATE_FILTER_BY_DATE,
+        payload: startDate,
+    };
+};
+
+export const setEndDateToFilter = (endDate) => {
+    return {
+        type: EVENTS_SET_END_DATE_FILTER_BY_DATE,
+        payload: endDate,
     };
 };
 

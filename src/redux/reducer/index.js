@@ -12,13 +12,14 @@ import {
     EVENTS_GET_ALL,
     EVENT_DETAIL_GET,
     EVENT_DETAIL_REMOVE,
-    EVENTS_SET_DATE_FILTER_BY_DATE,
+    EVENTS_SET_START_DATE_FILTER_BY_DATE,
+    EVENTS_SET_END_DATE_FILTER_BY_DATE,
     EVENTS_FILTER_BY_DATE,
     EVENTS_FILTER_BY_PRODUCER,
     EVENTS_SORT,
     EVENTS_SET_CURRENT_PAGE,
     EVENTS_SET_HOME_EVENTS,
-    EVENTS_FINALIZED_GET_ALL
+    EVENTS_FINALIZED_GET_ALL,
 } from "../actions/eventsActions";
 
 // User Actions Types
@@ -39,8 +40,6 @@ import {
     USER_TICKETS_GET,
     USER_TICKETS_FILTER_BY_CURRENT,
 } from "../actions/usersTicketsActions";
-
-import getCurrentDate from"../../functions/getCurrentDate"
 
 // Initial State
 import initialState from "./initialState";
@@ -69,12 +68,12 @@ const rootReducer = (state = initialState, action) => {
                 allEvents: action.payload,
                 homeEvents: action.payload,
             };
-            case EVENTS_FINALIZED_GET_ALL:
-                return {
-                    ...state,
-                    allEventsF: action.payload,
-                    homeEventsF: action.payload,
-                };
+        case EVENTS_FINALIZED_GET_ALL:
+            return {
+                ...state,
+                allEventsF: action.payload,
+                homeEventsF: action.payload,
+            };
         case EVENTS_SET_HOME_EVENTS:
             return {
                 ...state,
@@ -82,7 +81,7 @@ const rootReducer = (state = initialState, action) => {
                 currentPage: 1,
                 homeFilterByProducer: FILTER_TYPES.BY_PRODUCER.ALL,
                 homeFilterByDate: {
-                    startDate: getCurrentDate(),
+                    startDate: new Date().setHours(0, 0, 0, 0),
                     endDate: "",
                 },
                 homeSort: SORT_TYPES.DEFAULT,
@@ -113,10 +112,22 @@ const rootReducer = (state = initialState, action) => {
             };
 
         // Filter
-        case EVENTS_SET_DATE_FILTER_BY_DATE:
+        case EVENTS_SET_START_DATE_FILTER_BY_DATE:
             return {
                 ...state,
-                homeFilterByDate: action.payload,
+                homeFilterByDate: {
+                    ...state.homeFilterByDate,
+                    startDate: action.payload.setHours(0, 0, 0, 0),
+                },
+            };
+
+        case EVENTS_SET_END_DATE_FILTER_BY_DATE:
+            return {
+                ...state,
+                homeFilterByDate: {
+                    ...state.homeFilterByDate,
+                    endDate: action.payload.setHours(23, 59, 59, 999),
+                },
             };
 
         case EVENTS_FILTER_BY_DATE:

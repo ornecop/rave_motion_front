@@ -5,20 +5,19 @@ export const applyFilters = (events, filterDate, filterProducer) => {
     // Aplica filtro de date y filtro de producer a un evento
 
     let filterEvents = [...events];
-
     let { startDate, endDate } = filterDate;
 
-    // Filtro de date
-    if (startDate.length) {
-        startDate = new Date(startDate);
-        filterEvents = filterEvents.filter((event) => {
-            const eventDate = new Date(event.date);
-            return (
-                eventDate >= startDate &&
-                (!endDate || eventDate <= new Date(endDate))
-            );
-        });
-    }
+    filterEvents = filterEvents.filter((event) => {
+        // Armado de fecha completa (date + hour) y agregado de 3hs
+        let eventFulDate = new Date(
+            `${event.date.slice(0, 10)}T${event.hour}.000Z`
+        );
+        eventFulDate.setHours(eventFulDate.getHours() + 3);
+        return (
+            eventFulDate >= startDate &&
+            (!endDate || eventFulDate <= new Date(endDate))
+        );
+    });
 
     // Filtro de producer
     if (filterProducer != FILTER_TYPES.BY_PRODUCER.ALL) {
@@ -26,5 +25,6 @@ export const applyFilters = (events, filterDate, filterProducer) => {
             (e) => e.producer === filterProducer
         );
     }
+
     return filterEvents;
 };

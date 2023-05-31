@@ -22,7 +22,7 @@ import * as Yup from "yup";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import getCurrentDate from "../../functions/getCurrentDate";
-
+import inputImage from "../../functions/inputImage";
 // Redux
 import { connect } from "react-redux";
 import {
@@ -88,32 +88,7 @@ const EventCreate = (props) => {
     const [imageName, setImageName] = useState({ name: "" });
     
     //input image
-    const inputImage = (file)=>{ 
-        if (file) {
-        const fileName = file.name;
-        const fileExtension = fileName.split(".").pop().toLowerCase();
-        if (
-            fileExtension === "jpg" ||
-            fileExtension === "jpeg" ||
-            fileExtension === "png"
-        ) {
-            setImageError({ status: "", disabled: "" });
-            setImageName({ name: fileName });
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        const dataURL = e.target.result;
-        setImageDataUrl(dataURL);
-    };
-    reader.readAsDataURL(file); 
-} else {
-        setImageName({ name: "" });
-        setImageDataUrl("");
-        setImageError({
-            disabled: "y",
-            status: "Debe seleccionar una imagen valida. (.jpg .png .jpeg)",
-        });
-    }}}
+    
 //finish input events 
 
     useEffect(() => {
@@ -150,7 +125,7 @@ const EventCreate = (props) => {
                 const imageBlob = await imageResponse.blob();
                 const file = new File([imageBlob], 'image.jpg', { type: 'image/jpeg' });
                 
-                inputImage(file);
+                inputImage(file,setImageError,setImageName,setImageDataUrl);
             
                 setLoading(false);
             } else {
@@ -179,7 +154,7 @@ const EventCreate = (props) => {
     // Image field handle & error
     const handleImageChange = (event) => {
         const file = event.target.files[0];
-        inputImage(file);
+        inputImage(file,setImageError,setImageName,setImageDataUrl);
     };
 
     const errorImageHandler = () => {
@@ -249,7 +224,7 @@ const EventCreate = (props) => {
                                                 </Link>
                                             </Tooltip>
                                         </div>
-                                        <div className="my-4 flex flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+                                        <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
                                             <p className="mx-4 mb-0 text-center font-semibold">
                                                 Crear o modificar evento:
                                             </p>

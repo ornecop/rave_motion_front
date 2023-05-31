@@ -57,10 +57,20 @@ const Home = (props) => {
     }, []);
 
     // Paginado
-    const indexOfLastEvent = currentPage * eventsPerPage;
-    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
-    const currentEvents = homeEvents.slice(indexOfFirstEvent, indexOfLastEvent);
     const totalPages = Math.ceil(homeEvents.length / eventsPerPage);
+    const [pages, setPages] = useState([]);
+    useEffect(() => {
+        const prePages = [];
+        for (let i = 1; i <= totalPages; i++) {
+            prePages.push(i);
+        }
+        setPages(prePages);
+    }, [totalPages]);
+
+    const paginatedEvents = homeEvents.slice(
+        (currentPage - 1) * eventsPerPage,
+        currentPage * eventsPerPage
+    );
 
     // Loading
     const [isLoading, setIsLoading] = useState(true);
@@ -69,7 +79,7 @@ const Home = (props) => {
         setTimeout(() => {
             setIsLoading(false);
         }, 1000);
-    }, []);  
+    }, []);
 
     return (
         <div className="w-full min-h-screen">
@@ -96,11 +106,13 @@ const Home = (props) => {
             {/* NavBar (Filters - Orders - info resultados) */}
             <HomeNavBar totalPages={totalPages} />
 
-            <div className="min-h-[50vh] flex items-center justify-center">
+            <div className="flex flex-col">
                 {isLoading ? (
-                    <Loading />
-                ) : currentEvents.length === 0 ? (
-                    <div className="flex flex-col w-full h-full items-center justify-center">
+                    <div className="h-[50vh]">
+                        <Loading />
+                    </div>
+                ) : !homeEvents.length ? (
+                    <div className="flex flex-col h-[50vh] w-full items-center justify-center">
                         <h2 className="font-bold text-center text-5xl">
                             LO SENTIMOS
                         </h2>
@@ -109,12 +121,10 @@ const Home = (props) => {
                         </h3>
                     </div>
                 ) : (
-                    <div>
-                        <EventContainer events={currentEvents} />
-                        {isLoading ? null : <Paginado />}
-                    </div>
+                    <EventContainer paginatedEvents={paginatedEvents} />
                 )}
             </div>
+            <Paginado totalPages={totalPages} />
         </div>
     );
 };
