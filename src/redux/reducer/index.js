@@ -190,6 +190,7 @@ const rootReducer = (state = initialState, action) => {
         case EVENTS_SET_CURRENT_PAGE:
             return { ...state, currentPage: action.payload };
 
+        
         // Users ==========================================
         case USER_SIGN_IN:
             return {
@@ -265,6 +266,7 @@ const rootReducer = (state = initialState, action) => {
                             return event.current === false;
                         }),
                     };
+                    
                 case ALL:
                     return { ...state, userEvents: state.allUserEvents };
             }
