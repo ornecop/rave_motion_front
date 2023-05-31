@@ -17,7 +17,7 @@ import rave from "../assets/logo3.png";
 import { GrMenu } from "react-icons/gr";
 
 const Header = (props) => {
-    const { isLogin, userData, signOut } = props;
+    const { isLogin, userData, signOut, searchBar } = props;
     const { searchEvents} = props;
 
     // Fondo opaco
@@ -82,7 +82,7 @@ const Header = (props) => {
     const [search, setSeach] = useState("");
 
     const handleInputChange = (event) => {
-        setSeach(event.target.value);
+        //searchBar=event.target.value;
         searchEvents(event.target.value);
 
     };
@@ -117,7 +117,7 @@ const Header = (props) => {
                     type="text"
                     placeholder="Buscar evento"
                     onChange={handleInputChange}
-                    value={search}
+                    value={searchBar}
                 />
             </div>
 
@@ -307,6 +307,7 @@ const mapStateToProps = (state) => {
     return {
         isLogin: state.isLogin,
         userData: state.userData,
+        searchBar: state.searchBar
     };
 };
 

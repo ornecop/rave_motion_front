@@ -77,6 +77,7 @@ const rootReducer = (state = initialState, action) => {
         case EVENTS_SET_HOME_EVENTS:
             return {
                 ...state,
+                searchBar:"",
                 homeEvents: state.allEvents,
                 currentPage: 1,
                 homeFilterByProducer: FILTER_TYPES.BY_PRODUCER.ALL,
@@ -91,6 +92,7 @@ const rootReducer = (state = initialState, action) => {
         case EVENTS_SEARCH:
             return {
                 ...state,
+                searchBar:action.payload,
                 homeEvents: state.allEvents.filter((event) =>
                     event.name
                         .toLowerCase()
@@ -115,6 +117,7 @@ const rootReducer = (state = initialState, action) => {
         case EVENTS_SET_START_DATE_FILTER_BY_DATE:
             return {
                 ...state,
+                searchBar:"",
                 homeFilterByDate: {
                     ...state.homeFilterByDate,
                     startDate: action.payload.setHours(0, 0, 0, 0),
@@ -124,6 +127,7 @@ const rootReducer = (state = initialState, action) => {
         case EVENTS_SET_END_DATE_FILTER_BY_DATE:
             return {
                 ...state,
+                searchBar:"",
                 homeFilterByDate: {
                     ...state.homeFilterByDate,
                     endDate: action.payload.setHours(23, 59, 59, 999),
@@ -144,6 +148,7 @@ const rootReducer = (state = initialState, action) => {
 
             return {
                 ...state,
+                searchBar:"",
                 homeEvents: filteredAndSortedEvents1,
                 currentPage: 1,
             };
@@ -162,6 +167,7 @@ const rootReducer = (state = initialState, action) => {
 
             return {
                 ...state,
+                searchBar:"",
                 homeEvents: filteredAndSortedEvents2,
                 homeFilterByProducer: action.payload,
                 currentPage: 1,
@@ -182,6 +188,7 @@ const rootReducer = (state = initialState, action) => {
 
             return {
                 ...state,
+                searchBar:"",
                 homeEvents: sortedAndFilteredEvents3,
                 homeSort: action.payload,
                 currentPage: 1,
