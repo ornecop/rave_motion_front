@@ -317,7 +317,8 @@ const EventDetail = (props) => {
                                                     <button
                                                         className="btnPrimary"
                                                         onClick={buyTickets}
-                                                        disabled={error}
+                                                        disabled={error||(userData.id ===
+                                                        eventDetail.userId)||(total===0)}
                                                     >
                                                         Comprar
                                                     </button>

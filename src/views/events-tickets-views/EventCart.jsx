@@ -175,6 +175,7 @@ const EventCart = () => {
                                     </thead>
                                     <tbody>
                                         {ticketsToPay?.map((ticket) => (
+                                            ticket.quantity?(
                                             <tr
                                                 className="border-b"
                                                 key={ticket.id}
@@ -199,7 +200,7 @@ const EventCart = () => {
                                                     ).toLocaleString("es")}
                                                 </td>
                                             </tr>
-                                        ))}
+                                        ):<></>))}
                                         <tr
                                             className="font-semibold border-t-4 border-fuchsia-600 rounded-md"
                                             key="sum"
