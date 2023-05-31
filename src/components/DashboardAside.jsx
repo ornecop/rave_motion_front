@@ -99,7 +99,8 @@ const DashboardAside = ({
                 </div>
                 <div className="dropDownItem ">
                     <Link className="navLinkDropdown" to="/changepassword">
-                        <div className="flex flex-row items-center gap-2">
+                        <div className="flex flex-row items-center gap-2"
+                        onClick={handleSignOutClick}>
                             <GoLock size="1.5rem" />
                             Cambiar contraseña
                         </div>
