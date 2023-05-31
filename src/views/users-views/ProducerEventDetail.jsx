@@ -29,12 +29,12 @@ import {
     MdArrowBackIos,
     MdOutlineDashboardCustomize,
 } from "react-icons/md";
-
+import { HiMenu } from "react-icons/hi";
 // Axios
 import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-const ProducerEventDetail = ({ eventId, userData }) => {
+const ProducerEventDetail = ({ eventId, userData, setShowAside }) => {
     // Get event dashboard detail
     const [event, setEvent] = useState({});
 
@@ -119,12 +119,13 @@ const ProducerEventDetail = ({ eventId, userData }) => {
     }, [event]);
 
     return (
-        <section className="flex flex-col w-5/6 px-8 py-4">
+        <section className="flex flex-col w-full lg:w-5/6 px-4 lg:px-8 lg:py-4">
             {event.events ? (
                 <>
                     {/* Seccion nombre y fecha */}
                     <>
-                        <nav className="flex flex-row place-content-between w-full h-16 ">
+                        {/* Nav  */}
+                        <nav className="hidden lg:flex flex-row place-content-between w-full h-16 ">
                             <div className="flex justify-self-start items-center">
                                 <span className="text-4xl font-semibold">
                                     {event.events}
@@ -144,9 +145,37 @@ const ProducerEventDetail = ({ eventId, userData }) => {
                             </div>
                         </nav>
 
-                        <div className="flex flex-row w-full items-center justify-start gap-2 text-fuchsia-400 font-semibold text-xl">
-                            <AiOutlineCalendar size="1.75rem" />
-                            <span className="">
+                        {/* Nav Responsive */}
+                        <nav className="grid grid-cols-2 w-full h-16 items-center lg:hidden my-4">
+                            <div className="flex lg:hidden justify-self-start items-center">
+                                <button
+                                    className="block lg:hidden px-4 py-0 w-fit"
+                                    onClick={() => setShowAside(true)}
+                                >
+                                    <HiMenu size="3rem" />
+                                </button>
+                            </div>
+
+                            <div className="flex justify-self-end items-center">
+                                <Link
+                                    to="/dashboard"
+                                    className="flex flex-row btnPrimary items-center px-4 py-1 w-fit"
+                                >
+                                    <MdArrowBackIos size="1.8rem" />
+                                    <MdOutlineDashboardCustomize size="2rem" />
+                                </Link>
+                            </div>
+                        </nav>
+
+                        <div className="flex justify-self-start items-center my-4">
+                            <span className="text-2xl font-semibold">
+                                {event.events}
+                            </span>
+                        </div>
+
+                        <div className="flex flex-row w-full items-center justify-start gap-2 text-fuchsia-400 font-semibold my-2">
+                            <AiOutlineCalendar size="1.2rem" />
+                            <span className="text-base">
                                 <EventDate
                                     date={event.date}
                                     hour={event.hour}
@@ -167,8 +196,8 @@ const ProducerEventDetail = ({ eventId, userData }) => {
                     {/* NavBar tickets */}
                     <nav className="flex flex-row place-content-between w-full h-16 mt-8 items-center">
                         <div className="flex justify-self-start items-center">
-                            <span className="text-4xl font-semibold">
-                                Tickets de tu evento
+                            <span className="text-2xl lg:text-4xl font-semibold">
+                                Tickets
                             </span>
                         </div>
 
@@ -177,7 +206,7 @@ const ProducerEventDetail = ({ eventId, userData }) => {
                                 htmlFor="sort"
                                 className="font-semibold text-lg"
                             >
-                                Ordenar por:
+                                Ordenar:
                             </label>
                             <select
                                 className="inputSelect bg-secondary border-secondaryBorder text-white w-fit"
@@ -206,8 +235,8 @@ const ProducerEventDetail = ({ eventId, userData }) => {
                     </nav>
 
                     {/* Tickets */}
-                    <div className="overflow-y-auto overflow-x-hidden mt-4 scrollbar:!w-1.5 scrollbar:!h-1.5 scrollbar:bg-transparent scrollbar-track:!bg-slate-100 scrollbar-thumb:!rounded scrollbar-thumb:!bg-slate-300 scrollbar-track:!rounded">
-                        <table className="w-full text-start bg-secondary border border-secondaryBorder mx-2 my-4 mb-8">
+                    <div className="overflow-y-auto overflow-x-hidden mt-4">
+                        <table className="w-full mx-0 table-fixed text-start bg-secondary border border-secondaryBorder lg:mx-2 my-4 mb-8">
                             <thead className="sticky top-0 z-40 bg-secondary font-semibold">
                                 <tr className="relative">
                                     <th
@@ -225,13 +254,13 @@ const ProducerEventDetail = ({ eventId, userData }) => {
 
                                     <th
                                         scope="col"
-                                        className="px-2 py-6 text-center"
+                                        className="px-2 py-6 text-center hidden lg:block"
                                     >
                                         Ventas
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-6 text-center"
+                                        className="px-2 py-6 text-center hidden lg:block"
                                     >
                                         Facturación
                                     </th>
@@ -239,7 +268,7 @@ const ProducerEventDetail = ({ eventId, userData }) => {
                                         scope="col"
                                         className="px-2 py-6 text-center"
                                     >
-                                        Tickets disponibles
+                                        Disponibles
                                     </th>
                                     <th
                                         scope="col"
@@ -281,7 +310,7 @@ const ProducerEventDetail = ({ eventId, userData }) => {
                                             </td>
 
                                             <td
-                                                className={`px-2 py-4 text-center ${
+                                                className={`px-2 py-4 text-center hidden lg:block ${
                                                     sort.slice(0, 5) ===
                                                         "sells" &&
                                                     "text-fuchsia-300"
@@ -290,7 +319,7 @@ const ProducerEventDetail = ({ eventId, userData }) => {
                                                 {ticket.sells}
                                             </td>
 
-                                            <td className="px-2 py-4 text-center">
+                                            <td className="px-2 py-4 text-center hidden lg:block">
                                                 $
                                                 {ticket.totalAmount.toLocaleString(
                                                     "es"
@@ -342,7 +371,7 @@ const ProducerEventDetail = ({ eventId, userData }) => {
                     </div>
                 </>
             ) : (
-                <div className="flex flex-col h-full">
+                <div className="flex flex-col h-screen">
                     <Loading />
                 </div>
             )}
