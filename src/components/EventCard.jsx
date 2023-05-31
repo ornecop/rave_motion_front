@@ -41,7 +41,7 @@ export const EventCard = ({ id, name, image, date, venue, hour }) => {
                 </div>
                 <div className="flex flex-row items-center justify-start py-2 gap-2 lg:border-b lg:border-secondaryBorder">
                     <span className="hidden lg:flex flex-row items-center gap-2">
-                        <ImLocation2 size="1.3rem" />
+                        <ImLocation2 size="1.3rem" />{venue}
                     </span>
                     <span className="lg:hidden flex flex-row items-center gap-2 text-sm">
                         <ImLocation2 size="1rem" />
