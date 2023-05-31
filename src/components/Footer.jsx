@@ -1,34 +1,42 @@
 import React from "react";
-
-// React router dom
 import { Link } from "react-router-dom";
 
 const Footer = () => {
-    const date = new Date();
+  const date = new Date();
+  const currentYear = date.getFullYear();
 
-    return (
-        <div className="grid grid-cols-2 w-full h-12 content-center">
-            <div className="flex justify-self-start items-center ml-4">
-                <Link
-                    to="https://github.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="link text-white"
-                >
-                    RaveMotion
-                </Link>
-                {"  "} © {date.getFullYear()}
-            </div>
+  const handleEmailClick = () => {
+    window.location.href = "mailto:info@ravemotion.com?subject=Quiero%20ser%20promotor";
+  };
 
-            <div className="flex justify-self-end items-center mr-4 gap-6">
-                <a
-                    href="mailto:info@ravemotion.com?subject=Quiero%ser%promotor"
-                    className="link text-white"
-                >
-                    Vende con nosotros
-                </a>
+  return (
+    <div className="w-full">
+        <hr className="bg-gradient-to-r from-pink-600 to-fuchsia-900 h-0.5 border-0 my-4 mx-auto w-3/4 sm:w-2/4 md:w-3/4 lg:w-3/4 xl:w-3/4 mb-8 md:mb-10 mt-10" />
+
+        <div className="flex justify-center">
+            <div className="flex flex-col items-start">
+                <ul className="flex flex-col gap-4">
+                    <li>
+                        <Link to="/about" className="link text-white text-xl">
+                            Nosotros
+                        </Link>
+                    </li>
+                    <li>
+                        <button className="link text-white text-xl" onClick={handleEmailClick}>
+                            Vende con nosotros
+                        </button>
+                    </li>
+                </ul>
             </div>
         </div>
+
+        <div className="flex justify-center items-center mt-16">
+            <p className="text-center mb-8 text-sm">
+                © 2023 RaveMotion, todos los derechos reservados. 
+            </p>
+        </div>
+
+    </div>
     );
 };
 
