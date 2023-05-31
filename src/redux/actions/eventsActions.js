@@ -45,7 +45,6 @@ export const getAllEventsFinalized = () => {
         try {
             const events = (await axios.get(`${BACKEND_URL}/events/finalized`))
                 .data;
-            console.log(events);
             dispatch({ type: EVENTS_FINALIZED_GET_ALL, payload: events });
         } catch (error) {
             dispatch({

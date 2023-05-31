@@ -58,7 +58,6 @@ import { applySort } from "../../functions/applySort";
 
 // Root reducer ===========================================
 const rootReducer = (state = initialState, action) => {
-    console.log(state);
     switch (action.type) {
         // Events Actions =================================
 
@@ -82,7 +81,7 @@ const rootReducer = (state = initialState, action) => {
                 currentPage: 1,
                 homeFilterByProducer: FILTER_TYPES.BY_PRODUCER.ALL,
                 homeFilterByDate: {
-                    startDate: new Date(),
+                    startDate: new Date().setHours(0, 0, 0, 0),
                     endDate: "",
                 },
                 homeSort: SORT_TYPES.DEFAULT,
