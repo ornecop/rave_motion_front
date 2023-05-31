@@ -38,6 +38,26 @@ export const EventCardF = ({ id, name, image, date, venue, hour,userData }) => {
   const [modalIsOpen,setIsOpen] = useState(false);
   const [averageRating, setAverageRating] = useState(null);
   const [totalCritics, setTotalCritics] = useState(null);
+
+  const [disable, setDisable]=useState(true);
+  let cont=0
+  useEffect(()=>{
+    console.log(userData.id);
+    axios.get(`${BACKEND_URL}/userTickets/ticketsByUser/${userData.id}`)
+    .then(response=>{
+       response.data.map((ticket)=>{
+        if(ticket.eventId===id){
+            cont++;
+        }})
+        if(cont!==0){
+            setDisable(false)
+        }
+        console.log(cont);
+        console.log(disable); 
+    })
+  },[userData.id])
+
+
   useEffect(() => {
     
     axios.get(`${BACKEND_URL}/events/rating/${id}`) 
@@ -65,9 +85,11 @@ const handleRateClick = () => {
   const updateRating = async (id, rating, userId) => {
     try {
       const response = await axios.put(`${BACKEND_URL}/events/rating`, { id, rating, userId });
+      console.log(response.data);
       return response.data;
     } catch (err) {
       console.error(err);
+      return err
     }
   };
  const onStarClick = (nextValue, prevValue, name) => {
@@ -78,15 +100,15 @@ const handleRateClick = () => {
     const userId = userData.id;
     try {
      const ratingP = await updateRating(id, rating, userId);
+        const ratedEvents = JSON.parse(localStorage.getItem('ratedEvents')) || {};
+        ratedEvents[id] = true;
+        localStorage.setItem('ratedEvents', JSON.stringify(ratedEvents));
      // Almacenar en el almacenamiento local que el usuario ha calificado este evento
-     const ratedEvents = JSON.parse(localStorage.getItem('ratedEvents')) || {};
-     ratedEvents[id] = true;
-     localStorage.setItem('ratedEvents', JSON.stringify(ratedEvents));
+     
     } catch (error) {
       console.error('Failed to update rating:', error);
     }
   };
-  console.log({averageRating})
     return (
       
         <div className="h-[15rem] w-[35rem] mx-auto flex flex-row bg-slate-900 rounded-xl border border-secondaryBorder">
@@ -119,7 +141,7 @@ const handleRateClick = () => {
     <div className="flex items-center">
         <StarRatingStatic rating={averageRating} /> ({totalCritics})
     </div>
-    <button className="bg-blue-600 text-white px-10 py-3 mt-4 rounded text-sm" onClick={handleRateClick}>
+    <button className="bg-blue-600 text-white px-10 py-3 mt-4 rounded text-sm" style={{ cursor: disable ? "not-allowed" : "auto" }}onClick={handleRateClick} disabled={disable}>
         Calificar
     </button>
 </div>
