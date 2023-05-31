@@ -265,16 +265,16 @@ const Header = (props) => {
                                                 Dashboard
                                             </Link>
                                         </div>
-                                        <div className="dropDownItem">
+                                    </>
+                                )}
+                                <div className="dropDownItem">
                                             <div
                                                 onClick={handleSignOut}
                                                 className="navLinkDropdown"
                                             >
                                                 Cerrar Sesión
                                             </div>
-                                        </div>
-                                    </>
-                                )}
+                                </div>
                             </>
                         ) : (
                             <>
