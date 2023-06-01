@@ -165,7 +165,6 @@ const handleRateClick = () => {
     Cerrar
   </button>
 </Modal>
-
     </div>
     </div>
   );
