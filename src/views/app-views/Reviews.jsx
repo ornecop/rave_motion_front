@@ -1,3 +1,4 @@
+
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import Loading from "../../components/Loading";
@@ -47,7 +48,7 @@ const Reviews = ({ allEvents, homeEvents, currentPage, eventsPerPage }) => {
     return (
         <div>
             {" "}
-            <div className="w-full">
+            <div className="w-full px-52">
                 {/* Carrousel */}
                 <div className="h-96 overflow-hidden relative">
                     <div
@@ -75,6 +76,7 @@ const Reviews = ({ allEvents, homeEvents, currentPage, eventsPerPage }) => {
                     {totalPages ? currentPage : "0"} / {totalPages}
                 </div>
             </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 m-4 min-h-screen justify-items-center">
                 {paginatedEvents.map((event) => (
                     <EventCardF
