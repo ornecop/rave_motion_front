@@ -38,7 +38,7 @@ const Home = (props) => {
     const { getAllEvents } = props;
 
     useEffect(() => {
-        !allEvents.length && getAllEvents();
+        getAllEvents();
     }, [getAllEvents]);
 
     // Carousel
