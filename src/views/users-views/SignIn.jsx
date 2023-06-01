@@ -189,8 +189,9 @@ const SignIn = ({ signIn, userSignError, isLogin }) => {
                 </Formik>
 
                 {/* Google */}
-                <GoogleLogin />
-
+                <div className="flex justify-center"> 
+    <GoogleLogin />
+</div>
                 {/* Links */}
                 <div className="flex flex-col mt-8">
                     <div className="text-center flex-row my-1">

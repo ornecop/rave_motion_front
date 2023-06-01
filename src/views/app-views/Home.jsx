@@ -32,13 +32,13 @@ import {
 
 const Home = (props) => {
     // Global State
-    const { allEvents, homeEvents, currentPage, eventsPerPage } = props;
+    const { homeEvents, currentPage, eventsPerPage } = props;
 
     // Actions
     const { getAllEvents } = props;
 
     useEffect(() => {
-        !allEvents.length && getAllEvents();
+        getAllEvents();
     }, [getAllEvents]);
 
     // Carousel
@@ -78,7 +78,7 @@ const Home = (props) => {
     useEffect(() => {
         setTimeout(() => {
             setIsLoading(false);
-        }, 1000);
+        }, 1500);
     }, []);
 
     return (
@@ -123,7 +123,7 @@ const Home = (props) => {
                 ) : (
                     <EventContainer paginatedEvents={paginatedEvents} />
                 )}
-            </div>
+            </div> 
             <Paginado totalPages={totalPages} />
         </div>
     );

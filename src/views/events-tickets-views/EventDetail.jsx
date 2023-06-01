@@ -1,6 +1,11 @@
 /* =======================================================
 VIEW EventDetail - "/event/:eventName" - Vista a la que redirección al tocar un evento
 */
+// Axios
+import axios from "axios";
+
+// Backend URL
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // Hooks
 import { useEffect, useState } from "react";
@@ -196,7 +201,7 @@ const EventDetail = (props) => {
                     </div>
 
                     {/* Flecha abajo */}
-                    <div className="flex flex-row w-full items-center justify-center py-4 gap-2 text-2xl text-fuchsia-600 font-semibold">
+                    <div className="flex flex-row w-full items-center justify-center py-4 gap-2 lg:gap-6 text-2xl text-fuchsia-600 font-semibold">
                         <ScrollLink to="tickets" smooth={true} duration={500}>
                             <FaArrowDown size="3rem" className="" />
                         </ScrollLink>
@@ -235,7 +240,7 @@ const EventDetail = (props) => {
                                 </div>
                                 {/* Tabla de tickets */}
                                 <div className="flex flex-col w-full items-center justify-center pb-4 ">
-                                    <table className="w-full text-start">
+                                    <table className="w-full text-start table-fixed">
                                         <thead className="font-semibold border-b-4 border-fuchsia-600">
                                             <tr>
                                                 <th
@@ -317,7 +322,8 @@ const EventDetail = (props) => {
                                                     <button
                                                         className="btnPrimary"
                                                         onClick={buyTickets}
-                                                        disabled={error}
+                                                        disabled={error||(userData.id ===
+                                                        eventDetail.userId)||(total===0)}
                                                     >
                                                         Comprar
                                                     </button>

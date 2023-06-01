@@ -213,7 +213,7 @@ const ProducerDashboard = (props) => {
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-6 text-center hidden lg:block"
+                                        className="px-2 py-6 text-center hidden lg:table-cell"
                                     >
                                         Fecha
                                     </th>
@@ -226,7 +226,7 @@ const ProducerDashboard = (props) => {
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-6 text-center hidden lg:block"
+                                        className="px-2 py-6 text-center hidden lg:table-cell"
                                     >
                                         Opciones tickets
                                     </th>
@@ -255,7 +255,7 @@ const ProducerDashboard = (props) => {
                                                     </Tooltip>
                                                 </Link>
                                             </td>
-                                            <td className="px-2 py-4 text-center hidden lg:block">
+                                            <td className="px-2 py-4 text-center hidden lg:table-cell">
                                                 <EventDate
                                                     date={event.date}
                                                     hour={event.hour}
@@ -268,7 +268,7 @@ const ProducerDashboard = (props) => {
                                                 />
                                             </td>
 
-                                            <td className="px-2 py-4 justify-center hidden lg:block">
+                                            <td className="px-2 py-4 justify-center hidden lg:table-cell">
                                                 <div className="flex flex-row gap-6 items-center justify-center">
                                                     <Tooltip tooltip="Proximamente">
                                                         <span className="link cursor-not-allowed">
@@ -313,9 +313,12 @@ const ProducerDashboard = (props) => {
                     </div>
                 </section>
             ) : view === DASHBOARD_VIEWS.EVENT_DETAIL ? (
-                <ProducerEventDetail eventId={eventId} />
+                <ProducerEventDetail
+                    eventId={eventId}
+                    setShowAside={setShowAside}
+                />
             ) : (
-                <div className="flex flex-col w-5/6 px-8 py-4">
+                <div className="flex flex-col w-full lg:w-5/6 px-4 lg:px-8 lg:py-4">
                     <div className="flex flex-col w-full h-full items-center justify-center">
                         <h2 className="font-bold text-center text-6xl">
                             LO SENTIMOS
