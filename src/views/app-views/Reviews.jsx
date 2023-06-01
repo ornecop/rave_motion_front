@@ -1,18 +1,18 @@
-import { useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import Loading from "../../components/Loading";
 import EventCardF from "../../components/EventCardFinalized";
-import Paginado from "../../components/Paginado"
+import Paginado from "../../components/Paginado";
 const images = [
-  "https://wallpapercave.com/wp/wp1889483.jpg",
-  "https://wallpapercave.com/wp/wp1889488.jpg",
+    "https://wallpapercave.com/wp/wp1889483.jpg",
+    "https://wallpapercave.com/wp/wp1889488.jpg",
 ];
 import { getAllEventsFinalized } from "../../redux/actions/eventsActions";
 const Reviews = () => {
-  const dispatch= useDispatch()
-  const events = useSelector((state) => state.allEventsF);
-  const allEvents = useSelector((state) => state.homeEventsF);
-  const allEventos = useSelector((state) => state.homeEventsF);
+    const dispatch = useDispatch();
+    const events = useSelector((state) => state.allEventsF);
+    const allEvents = useSelector((state) => state.homeEventsF);
+    const allEventos = useSelector((state) => state.homeEventsF);
 
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
@@ -39,13 +39,13 @@ const Reviews = () => {
     }, []);
 
     useEffect(() => {
-      !events.length && dispatch(getAllEventsFinalized());
-  }, []);
+        !events.length && dispatch(getAllEventsFinalized());
+    }, []);
     return (
         <>
             <div className="w-full">
                 {/* Carrousel */}
-                <div className="h-60 overflow-hidden relative">
+                <div className="h-96 overflow-hidden relative">
                     <div
                         className="h-full w-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 transform"
                         style={{
@@ -71,21 +71,21 @@ const Reviews = () => {
                 </div>
             </div>
             <div className="my-6 mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 m-4 min-h-screen justify-items-center">
-                {events.map((event) => (
-                    <EventCardF
-                        key={event.id}
-                        id={event.id}
-                        name={event.name}
-                        producer={event.producer}
-                        image={event.image}
-                        hour={event.hour}
-                        venue={event.venue}
-                        date={event.date}
-                    />
-                ))}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 m-4 min-h-screen justify-items-center">
+                    {events.map((event) => (
+                        <EventCardF
+                            key={event.id}
+                            id={event.id}
+                            name={event.name}
+                            producer={event.producer}
+                            image={event.image}
+                            hour={event.hour}
+                            venue={event.venue}
+                            date={event.date}
+                        />
+                    ))}
+                </div>
             </div>
-        </div>
             <div className="flex items-center justify-center">
                 {isLoading ? (
                     <Loading />
@@ -100,7 +100,6 @@ const Reviews = () => {
                     </div>
                 ) : (
                     <div>
-   
                         {isLoading ? null : (
                             <Paginado
                                 eventsPerPage={eventsPerPage}

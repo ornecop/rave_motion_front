@@ -235,8 +235,8 @@ const ProducerEventDetail = ({ eventId, userData, setShowAside }) => {
                     </nav>
 
                     {/* Tickets */}
-                    <div className="overflow-y-auto overflow-x-hidden mt-4">
-                        <table className="w-full mx-0 table-fixed text-start bg-secondary border border-secondaryBorder lg:mx-2 my-4 mb-8">
+                    <div className="overflow-y-auto overflow-x-hidden mt-4 s">
+                        <table className="w-full text-start bg-secondary border border-secondaryBorder mx-2 my-4 mb-8">
                             <thead className="sticky top-0 z-40 bg-secondary font-semibold">
                                 <tr className="relative">
                                     <th
@@ -254,13 +254,13 @@ const ProducerEventDetail = ({ eventId, userData, setShowAside }) => {
 
                                     <th
                                         scope="col"
-                                        className="px-2 py-6 text-center hidden lg:block"
+                                        className="px-2 py-6 text-center hidden lg:table-cell"
                                     >
                                         Ventas
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-6 text-center hidden lg:block"
+                                        className="px-2 py-6 text-center hidden lg:table-cell"
                                     >
                                         Facturación
                                     </th>
@@ -310,7 +310,7 @@ const ProducerEventDetail = ({ eventId, userData, setShowAside }) => {
                                             </td>
 
                                             <td
-                                                className={`px-2 py-4 text-center hidden lg:block ${
+                                                className={`px-2 py-4 text-center hidden lg:table-cell ${
                                                     sort.slice(0, 5) ===
                                                         "sells" &&
                                                     "text-fuchsia-300"
@@ -319,7 +319,7 @@ const ProducerEventDetail = ({ eventId, userData, setShowAside }) => {
                                                 {ticket.sells}
                                             </td>
 
-                                            <td className="px-2 py-4 text-center hidden lg:block">
+                                            <td className="px-2 py-4 text-center hidden lg:table-cell">
                                                 $
                                                 {ticket.totalAmount.toLocaleString(
                                                     "es"
