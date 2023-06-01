@@ -1,3 +1,4 @@
+
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import Loading from "../../components/Loading";
@@ -46,10 +47,10 @@ const Reviews = ({ allEvents, homeEvents, currentPage, eventsPerPage }) => {
     }, []);
     return (
         <div>
-            {" "}
-            <div className="w-full">
-                {/* Carrousel */}
-                <div className="h-96 overflow-hidden relative">
+            <div className="w-full px-2 sm:px-0">
+                {/* Carousel */}
+                <div className="h-64 sm:h-96 overflow-hidden relative">
+                    {/* Carousel images */}
                     <div
                         className="h-full w-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 transform"
                         style={{
@@ -60,44 +61,41 @@ const Reviews = ({ allEvents, homeEvents, currentPage, eventsPerPage }) => {
                     <div
                         className="h-full w-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 transform"
                         style={{
-                            backgroundImage: `url(${
-                                currentImage === images[0]
-                                    ? images[1]
-                                    : images[0]
-                            })`,
+                            backgroundImage: `url(${currentImage === images[0] ? images[1] : images[0]})`,
                             transform: "translateX(100%)",
                         }}
                     ></div>
                 </div>
-                {/* Paginado */}
-                <div className="flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 bg-secondary rounded-full border border-secondaryBorder mr-4">
-                    <>{allEvents.length} Resultados</> | Página{" "}
-                    {totalPages ? currentPage : "0"} / {totalPages}
+                {/* Pagination */}
+                <div className="flex w-fit justify-self-end my-2 items-center gap-2 sm:gap-6 py-1 px-2 sm:px-4 bg-secondary rounded-full border border-secondaryBorder mr-2 sm:mr-4">
+                    <>{allEvents.length} Resultados</> | Página {totalPages ? currentPage : "0"} / {totalPages}
                 </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 m-4 min-h-screen justify-items-center">
-                {paginatedEvents.map((event) => (
-                    <EventCardF
-                        key={event.id}
-                        id={event.id}
-                        name={event.name}
-                        producer={event.producer}
-                        image={event.image}
-                        hour={event.hour}
-                        venue={event.venue}
-                        date={event.date}
-                    />
-                ))}
-            </div>
+    
+            <div className="grid grid-cols-1 gap-6 m-2 sm:m-4 min-h-screen justify-items-center">
+    {paginatedEvents.map((event) => (
+        <EventCardF
+            key={event.id}
+            id={event.id}
+            name={event.name}
+            producer={event.producer}
+            image={event.image}
+            hour={event.hour}
+            venue={event.venue}
+            date={event.date}
+            className="min-h-[20rem]"
+        />
+    ))}
+</div>
             <div className="flex items-center justify-center">
                 {isLoading ? (
                     <Loading />
                 ) : paginatedEvents.length === 0 ? (
                     <div className="flex flex-col w-full h-full items-center justify-center">
-                        <h2 className="font-bold text-center text-5xl">
+                        <h2 className="font-bold text-center text-4xl sm:text-5xl">
                             LO SENTIMOS
                         </h2>
-                        <h3 className="text-white text-xl text-center">
+                        <h3 className="text-white text-lg sm:text-xl text-center">
                             No se han encontrado resultados
                         </h3>
                     </div>
@@ -111,7 +109,8 @@ const Reviews = ({ allEvents, homeEvents, currentPage, eventsPerPage }) => {
             </div>
         </div>
     );
-};
+    
+}    
 
 const mapStateToProps = (state) => {
     return {

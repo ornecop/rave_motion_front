@@ -2,7 +2,7 @@ import EventCard from "./EventCard";
 
 const EventContainer = ({ paginatedEvents }) => {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 m-4 min-h-screen justify-items-center">
+        <div className="grid grid-cols-1 px-52 md:grid-cols-2 gap-12 m-4 min-h-screen justify-items-center">
             {paginatedEvents.map((event) => (
                 <EventCard
                     key={event.id}

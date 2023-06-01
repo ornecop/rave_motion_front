@@ -109,19 +109,18 @@ const handleRateClick = () => {
       console.error('Failed to update rating:', error);
     }
   };
-    return (
-      
-        <div className="h-[15rem] w-[35rem] mx-auto flex flex-row bg-slate-900 rounded-xl border border-secondaryBorder">
-            <div className="w-[15rem] rounded-l-xl">    
-                    <div
-                        className="h-full w-full rounded-l-xl bg-cover bg-bottom bg-no-repeat"
-                        style={{
-                            backgroundImage: `url(${image})`,
-                        }}
-                        loading="lazy"
-                    ></div>
-            </div>
-            <div className="w-[20rem] flex flex-col py-4 px-4 rounded-r-xl">
+  return (
+<div className="min-h-[20rem] md:h-[15rem] w-full md:w-[35rem] mx-auto flex flex-col md:flex-row bg-slate-900 rounded-xl border border-secondaryBorder">
+    <div className="w-full md:w-[15rem] rounded-t-xl md:rounded-l-xl md:rounded-tr-none">    
+      <div
+        className="h-[10rem] md:h-full w-full rounded-t-xl md:rounded-l-xl bg-cover bg-bottom bg-no-repeat"
+        style={{
+            backgroundImage: `url(${image})`,
+        }}
+        loading="lazy"
+      ></div>
+    </div>
+    <div className="w-full md:w-[20rem] flex flex-col justify-between py-4 px-4 rounded-b-xl md:rounded-r-xl space-y-4">
                 <div className="flex flex-row items-center justify-center py-0 border-b border-secondaryBorder">
                     <h2 className="text-xl align-center font-semibold">
                         {name}
