@@ -213,7 +213,7 @@ const ProducerDashboard = (props) => {
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-6 text-center hidden lg:block"
+                                        className="px-2 py-6 text-center hidden lg:table-cell"
                                     >
                                         Fecha
                                     </th>
@@ -226,7 +226,7 @@ const ProducerDashboard = (props) => {
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-6 text-center hidden lg:block"
+                                        className="px-2 py-6 text-center hidden lg:table-cell"
                                     >
                                         Opciones tickets
                                     </th>
@@ -255,7 +255,7 @@ const ProducerDashboard = (props) => {
                                                     </Tooltip>
                                                 </Link>
                                             </td>
-                                            <td className="px-2 py-4 text-center hidden lg:block">
+                                            <td className="px-2 py-4 text-center hidden lg:table-cell">
                                                 <EventDate
                                                     date={event.date}
                                                     hour={event.hour}
@@ -268,7 +268,7 @@ const ProducerDashboard = (props) => {
                                                 />
                                             </td>
 
-                                            <td className="px-2 py-4 justify-center hidden lg:block">
+                                            <td className="px-2 py-4 justify-center hidden lg:table-cell">
                                                 <div className="flex flex-row gap-6 items-center justify-center">
                                                     <Tooltip tooltip="Proximamente">
                                                         <span className="link cursor-not-allowed">
