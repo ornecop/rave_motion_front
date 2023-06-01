@@ -386,7 +386,7 @@ const TicketsCreate = (props) => {
                                                         >
                                                             <td
                                                                 scope="row"
-                                                                className="px-2 py-4 font-medium whitespace-nowrap"
+                                                                className="px-2 py-4 font-medium"
                                                             >
                                                                 {index + 1}
                                                             </td>
