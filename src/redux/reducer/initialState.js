@@ -11,6 +11,8 @@ const initialState = {
 
     eventsPerPage: 10,
     currentPage: 1,
+    currentPageF: 1,
+    eventsPerPageF: 10,
 
     homeFilterByProducer: FILTER_TYPES.BY_PRODUCER.ALL,
     homeFilterByDate: {
@@ -18,6 +20,8 @@ const initialState = {
         endDate: "",
     },
     homeSort: SORT_TYPES.DEFAULT,
+
+    searchBar:"",
 
     // Detail event
     eventDetail: {},
@@ -46,6 +50,9 @@ const initialState = {
 
     // Cart
     selectedTickets: {},
+
+    // Reservaciones
+    reservas: 0,
 };
 
 export default initialState;

@@ -123,7 +123,7 @@ const Home = (props) => {
                 ) : (
                     <EventContainer paginatedEvents={paginatedEvents} />
                 )}
-            </div>
+            </div> 
             <Paginado totalPages={totalPages} />
         </div>
     );

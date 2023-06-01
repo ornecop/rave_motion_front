@@ -36,6 +36,7 @@ import Loading from "../../components/Loading";
 // Consts
 import { SECONDS_TO_PAY } from "../../const";
 
+
 const EventCart = () => {
     // Global state
     const userData = useSelector((state) => state.userData);
@@ -124,6 +125,9 @@ const EventCart = () => {
         }
     }, [totalToPay]);
 
+
+    console.log(selectedTickets)
+
     return (
         <div className="w-full">
             <div className="h-16"></div>
@@ -175,6 +179,7 @@ const EventCart = () => {
                                     </thead>
                                     <tbody>
                                         {ticketsToPay?.map((ticket) => (
+                                            ticket.quantity?(
                                             <tr
                                                 className="border-b"
                                                 key={ticket.id}
@@ -199,7 +204,7 @@ const EventCart = () => {
                                                     ).toLocaleString("es")}
                                                 </td>
                                             </tr>
-                                        ))}
+                                        ):<></>))}
                                         <tr
                                             className="font-semibold border-t-4 border-fuchsia-600 rounded-md"
                                             key="sum"

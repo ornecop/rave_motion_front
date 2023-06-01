@@ -1,6 +1,11 @@
 /* =======================================================
 VIEW EventDetail - "/event/:eventName" - Vista a la que redirección al tocar un evento
 */
+// Axios
+import axios from "axios";
+
+// Backend URL
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // Hooks
 import { useEffect, useState } from "react";
@@ -317,7 +322,8 @@ const EventDetail = (props) => {
                                                     <button
                                                         className="btnPrimary"
                                                         onClick={buyTickets}
-                                                        disabled={error}
+                                                        disabled={error||(userData.id ===
+                                                        eventDetail.userId)||(total===0)}
                                                     >
                                                         Comprar
                                                     </button>

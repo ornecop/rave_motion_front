@@ -60,4 +60,4 @@ export const EventCard = ({ id, name, image, date, venue, hour }) => {
         </div>
     );
 };
-export default EventCard;
+export default EventCard;

@@ -17,8 +17,8 @@ import rave from "../assets/logo3.png";
 import { GrMenu } from "react-icons/gr";
 
 const Header = (props) => {
-    const { isLogin, userData, signOut } = props;
-    const { searchEvents, setAllEventsOnHomeEvents } = props;
+    const { isLogin, userData, signOut, searchBar } = props;
+    const { searchEvents} = props;
 
     // Fondo opaco
     const [opacity, setOpacity] = useState(0);
@@ -82,9 +82,9 @@ const Header = (props) => {
     const [search, setSeach] = useState("");
 
     const handleInputChange = (event) => {
-        setSeach(event.target.value);
+        //searchBar=event.target.value;
         searchEvents(event.target.value);
-        event.target.value === "" && setAllEventsOnHomeEvents();
+
     };
 
     // Sign Out
@@ -117,7 +117,7 @@ const Header = (props) => {
                     type="text"
                     placeholder="Buscar evento"
                     onChange={handleInputChange}
-                    value={search}
+                    value={searchBar}
                 />
             </div>
 
@@ -265,16 +265,16 @@ const Header = (props) => {
                                                 Dashboard
                                             </Link>
                                         </div>
-                                        <div className="dropDownItem">
+                                    </>
+                                )}
+                                <div className="dropDownItem">
                                             <div
                                                 onClick={handleSignOut}
                                                 className="navLinkDropdown"
                                             >
                                                 Cerrar Sesión
                                             </div>
-                                        </div>
-                                    </>
-                                )}
+                                </div>
                             </>
                         ) : (
                             <>
@@ -307,6 +307,7 @@ const mapStateToProps = (state) => {
     return {
         isLogin: state.isLogin,
         userData: state.userData,
+        searchBar: state.searchBar
     };
 };
 
