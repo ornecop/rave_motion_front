@@ -32,13 +32,13 @@ import {
 
 const Home = (props) => {
     // Global State
-    const { allEvents, homeEvents, currentPage, eventsPerPage } = props;
+    const { homeEvents, currentPage, eventsPerPage } = props;
 
     // Actions
     const { getAllEvents } = props;
 
     useEffect(() => {
-        !allEvents.length && getAllEvents();
+        getAllEvents();
     }, [getAllEvents]);
 
     // Carousel
