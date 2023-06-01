@@ -1,5 +1,5 @@
 import {useDispatch} from "react-redux";
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import Loading from "../../components/Loading";
 import EventCardF from "../../components/EventCardFinalized";
 import PaginadoReviews from "../../components/PaginadoReviews"
@@ -44,7 +44,7 @@ const Reviews = ({allEvents, homeEvents, currentPage, eventsPerPage}) => {
   }, []);
     return (
         <>
-            <div className="w-full">
+            <div className="w-full px-52">
                 {/* Carrousel */}
                 <div className="h-60 overflow-hidden relative">
                     <div
@@ -73,7 +73,7 @@ const Reviews = ({allEvents, homeEvents, currentPage, eventsPerPage}) => {
                 </div>
             </div>
             <div className="my-6 mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 m-4 min-h-screen justify-items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 px-52 py-10 gap-12 m-4 min-h-screen justify-items-center">
                 {paginatedEvents.map((event) => (
                     <EventCardF
                         key={event.id}
