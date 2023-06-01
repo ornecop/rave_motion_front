@@ -1,9 +1,8 @@
-
-import {useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import Loading from "../../components/Loading";
 import EventCardF from "../../components/EventCardFinalized";
-import PaginadoReviews from "../../components/PaginadoReviews"
+import PaginadoReviews from "../../components/PaginadoReviews";
 
 const images = [
     "https://wallpapercave.com/wp/wp1889483.jpg",
@@ -13,9 +12,8 @@ import { getAllEventsFinalized } from "../../redux/actions/eventsActions";
 
 import { connect } from "react-redux";
 
-
-const Reviews = ({allEvents, homeEvents, currentPage, eventsPerPage}) => {
-    const dispatch = useDispatch()
+const Reviews = ({ allEvents, homeEvents, currentPage, eventsPerPage }) => {
+    const dispatch = useDispatch();
     // Carousel
     const [currentImage, setCurrentImage] = useState(images[0]);
 
@@ -44,11 +42,11 @@ const Reviews = ({allEvents, homeEvents, currentPage, eventsPerPage}) => {
     }, []);
 
     useEffect(() => {
-
-      !paginatedEvents.length && dispatch(getAllEventsFinalized());
-  }, []);
+        !paginatedEvents.length && dispatch(getAllEventsFinalized());
+    }, []);
     return (
-        <>
+        <div>
+            {" "}
             <div className="w-full">
                 {/* Carrousel */}
                 <div className="h-96 overflow-hidden relative">
@@ -77,8 +75,6 @@ const Reviews = ({allEvents, homeEvents, currentPage, eventsPerPage}) => {
                     {totalPages ? currentPage : "0"} / {totalPages}
                 </div>
             </div>
-            <div className="my-6 mx-auto">
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 m-4 min-h-screen justify-items-center">
                 {paginatedEvents.map((event) => (
                     <EventCardF
@@ -92,7 +88,6 @@ const Reviews = ({allEvents, homeEvents, currentPage, eventsPerPage}) => {
                         date={event.date}
                     />
                 ))}
-
             </div>
             <div className="flex items-center justify-center">
                 {isLoading ? (
@@ -109,12 +104,12 @@ const Reviews = ({allEvents, homeEvents, currentPage, eventsPerPage}) => {
                 ) : (
                     <div>
                         {isLoading ? null : (
-                           <PaginadoReviews totalPages={totalPages} />
+                            <PaginadoReviews totalPages={totalPages} />
                         )}
                     </div>
                 )}
             </div>
-        </>
+        </div>
     );
 };
 
@@ -126,4 +121,4 @@ const mapStateToProps = (state) => {
         eventsPerPage: state.eventsPerPageF,
     };
 };
-export default connect(mapStateToProps, null) (Reviews);
+export default connect(mapStateToProps, null)(Reviews);
