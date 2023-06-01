@@ -34,9 +34,9 @@ const GoogleAuthComponent = () => {
     }, []);
 
     return (
-        <div className="w-full">
-            <div id="signInDiv"></div>
-        </div>
+            <div className="w-full">
+                <div id="signInDiv" style={{ borderRadius: '25px', overflow: 'hidden' }}></div>
+            </div>
     );
 };
 

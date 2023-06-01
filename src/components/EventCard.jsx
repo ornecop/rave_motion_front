@@ -10,7 +10,7 @@ import EventDate from "./EventDate";
 
 export const EventCard = ({ id, name, image, date, venue, hour }) => {
     return (
-        <div className="w-full h-[10rem] lg:w-full lg:h-[15rem] flex flex-row bg-slate-900 rounded-xl border border-secondaryBorder">
+        <div className="h-[10rem] lg:w-auto lg:h-[15rem] flex flex-row  bg-slate-900 rounded-xl border border-secondaryBorder">
             <div className="w-[10rem] h-[10rem] lg:w-[15rem] lg:h-[15rem] aspect-square rounded-l-xl">
                 <Link to={`/event/${id}`}>
                     <div
