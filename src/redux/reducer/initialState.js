@@ -41,8 +41,7 @@ const initialState = {
     allUserTickets: [],
 
     // Global states
-    globalError:
-        "Error terrible comprobar la base de datos que esta por explotar.",
+    globalError: "",
     globalSuccess: "",
 
     // Cart
