@@ -244,7 +244,7 @@ const ProducerDashboard = (props) => {
                                         <tr className="border-b" key={event.id}>
                                             <td
                                                 scope="row"
-                                                className="px-2 py-4 font-semibold whitespace-nowrap text-start"
+                                                className="px-2 py-4 font-semibold text-start"
                                             >
                                                 <Link
                                                     to={`/dashboard/${event.id}`}

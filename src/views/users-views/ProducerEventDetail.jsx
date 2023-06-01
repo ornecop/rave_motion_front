@@ -288,7 +288,7 @@ const ProducerEventDetail = ({ eventId, userData, setShowAside }) => {
                                         >
                                             <td
                                                 scope="row"
-                                                className={`px-2 py-4 font-semibold whitespace-nowrap ${
+                                                className={`px-2 py-4 font-semibold ${
                                                     sort.slice(0, 5) ===
                                                         "alpha" &&
                                                     "text-fuchsia-300"
