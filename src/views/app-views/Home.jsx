@@ -32,7 +32,7 @@ import {
 
 const Home = (props) => {
     // Global State
-    const { allEvents, homeEvents, currentPage, eventsPerPage } = props;
+    const { homeEvents, currentPage, eventsPerPage } = props;
 
     // Actions
     const { getAllEvents } = props;
