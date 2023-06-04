@@ -57,10 +57,10 @@ const validationSchema = Yup.object().shape({
         .matches(/^([01]\d|2[0-3]):([0-5]\d)$/, "La hora no es válida.")
         .required("Este campo es requrido."),
     venue: Yup.string()
-        .max(20, "Debe ser hasta 50 caracteres.")
+        .max(20, "Debe ser hasta 20 caracteres.")
         .required("Este campo es requerido."),
     producer: Yup.string()
-        .max(20, "Debe ser hasta 50 caracteres.")
+        .max(20, "Debe ser hasta 20 caracteres.")
         .required("Este campo es requerido."),
     description: Yup.string().required("Este campo es requerido."),
 });
