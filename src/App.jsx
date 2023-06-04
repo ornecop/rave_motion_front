@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 // React Router Dom
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 
 // Redux
 import { connect } from "react-redux";
 import { verifyToken } from "./redux/actions/usersActions";
 import axios from "axios";
+
 // Components
 import Alert from "./components/Alert";
 import Header from "./components/Header";
@@ -52,6 +53,7 @@ const App = ({ verifyToken, isLogin, globalError, globalSuccess }) => {
 
     // Sign In by JSW
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
     useEffect(() => {
         const loginJWT = async () => {
             const token = localStorage.getItem("token");
