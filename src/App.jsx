@@ -95,7 +95,9 @@ const App = ({
             }
             if(!isLogin&&!token&&!tokenGoogle){
                 setLoading(false)
-                navigate("/signin")
+                if(location==='/cart/:eventId'||location==='/tickets'){
+                    navigate("/signin")
+                }
             }
         }
         loginJWT();
