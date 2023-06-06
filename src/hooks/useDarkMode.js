@@ -1,20 +1,15 @@
 import { useEffect, useState } from "react";
 
 const useDarkMode = () => {
-    const [theme, setTheme] = useState("system");
+    const [theme, setTheme] = useState("light");
 
     useEffect(() => {
-        const localTheme = window.localStorage.getItem("theme");
-        if (localTheme) {
-            setTheme(localTheme);
-        } else if (
-            window.matchMedia &&
-            window.matchMedia("(prefers-color-scheme: dark)").matches
-        ) {
+        const localTheme = localStorage.getItem("theme");
+        console.log("localTheme: ", localTheme);
+        if (localTheme === "dark") {
             setTheme("dark");
-        } else {
-            setTheme("light");
         }
+        console.log("new theme seted:", theme);
     }, []);
 
     useEffect(() => {
@@ -23,7 +18,8 @@ const useDarkMode = () => {
         } else {
             document.documentElement.classList.remove("dark");
         }
-        window.localStorage.setItem("theme", theme);
+        console.log("theme:", theme);
+        localStorage.setItem("theme", theme);
     }, [theme]);
 
     return [theme, setTheme];
