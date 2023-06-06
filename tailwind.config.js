@@ -14,9 +14,14 @@ export default {
         },
         extend: {
             colors: {
+                text: "#FFFFFF",
                 primary: "#020617",
                 secondary: "#0f172a",
                 secondaryBorder: "#1e293b",
+                textLight: "#DBDBDB",
+                primaryLight: "#FAFAFA",
+                secondyLight: "#FFFFFF",
+                secondaryBorderLight: "#000000",
             },
         },
     },
