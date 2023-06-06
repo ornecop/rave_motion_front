@@ -10,7 +10,6 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "@emotion/core": "^11.0.0",
         "@mercadopago/sdk-react": "^0.0.10",
         "@react-oauth/google": "^0.11.0",
         "@react-pdf/renderer": "^3.1.9",
@@ -28,7 +27,6 @@
         "react-redux": "^8.0.5",
         "react-router-dom": "^6.11.1",
         "react-scroll": "^1.8.9",
-        "react-switch": "^7.0.0",
         "react-timer-hook": "^3.0.6",
         "redux": "^4.2.1",
         "redux-thunk": "^2.4.2",
