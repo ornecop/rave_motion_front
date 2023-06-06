@@ -16,7 +16,6 @@ import Success from "./components/Success";
 // App views
 import About from "./views/app-views/About";
 import Home from "./views/app-views/Home";
-import SearchResults from "./views/app-views/SearchResults";
 import NotFound from "./views/app-views/NotFound";
 import Reviews from "./views/app-views/Reviews";
 
