@@ -99,7 +99,7 @@ const TicketDelete = (props) => {
                                 <div className="flex flex-row gap-6 justify-end">
                                     <button
                                         onClick={handleCancelClick}
-                                        className="w-32 px-4 text-lg py-2 rounded-xl bg-primary hover:bg-slate-800 focus:outline-none transition-colors duration-300"
+                                        className="w-32 px-4 text-lg py-2 rounded-xl dark:bg-primary hover:bg-slate-800 focus:outline-none transition-colors duration-300"
                                     >
                                         Cancelar
                                     </button>
@@ -144,7 +144,7 @@ const TicketDelete = (props) => {
                                 <div className="flex flex-row gap-6 justify-end">
                                     <button
                                         onClick={handleCancelClick}
-                                        className="w-32 px-4 text-lg py-2 rounded-xl bg-primary hover:bg-slate-800 focus:outline-none transition-colors duration-300"
+                                        className="w-32 px-4 text-lg py-2 rounded-xl dark:bg-primary hover:bg-slate-800 focus:outline-none transition-colors duration-300"
                                     >
                                         Cancelar
                                     </button>

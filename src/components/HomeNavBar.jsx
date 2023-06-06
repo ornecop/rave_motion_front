@@ -101,7 +101,7 @@ const HomeNavBar = (props) => {
         <>
             {/* NavBar lg */}
             <div className="hidden lg:flex flex-row place-content-between w-screen h-16 mt-4">
-                <div className="flex w-fit justify-self-start my-2 items-center gap-6 py-1 px-4 bg-secondary rounded-full border border-secondaryBorder ml-4">
+                <div className="flex w-fit justify-self-start my-2 items-center gap-6 py-1 px-4 bg-white dark:bg-secondary border-slate-300 dark:border-secondaryBorder rounded-full border  ml-4">
                     {/* Filter by producer */}
                     <div className="flex flex-row gap-2 items-center">
                         <select

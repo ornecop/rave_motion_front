@@ -16,9 +16,12 @@ import { signOut } from "../redux/actions/usersActions";
 import rave from "../assets/logo3.png";
 import { GrMenu } from "react-icons/gr";
 
+// Components
+import DarkModeSwitch from "./DarkModeSwitch";
+
 const Header = (props) => {
     const { isLogin, userData, signOut, searchBar } = props;
-    const { searchEvents} = props;
+    const { searchEvents } = props;
 
     // Fondo opaco
     const [opacity, setOpacity] = useState(0);
@@ -84,14 +87,13 @@ const Header = (props) => {
     const handleInputChange = (event) => {
         //searchBar=event.target.value;
         searchEvents(event.target.value);
-
     };
 
     // Sign Out
     const navigate = useNavigate();
     const handleSignOut = () => {
         isLogin && signOut();
-        
+
         navigate("/");
     };
 
@@ -201,6 +203,7 @@ const Header = (props) => {
                         </Link>
                     </>
                 )}
+                <DarkModeSwitch />
             </div>
 
             {/* Dropdown responsive right */}
@@ -268,12 +271,12 @@ const Header = (props) => {
                                     </>
                                 )}
                                 <div className="dropDownItem">
-                                            <div
-                                                onClick={handleSignOut}
-                                                className="navLinkDropdown"
-                                            >
-                                                Cerrar Sesión
-                                            </div>
+                                    <div
+                                        onClick={handleSignOut}
+                                        className="navLinkDropdown"
+                                    >
+                                        Cerrar Sesión
+                                    </div>
                                 </div>
                             </>
                         ) : (
@@ -307,7 +310,7 @@ const mapStateToProps = (state) => {
     return {
         isLogin: state.isLogin,
         userData: state.userData,
-        searchBar: state.searchBar
+        searchBar: state.searchBar,
     };
 };
 
