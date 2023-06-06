@@ -112,7 +112,6 @@ const App = ({ verifyToken, isLogin, globalError, globalSuccess }) => {
                 <Route exact path="/" element={<Home />} />
                 <Route path="/reviews" element={<Reviews />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/search" element={<SearchResults />} />
 
                 {/* Events views */}
 
