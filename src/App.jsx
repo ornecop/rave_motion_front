@@ -88,13 +88,12 @@ const App = ({ verifyToken, isLogin, globalError, globalSuccess }) => {
             if (isLogin) {
                 setLoading(false);
             }
-            
-            if(!isLogin&&!token&&!tokenGoogle){
-                setLoading(false)
-                if(location==='/cart/:eventId'||location==='/tickets'){
-                    navigate("/signin")
-                }
 
+            if (!isLogin && !token && !tokenGoogle) {
+                setLoading(false);
+                if (location === "/cart/:eventId" || location === "/tickets") {
+                    navigate("/signin");
+                }
             }
         };
         loginJWT();
@@ -105,7 +104,7 @@ const App = ({ verifyToken, isLogin, globalError, globalSuccess }) => {
             <Loading />
         </div>
     ) : (
-        <div className="bg-primary text-white antialiased overflow-hidden">
+        <div className="dark:bg-primary dark:text-white antialiased overflow-hidden">
             {showHeader && <Header />}
             {globalError && <Alert />}
             {globalSuccess && <Success />}
