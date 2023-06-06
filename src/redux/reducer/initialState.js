@@ -21,7 +21,7 @@ const initialState = {
     },
     homeSort: SORT_TYPES.DEFAULT,
 
-    searchBar:"",
+    searchBar: "",
 
     // Detail event
     eventDetail: {},
@@ -46,7 +46,7 @@ const initialState = {
 
     // Global states
     globalError: "",
-    globalSuccess: "",
+    globalSuccess: "Erorr askldaskjdklasasdjaslk askdjask sakjd askldjas",
 
     // Cart
     selectedTickets: {},

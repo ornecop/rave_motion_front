@@ -16,9 +16,12 @@ import { signOut } from "../redux/actions/usersActions";
 import rave from "../assets/logo3.png";
 import { GrMenu } from "react-icons/gr";
 
+// Components
+import DarkModeSwitch from "./DarkModeSwitch";
+
 const Header = (props) => {
     const { isLogin, userData, signOut, searchBar } = props;
-    const { searchEvents} = props;
+    const { searchEvents } = props;
 
     // Fondo opaco
     const [opacity, setOpacity] = useState(0);
@@ -84,14 +87,13 @@ const Header = (props) => {
     const handleInputChange = (event) => {
         //searchBar=event.target.value;
         searchEvents(event.target.value);
-
     };
 
     // Sign Out
     const navigate = useNavigate();
     const handleSignOut = () => {
         isLogin && signOut();
-        
+
         navigate("/");
     };
 
@@ -122,7 +124,7 @@ const Header = (props) => {
             </div>
 
             {/* NavMenu right */}
-            <div className="hidden lg:flex w-fit justify-self-end justify-center my-2 items-center gap-6 py-2 px-4 bg-secondary rounded-full border border-secondaryBorder">
+            <div className="hidden lg:flex w-fit justify-self-end justify-center my-2 items-center gap-6 py-2 px-4 bg-secondaryLight dark:bg-secondary rounded-full border border-secondaryBorderLight dark:border-secondaryBorder">
                 <Link to="/" className="navLink">
                     Home
                 </Link>
@@ -146,12 +148,12 @@ const Header = (props) => {
                             <div
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
-                                className={`"z-20 bg-secondary rounded-md w-40 left-[-2rem] top-[2rem] text-center" ${
+                                className={`"z-20 bg-secondaryLight dark:bg-secondary rounded-md w-40 left-[-2rem] top-[2rem] text-center" ${
                                     showDropdown ? "block" : "hidden"
                                 }`}
                                 style={{ position: "absolute" }}
                             >
-                                <div className="dropDownItem border-b-2 border-secondaryBorder">
+                                <div className="dropDownItem border-b-2 border-secondaryBorderLight dark:border-secondaryBorder">
                                     <Link
                                         className="navLinkDropdown"
                                         to="/tickets"
@@ -169,7 +171,7 @@ const Header = (props) => {
                                                 Crear evento
                                             </Link>
                                         </div>
-                                        <div className="dropDownItem border-b-2 border-secondaryBorder">
+                                        <div className="dropDownItem border-b-2  border-secondaryBorderLight dark:border-secondaryBorder">
                                             <Link
                                                 className="navLinkDropdown"
                                                 to="/dashboard"
@@ -201,6 +203,7 @@ const Header = (props) => {
                         </Link>
                     </>
                 )}
+                <DarkModeSwitch />
             </div>
 
             {/* Dropdown responsive right */}
@@ -217,7 +220,7 @@ const Header = (props) => {
                     <div
                         onMouseEnter={handleMouseEnterResponsive}
                         onMouseLeave={handleMouseLeaveResponsive}
-                        className={`"z-20 bg-secondary border border-secondaryBorder rounded-md w-40 left-[-6rem] top-[3rem] text-center" ${
+                        className={`"z-20 bg-secondaryLight dark:bg-secondary border border-secondaryBorderLight dark:border-secondaryBorder rounded-md w-40 left-[-6rem] top-[3rem] text-center" ${
                             showDropdownResponsive ? "block" : "hidden"
                         }`}
                         style={{ position: "absolute" }}
@@ -239,7 +242,7 @@ const Header = (props) => {
                         </div>
                         {isLogin ? (
                             <>
-                                <div className="dropDownItem border-t-2 border-secondaryBorder">
+                                <div className="dropDownItem border-t-2  border-secondaryBorderLight dark:border-secondaryBorder">
                                     <Link
                                         className="navLinkDropdown"
                                         to="/tickets"
@@ -257,7 +260,7 @@ const Header = (props) => {
                                                 Crear evento
                                             </Link>
                                         </div>
-                                        <div className="dropDownItem border-b-2 border-secondaryBorder">
+                                        <div className="dropDownItem border-b-2  border-secondaryBorderLight dark:border-secondaryBorder">
                                             <Link
                                                 className="navLinkDropdown"
                                                 to="/dashboard"
@@ -268,17 +271,17 @@ const Header = (props) => {
                                     </>
                                 )}
                                 <div className="dropDownItem">
-                                            <div
-                                                onClick={handleSignOut}
-                                                className="navLinkDropdown"
-                                            >
-                                                Cerrar Sesión
-                                            </div>
+                                    <div
+                                        onClick={handleSignOut}
+                                        className="navLinkDropdown"
+                                    >
+                                        Cerrar Sesión
+                                    </div>
                                 </div>
                             </>
                         ) : (
                             <>
-                                <div className="dropDownItem border-t-2 border-secondaryBorder">
+                                <div className="dropDownItem border-t-2  border-secondaryBorderLight dark:border-secondaryBorder">
                                     <Link
                                         to="/signin"
                                         className="navLinkDropdown "
@@ -307,7 +310,7 @@ const mapStateToProps = (state) => {
     return {
         isLogin: state.isLogin,
         userData: state.userData,
-        searchBar: state.searchBar
+        searchBar: state.searchBar,
     };
 };
 

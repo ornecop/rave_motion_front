@@ -30,6 +30,7 @@ import {
     MdOutlineDashboardCustomize,
 } from "react-icons/md";
 import { HiMenu } from "react-icons/hi";
+
 // Axios
 import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -209,7 +210,7 @@ const ProducerEventDetail = ({ eventId, userData, setShowAside }) => {
                                 Ordenar:
                             </label>
                             <select
-                                className="inputSelect bg-secondary border-secondaryBorder text-white w-fit"
+                                className="inputSelect bg-secondaryLight dark:bg-secondary border-secondaryBorderLight dark:border-secondaryBorder dark:text-text w-fit"
                                 onChange={handleTicketsSort}
                                 value={sort}
                                 name="sort"
@@ -236,8 +237,8 @@ const ProducerEventDetail = ({ eventId, userData, setShowAside }) => {
 
                     {/* Tickets */}
                     <div className="overflow-y-auto overflow-x-hidden mt-4 s">
-                        <table className="w-full text-start bg-secondary border border-secondaryBorder mx-2 my-4 mb-8">
-                            <thead className="sticky top-0 z-40 bg-secondary font-semibold">
+                        <table className="w-full text-start border bg-secondaryLight dark:bg-secondary border-secondaryBorderLight dark:border-secondaryBorder mx-2 my-4 mb-8">
+                            <thead className="sticky top-0 z-40 bg-secondaryLight dark:bg-secondary font-semibold">
                                 <tr className="relative">
                                     <th
                                         scope="col"
