@@ -1,35 +1,24 @@
-import React from "react";
-import Switch from "react-switch";
-import { css } from "@emotion/core";
-import useDarkMode from "./useDarkMode";
+import useDarkMode from "../hooks/useDarkMode";
+
+// Icons
+import { MdOutlineDarkMode, MdOutlineWbSunny } from "react-icons/md";
 
 const DarkModeSwitch = () => {
     const [theme, setTheme] = useDarkMode();
 
-    const handleChange = (checked, event, value) => {
-        setTheme(value);
+    const handleChange = () => {
+        setTheme((prev) => (prev === "dark" ? "light" : "dark"));
     };
 
     return (
-        <div css={switchStyle}>
-            <Switch
-                onChange={handleChange}
-                checked={theme === "dark"}
-                uncheckedIcon={false}
-                checkedIcon={false}
-                offColor="#FBBF24"
-                onColor="#10B981"
-                value={theme === "dark" ? "light" : "dark"}
-            />
-        </div>
+        <button onClick={handleChange}>
+            {theme === "dark" ? (
+                <MdOutlineDarkMode className="text-fuchsia-600" size="1.8rem" />
+            ) : (
+                <MdOutlineWbSunny className="text-fuchsia-600" size="1.8rem" />
+            )}
+        </button>
     );
 };
-
-const switchStyle = css`
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 0.5rem;
-`;
 
 export default DarkModeSwitch;
