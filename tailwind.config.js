@@ -14,14 +14,18 @@ export default {
         },
         extend: {
             colors: {
+                // Dark:
                 text: "#FFFFFF",
                 primary: "#020617",
                 secondary: "#0f172a",
                 secondaryBorder: "#1e293b",
+                errorText: "#f87171",
+                // Light:
                 textLight: "#0a0a0a",
                 primaryLight: "#FAFAFA",
-                secondyLight: "#FFFFFF",
+                secondaryLight: "#FFFFFF",
                 secondaryBorderLight: "#cbd5e1",
+                errorTextLight: "#dc2626",
             },
         },
     },

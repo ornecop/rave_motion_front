@@ -13,7 +13,7 @@
 import { Link, useNavigate } from "react-router-dom";
 
 // Hooks
-import { useToggle } from "../../functions/customHooks";
+import { useToggle } from "../../hooks/useToggle";
 
 // React icons
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
@@ -189,11 +189,11 @@ const SignIn = ({ signIn, userSignError, isLogin }) => {
                 </Formik>
 
                 {/* Google */}
-               
-                <div className="flex justify-center mx-auto"> 
-        <GoogleLogin  />
-        </div>
-       
+
+                <div className="flex justify-center mx-auto">
+                    <GoogleLogin />
+                </div>
+
                 {/* Links */}
                 <div className="flex flex-col mt-8">
                     <div className="text-center flex-row my-1">

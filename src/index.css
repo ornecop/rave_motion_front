@@ -34,11 +34,11 @@
     /* Inputs */
     /* inputs */
     .input {
-        @apply h-8 px-4 py-4 w-full text-black border border-fuchsia-600 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent;
+        @apply h-8 px-4 py-4 w-full text-black border border-secondaryBorderLight dark:border-fuchsia-600 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent;
     }
 
     .inputError {
-        @apply h-8 px-4 py-4 w-full text-black  border border-red-500 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-red-700 focus:border-transparent;
+        @apply h-8 px-4 py-4 w-full text-black bg-primaryLight dark:bg-white border border-red-500 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-red-700 focus:border-transparent;
     }
 
     .inputSuccess {
@@ -47,7 +47,7 @@
 
     /* inputs textarea */
     .inputTextArea {
-        @apply block h-fit px-4 py-4 w-full text-black border border-fuchsia-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent;
+        @apply block h-fit px-4 py-4 w-full text-black border border-secondaryBorderLight dark:border-fuchsia-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent;
     }
 
     .inputTextAreaError {
@@ -60,7 +60,7 @@
 
     /* inputs select */
     .inputSelect {
-        @apply h-8 px-4 w-full text-black border border-fuchsia-600 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent;
+        @apply h-8 px-4 w-full text-black border border-secondaryBorderLight dark:border-fuchsia-600 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-700 focus:border-transparent;
     }
 
     .inputSelectError {
@@ -78,7 +78,7 @@
 
     /* Form errors */
     .errorMessage {
-        @apply text-red-400 block text-center mt-1 font-medium;
+        @apply text-errorTextLight dark:text-errorText block text-center mt-1 font-medium;
     }
 
     /* Links */
@@ -104,6 +104,6 @@
     }
 
     .floatBox {
-        @apply flex flex-col py-8 px-4 bg-slate-900 rounded-xl border border-secondaryBorder;
+        @apply flex flex-col py-8 px-4 bg-secondaryLight dark:bg-secondary rounded-xl border border-secondaryBorderLight dark:border-secondaryBorder;
     }
 }

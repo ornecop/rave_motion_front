@@ -176,7 +176,7 @@ const About = () => {
 
                 {/* nosotros */}
 
-                <div className="bg-primary">
+                <div className="">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-8 md:gap-12 pt-8 sm:pt-16 mb-8 sm:mb-32">
                         {nosotros.map((compañero) => (
                             <div className="h-auto sm:h-[15rem] max-w-[30rem] m-auto flex flex-wrap bg-slate-900 rounded-xl border border-secondaryBorder">
