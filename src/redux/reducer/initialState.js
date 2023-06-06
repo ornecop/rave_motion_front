@@ -45,8 +45,8 @@ const initialState = {
     allUserTickets: [],
 
     // Global states
-    globalError: "Erorr askldaskjdklasasdjaslk askdjask sakjd askldjas",
-    globalSuccess: "",
+    globalError: "",
+    globalSuccess: "Erorr askldaskjdklasasdjaslk askdjask sakjd askldjas",
 
     // Cart
     selectedTickets: {},
