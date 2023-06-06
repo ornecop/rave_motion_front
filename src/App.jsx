@@ -100,11 +100,11 @@ const App = ({ verifyToken, isLogin, globalError, globalSuccess }) => {
     }, []);
 
     return loading ? (
-        <div className="w-screen h-screen bg-primary">
+        <div className="w-screen h-screen bg-primaryLight dark:bg-primary">
             <Loading />
         </div>
     ) : (
-        <div className="dark:bg-primary dark:text-white antialiased overflow-hidden">
+        <div className="bg-primaryLight dark:bg-primary text-textLight dark:text-text antialiased overflow-hidden">
             {showHeader && <Header />}
             {globalError && <Alert />}
             {globalSuccess && <Success />}
