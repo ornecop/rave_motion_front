@@ -19,7 +19,7 @@ const PaginadoF = ({ currentPage, totalPages, setCurrentPage }) => {
                     disabled={currentPage === 1}
                     className="btnPagination"
                 >
-                    Previous
+                    Prev
                 </button>
                 {currentPage === totalPages && totalPages > 3 && (
                     <button
