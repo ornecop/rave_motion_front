@@ -124,7 +124,7 @@ export const EventCardF = (props) => {
         }
     };
     return (
-        <div className="h-fit w-full  bg-secondaryLight dark:bg-secondary rounded-xl border border-secondaryBorderLight dark:border-secondaryBorder">
+        <div className="h-fit w-full floatBox p-0 block">
             <div className="w-full aspect-square rounded-t-xl">
                 <img
                     src={image}
