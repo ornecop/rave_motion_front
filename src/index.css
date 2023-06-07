@@ -83,15 +83,15 @@
 
     /* Links */
     .link {
-        @apply text-fuchsia-600 dark:text-fuchsia-300 hover:text-fuchsia-600 focus:outline-none transition-colors duration-300;
+        @apply text-fuchsia-600 dark:text-fuchsia-300 hover:text-fuchsia-800 hover:font-medium dark:hover:font-normal dark:hover:text-fuchsia-600 focus:outline-none transition-colors duration-300;
     }
 
     .navLink {
-        @apply text-lg hover:text-fuchsia-600 focus:outline-none transition-colors duration-300;
+        @apply text-lg font-medium text-fuchsia-800 dark:text-fuchsia-300 focus:outline-none transition-colors duration-300;
     }
 
     .dropDownItem {
-        @apply block px-4 py-2 hover:bg-gradient-to-r from-fuchsia-800 to-pink-500 transition-colors duration-300;
+        @apply block px-4 py-2 hover:bg-gradient-to-r hover:from-fuchsia-700 hover:to-pink-400  dark:hover:bg-gradient-to-r dark:hover:from-fuchsia-800 dark:hover:to-pink-500 transition-colors duration-300;
     }
 
     .navLinkDropdown {
@@ -100,7 +100,7 @@
 
     /* Varios */
     .step {
-        @apply flex bg-gradient-to-r from-fuchsia-800 to-pink-500 border border-fuchsia-600 rounded-tl-full rounded-br-full;
+        @apply flex bg-gradient-to-r from-fuchsia-700 to-pink-400 dark:from-fuchsia-800 dark:to-pink-500 border border-fuchsia-400 dark:border-fuchsia-600 rounded-tl-full rounded-br-full;
     }
 
     .floatBox {
