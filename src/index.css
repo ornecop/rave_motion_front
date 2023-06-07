@@ -83,7 +83,7 @@
 
     /* Links */
     .link {
-        @apply text-fuchsia-300 hover:text-fuchsia-600 focus:outline-none transition-colors duration-300;
+        @apply text-fuchsia-600 dark:text-fuchsia-300 hover:text-fuchsia-600 focus:outline-none transition-colors duration-300;
     }
 
     .navLink {
