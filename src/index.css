@@ -20,15 +20,15 @@
 @layer components {
     /* Buttons */
     .btnPrimary {
-        @apply block w-full text-lg py-2 rounded-full text-text font-medium bg-gradient-to-r from-fuchsia-700 to-pink-400 dark:bg-gradient-to-r dark:from-fuchsia-800 dark:to-pink-500 border border-fuchsia-400 dark:border-fuchsia-600 hover:bg-gradient-to-r hover:from-fuchsia-500 hover:to-pink-400 dark:hover:bg-gradient-to-r dark:hover:from-fuchsia-600 dark:hover:to-pink-400  focus:outline-none transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed;
+        @apply block w-full text-lg py-2 rounded-full text-text font-medium dark:font-normal bg-gradient-to-r from-fuchsia-700 to-pink-400 dark:bg-gradient-to-r dark:from-fuchsia-800 dark:to-pink-500 border border-fuchsia-400 dark:border-fuchsia-600 hover:bg-gradient-to-r hover:from-fuchsia-500 hover:to-pink-400 dark:hover:bg-gradient-to-r dark:hover:from-fuchsia-600 dark:hover:to-pink-400  focus:outline-none transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed;
     }
 
     .btnPagination {
-        @apply inline-block w-full py-2 px-4 rounded-full bg-gradient-to-r from-fuchsia-800 to-pink-500 border border-fuchsia-600 hover:bg-gradient-to-r hover:from-fuchsia-600 hover:to-pink-400  focus:outline-none transition-colors duration-300 disabled:opacity-60 disabled:cursor-not-allowed;
+        @apply inline-block w-full py-2 px-4 rounded-xl dark:text-text font-medium dark:font-normal bg-gradient-to-r from-fuchsia-700 to-pink-400 dark:bg-gradient-to-r dark:from-fuchsia-800 dark:to-pink-500 border border-fuchsia-400 dark:border-fuchsia-600 hover:bg-gradient-to-r hover:from-fuchsia-500 hover:to-pink-400 dark:hover:bg-gradient-to-r dark:hover:from-fuchsia-600 dark:hover:to-pink-400  focus:outline-none transition-colors duration-300 disabled:opacity-70 disabled:cursor-not-allowed;
     }
 
     .btnPaginationSelected {
-        @apply inline-block w-full py-2 px-4 rounded-full border border-fuchsia-600 bg-gradient-to-r from-fuchsia-500 to-pink-400  focus:outline-none transition-colors duration-300 cursor-not-allowed;
+        @apply inline-block w-full py-2 px-4 rounded-xl dark:text-text font-medium dark:font-normal bg-gradient-to-r from-fuchsia-400 to-pink-300 dark:bg-gradient-to-r dark:from-fuchsia-500 dark:to-pink-400 border border-fuchsia-400 dark:border-fuchsia-600  focus:outline-none transition-colors duration-300 cursor-not-allowed;
     }
 
     /* Inputs */
