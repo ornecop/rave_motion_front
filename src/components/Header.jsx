@@ -299,6 +299,13 @@ const Header = (props) => {
                                 </div>
                             </>
                         )}
+                        <div className="dropDownItem border-t-2  border-secondaryBorderLight dark:border-secondaryBorder">
+                            <DarkModeSwitch
+                                blockType="true"
+                                size="1.3rem"
+                                text="Modo"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@ import useDarkMode from "../hooks/useDarkMode";
 // Icons
 import { MdOutlineDarkMode, MdOutlineWbSunny } from "react-icons/md";
 
-const DarkModeSwitch = ({ blockType }) => {
+const DarkModeSwitch = ({ blockType, size, text }) => {
     const [theme, setTheme] = useDarkMode();
 
     const handleChange = () => {
@@ -16,11 +16,17 @@ const DarkModeSwitch = ({ blockType }) => {
             className="w-full gap-2 items-center flex flex-row text-lg"
         >
             {theme === "dark" ? (
-                <MdOutlineDarkMode className="text-text" size="1.5rem" />
+                <MdOutlineDarkMode
+                    className="text-text"
+                    size={size ? size : "1.5rem"}
+                />
             ) : (
-                <MdOutlineWbSunny className="text-textLight" size="1.5rem" />
+                <MdOutlineWbSunny
+                    className="text-textLight"
+                    size={size ? size : "1.5rem"}
+                />
             )}
-            Cambiar aspecto
+            {text ? text : "Cambiar modo"}
         </button>
     ) : (
         <button onClick={handleChange}>
