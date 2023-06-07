@@ -101,7 +101,7 @@ const HomeNavBar = (props) => {
         <>
             {/* NavBar lg */}
             <div className="hidden lg:flex flex-row place-content-between w-screen h-16 mt-4">
-                <div className="flex w-fit justify-self-start my-2 items-center gap-6 py-1 px-4 bg-secondaryLight dark:bg-secondary border-secondaryBorderLight dark:border-secondaryBorder rounded-full border  ml-4">
+                <div className="flex w-fit justify-self-start my-2 items-center gap-6 py-1 px-4 bg-secondaryLight dark:bg-secondary border-secondaryBorderLight dark:border-secondaryBorder rounded-full border ml-4 shadow-sm">
                     {/* Filter by producer */}
                     <div className="flex flex-row gap-2 items-center">
                         <select
@@ -192,7 +192,7 @@ const HomeNavBar = (props) => {
                 </div>
 
                 {/* Info paginado */}
-                <div className="flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 bg-secondaryLight dark:bg-secondary border-secondaryBorderLight dark:border-secondaryBorder rounded-full border mr-4">
+                <div className="flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 bg-secondaryLight dark:bg-secondary border-secondaryBorderLight dark:border-secondaryBorder rounded-full border mr-4 shadow-sm">
                     {homeEvents.length} Resultados | Página{" "}
                     {totalPages ? currentPage : "0"} / {totalPages}
                 </div>
@@ -210,7 +210,7 @@ const HomeNavBar = (props) => {
                 </div>
 
                 {/* Info paginado */}
-                <div className="flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 bg-secondaryLight dark:bg-secondary border-secondaryBorderLight dark:border-secondaryBorder rounded-full border  mr-4">
+                <div className="flex w-fit justify-self-end my-2 items-center gap-6 py-1 px-4 bg-secondaryLight dark:bg-secondary border-secondaryBorderLight dark:border-secondaryBorder rounded-full border mr-4 shadow-sm">
                     {homeEvents.length} Resultados | Página{" "}
                     {totalPages ? currentPage : "0"} / {totalPages}
                 </div>
