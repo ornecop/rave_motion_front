@@ -14,6 +14,7 @@ import { signOut } from "../redux/actions/usersActions";
 
 // Assets
 import rave from "../assets/logo3.png";
+import logo from "../assets/logo.svg";
 import { GrMenu } from "react-icons/gr";
 
 // Components
@@ -107,7 +108,7 @@ const Header = (props) => {
                 <Link to="/">
                     <img
                         className="w-40 lg:w-48"
-                        src={rave}
+                        src={logo}
                         alt="Rave Motion Logo"
                     />
                 </Link>
