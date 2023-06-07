@@ -46,7 +46,7 @@ const initialState = {
 
     // Global states
     globalError: "",
-    globalSuccess: "Erorr askldaskjdklasasdjaslk askdjask sakjd askldjas",
+    globalSuccess: "",
 
     // Cart
     selectedTickets: {},
