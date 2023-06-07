@@ -8,7 +8,7 @@ export const EventCard = ({ id, name, image, date, venue, hour }) => {
     const formatDate = date.slice(0, 10).split("-").reverse().join("-");
 
     return (
-        <div className="h-fit w-full bg-secondaryLight dark:bg-secondary rounded-xl border border-secondaryBorderLight dark:border-secondaryBorder">
+        <div className="h-fit w-full floatBox p-0 block">
             <div className="w-full aspect-square rounded-t-xl">
                 <Link to={`/event/${id}`}>
                     <img
