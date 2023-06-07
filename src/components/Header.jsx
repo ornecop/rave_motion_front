@@ -39,7 +39,9 @@ const Header = (props) => {
     }, []);
 
     const headerStyle = {
-        backgroundColor: `rgba(2, 6, 23, ${opacity})`,
+        backgroundColor: document.documentElement.classList.contains("dark")
+            ? `rgba(2, 6, 23, ${opacity})`
+            : `rgba(250,250,250, ${opacity})`,
     };
 
     // Dropdown User
@@ -82,8 +84,6 @@ const Header = (props) => {
     }, [location]);
 
     // Search events en tiempo real
-    const [search, setSeach] = useState("");
-
     const handleInputChange = (event) => {
         //searchBar=event.target.value;
         searchEvents(event.target.value);
@@ -124,7 +124,7 @@ const Header = (props) => {
             </div>
 
             {/* NavMenu right */}
-            <div className="hidden lg:flex w-fit justify-self-end justify-center my-2 items-center gap-6 py-2 px-4 bg-secondaryLight dark:bg-secondary rounded-full border border-secondaryBorderLight dark:border-secondaryBorder">
+            <div className="hidden floatBox lg:flex flex-row w-fit justify-self-end justify-center my-2 items-center gap-6 py-2 px-4  rounded-full">
                 <Link to="/" className="navLink">
                     Home
                 </Link>
@@ -299,6 +299,13 @@ const Header = (props) => {
                                 </div>
                             </>
                         )}
+                        <div className="dropDownItem border-t-2  border-secondaryBorderLight dark:border-secondaryBorder">
+                            <DarkModeSwitch
+                                blockType="true"
+                                size="1.3rem"
+                                text="Modo"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

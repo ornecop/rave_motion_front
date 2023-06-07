@@ -69,8 +69,8 @@ const DashboardAside = ({
                         </div>
                     </Link>
                 </div>
-                <div className="block px-4 py-2">
-                    <DarkModeSwitch />
+                <div className="dropDownItem">
+                    <DarkModeSwitch blockType="true" />
                 </div>
 
                 {/* Section Producer */}
@@ -164,6 +164,9 @@ const DashboardAside = ({
                                     Home
                                 </div>
                             </Link>
+                        </div>
+                        <div className="dropDownItem">
+                            <DarkModeSwitch blockType="true" />
                         </div>
 
                         {/* Section Producer */}

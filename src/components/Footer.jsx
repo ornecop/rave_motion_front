@@ -18,16 +18,13 @@ const Footer = () => {
                 <div className="flex flex-col items-start">
                     <ul className="flex flex-col gap-4">
                         <li>
-                            <Link
-                                to="/about"
-                                className="link text-white text-xl"
-                            >
+                            <Link to="/about" className="link text-xl">
                                 Nosotros
                             </Link>
                         </li>
                         <li>
                             <button
-                                className="link text-white text-xl"
+                                className="link text-xl"
                                 onClick={handleEmailClick}
                             >
                                 Vende con nosotros
