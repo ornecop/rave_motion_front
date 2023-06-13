@@ -30,6 +30,7 @@ import {
     MdOutlineDashboardCustomize,
 } from "react-icons/md";
 import { HiMenu } from "react-icons/hi";
+
 // Axios
 import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -167,13 +168,13 @@ const ProducerEventDetail = ({ eventId, userData, setShowAside }) => {
                             </div>
                         </nav>
 
-                        <div className="flex justify-self-start items-center my-4">
+                        <div className="flex lg:hidden justify-self-start items-center my-4">
                             <span className="text-2xl font-semibold">
                                 {event.events}
                             </span>
                         </div>
 
-                        <div className="flex flex-row w-full items-center justify-start gap-2 text-fuchsia-400 font-semibold my-2">
+                        <div className="flex flex-row w-full items-center justify-start gap-2 text-fuchsia-600 dark:text-fuchsia-400 font-semibold my-2">
                             <AiOutlineCalendar size="1.2rem" />
                             <span className="text-base">
                                 <EventDate
@@ -209,7 +210,7 @@ const ProducerEventDetail = ({ eventId, userData, setShowAside }) => {
                                 Ordenar:
                             </label>
                             <select
-                                className="inputSelect bg-secondary border-secondaryBorder text-white w-fit"
+                                className="inputSelect bg-secondaryLight dark:bg-secondary border-secondaryBorderLight dark:border-secondaryBorder dark:text-text w-fit"
                                 onChange={handleTicketsSort}
                                 value={sort}
                                 name="sort"
@@ -235,9 +236,9 @@ const ProducerEventDetail = ({ eventId, userData, setShowAside }) => {
                     </nav>
 
                     {/* Tickets */}
-                    <div className="overflow-y-auto overflow-x-hidden mt-4">
-                        <table className="w-full mx-0 table-fixed text-start bg-secondary border border-secondaryBorder lg:mx-2 my-4 mb-8">
-                            <thead className="sticky top-0 z-40 bg-secondary font-semibold">
+                    <div className="overflow-y-auto overflow-x-hidden mt-4 s">
+                        <table className="w-full text-start border bg-secondaryLight dark:bg-secondary border-secondaryBorderLight dark:border-secondaryBorder mx-2 my-4 mb-8">
+                            <thead className="sticky top-0 z-40 bg-secondaryLight dark:bg-secondary font-semibold">
                                 <tr className="relative">
                                     <th
                                         scope="col"
@@ -254,13 +255,13 @@ const ProducerEventDetail = ({ eventId, userData, setShowAside }) => {
 
                                     <th
                                         scope="col"
-                                        className="px-2 py-6 text-center hidden lg:block"
+                                        className="px-2 py-6 text-center hidden lg:table-cell"
                                     >
                                         Ventas
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-6 text-center hidden lg:block"
+                                        className="px-2 py-6 text-center hidden lg:table-cell"
                                     >
                                         Facturación
                                     </th>
@@ -288,21 +289,11 @@ const ProducerEventDetail = ({ eventId, userData, setShowAside }) => {
                                         >
                                             <td
                                                 scope="row"
-                                                className={`px-2 py-4 font-semibold whitespace-nowrap ${
-                                                    sort.slice(0, 5) ===
-                                                        "alpha" &&
-                                                    "text-fuchsia-300"
-                                                }`}
+                                                className={`px-2 py-4 font-semibold`}
                                             >
                                                 {ticket.name}
                                             </td>
-                                            <td
-                                                className={`px-2 py-4 ${
-                                                    sort.slice(0, 5) ===
-                                                        "price" &&
-                                                    "text-fuchsia-300"
-                                                }`}
-                                            >
+                                            <td className={`px-2 py-4 `}>
                                                 $
                                                 {ticket.price.toLocaleString(
                                                     "es"
@@ -310,16 +301,12 @@ const ProducerEventDetail = ({ eventId, userData, setShowAside }) => {
                                             </td>
 
                                             <td
-                                                className={`px-2 py-4 text-center hidden lg:block ${
-                                                    sort.slice(0, 5) ===
-                                                        "sells" &&
-                                                    "text-fuchsia-300"
-                                                }`}
+                                                className={`px-2 py-4 text-center hidden lg:table-cell`}
                                             >
                                                 {ticket.sells}
                                             </td>
 
-                                            <td className="px-2 py-4 text-center hidden lg:block">
+                                            <td className="px-2 py-4 text-center hidden lg:table-cell">
                                                 $
                                                 {ticket.totalAmount.toLocaleString(
                                                     "es"

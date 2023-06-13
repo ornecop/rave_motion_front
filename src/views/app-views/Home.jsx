@@ -32,13 +32,13 @@ import {
 
 const Home = (props) => {
     // Global State
-    const { allEvents, homeEvents, currentPage, eventsPerPage } = props;
+    const { homeEvents, currentPage, eventsPerPage } = props;
 
     // Actions
     const { getAllEvents } = props;
 
     useEffect(() => {
-        !allEvents.length && getAllEvents();
+        getAllEvents();
     }, [getAllEvents]);
 
     // Carousel
@@ -116,14 +116,14 @@ const Home = (props) => {
                         <h2 className="font-bold text-center text-5xl">
                             LO SENTIMOS
                         </h2>
-                        <h3 className="text-white text-xl text-center">
+                        <h3 className="text-xl text-center">
                             No se han encontrado resultados
                         </h3>
                     </div>
                 ) : (
                     <EventContainer paginatedEvents={paginatedEvents} />
                 )}
-            </div> 
+            </div>
             <Paginado totalPages={totalPages} />
         </div>
     );

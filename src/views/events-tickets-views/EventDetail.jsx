@@ -118,18 +118,18 @@ const EventDetail = (props) => {
     return (
         <div className="w-screen">
             {/* Pantalla 1 -> Event Detail */}
-            <div className="h-screen" id="event">
+            <div className="h-screen mx-6" id="event">
                 {/* Separador del header */}
                 <div className="h-16"></div>
 
                 {/* Float Box con detalle y flecha */}
                 <div className="my-auto min-h-[calc(100vh_-_4rem)] flex flex-col justify-center ">
                     {/* Detalle */}
-                    <div className="floatBox w-full md:w-2/3 h-fit mx-auto overflow-hidden font-sans bg-secondary">
+                    <div className="floatBox w-full md:w-2/3 h-fit md:mx-auto overflow-hidden font-sans">
                         {eventDetail.name ? (
                             <div className="h-full w-full flex flex-col">
                                 {/* Name */}
-                                <div className="flex flex-row w-full items-center justify-center pb-4 border-b border-secondaryBorder">
+                                <div className="flex flex-row w-full items-center justify-center pb-4 border-b border-secondaryBorderLight dark:border-secondaryBorder">
                                     <h2 className="text-2xl md:text-4xl align-center font-semibold">
                                         {eventDetail.name}
                                     </h2>
@@ -149,7 +149,7 @@ const EventDetail = (props) => {
                                     </div>
 
                                     <div className="w-full md:w-2/3 flex flex-col pl-4">
-                                        <div className="flex flex-row items-center justify-start mt-4 md:mt-0 pb-4 gap-2 border-b border-secondaryBorder text-fuchsia-600 font-semibold text-xl">
+                                        <div className="flex flex-row items-center justify-start mt-4 md:mt-0 pb-4 gap-2 border-b border-secondaryBorderLight dark:border-secondaryBorder text-fuchsia-600 font-semibold text-xl">
                                             <AiOutlineCalendar size="1.75rem" />
                                             <span className="">
                                                 <EventDate
@@ -159,7 +159,7 @@ const EventDetail = (props) => {
                                                 />
                                             </span>
                                         </div>
-                                        <div className="flex flex-row items-center justify-start py-4 gap-2 border-b border-secondaryBorder">
+                                        <div className="flex flex-row items-center justify-start py-4 gap-2 border-b border-secondaryBorderLight dark:border-secondaryBorder">
                                             <ImLocation2 size="1.3rem" />
                                             <span>
                                                 <span className="font-semibold">
@@ -168,7 +168,7 @@ const EventDetail = (props) => {
                                                 - {eventDetail.venue}
                                             </span>
                                         </div>
-                                        <div className="flex flex-col items-center justify-start py-4 gap-2  border-b border-secondaryBorder">
+                                        <div className="flex flex-col items-center justify-start py-4 gap-2  border-b border-secondaryBorderLight dark:border-secondaryBorder">
                                             <span className="w-full font-semibold">
                                                 DESCRIPCIÓN
                                             </span>
@@ -176,7 +176,7 @@ const EventDetail = (props) => {
                                                 {eventDetail.description}
                                             </span>
                                         </div>
-                                        <div className="flex flex-row items-center justify-start py-4 gap-2  border-b border-secondaryBorder">
+                                        <div className="flex flex-row items-center justify-start py-4 gap-2  border-b border-secondaryBorderLight dark:border-secondaryBorder">
                                             {disponibles}
                                             {minPrice}
                                         </div>
@@ -213,7 +213,7 @@ const EventDetail = (props) => {
             </div>
 
             {/* Pantalla 2 -> Event Tickets*/}
-            <div className="min-h-[calc(100vh_-_7rem)]" id="tickets">
+            <div className="min-h-[calc(100vh_-_7rem)] mx-6" id="tickets">
                 {/* Separador del header */}
                 <div className="h-16"></div>
 
@@ -230,10 +230,10 @@ const EventDetail = (props) => {
                 {/* Float Box con tickets */}
                 <div className="my-auto  flex flex-col justify-center ">
                     {/* Header tickets */}
-                    <div className="floatBox md:w-2/3 h-fit mx-auto overflow-hidden font-sans bg-secondary">
+                    <div className="floatBox md:w-2/3 h-fit md:mx-auto overflow-hidden">
                         {tickets?.length ? (
                             <>
-                                <div className="flex flex-row w-full items-center justify-center pb-4 border-b border-secondaryBorder">
+                                <div className="flex flex-row w-full items-center justify-center pb-4 border-b border-secondaryBorderLight dark:border-secondaryBorder">
                                     <h2 className="text-4xl align-center font-semibold">
                                         Tickets:
                                     </h2>
@@ -252,13 +252,13 @@ const EventDetail = (props) => {
 
                                                 <th
                                                     scope="col"
-                                                    className="px-2 py-3 text-start"
+                                                    className="px-2 py-3 text-center"
                                                 >
                                                     Tipo de acceso
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    className="px-2 py-3 text-start"
+                                                    className="px-2 py-3 text-center"
                                                 >
                                                     Precio
                                                 </th>
@@ -285,11 +285,11 @@ const EventDetail = (props) => {
                                                     <td className="px-2 py-4">
                                                         {ticket.name}
                                                     </td>
-                                                    <td className="px-2 py-4">
+                                                    <td className="px-2 py-4 text-center">
                                                         {ticket.accessType}
                                                     </td>
 
-                                                    <td className="px-2 py-4">
+                                                    <td className="px-2 py-4 text-center">
                                                         $
                                                         {ticket.price.toLocaleString(
                                                             "es"
@@ -314,32 +314,44 @@ const EventDetail = (props) => {
                                                     )}
                                                 </tr>
                                             ))}
-                                            <tr
-                                                className="font-semibold border-t-4 border-fuchsia-600 rounded-md"
-                                                key="sum"
-                                            >
-                                                <td className="px-2 py-4">
-                                                    <button
-                                                        className="btnPrimary"
-                                                        onClick={buyTickets}
-                                                        disabled={error||(userData.id ===
-                                                        eventDetail.userId)||(total===0)}
-                                                    >
-                                                        Comprar
-                                                    </button>
-                                                </td>
-                                                <td className="px-2 py-4 text-end">
-                                                    Total:
-                                                </td>
+                                            {userData.id ===
+                                                eventDetail.userId ||
+                                            !eventDetail.current ? (
+                                                <></>
+                                            ) : (
+                                                <tr
+                                                    className="font-semibold border-t-4 border-fuchsia-600 rounded-md"
+                                                    key="sum"
+                                                >
+                                                    <td className="px-2 py-4">
+                                                        <button
+                                                            className="btnPrimary text-sm px-0 lg:text-base"
+                                                            onClick={buyTickets}
+                                                            disabled={
+                                                                error ||
+                                                                userData.id ===
+                                                                    eventDetail.userId ||
+                                                                total === 0
+                                                            }
+                                                        >
+                                                            Comprar
+                                                        </button>
+                                                    </td>
+                                                    <td className="px-2 py-4 text-end">
+                                                        Total:
+                                                    </td>
 
-                                                <td className="px-2 py-4 text-start">
-                                                    ${" "}
-                                                    {total.toLocaleString("es")}
-                                                </td>
-                                                <td className="px-2 py-4 text-center">
-                                                    {quantity}
-                                                </td>
-                                            </tr>
+                                                    <td className="px-2 py-4 text-center">
+                                                        ${" "}
+                                                        {total.toLocaleString(
+                                                            "es"
+                                                        )}
+                                                    </td>
+                                                    <td className="px-2 py-4 text-center">
+                                                        {quantity}
+                                                    </td>
+                                                </tr>
+                                            )}
                                         </tbody>
                                     </table>
                                     {error && (

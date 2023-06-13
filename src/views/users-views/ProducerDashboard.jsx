@@ -148,7 +148,7 @@ const ProducerDashboard = (props) => {
                         </div>
                         <div className="hidden lg:flex justify-self-center items-center">
                             <input
-                                className="input w-96 bg-secondary border-secondaryBorder text-white"
+                                className="input w-96 bg-secondaryLight dark:bg-secondary border-secondaryBorderLight dark:border-secondaryBorder dark:text-text"
                                 type="text"
                                 placeholder="Buscar evento"
                                 onChange={handleInputChange}
@@ -168,7 +168,7 @@ const ProducerDashboard = (props) => {
                     {/* Search Responsive */}
                     <div className="flex lg:hidden w-full justify-self-center items-center my-4">
                         <input
-                            className="input w-full bg-secondary border-secondaryBorder text-white"
+                            className="input w-full bg-secondaryLight dark:bg-secondary border-secondaryBorderLight dark:border-secondaryBorder dark:text-text"
                             type="text"
                             placeholder="Buscar evento"
                             onChange={handleInputChange}
@@ -190,7 +190,7 @@ const ProducerDashboard = (props) => {
 
                         <div className="flex justify-self-end items-center">
                             <select
-                                className="inputSelect bg-secondary border-secondaryBorder text-white w-fit"
+                                className="inputSelect bg-secondaryLight dark:bg-secondary border-secondaryBorderLight dark:border-secondaryBorder dark:text-text w-fit"
                                 onChange={handleFilter}
                                 value={filterByDate}
                             >
@@ -202,7 +202,7 @@ const ProducerDashboard = (props) => {
                     </nav>
                     {/* Events */}
                     <div className="overflow-hidden overflow-y-auto mt-4">
-                        <table className="w-full mx-0 table-fixed text-start bg-secondary border border-secondaryBorder lg:mx-2 my-4 mb-8">
+                        <table className="w-full mx-0 table-fixed text-start bg-secondaryLight dark:bg-secondary border-secondaryBorderLight dark:border-secondaryBorder lg:mx-2 my-4 mb-8">
                             <thead className="font-semibold border-b-4 border-fuchsia-600">
                                 <tr className="">
                                     <th
@@ -213,7 +213,7 @@ const ProducerDashboard = (props) => {
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-6 text-center hidden lg:block"
+                                        className="px-2 py-6 text-center hidden lg:table-cell"
                                     >
                                         Fecha
                                     </th>
@@ -226,7 +226,7 @@ const ProducerDashboard = (props) => {
                                     </th>
                                     <th
                                         scope="col"
-                                        className="px-2 py-6 text-center hidden lg:block"
+                                        className="px-2 py-6 text-center hidden lg:table-cell"
                                     >
                                         Opciones tickets
                                     </th>
@@ -244,7 +244,7 @@ const ProducerDashboard = (props) => {
                                         <tr className="border-b" key={event.id}>
                                             <td
                                                 scope="row"
-                                                className="px-2 py-4 font-semibold whitespace-nowrap text-start"
+                                                className="px-2 py-4 font-semibold text-start"
                                             >
                                                 <Link
                                                     to={`/dashboard/${event.id}`}
@@ -255,7 +255,7 @@ const ProducerDashboard = (props) => {
                                                     </Tooltip>
                                                 </Link>
                                             </td>
-                                            <td className="px-2 py-4 text-center hidden lg:block">
+                                            <td className="px-2 py-4 text-center hidden lg:table-cell">
                                                 <EventDate
                                                     date={event.date}
                                                     hour={event.hour}
@@ -268,7 +268,7 @@ const ProducerDashboard = (props) => {
                                                 />
                                             </td>
 
-                                            <td className="px-2 py-4 justify-center hidden lg:block">
+                                            <td className="px-2 py-4 justify-center hidden lg:table-cell">
                                                 <div className="flex flex-row gap-6 items-center justify-center">
                                                     <Tooltip tooltip="Proximamente">
                                                         <span className="link cursor-not-allowed">
@@ -323,7 +323,7 @@ const ProducerDashboard = (props) => {
                         <h2 className="font-bold text-center text-6xl">
                             LO SENTIMOS
                         </h2>
-                        <h3 className="text-white text-2xl text-center ">
+                        <h3 className="text-2xl text-center ">
                             No se a encontrado el evento.
                         </h3>
                         <div className="text-center flex-row text-2xl mt-4 ">
